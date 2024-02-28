@@ -3,6 +3,7 @@
 #define _STREAM_HPP
 
 #include "_i_lib_.hpp"
+
 #include <string>
 #include <list>
 #include <memory>
@@ -25,5 +26,7 @@ void GetlineForStdout();
 void GetWorldCapitals(string const &, map<string, string> &);
 void PrintWorldCapitals(map<string,string> const &, int const &);
 string replaceAllWhiteSpace(string &);
+void PrintOSS(string const &);
+
 
 #endif 

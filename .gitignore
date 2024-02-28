@@ -2,7 +2,7 @@
 
 /.vscode
 /.idea
-
+/*.dSYM/**
 
 *.o
 *.exe 

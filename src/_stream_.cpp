@@ -1,8 +1,12 @@
 #include "_stream_.hpp"
+#include "_i_lib_.hpp"
+
 #include <fstream>
 #include <iostream>
 #include <iomanip>
 #include <memory>
+#include <sstream>
+
 #include <cassert>
 
 
@@ -51,16 +55,17 @@ void RewriteFile(string const &fileName, string &fileDesc)
 
 void writeFile(string const &fileName, string &fileDesc, writeMode const mode)
 {
-    fstream::openmode fOpenMode;
+    fstream::openmode fOpenMode = ofstream::out;
     if (mode == appendOnly)
     {
-        fOpenMode = ofstream::out | ofstream::app;
+        fOpenMode |= ofstream::app;
     } else if (mode == rewriteOnly)
     {
-        fOpenMode = ofstream::out;
+    
     } else 
     {
         cerr << "OpenModeError: fileName" << "<" << fileName << ">" << ", " << "mode" << "<" << mode << ">" << endl;
+        return; 
     }
 
     ofstream outputFile(fileName, fOpenMode);
@@ -184,7 +189,14 @@ void PrintWorldCapitals(map<string,string> const &capitals, int const &cnt)
     {
         if(_cnt > 0){
             _cnt --;
-            cout << "<" << pr.first << ", " << pr.second << ">" << endl;
+            cout << "<" << RED_STR(pr.first) << ", " << RED_STR(pr.second) << ">" << endl;
         }
     }
+}
+
+void PrintOSS(string const &_string_)
+{
+    ostringstream oss;
+    oss << "OSS: _string_<" << _string_ << ">" ;
+    cout << oss.str() << endl;
 }

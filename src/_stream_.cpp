@@ -9,25 +9,7 @@
 
 #include <cassert>
 
-
-enum writeMode{
-    readOnly,
-    appendOnly,
-    rewriteOnly
-};
-
-void ReadFile(string const &, string &);
-void AppendFile(string const &, string &);
-void RewriteFile(string const &, string &);
-void writeFile(string const &, string &, writeMode const);
-void DeferCloseFile(list<fstream> &);
-void ReadForStdout(string const &);
 unique_ptr<fstream> readFile(string const &);
-void GetlineForStdout();
-void GetWorldCapitals(string const &, map<string, string> &);
-void parseCountryAndCapital(string const &, string &, string &);
-void PrintWorldCapitals(map<string,string> const &, int const &);
-string replaceAllWhiteSpace(string &);
 
 
 void ReadFile(string const &fileName, string &fileDesc)
@@ -75,7 +57,7 @@ void writeFile(string const &fileName, string &fileDesc, writeMode const mode)
         return ;
     }
     
-    outputFile << "[" << setfill(' ') << left << setw(100) << fileDesc << "]" << endl;
+    outputFile << fileDesc << endl;
 
     outputFile.close();
 }
@@ -143,6 +125,7 @@ void GetWorldCapitals(string const &fileName, map<string,string> &capitals)
     int cal_line = 0;
     while(getline(*inputFile, one_line))
     {   
+        assert(!inputFile->fail());
         cal_line++;
         if (cal_line == 1){
             continue;
@@ -199,4 +182,26 @@ void PrintOSS(string const &_string_)
     ostringstream oss;
     oss << "OSS: _string_<" << _string_ << ">" ;
     cout << oss.str() << endl;
+}
+
+void MultiTypesOSS(string const &_v)
+{
+    ostringstream oss;
+    oss << "OSS: string<" << "string" << ">, int<" << 1 << ">, double<" << 1.0 << ">, char<" << 'c' << ">";
+    cout << oss.str() << endl;
+    oss.clear();
+
+    unique_ptr<stringstream> oss_ptr(new stringstream);
+    *(oss_ptr.get()) << _v ;
+    int ast_i32;
+    double ast_f64;
+    string ast_str5, ast_str8;
+    char ast_ch1;
+    *(oss_ptr.get()) >> ast_i32 >> ast_f64 >> ast_str5 >> ast_str8 >> ast_ch1;
+    cout << "ast_i32<" << ast_i32 
+            << ">, ast_f64<" << ast_f64 
+            << ">, ast_str5<" << ast_str5 
+            << ">, ast_str8<" << ast_str8 
+            << ">, ast_ch1<" << ast_ch1 
+            << ">" << endl;
 }

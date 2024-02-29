@@ -1,89 +1,63 @@
 #include "_i_lib_.hpp"
 #include "_stream_.hpp"
+#include "_test_func_.hpp"
 
-#include <cassert>
-#include <cstdlib>
-#include <cstring>
-#include <cstdio>
+#include <getopt.h>
 #include <unistd.h>
 
-#include <fstream>
-#include <iostream>
-#include <iomanip>
-#include <memory>
-#include <map>
-#include <string>
-
-#define INPUT_FILE "../test/static-file/input.txt"
-#define OUTPUT_FILE "../test/static-file/output.txt"    
-#define WORLD_CAPITALS "../test/static-file/world-capital.txt"
 
 int main(int argc, char *argv[], char *envp[])
 {
 
-    cout << "Main Started" << endl;
+    int case_num, prev_case_num;
+    int err_code = 0;
 
-    bool rwFile UNUSED = false;
-    if ( argc >= 2)
-    {   
-        if (!strcmp(argv[1], "-rw"))
+    while( (case_num = getopt_long(argc, argv, short_opts.c_str(), long_opts, NULL)) >= 0)
+        switch (case_num)
         {
-            string fileContent;
-            ReadFile(INPUT_FILE, fileContent);
-            RewriteFile(OUTPUT_FILE, fileContent);
-        } else if (!strcmp(argv[1], "-no"))
-        {
-            cout << true << ", " << false << "," << boolalpha << true << ", " << false << endl;
-            fprintf(stdout, "%0d\n", true);
-        } else if (!strcmp(argv[1], "-rw1"))
-        {   
-            ReadForStdout(INPUT_FILE);
-        } else if (!strcmp(argv[1], "-rw2"))
-        {   
-            string str3;
-            cin >> str3;
-            cout << str3 << endl;
-            getline(cin, str3);
-            cout << str3 << endl;
-        } else if (!strcmp(argv[1], "-cap"))
-        {   
-            if (argc >= 3)
-            {   
-                auto capitalsPtr = unique_ptr<map<string,string>>( new map<string, string> );
-                auto capitals = *(capitalsPtr.get());
-                GetWorldCapitals(WORLD_CAPITALS, capitals);
-
-                if (!strcmp(argv[2], "-wchar")){
-                    fprintf(stdout, "%ld\n", sizeof('-'));
-                    goto ret0;
-                } else if (!strcmp(argv[2], "-all"))
-                {
-                    PrintWorldCapitals(capitals, 5);
-                } else if (!strcmp(argv[2], "-get"))
-                {
-                    string country;
-                    while(getline(cin, country))
-                    {   
-                        if (!country.compare("q") ||
-                            !country.compare("quit") ||
-                            !country.compare("exit") )
-                            goto ret0;
-                        country = replaceAllWhiteSpace(country);
-                        cout << "Country: " << RED_STR(country) 
-                                << "'s Capital: " << RED_STR(capitals[country]) << endl;
-                    }
-                }
-            }      
-        } else if (!strcmp(argv[1], "-oss"))
-        {
-            string _str_;
-            getline(cin, _str_);
-            PrintOSS(_str_);
-        } else 
-        {
-            fprintf(stdout, "Nothing args is matched\n");
+            case 'w': case 'p': case 'g':
+        prev_case_num = case_num;
+        break;
+            case 'c':
+        err_code = Capitals(prev_case_num);
+        break;
+            case 'o':
+        TestOSS();
+        break;
+            case '0':
+        TestReadWriteFile();
+        break;
+            case '1':
+        TestBoolAlpha();
+        break;
+            case '2':
+        TestReadLines();
+        break;
+            case '3':
+        TestCinAteN();  
+        break;
+            case '4':
+        fprintf(stdout, "res: %llu\n", u64_qread());
+        break;
+            case '5':
+        fprintf(stdout, "res: %lld\n", i64_qread());
+        break;
+            case '6':
+        MultiTypesOSS("9527 8.8888888 Canada America c");
+        break;
+        case 'h': case '?': 
+        err_code = 2;
+        break;
+            default:
+        err_code = 1;
+        break;
         }
+
+    if (err_code)
+    {
+        OptUsage();
+        exit(err_code);
     }
-ret0:
+
     return 0;
 }

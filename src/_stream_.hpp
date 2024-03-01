@@ -36,6 +36,17 @@ void PrintWorldCapitals(map<string,string> const &, int const &);
 string replaceAllWhiteSpace(string &);
 void PrintOSS(string const &);
 void MultiTypesOSS(string const &);
-int GetInteger();
+
+template <typename RetType>
+RetType GetTypeValue();
+
+template <typename SrcType>
+string Type2String(SrcType const &);
+
+bool HasHexLetters(long long const &);
+bool HasHexLetters_bits_version(int const &);
+bool HasHexLetters_loop_version(int const &);
+
+
 
 #endif 

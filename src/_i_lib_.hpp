@@ -20,7 +20,7 @@ using namespace std;
 #ifdef __cplusplus
 extern "C" {
 #endif 
-const string short_opts = "h?cwpgo0123456789";
+const string short_opts = "h?cwpgod:m:n:0123456789";
 static const struct option long_opts[] = {
     {"help", no_argument, NULL, 'h'},
     {"helps", no_argument, NULL, '?'},
@@ -29,6 +29,7 @@ static const struct option long_opts[] = {
     {"print", no_argument, NULL, 'p'},
     {"get", no_argument, NULL, 'g'},
     {"oss-test", no_argument, NULL, 'o'},
+    {"draw-triangle", required_argument, NULL, 'd'},
     {"read-write-file-test", no_argument, NULL, '0'},
     {"boolalpha-test", no_argument, NULL, '1'},
     {"read-lines-test", no_argument, NULL, '2'},
@@ -55,6 +56,21 @@ static inline void OptUsage()
     printf("\tOption [-5] [--get-int64-test]\n");
     printf("\tOption [-6] [--multiple-type-oss]\n");
 }
+
+UNUSED
+static unsigned int
+opt_uint(char *val)
+{
+  char *end;
+  errno = 0;
+  unsigned long int x = strtoul(val, &end, 10);
+  if (errno || end == val || end && *end)
+    printf("Invalid numeric parameter: %s\n", val);
+  if ((unsigned long int)(unsigned int) x != x)
+    printf("Numeric parameter out of range: %s\n", val);
+  return x;
+}
+
 #ifdef __cplusplus
 }
 #endif

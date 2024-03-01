@@ -1,23 +1,37 @@
-CC = g++
-COMP_ARGS= -Wall -pedantic -O0 -std=c++17 -g 
-DEBUG_PROM_GDB= echo "gdb -q -tui main" && echo "b main" && echo "run"
-DEBUG_PROM_LLDB= echo "lldb main" && echo "gui" 
+cxxc = g++
+cxx_args= -Wall -pedantic -O0 -std=c++17 -g 
+c_args= -Wall -pedantic -O0 -std=gnu99 -g 
+objects= main.o _test_func_.o _stream_.o
 
-main: main.cpp _test_func_.o _stream_.o 
-	$(CC) $(COMP_ARGS) -o $@ $^
-	# $(DEBUG_PROM_GDB)
+debug_gdb= echo "gdb -q -tui main" 
+debug_lldb= echo "lldb main" && echo "gui" 
 
-_stream_.o: _stream_.cpp _stream_.hpp _i_lib_.hpp
-	$(CC) -c $(COMP_ARGS) -o $@ $<
+# 1. link all object files to generate exe file
+main: $(objects)
+	$(cxxc) $(cxx_args) -o $@ $^
 
-_test_func_.o: _test_func_.cpp _test_func_.hpp _i_lib_.hpp
-	$(CC) -c $(COMP_ARGS) -o $@ $<
+# 2. link main object file with static linked library to generate exe file
+main-static: main.o libstatic.a 
+	$(cxxc) $(cxx_args) -o $@ $< -L. -lstatic 
 
+libstatic.a: _stream_.o _test_func_.o
+	ar rcs $@ $^
 
-debug_info: 
-	$(DEBUG_PROM_GDB)
+# 3. link main object file with dynamic linked library to generate exe file
+main-dynamic: main.o libdynamic.so
+	$(cxxc) $(cxx_args) -o $@ $< -L. -ldynamic
+
+libdynamic.so: _stream_.o _test_func_.o
+	$(cxxc) $(cxx_args) -fPIC -shared -o $@ $^
+
+# compile by pattern matching
+%.o: %.cpp
+	$(cxxc) -c $(cxx_args) -o $@ $<
+
+%.c.o: %.c 
+	$(CC) -c $(c_args) -o $@ $<
 
 clean:
-	rm -f *.o *.out
+	rm -f *.o *.out *.a *.so 
 	rm -rf *.dSYM/
-	rm -f main 
+	rm -f main main-static main-dynamic

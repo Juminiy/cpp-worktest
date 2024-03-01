@@ -4,13 +4,14 @@
 
 #include <getopt.h>
 #include <unistd.h>
+#include <cstdlib>
 
 
 int main(int argc, char *argv[], char *envp[])
 {
-
     int case_num, prev_case_num;
     int err_code = 0;
+    int test_round = 0;
 
     while( (case_num = getopt_long(argc, argv, short_opts.c_str(), long_opts, NULL)) >= 0)
         switch (case_num)
@@ -24,24 +25,36 @@ int main(int argc, char *argv[], char *envp[])
             case 'o':
         TestOSS();
         break;
+            case 'd':
+        // DrawTriangle(opt_uint(optarg));
+        break; 
+            case 'm':
+        test_round = opt_uint(optarg);
+        TestInRange(test_round);
+        break;
+            case 'n':
+        test_round = opt_uint(optarg);
+        TestInRange(test_round);
+        break;
             case '0':
-        TestReadWriteFile();
+        // TestReadWriteFile();
+        // printf("%s\n%d\n",__FILE__, __LINE__);
         break;
             case '1':
         TestBoolAlpha();
         break;
             case '2':
-        TestReadLines();
+        // TestReadLines();
         break;
             case '3':
         TestCinAteN();  
         break;
             case '4':
         fprintf(stdout, "res: %llu\n", u64_qread());
+        fprintf(stdout, "res: %lld\n", i64_qread());
         break;
             case '5':
-        // fprintf(stdout, "res: %lld\n", i64_qread());
-        printf("res: %d\n", GetInteger());
+        TestHasHexLetters_3_version_pat(1 << (rand() % 30) );
         break;
             case '6':
         MultiTypesOSS("9527 8.8888888 Canada America c");

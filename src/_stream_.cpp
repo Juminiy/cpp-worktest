@@ -11,7 +11,6 @@
 
 unique_ptr<fstream> readFile(string const &);
 
-
 void ReadFile(string const &fileName, string &fileDesc)
 {
     ASSERT_FILE(fileName);
@@ -123,6 +122,9 @@ void GetWorldCapitals(string const &fileName, map<string,string> &capitals)
     typedef pair<string,string> country_capital;
     string one_line;
     int cal_line = 0;
+
+    printf("%s\n%d\n",__FILE__, __LINE__);
+
     while(getline(*inputFile, one_line))
     {   
         assert(!inputFile->fail());
@@ -213,36 +215,108 @@ string GetLine()
     return _str;
 }
 
-int GetInteger()
-{   
-    // why out of while if not right?
-    // stringstream ss;
+template <typename RetType>
+RetType GetTypeValue()
+{
     while(true)
-    {   
+    {
         stringstream ss;
         ss << GetLine();
 
-        int _i32;
-        if (ss >> _i32)
+        RetType _ret;
+        if (ss >> boolalpha >> _ret)
         {
             char _rem;
             if (ss >> _rem)
                 cerr << "input remained: _rem< "<< _rem << " >" << endl;
             else 
-                return _i32;
+                return _ret;
         } else
         {
             cerr << "input error: _str< "<< ss.str() << " >" << endl;
         }
-        
-        // set buffer to null
-        ss.str("");
     }
 }
 
-string Int2String(int const &i32)
+template int GetTypeValue();
+template double GetTypeValue();
+template bool GetTypeValue();
+
+template <typename SrcType>
+string Type2String(SrcType const &_val)
 {
-    ostringstream oss;
-    oss << i32;
-    return oss.str();
+    stringstream ss;
+    ss << boolalpha << _val;
+    return ss.str();
+}
+
+template string Type2String(int const &);
+template string Type2String(double const &);
+template string Type2String(bool const &);
+
+
+
+// ch = 0000 0000
+
+// comp is 
+// A 1010
+// B 1011
+// C 1100
+// D 1101
+// E 1110
+// F 1111
+bool char_bits_is_letter(char const &ch)
+{
+    char hi_4 = (ch & 0xf0) >> 4;
+    char lo_4 = ch & 0x0f;
+    return hi_4 >= 0x0a || 
+            lo_4 >= 0x0a;
+}
+
+// 0000 0000 0000 0000 0000 0000 0000 0000
+bool HasHexLetters_bits_version(int const &_i32)
+{
+    char hi_8 = (_i32 & 0xff000000) >> 24;
+    char hi_16 = (_i32 & 0x00ff0000) >> 16;
+    char hi_24 = (_i32 & 0x0000ff00) >> 8;
+    char hi_32 = (_i32 & 0x000000ff) >> 0;
+    
+    return char_bits_is_letter(hi_8) || 
+            char_bits_is_letter(hi_16) || 
+            char_bits_is_letter(hi_24) || 
+            char_bits_is_letter(hi_32);
+}
+
+bool HasHexLetters_loop_version(int const &_i32)
+{
+    stringstream ss;
+    ss << hex << _i32;
+    string hex_str = ss.str();
+    for ( auto &_x : hex_str)
+        if (isalpha(_x))
+            return true;
+    return false; 
+}
+
+
+// 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000
+bool HasHexLetters(long long const &_i64)
+{   
+    char hi_8 = (_i64 & 0xff00000000000000) >> 56;
+    char hi_16 = (_i64 & 0x00ff000000000000) >> 48;
+    char hi_24 = (_i64 & 0x0000ff0000000000) >> 40;
+    char hi_32 = (_i64 & 0x000000ff00000000) >> 32;
+    char hi_40 = (_i64 & 0x00000000ff000000) >> 24;
+    char hi_48 = (_i64 & 0x0000000000ff0000) >> 16;
+    char hi_56 = (_i64 & 0x000000000000ff00) >> 8;
+    char hi_64 = (_i64 & 0x00000000000000ff) >> 0;
+
+    return char_bits_is_letter(hi_8) || 
+            char_bits_is_letter(hi_16) || 
+            char_bits_is_letter(hi_24) || 
+            char_bits_is_letter(hi_32) || 
+            char_bits_is_letter(hi_40) || 
+            char_bits_is_letter(hi_48) || 
+            char_bits_is_letter(hi_56) || 
+            char_bits_is_letter(hi_64);
 }

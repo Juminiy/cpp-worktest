@@ -20,5 +20,12 @@ void TestOSS();
 
 int Capitals(int const &);
 
+void TestHasHexLetters_3_version_pat(int const &);
+
+void DrawTriangle(int const&);
+
+void TestInRange(int const &);
+
+void TestInRangeV2(int const &);
 
 #endif 

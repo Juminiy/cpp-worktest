@@ -7,6 +7,7 @@
 #include <map>
 #include <string>
 #include <sstream>
+#include <cstdlib>
 
 string testLocalLayout();
 void testLocalCppTypeLayout();
@@ -44,9 +45,12 @@ void TestCinAteN()
 
 void TestOSS()
 {
-    string _str_;
-    getline(cin, _str_);
-    PrintOSS(_str_);
+    // string _str_;
+    // getline(cin, _str_);
+    // PrintOSS(_str_);
+    cout << Type2String<int>(GetTypeValue<int>()) << endl;
+    cout << Type2String<double>(GetTypeValue<double>()) << endl;
+    cout << boolalpha << Type2String<bool>(GetTypeValue<bool>()) << endl;
 }
 
 // data from https://textlists.info/geography/countries-and-capitals-of-the-world/
@@ -200,3 +204,68 @@ string testLocalLayout()
 }
 
 
+void TestHasHexLetters_3_version_pat(int const &_round)
+{
+    int _round_ = _round;
+    int _count_ = 0;
+    while(_round_ --)
+    {
+        int _rand_ = rand();
+        int _t_res_bits_ =  HasHexLetters_bits_version(_rand_);
+        int _t_res_bits_2 = HasHexLetters(_rand_);
+        int _t_res_loop_ = HasHexLetters_loop_version(_rand_);
+        cout << "bits(" << _rand_ << ") = " << _t_res_bits_ << ", " 
+                << "bitsv2(" << _rand_ << ") = " << _t_res_bits_2 << ", "
+                << "loop(" << _rand_ << ") = " << _t_res_loop_ << endl;
+        if (_t_res_bits_ !=
+            _t_res_loop_ ||
+            _t_res_bits_2 != 
+            _t_res_loop_)
+            printf("un_eq _num_ = %x\n", _rand_), 
+            _count_ ++;
+    }
+    cout << "not ok count = " << _count_ << ", total count = " << _round << endl;
+    cout.precision(4);
+    cout << "not pass rate = "<< ((double)_count_ / (double)_round) << "%" << endl;
+}
+
+void DrawTriangle(int const& _n)
+{   
+    for (int i = 0; i < _n; ++i)
+    {
+        // 2i+1 
+        for (int j = 0; j < (_n << 1) - 1; ++j)
+        {
+            if (j < _n - i - 1 || j > _n + i - 1)
+                cout << " ";
+            else
+                cout << "#";
+        }
+        puts("");
+    }
+}
+
+void TestInRange(int const &_round)
+{   
+    int _round_ = _round;
+    int _count = 0;
+    while(_round_ --)
+    {
+        int _rand = rand() % (1<<31);
+        if(I32_IN_RANGE(_rand, 0, (1<<31) - 1))
+            _count ++;
+    }
+        
+}
+
+void TestInRangeV2(int const &_round)
+{   
+    int _round_ = _round;
+    int _count = 0;
+    while(_round_ --)
+    {
+        int _rand = rand()% (1<<31);
+        if (_rand >= 0 && _rand <= (1<<31) - 1)
+            _count ++;
+    }
+}

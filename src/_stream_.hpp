@@ -36,6 +36,6 @@ void PrintWorldCapitals(map<string,string> const &, int const &);
 string replaceAllWhiteSpace(string &);
 void PrintOSS(string const &);
 void MultiTypesOSS(string const &);
-
+int GetInteger();
 
 #endif 

@@ -9,6 +9,7 @@
 #include <sstream>
 
 string testLocalLayout();
+void testLocalCppTypeLayout();
 
 void TestReadWriteFile()
 {
@@ -19,31 +20,99 @@ void TestReadWriteFile()
 
 void TestBoolAlpha()
 {   
-    ostringstream oss;
+    testLocalCppTypeLayout();
+}
 
+void TestReadLines()
+{
+    ReadForStdout(INPUT_FILE);
+}
+
+void TestCinAteN()
+{
+    string str3;
+    // case 1.
+    // cin >> str3;
+    // cout << str3 << endl;
+    // getline(cin, str3);
+    // cout << str3 << endl;
+    
+    // case 2.
+    getline(cin, str3, '\n');
+    cout << str3 ;
+}
+
+void TestOSS()
+{
+    string _str_;
+    getline(cin, _str_);
+    PrintOSS(_str_);
+}
+
+// data from https://textlists.info/geography/countries-and-capitals-of-the-world/
+int Capitals(int const &case_num)
+{
+    auto capitalsPtr = unique_ptr<map<string,string>>( new map<string, string> );
+    auto capitals = *(capitalsPtr.get());
+    GetWorldCapitals(WORLD_CAPITALS, capitals);
+    string country;
+
+    switch( case_num )
+    {
+        case 'w':
+    fprintf(stdout, "%ld\n", sizeof('-'));
+    break;
+        case 'p':
+    PrintWorldCapitals(capitals, 1 << 3);
+    break;
+        case 'g':
+    
+    while(getline(cin, country))
+    {   
+        if (!country.compare("q") ||
+            !country.compare("quit") ||
+            !country.compare("exit") )
+            break;
+        country = replaceAllWhiteSpace(country);
+        cout << "Country: " << RED_STR(country) 
+                << "'s Capital: " << RED_STR(capitals[country]) << endl;
+    }
+    break;
+        default:
+    return 1;
+    }
+    return 0;
+}
+
+void testLocalCppTypeLayout()
+{
+    ostringstream oss;
+    string destArch;
     #if defined(_WIN64) || defined(WIN64) || defined(__amd64__) || \
 	defined(__x86_64) || defined(__x86_64__) || defined(_M_IA64) || \
 	defined(_M_AMD64)
-    oss << "x86/x86_64/amd64" << " : " << "Win64" << endl;
+    oss << "x86_x86_64_amd64" << "-" << "Win64";
     #elif defined(_WIN32) || defined(WIN32) || defined(__i386__) || \
     	defined(__i386) || defined(_M_X86)
-    oss << "x86/x86_64/amd64" << " : " << "Win32" << endl;
+    oss << "x86_x86_64_amd64" << "-" << "Win32";
     #elif defined(__MACOS__)
-	oss << "x64/arm64" << " : " << "MacOS" << endl;
+	oss << "none-arch" << "-" << "MacOS";
     #elif defined(__APPLE__) && defined(__MACH__)
 	#include <sys/types.h>
-	oss << "none-arch" << " : " << "Apple" << endl;
+	oss << "multi-arch" << "-" << "Apple" << endl;
     #elif defined(__BEOS__)
 	#include <sys/inttypes.h>
-	oss << "none-arch" << " : " << "BEOS" << endl;
+	oss << "none-arch" << "-" << "BEOS";
     #elif (defined(_MSC_VER) || defined(__BORLANDC__)) && (!defined(__MSDOS__))
-	oss << "none-arch" << " : " << "MSDOS" << endl;
+	oss << "none-arch" << "-" << "MSDOS";
     #elif defined(__GNUC__)
 	#include <stdint.h>
-	oss << "none-arch" << " : " << "GNU" << endl;
+	oss << "none-arch" << "-" << "GNU";
     #else 
-    oss << "none-arch" << " : " << "none-os" << endl;
+    oss << "none-arch" << "-" << "none-os";
     #endif
+    destArch = oss.str();
+    oss << endl;
 
     oss << "sizeof builtin type: " << endl;
     oss << "sizeof(bool) = " << sizeof(bool) << endl;
@@ -83,64 +152,11 @@ void TestBoolAlpha()
     oss << "sizeof(uintmax_t) = " << sizeof(uintmax_t) << endl;
     oss << "local machine layout :" << testLocalLayout() << endl;
     string oss_str = oss.str();
-    AppendFile(SIZE_OF_TYPE, oss_str);
+    AppendFile(string(SIZE_OF_TYPE_PREFIX)+ "." + destArch + ".txt", oss_str);
+    oss_str.clear();
+    destArch.clear();
+    oss.clear();
 }
-
-void TestReadLines()
-{
-    ReadForStdout(INPUT_FILE);
-}
-
-void TestCinAteN()
-{
-    string str3;
-    cin >> str3;
-    cout << str3 << endl;
-    getline(cin, str3);
-    cout << str3 << endl;
-}
-
-void TestOSS()
-{
-    string _str_;
-    getline(cin, _str_);
-    PrintOSS(_str_);
-}
-
-int Capitals(int const &case_num)
-{
-    auto capitalsPtr = unique_ptr<map<string,string>>( new map<string, string> );
-    auto capitals = *(capitalsPtr.get());
-    GetWorldCapitals(WORLD_CAPITALS, capitals);
-    string country;
-
-    switch( case_num )
-    {
-        case 'w':
-    fprintf(stdout, "%ld\n", sizeof('-'));
-    break;
-        case 'p':
-    PrintWorldCapitals(capitals, 1 << 3);
-    break;
-        case 'g':
-    
-    while(getline(cin, country))
-    {   
-        if (!country.compare("q") ||
-            !country.compare("quit") ||
-            !country.compare("exit") )
-            break;
-        country = replaceAllWhiteSpace(country);
-        cout << "Country: " << RED_STR(country) 
-                << "'s Capital: " << RED_STR(capitals[country]) << endl;
-    }
-    break;
-        default:
-    return 1;
-    }
-    return 0;
-}
-
 
 /*
 Model 	Layout	int	    long	pointer	    arch:OS
@@ -170,7 +186,7 @@ string testLocalLayout()
     }
     else if (_int_ == 4 && _long_ == 8 && _pointer_ == 8)
     {
-        return "Model[LP64], arch:OS[Unix/Linux/MacOS]";
+        return "Model[LP64], arch:OS[Win64/Unix/Linux/MacOS]";
     }
     else if (_int_ == 8 && _long_ == 8 && _pointer_ == 8)
     {

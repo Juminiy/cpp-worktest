@@ -205,3 +205,44 @@ void MultiTypesOSS(string const &_v)
             << ">, ast_ch1<" << ast_ch1 
             << ">" << endl;
 }
+
+string GetLine()
+{
+    string _str;
+    getline(cin, _str);
+    return _str;
+}
+
+int GetInteger()
+{   
+    // why out of while if not right?
+    // stringstream ss;
+    while(true)
+    {   
+        stringstream ss;
+        ss << GetLine();
+
+        int _i32;
+        if (ss >> _i32)
+        {
+            char _rem;
+            if (ss >> _rem)
+                cerr << "input remained: _rem< "<< _rem << " >" << endl;
+            else 
+                return _i32;
+        } else
+        {
+            cerr << "input error: _str< "<< ss.str() << " >" << endl;
+        }
+        
+        // set buffer to null
+        ss.str("");
+    }
+}
+
+string Int2String(int const &i32)
+{
+    ostringstream oss;
+    oss << i32;
+    return oss.str();
+}

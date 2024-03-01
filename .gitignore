@@ -1,9 +1,46 @@
+# project specific ignore dirs & files 
 /build 
-
 /.vscode
 /.idea
-/*.dSYM/**
+/*.dSYM
 
+main
+# *.txt
+# *.test
+
+# Cpp github template ignore
+# include from https://github.com/github/gitignore/blob/main/C%2B%2B.gitignore
+# do not modify 
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
 *.o
-*.exe 
-main 
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app

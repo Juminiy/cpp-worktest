@@ -40,7 +40,8 @@ int main(int argc, char *argv[], char *envp[])
         fprintf(stdout, "res: %llu\n", u64_qread());
         break;
             case '5':
-        fprintf(stdout, "res: %lld\n", i64_qread());
+        // fprintf(stdout, "res: %lld\n", i64_qread());
+        printf("res: %d\n", GetInteger());
         break;
             case '6':
         MultiTypesOSS("9527 8.8888888 Canada America c");

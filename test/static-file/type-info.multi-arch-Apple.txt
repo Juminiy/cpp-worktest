@@ -1,5 +1,4 @@
 multi-arch-Apple
-
 sizeof builtin type: 
 sizeof(bool) = 1
 sizeof(char) = 1

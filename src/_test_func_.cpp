@@ -99,7 +99,7 @@ void testLocalCppTypeLayout()
 	oss << "none-arch" << "-" << "MacOS";
     #elif defined(__APPLE__) && defined(__MACH__)
 	#include <sys/types.h>
-	oss << "multi-arch" << "-" << "Apple" << endl;
+	oss << "multi-arch" << "-" << "Apple";
     #elif defined(__BEOS__)
 	#include <sys/inttypes.h>
 	oss << "none-arch" << "-" << "BEOS";

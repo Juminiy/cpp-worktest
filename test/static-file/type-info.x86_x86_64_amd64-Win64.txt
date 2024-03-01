@@ -1,4 +1,4 @@
-x86/x86_64/amd64 : Win64
+x86_x86_64_amd64-Win64
 sizeof builtin type: 
 sizeof(bool) = 1
 sizeof(char) = 1
@@ -33,5 +33,5 @@ sizeof(intptr_t) = 8
 sizeof(uintptr_t) = 8
 sizeof(intmax_t) = 8
 sizeof(uintmax_t) = 8
-local machine layout :Model[LP64], arch:OS[Unix/Linux/MacOS]
+local machine layout :Model[LP64], arch:OS[Win64/Unix/Linux/MacOS]
 

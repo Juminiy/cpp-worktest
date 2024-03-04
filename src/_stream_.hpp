@@ -46,7 +46,9 @@ string Type2String(SrcType const &);
 bool HasHexLetters(long long const &);
 bool HasHexLetters_bits_version(int const &);
 bool HasHexLetters_loop_version(int const &);
+bool HasHexLetters_ss_functor_version(long long const &);
 
-
+string GetLine();
+unique_ptr<fstream> readFile(string const &);
 
 #endif 

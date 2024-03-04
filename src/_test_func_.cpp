@@ -211,22 +211,26 @@ void TestHasHexLetters_3_version_pat(int const &_round)
     while(_round_ --)
     {
         int _rand_ = rand();
-        int _t_res_bits_ =  HasHexLetters_bits_version(_rand_);
-        int _t_res_bits_2 = HasHexLetters(_rand_);
-        int _t_res_loop_ = HasHexLetters_loop_version(_rand_);
+        bool _t_res_bits_ =  HasHexLetters_bits_version(_rand_);
+        bool _t_res_bits_2 = HasHexLetters(_rand_);
+        bool _t_res_loop_ = HasHexLetters_loop_version(_rand_);
+        bool _t_res_ss_ = HasHexLetters_ss_functor_version(_rand_);
         cout << "bits(" << _rand_ << ") = " << _t_res_bits_ << ", " 
                 << "bitsv2(" << _rand_ << ") = " << _t_res_bits_2 << ", "
-                << "loop(" << _rand_ << ") = " << _t_res_loop_ << endl;
+                << "loop(" << _rand_ << ") = " << _t_res_loop_ << ", "
+                << "ss(" << _rand_ << ") = " << _t_res_ss_ << endl;
         if (_t_res_bits_ !=
             _t_res_loop_ ||
             _t_res_bits_2 != 
+            _t_res_loop_ || 
+            _t_res_ss_ != 
             _t_res_loop_)
             printf("un_eq _num_ = %x\n", _rand_), 
             _count_ ++;
     }
     cout << "not ok count = " << _count_ << ", total count = " << _round << endl;
     cout.precision(4);
-    cout << "not pass rate = "<< ((double)_count_ / (double)_round) << "%" << endl;
+    cout << "not pass rate = "<< ((double)_count_ / (double)_round) * 100<< "%" << endl;
 }
 
 void DrawTriangle(int const& _n)

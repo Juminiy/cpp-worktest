@@ -7,6 +7,23 @@
 #define NORETURN __attribute__((noreturn))
 
 #define RED_STR(str) ("\033[1;31m"+str+"\033[0m")
+#define RED_I32(_i32) ("\033[1;31m"+std::to_string(_i32)+"\033[0m")
+
+#define DECL_VAR(_type) _type var_##_type
+#define DECL_FUN(_type, _func, _arg) _type fun_##_func##_type(_arg);
+#define MAX_T(_x, _y) ((_x) > (_y) ? (_x) : (_y))
+#define MIN_T(_x, _y) ((_x) < (_y) ? (_x) : (_y))
+#define PRINTLN(x) std::cout << x << std::endl
+
+static inline int max_i32(int x, int y)
+{
+    return x > y ? x : y;
+}
+
+static inline double max_f64(double x, double y)
+{
+    return x > y ? x : y;
+}
 
 using namespace std;
 
@@ -20,7 +37,7 @@ using namespace std;
 #ifdef __cplusplus
 extern "C" {
 #endif 
-const string short_opts = "h?cwpgod:m:n:0123456789";
+const string short_opts = "h?cwpgotyd:m:n:v0123456789";
 static const struct option long_opts[] = {
     {"help", no_argument, NULL, 'h'},
     {"helps", no_argument, NULL, '?'},
@@ -30,6 +47,8 @@ static const struct option long_opts[] = {
     {"get", no_argument, NULL, 'g'},
     {"oss-test", no_argument, NULL, 'o'},
     {"draw-triangle", required_argument, NULL, 'd'},
+    {"version", no_argument, NULL, 'v'},
+    {"snake-game", no_argument, NULL, 'y'},
     {"read-write-file-test", no_argument, NULL, '0'},
     {"boolalpha-test", no_argument, NULL, '1'},
     {"read-lines-test", no_argument, NULL, '2'},

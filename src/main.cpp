@@ -1,6 +1,8 @@
 #include "_i_lib_.hpp"
 #include "_stream_.hpp"
 #include "_test_func_.hpp"
+#include "_seq_container_.hpp"
+#include "_ai_snake_game_.hpp"
 
 #include <getopt.h>
 #include <unistd.h>
@@ -13,6 +15,7 @@ int main(int argc, char *argv[], char *envp[])
     int err_code = 0;
     int test_round = 0;
 
+    gameT gmt = gameT();
     while( (case_num = getopt_long(argc, argv, short_opts.c_str(), long_opts, NULL)) >= 0)
         switch (case_num)
         {
@@ -26,7 +29,7 @@ int main(int argc, char *argv[], char *envp[])
         TestOSS();
         break;
             case 'd':
-        // DrawTriangle(opt_uint(optarg));
+        DrawTriangle(opt_uint(optarg));
         break; 
             case 'm':
         test_round = opt_uint(optarg);
@@ -37,14 +40,13 @@ int main(int argc, char *argv[], char *envp[])
         TestInRange(test_round);
         break;
             case '0':
-        // TestReadWriteFile();
-        // printf("%s\n%d\n",__FILE__, __LINE__);
+        TestReadWriteFile();
         break;
             case '1':
         TestBoolAlpha();
         break;
             case '2':
-        // TestReadLines();
+        TestReadLines();
         break;
             case '3':
         TestCinAteN();  
@@ -59,7 +61,17 @@ int main(int argc, char *argv[], char *envp[])
             case '6':
         MultiTypesOSS("9527 8.8888888 Canada America c");
         break;
-        case 'h': case '?': 
+            case 'v':
+        printf("GCC info: %s\n", __VERSION__);
+        break;
+            case 't':
+        TestVectorFunctor();
+        break;
+        case 'y':
+        gmt.init();
+        gmt.simu();
+        break;
+            case 'h': case '?': 
         err_code = 2;
         break;
             default:
@@ -73,5 +85,8 @@ int main(int argc, char *argv[], char *envp[])
         exit(err_code);
     }
 
+
+
     return 0;
 }
+

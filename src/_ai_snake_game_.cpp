@@ -6,17 +6,28 @@
 #include <algorithm>
 #include <iostream>
 #include <iterator>
+#include <functional>
 
 #include <cassert>
 #include <ctime>
+#include <cstdlib>
 
 #include <pthread.h>
 
-
-void gameT::setDirect(int _dx, int _dy)
-{
-    dx = _dx;
-    dy = _dy;
+// random left or right 
+void gameT::ndir()
+{       
+    srand(time(NULL));
+    int _dd_ = rand() % 2;
+    if(dx == 0)
+    {   
+        dy = 0;
+        dx = _dd_ ? 1 : -1;
+    } else 
+    {
+        dx = 0; 
+        dy = _dd_ ? 1 : -1;
+    }
 }
 
 bool gameT::legal(pointT &_p)
@@ -39,13 +50,23 @@ void gameT::load(fstream &fileInput)
     fileInput >> numRows >> numCols;
     world.resize(numRows);
     fileInput >> dx >> dy;
-    for(int row = 0, col = 0; row < numRows; row++)
-    {
+    numFood =0;
+    string _line;
+    getline(fileInput, _line);
+    if (!_line.size() || 
+        !_line.compare("\n") || 
+        !_line.compare("\t") || 
+        _line.compare(" "))
+        // TODO: do something to avoid 
+    for(int row = 0, col = 0; row < numRows; ++row)
+    {   
         getline(fileInput, world[row]);
         if ((col = world[row].find(kSnakeTile)) != string::npos)
-        {
             snake.push_back(pointT(row, col));
-        }        
+             
+        numFood += count_if( world[row].begin(), 
+                                world[row].end(), 
+                                [](char _x) { return _x == kFoodTile; });
     }
     numEaten = 0;
 }
@@ -63,7 +84,18 @@ bool gameT::SnakeInBound()
     return legal(snake.front());
 }
 
-bool gameT::_mov()
+void gameT::putf()
+{
+    if (numFood >= kMinFood)
+        return ;
+    srand(time(NULL));
+    int _ex_ = (rand() % (numRows-1)) + 1;
+    int _ey_ = (rand() % (numCols-1)) + 1;
+    if (world[_ex_][_ey_] == kEmptyTile)
+        world[_ex_][_ey_] = kFoodTile;
+}
+
+void gameT::_mov()
 {   
     pointT nextP(snake.front());
     pointT tmpP = nextP;
@@ -72,8 +104,7 @@ loopWalk:
     // ilegal
     if (!legal(tmpP))
     {   
-        auto [_dx, _dy] = nextDirect(tmpP.row, tmpP.col);
-        setDirect(_dx, _dy);
+        ndir();
         goto loopWalk;
     } 
     // ate $
@@ -83,14 +114,17 @@ loopWalk:
         snake.push_front(nextP);
         if(food(nextP))
         {   
+            world[nextP.row][nextP.col] = kEmptyTile;
             numEaten ++;
+            numFood --;
         } else
         {   
+            pointT snake_tail = snake.back();
+            world[snake_tail.row][snake_tail.col] = kEmptyTile;
             snake.pop_back();
         }
+        world[nextP.row][nextP.col] = kSnakeTile;
     }
-    // 
-    return SnakeInBound();
 }
 
 void gameT::mapl()
@@ -98,22 +132,11 @@ void gameT::mapl()
 
 }
 
-void gameT::SyncSnake()
-{
-    for(auto &p : snake)
-    {
-        world[p.row][p.col] = kSnakeTile;
-    }
-}
 
 void gameT::aipl()
 {   
-    if (!SnakeInBound())
-        return;
-
     _mov();
-    SyncSnake();
-    GamePause(500000);
+    // GamePause(1000000);
 }
 
 void gameT::disp()
@@ -139,7 +162,7 @@ void gameT::resp()
 
 void gameT::paus()
 {
-    GamePause(10000000);
+    GamePause(500000);
 }
 
 void gameT::simu()
@@ -148,8 +171,9 @@ void gameT::simu()
     {
         disp();
         aipl();
-        if (!_mov())
+        if (!SnakeInBound())
             break;
+        putf();
         paus();
     }
     resp();

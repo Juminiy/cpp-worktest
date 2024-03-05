@@ -3,6 +3,7 @@
 #include "_test_func_.hpp"
 #include "_seq_container_.hpp"
 #include "_ai_snake_game_.hpp"
+#include "_asso_container_.hpp"
 
 #include <getopt.h>
 #include <unistd.h>
@@ -65,7 +66,8 @@ int main(int argc, char *argv[], char *envp[])
         printf("GCC info: %s\n", __VERSION__);
         break;
             case 't':
-        TestVectorFunctor();
+        // TestVectorFunctor();
+        TestUMap();
         break;
         case 'y':
         gmt.init();

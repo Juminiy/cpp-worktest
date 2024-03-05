@@ -1,10 +1,14 @@
 cxxc = g++
 cxx_args= -Wall -pedantic -O0 -std=c++17 -g 
-c_args= -Wall -pedantic -O0 -std=gnu99 -g 
-objects= _stream_.o _test_func_.o _seq_container_.o _ai_snake_game_.o
+c_args = -Wall -pedantic -O0 -std=gnu99 -g 
+objects += _stream_.o 
+objects += _test_func_.o 
+objects += _seq_container_.o  
+objects += _ai_snake_game_.o 
+objects += _asso_container_.o
 
-debug_gdb= echo "gdb -q -tui main" 
-debug_lldb= echo "lldb main" && echo "gui" 
+debug_gdb = echo "gdb -q -tui main" 
+debug_lldb = echo "lldb main" && echo "gui" 
 
 # 1. link all object files to generate exe file
 main: main.o $(objects)

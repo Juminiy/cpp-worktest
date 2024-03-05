@@ -25,7 +25,7 @@ static inline double max_f64(double x, double y)
     return x > y ? x : y;
 }
 
-using namespace std;
+
 
 #include <string>
 
@@ -37,6 +37,7 @@ using namespace std;
 #ifdef __cplusplus
 extern "C" {
 #endif 
+using namespace std;
 const string short_opts = "h?cwpgotyd:m:n:v0123456789";
 static const struct option long_opts[] = {
     {"help", no_argument, NULL, 'h'},
@@ -83,7 +84,7 @@ opt_uint(char *val)
   char *end;
   errno = 0;
   unsigned long int x = strtoul(val, &end, 10);
-  if (errno || end == val || end && *end)
+  if (errno || end == val || (end && *end) )
     printf("Invalid numeric parameter: %s\n", val);
   if ((unsigned long int)(unsigned int) x != x)
     printf("Numeric parameter out of range: %s\n", val);

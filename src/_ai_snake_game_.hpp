@@ -13,7 +13,8 @@
 
 #include <cstdarg>
 
-#define kMaxFood 1<<5
+#define kMaxFood 1<<3
+#define kMinFood 5
 #define kEmptyTile ' '
 #define kWallTile '#'
 #define kFoodTile '$'
@@ -30,12 +31,9 @@
 #endif 
 
 #define GameTip(_tip_) cout << _tip_ ;
-#define GameTips(_tip_, ...) \ 
-    va_list _list; \ 
-    double _list_n; \
-    va_start(_list); \
-    va_end(_list);  \
-    cout << _tip_ << _list <<endl
+#define GameTips(_tip_, _extras_) \
+            cout << _tip_ << endl; \
+            cout << _extras_ << endl; 
 
 #define GameFileNamePrefix "../test/static-file/"
 #define GameFileNameSuffix ".txt"
@@ -43,8 +41,7 @@
 
 static void inline GamePause(unsigned int micro_secs)
 {
-    #if defined(__APPLE__) || \ 
-        defined(__MACH__) || \
+    #if defined(__APPLE__) || defined(__MACH__) || \
         defined(__MACOS__)
     #include <unistd.h>
     usleep(micro_secs);
@@ -69,21 +66,12 @@ static void inline GameClearConsole()
     #endif 
 }
 
-static int GameDirect[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
-static pair<int,int> inline nextDirect(int _dx, int _dy)
-{   
-    int ni = 0;
-    for(int i = 0; i < 4; i++)
-    {
-        if(GameDirect[i][0] == _dx && 
-            GameDirect[i][1] == _dy)
-            {
-                ni = (i+1)%4;
-                break;
-            }
-    }
-    return pair<int, int>(GameDirect[ni][0], GameDirect[ni][1]);
-}
+// 1,0 -> 0,1 / 0,-1
+// 0,1 -> 1,0 / -1,0
+// -1,0 -> 0,1 / 0,-1
+// 0,-1 -> 1,0 / -1,0
+// static int GameDirect[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
+
 
 typedef struct pointT
 {
@@ -104,18 +92,19 @@ typedef struct gameT
     int dx, dy;
 
     int numEaten;
+    int numFood;
 
-    void setDirect(int , int);
+    void ndir();
     bool legal(pointT &);
     bool food(pointT &);
 
     void load(fstream &);
     void init();
-    bool SnakeInBound();
-    bool _mov();
+    void _mov();
     void mapl();
     void aipl();
-    void SyncSnake();
+    bool SnakeInBound();
+    void putf();
     void disp();
     void resp();
     void paus();

@@ -10,4 +10,6 @@ void TestVector();
 
 void TestVectorFunctor();
 
+void TestValArray();
+
 #endif 

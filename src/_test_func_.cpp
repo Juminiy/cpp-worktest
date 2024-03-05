@@ -252,11 +252,11 @@ void DrawTriangle(int const& _n)
 void TestInRange(int const &_round)
 {   
     int _round_ = _round;
-    int _count = 0;
+    int _count UNUSED = 0;
     while(_round_ --)
     {
-        int _rand = rand() % (1<<31);
-        if(I32_IN_RANGE(_rand, 0, (1<<31) - 1))
+        int _rand = rand() % (1<<30);
+        if(I32_IN_RANGE(_rand, 0, (1<<30) - 1))
             _count ++;
     }
         
@@ -265,11 +265,11 @@ void TestInRange(int const &_round)
 void TestInRangeV2(int const &_round)
 {   
     int _round_ = _round;
-    int _count = 0;
+    int _count UNUSED = 0;
     while(_round_ --)
     {
-        int _rand = rand()% (1<<31);
-        if (_rand >= 0 && _rand <= (1<<31) - 1)
+        int _rand = rand()% (1<<30);
+        if (_rand >= 0 && _rand <= (1<<30) - 1)
             _count ++;
     }
 }

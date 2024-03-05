@@ -11,6 +11,7 @@
 #include <array>
 #include <list>
 #include <forward_list>
+#include <valarray>
 
 // sequential container adapter
 #include <stack>
@@ -97,4 +98,14 @@ void TestVectorFunctor()
     copy(istreambuf_iterator<char>(in), 
             istreambuf_iterator<char>(), 
             ostreambuf_iterator<char>(cout));
+}
+
+void TestValArray()
+{
+    valarray<int> vay{1, 2, 3, 4, 5};
+    cout << vay.sum() << std::endl;
+
+    vector<int> vay_pup;
+    vay_pup.push_back(1);
+    vay_pup.emplace_back(2);
 }

@@ -7,6 +7,7 @@
 #include <string>
 #include <list>
 #include <map>
+#include <memory>
 
 
 #define ASSERT_FILE(f_name) \

@@ -8,6 +8,7 @@
 #include <sstream>
 #include <algorithm>
 #include <functional>
+#include <iterator>
 
 #include <cassert>
 #include <cctype>
@@ -328,6 +329,6 @@ bool HasHexLetters_ss_functor_version(long long const &_i64)
 {
     stringstream ss;
     ss << hex << _i64;
-    istream_iterator<char> ssit(ss);
-    return any_of(ssit, istream_iterator<char>(), char_bits_is_letter);
+    istreambuf_iterator<char> ssit(ss);
+    return any_of(ssit, istreambuf_iterator<char>(), char_bits_is_letter);
 }   

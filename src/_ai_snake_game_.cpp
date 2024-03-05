@@ -10,9 +10,33 @@
 #include <cassert>
 #include <ctime>
 
+#include <pthread.h>
+
+
+void gameT::setDirect(int _dx, int _dy)
+{
+    dx = _dx;
+    dy = _dy;
+}
+
+bool gameT::legal(pointT &_p)
+{
+    return _p.row > 0 && 
+            _p.row < numRows-1 && 
+            _p.col > 0 && 
+            _p.col < numCols-1 &&
+            world[_p.row][_p.col] != kWallTile;
+}
+
+bool gameT::food(pointT &_p)
+{
+    return legal(_p) && 
+            world[_p.row][_p.col] == kFoodTile;
+}
+
 void gameT::load(fstream &fileInput)
 {
-    fileInput >> numRows >> numsCols;
+    fileInput >> numRows >> numCols;
     world.resize(numRows);
     fileInput >> dx >> dy;
     for(int row = 0, col = 0; row < numRows; row++)
@@ -20,7 +44,7 @@ void gameT::load(fstream &fileInput)
         getline(fileInput, world[row]);
         if ((col = world[row].find(kSnakeTile)) != string::npos)
         {
-            snake.push_back(pointT{row, col});
+            snake.push_back(pointT(row, col));
         }        
     }
     numEaten = 0;
@@ -36,16 +60,37 @@ void gameT::init()
 
 bool gameT::SnakeInBound()
 {
-    pointT snake_head = snake.front();
-    return snake_head.row >= 0 && 
-            snake_head.row < numRows &&
-            snake_head.col >= 0 && 
-            snake_head.col < numsCols;
+    return legal(snake.front());
 }
 
 bool gameT::_mov()
-{
-    return true;
+{   
+    pointT nextP(snake.front());
+    pointT tmpP = nextP;
+loopWalk:
+    tmpP.walk(dx, dy);
+    // ilegal
+    if (!legal(tmpP))
+    {   
+        auto [_dx, _dy] = nextDirect(tmpP.row, tmpP.col);
+        setDirect(_dx, _dy);
+        goto loopWalk;
+    } 
+    // ate $
+    else 
+    {
+        nextP = tmpP;
+        snake.push_front(nextP);
+        if(food(nextP))
+        {   
+            numEaten ++;
+        } else
+        {   
+            snake.pop_back();
+        }
+    }
+    // 
+    return SnakeInBound();
 }
 
 void gameT::mapl()
@@ -63,26 +108,17 @@ void gameT::SyncSnake()
 
 void gameT::aipl()
 {   
-    while(SnakeInBound())
-    {
-        pointT snake_head = snake.front();
-        snake.push_front(pointT{snake_head.row-1, snake_head.col});
-        SyncSnake();
-        GamePause(500000);
-    }
+    if (!SnakeInBound())
+        return;
+
+    _mov();
+    SyncSnake();
+    GamePause(500000);
 }
 
 void gameT::disp()
 {   
-    #if defined(__APPLE__) || defined(__MACH__) || defined(__MACOS__)
-    #include <unistd.h>
-    system("clear");
-    #elif defined(_WIN64) || defined(WIN64) || \
-        defined(_WIN32) || defined(WIN32) 
-    #include <windows.h>
-    system("CLS");
-    #endif 
-
+    GameClearConsole();
     for( auto &s : world)
     {
         cout << s << endl;
@@ -103,11 +139,11 @@ void gameT::resp()
 
 void gameT::paus()
 {
-    GamePause(125000);
+    GamePause(10000000);
 }
 
 void gameT::simu()
-{
+{   
     while(numEaten < kMaxFood)
     {
         disp();
@@ -117,4 +153,17 @@ void gameT::simu()
         paus();
     }
     resp();
+}
+
+
+void pointT::walk(int _dx, int _dy)
+{
+    row += _dx;
+    col += _dy;
+}
+
+void pointT::operator= (pointT &_p)
+{
+    row = _p.row;
+    col = _p.col;
 }

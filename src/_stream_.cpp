@@ -132,7 +132,7 @@ void GetWorldCapitals(string const &fileName, map<string,string> &capitals)
     while(getline(*inputFile, one_line))
     {   
         assert(!inputFile->fail());
-        cal_line++;
+        ++cal_line;
         if (cal_line == 1){
             continue;
         }
@@ -177,7 +177,7 @@ void PrintWorldCapitals(map<string,string> const &capitals, int const &cnt)
     for (auto &pr : capitals)
     {
         if(_cnt > 0){
-            _cnt --;
+            --_cnt;
             cout << "<" << RED_STR(pr.first) << ", " << RED_STR(pr.second) << ">" << endl;
         }
     }
@@ -215,7 +215,7 @@ void MultiTypesOSS(string const &_v)
 string GetLine()
 {
     string _str;
-    getline(cin, _str);
+    getline(std::cin, _str);
     return _str;
 }
 
@@ -329,6 +329,10 @@ bool HasHexLetters_ss_functor_version(long long const &_i64)
 {
     stringstream ss;
     ss << hex << _i64;
-    istreambuf_iterator<char> ssit(ss);
-    return any_of(ssit, istreambuf_iterator<char>(), char_bits_is_letter);
+    return any_of(istreambuf_iterator<char>(ss), 
+                    istreambuf_iterator<char>(), 
+                    [](char const &ch){
+                        return ((ch & 0xf0) >> 4) >= 0x0a || 
+                                (ch & 0x0f) >= 0x0a;
+                    });
 }   

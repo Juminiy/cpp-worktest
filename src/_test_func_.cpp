@@ -31,7 +31,7 @@ void TestReadLines()
 
 void TestCinAteN()
 {
-    string str3;
+    std::string str3;
     // case 1.
     // cin >> str3;
     // cout << str3 << endl;
@@ -40,7 +40,7 @@ void TestCinAteN()
     
     // case 2.
     getline(cin, str3, '\n');
-    cout << str3 ;
+    std::cout << str3 ;
 }
 
 void TestOSS()
@@ -226,7 +226,7 @@ void TestHasHexLetters_3_version_pat(int const &_round)
             _t_res_ss_ != 
             _t_res_loop_)
             printf("un_eq _num_ = %x\n", _rand_), 
-            _count_ ++;
+            ++_count_;
     }
     cout << "not ok count = " << _count_ << ", total count = " << _round << endl;
     cout.precision(4);
@@ -257,7 +257,7 @@ void TestInRange(int const &_round)
     {
         int _rand = rand() % (1<<30);
         if(I32_IN_RANGE(_rand, 0, (1<<30) - 1))
-            _count ++;
+            ++_count;
     }
         
 }
@@ -270,6 +270,6 @@ void TestInRangeV2(int const &_round)
     {
         int _rand = rand()% (1<<30);
         if (_rand >= 0 && _rand <= (1<<30) - 1)
-            _count ++;
+            ++_count;
     }
 }

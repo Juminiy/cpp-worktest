@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <iterator>
+#include <functional>
 
 // sequential container
 #include <vector>
@@ -17,7 +19,6 @@
 #include <stack>
 #include <queue>
 
-#include <iterator>
 
 
 void TestConstAndPointer()
@@ -59,9 +60,9 @@ void TestAutoBind()
     auto [i32_0, i32_12] = i32_i32_i32;
     auto [i32_1,i32_2] = i32_12;
     
-    PRINTLN((i32_0));
-    PRINTLN((i32_1));
-    PRINTLN((i32_2));
+    PRINTLN(std::to_string(i32_0));
+    PRINTLN(std::to_string(i32_1));
+    PRINTLN(std::to_string(i32_2));
 }
 
 void TestVector()
@@ -92,20 +93,43 @@ void TestVectorFunctor()
     generate(vi32.begin(), vi32.end(), rand);
     sort(vi32.begin(), vi32.end(), std::less<int>());
     copy(vi32.begin(), vi32.end(), std::ostream_iterator<int>(std::cout, "\n"));
-    ofstream out("../test/static-file/num_gen_sort.txt", ios::out);
+    std::ofstream out("../test/static-file/num_gen_sort.txt", std::ios::out);
     copy(vi32.begin(), vi32.end(), std::ostream_iterator<int>(out, "\n"));
-    ifstream in("../test/static-file/num_gen_sort.txt", ios::in);
-    copy(istreambuf_iterator<char>(in), 
-            istreambuf_iterator<char>(), 
-            ostreambuf_iterator<char>(cout));
+    std::ifstream in("../test/static-file/num_gen_sort.txt", std::ios::in);
+    copy(std::istreambuf_iterator<char>(in), 
+            std::istreambuf_iterator<char>(), 
+            std::ostreambuf_iterator<char>(std::cout));
 }
 
 void TestValArray()
 {
-    valarray<int> vay{1, 2, 3, 4, 5};
-    cout << vay.sum() << std::endl;
+    std::valarray<int> vay{1, 2, 3, 4, 5};
+    std::cout << vay.sum() << std::endl;
 
-    vector<int> vay_pup;
+    std::vector<int> vay_pup;
     vay_pup.push_back(1);
     vay_pup.emplace_back(2);
+}
+
+void TestVectorFunctor2()
+{       
+    srand(time(NULL));
+    std::vector<int> _vi(1<<8);
+    std::fill(_vi.begin(), 
+                _vi.end(), 
+                rand()%10);
+    std::copy(_vi.begin(),
+                _vi.end(),
+                std::ostream_iterator<int>(std::cout, ", "));
+    std::cout << std::endl;
+    int _i32_cmp = rand()%10;
+    std::cout << _i32_cmp 
+                << " in vector occurs "
+                << std::count_if(_vi.begin(),
+                _vi.end(),
+                [&](int const &_i32){
+                    return _i32 == _i32_cmp;
+                }) 
+                << " times."
+                << std::endl;
 }

@@ -4,8 +4,8 @@
 
 #ifdef __cplusplus
 extern "C" {
+
 #endif 
-using namespace std;
 #ifdef __cplusplus
 }
 #endif
@@ -15,13 +15,26 @@ using namespace std;
 #define CONSTRUCT __attribute__((constructor))
 #define DESTRUCT __attribute__((destructor))
 
-#define PRINTLN(x) std::cout << x << std::endl
 
-#define RED_STR(str) ("\033[1;31m"+str+"\033[0m")
-#define RED_I32(_i32) ("\033[1;31m"+std::to_string(_i32)+"\033[0m")
+
+#define _BLACK(_ct_)     ("\033[0;30m"+_ct_+"\033[0m") 
+#define _RED(_ct_)       ("\033[0;31m"+_ct_+"\033[0m") 
+#define _GREEN(_ct_)     ("\033[0;32m"+_ct_+"\033[0m")
+#define _YELLOW(_ct_)    ("\033[0;33m"+_ct_+"\033[0m")
+#define _BLUE(_ct_)      ("\033[0;34m"+_ct_+"\033[0m") 
+#define _PURPLE(_ct_)    ("\033[0;35m"+_ct_+"\033[0m")
+#define _CYAN(_ct_)      ("\033[0;36m"+_ct_+"\033[0m") 
+#define _WHITE(_ct_)     ("\033[0;37m"+_ct_+"\033[0m")
+
+#define RED_STR(str) _RED(str)
+#define RED_I32(_i32) RED_STR(std::to_string(_i32))
+
+#define PRINTLN(_ct_) std::cout << std::string(_ct_) << std::endl
+
 
 #define DECL_VAR(_type) _type var_##_type
 #define DECL_FUN(_type, _func, _arg) _type fun_##_func##_type(_arg);
+
 
 #define MAX_T(_x, _y) ((_x) > (_y) ? (_x) : (_y))
 #define MIN_T(_x, _y) ((_x) < (_y) ? (_x) : (_y))
@@ -37,15 +50,14 @@ static inline double max_f64(double x, double y)
     return x > y ? x : y;
 }
 
-
+#include <iostream>
 #include <string>
 
 #include <stdio.h>
 #include <ctype.h>
 #include <getopt.h>
 
-
-const string short_opts = "h?cwpgotyd:m:n:v0123456789";
+const std::string short_opts = "h?cwpgotyd:m:n:v0123456789";
 static const struct option long_opts[] = {
     {"help", no_argument, NULL, 'h'},
     {"helps", no_argument, NULL, '?'},
@@ -106,9 +118,7 @@ typedef signed long long _si_64;
 
 #define SKP_NON_DIG(_ch) while (_ch < '0' || _ch > '9') _ch = getchar()
 #define GET_RES_DIG(_res, _ch)  while (isdigit(_ch)) _res = (_res << 1) + (_res << 3) + (_ch - 48), _ch = getchar()
-
-
-//     12345   
+ 
 static inline _ui_64 u64_qread()
 {
     char ch = getchar();
@@ -118,7 +128,6 @@ static inline _ui_64 u64_qread()
     return res;
 }
 
-//     -12345 |     12345
 static inline _si_64 i64_qread()
 {
     char ch = getchar();
@@ -131,18 +140,6 @@ static inline _si_64 i64_qread()
     }
     GET_RES_DIG(res, ch);
     return neg ? ~res+1 : res;
-}
-
-CONSTRUCT
-static void inline call_main()
-{
-    printf("Hi, Worktest, Compile time: %s\n", __TIME__);
-}
-
-DESTRUCT
-static void inline exit_main()
-{
-    printf("iH, Worktest, Exit time: %s\n", __TIME__);
 }
 
 #endif 

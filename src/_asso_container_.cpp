@@ -5,28 +5,45 @@
 #include <string>
 #include <iostream>
 
+#include <functional>
+#include <algorithm>
+#include <iterator>
+
 #include <queue>
 #include <vector>
-#include <functional>
+
 #include <map>
 #include <unordered_map>
 
-typedef pair<int, string> i32_str;
+#include <set>
+#include <unordered_set>
+
+namespace Alan {
+typedef std::pair<int, std::string> i32_str;
 
 void TestUMap()
 {   
-    priority_queue<int, vector<int>, greater<int>> bh;
+    std::priority_queue<int, std::vector<int>, std::greater<int>> bh;
     bh.push(1);
     // cout << bh.size() << endl;
-    unordered_map<int,string > umis ;
+    std::unordered_map<int, std::string > umis ;
     umis.insert(i32_str(1, "w"));
-    map<int, string> mis;
+    std::map<int, std::string> mis;
     mis.insert(i32_str(1, "s"));
-    multimap<int, string> mm;
+    std::multimap<int, std::string> mm;
     mm.insert(i32_str(1, "ss"));
     mm.insert(i32_str(1, "bb"));
     mm.insert(i32_str(1, "ss"));
     mm.insert(i32_str(1, "kk"));
-    for(auto &_e_ : mm)
-        cout << "[" << _e_.first << ", " << _e_.second << "]" << endl;
+    for(auto &_e_ UNUSED : mm)
+        ;
+        // std::cout << "[" << _e_.first << ", " << _e_.second << "]" << std::endl;
+
+    std::set<int> i32S;
+    i32S.insert(1);
+    std::copy(i32S.begin(), 
+                i32S.end(), 
+                std::ostream_iterator<int>(std::cout, "\n"));
+
 }
+};

@@ -12,4 +12,6 @@ void TestVectorFunctor();
 
 void TestValArray();
 
+void TestVectorFunctor2();
+
 #endif 

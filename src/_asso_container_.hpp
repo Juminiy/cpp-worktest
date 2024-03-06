@@ -2,6 +2,9 @@
 #ifndef _ASSO_CONTAINER_HPP
 #define _ASSO_CONTAINER_HPP
 
-void TestUMap();
+namespace Alan
+{
+    void TestUMap();
+};
 
 #endif 

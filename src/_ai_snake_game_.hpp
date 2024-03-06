@@ -29,10 +29,10 @@
 #include <windows.h>
 #endif 
 
-#define GameTip(_tip_) cout << _tip_ ;
+#define GameTip(_tip_) std::cout << _tip_ ;
 #define GameTips(_tip_, _extras_) \
-            cout << _tip_ << endl; \
-            cout << _extras_ << endl; 
+            std::cout << _tip_ << endl; \
+            std::cout << _extras_ << endl; 
 
 #define GameFileNamePrefix "../test/static-file/"
 #define GameFileNameSuffix ".txt"
@@ -84,10 +84,10 @@ typedef struct pointT
 
 typedef struct gameT 
 {
-    vector<string> world;
+    std::vector<std::string> world;
     int numRows, numCols;
     
-    deque<pointT> snake;
+    std::deque<pointT> snake;
     int dx, dy;
 
     int numEaten;
@@ -97,7 +97,7 @@ typedef struct gameT
     bool legal(pointT &);
     bool food(pointT &);
 
-    void load(fstream &);
+    void load(std::fstream &);
     void init();
     void _mov();
     void mapl();

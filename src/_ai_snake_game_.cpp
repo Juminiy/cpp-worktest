@@ -45,13 +45,13 @@ bool gameT::food(pointT &_p)
             world[_p.row][_p.col] == kFoodTile;
 }
 
-void gameT::load(fstream &fileInput)
+void gameT::load(std::fstream &fileInput)
 {
     fileInput >> numRows >> numCols;
     world.resize(numRows);
     fileInput >> dx >> dy;
     numFood =0;
-    string _line;
+    std::string _line;
     getline(fileInput, _line);
     if (!_line.size() || 
         !_line.compare("\n") || 
@@ -62,12 +62,12 @@ void gameT::load(fstream &fileInput)
     {   
         getline(fileInput, world[row]);
         size_t col = 0;
-        if ((col = world[row].find(kSnakeTile)) != string::npos)
+        if ((col = world[row].find(kSnakeTile)) != std::string::npos)
             snake.push_back(pointT(row, col));
              
         numFood += count_if( world[row].begin(), 
                                 world[row].end(), 
-                                [](char _x) { return _x == kFoodTile; });
+                                [](char const &_x) { return _x == kFoodTile; });
     }
     numEaten = 0;
 }
@@ -75,7 +75,7 @@ void gameT::load(fstream &fileInput)
 void gameT::init()
 {      
     GameTip("File name:");
-    string fileName = GetLine();
+    std::string fileName = GetLine();
     ASSERT_FILE(GenFileName(fileName));
     load(*inputFile);
 }
@@ -116,8 +116,8 @@ loopWalk:
         if(food(nextP))
         {   
             world[nextP.row][nextP.col] = kEmptyTile;
-            numEaten ++;
-            numFood --;
+            ++numEaten;
+            --numFood;
         } else
         {   
             pointT snake_tail = snake.back();

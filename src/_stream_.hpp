@@ -9,14 +9,13 @@
 #include <map>
 #include <memory>
 
+using namespace std;
 
 #define ASSERT_FILE(f_name) \
     auto inputFilePtr = readFile(f_name); \
     assert(inputFilePtr); \
     auto inputFile = inputFilePtr.get(); \
     assert(inputFile && inputFile->is_open()); \
-
-
 
 enum writeMode{
     readOnly,

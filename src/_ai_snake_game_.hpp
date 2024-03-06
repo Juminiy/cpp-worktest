@@ -2,7 +2,6 @@
 #ifndef _AI_SNAKE_GAME_HPP
 #define _AI_SNAKE_GAME_HPP
 
-
 #include "_i_lib_.hpp"
 
 #include <vector>

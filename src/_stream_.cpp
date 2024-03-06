@@ -1,5 +1,5 @@
-#include "_stream_.hpp"
 #include "_i_lib_.hpp"
+#include "_stream_.hpp"
 
 #include <fstream>
 #include <iostream>

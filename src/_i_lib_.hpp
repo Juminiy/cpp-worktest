@@ -1,19 +1,31 @@
 #pragma once
-
 #ifndef _I_LIB_HPP
 #define _I_LIB_HPP
 
+#ifdef __cplusplus
+extern "C" {
+#endif 
+using namespace std;
+#ifdef __cplusplus
+}
+#endif
+
 #define UNUSED __attribute__((unused))
 #define NORETURN __attribute__((noreturn))
+#define CONSTRUCT __attribute__((constructor))
+#define DESTRUCT __attribute__((destructor))
+
+#define PRINTLN(x) std::cout << x << std::endl
 
 #define RED_STR(str) ("\033[1;31m"+str+"\033[0m")
 #define RED_I32(_i32) ("\033[1;31m"+std::to_string(_i32)+"\033[0m")
 
 #define DECL_VAR(_type) _type var_##_type
 #define DECL_FUN(_type, _func, _arg) _type fun_##_func##_type(_arg);
+
 #define MAX_T(_x, _y) ((_x) > (_y) ? (_x) : (_y))
 #define MIN_T(_x, _y) ((_x) < (_y) ? (_x) : (_y))
-#define PRINTLN(x) std::cout << x << std::endl
+
 
 static inline int max_i32(int x, int y)
 {
@@ -26,7 +38,6 @@ static inline double max_f64(double x, double y)
 }
 
 
-
 #include <string>
 
 #include <stdio.h>
@@ -34,10 +45,6 @@ static inline double max_f64(double x, double y)
 #include <getopt.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif 
-using namespace std;
 const string short_opts = "h?cwpgotyd:m:n:v0123456789";
 static const struct option long_opts[] = {
     {"help", no_argument, NULL, 'h'},
@@ -91,10 +98,6 @@ opt_uint(char *val)
   return x;
 }
 
-#ifdef __cplusplus
-}
-#endif
-
 #define U32 (unsigned int)
 #define I32_IN_RANGE(_x, _min, _max) (U32(_x)-U32(_min) <= U32(_max)-U32(_min))
 
@@ -128,6 +131,18 @@ static inline _si_64 i64_qread()
     }
     GET_RES_DIG(res, ch);
     return neg ? ~res+1 : res;
+}
+
+CONSTRUCT
+static void inline call_main()
+{
+    printf("Hi, Worktest, Compile time: %s\n", __TIME__);
+}
+
+DESTRUCT
+static void inline exit_main()
+{
+    printf("iH, Worktest, Exit time: %s\n", __TIME__);
 }
 
 #endif 

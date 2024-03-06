@@ -58,9 +58,10 @@ void gameT::load(fstream &fileInput)
         !_line.compare("\t") || 
         _line.compare(" "))
         // TODO: do something to avoid 
-    for(int row = 0, col = 0; row < numRows; ++row)
+    for(int row = 0; row < numRows; ++row)
     {   
         getline(fileInput, world[row]);
+        size_t col = 0;
         if ((col = world[row].find(kSnakeTile)) != string::npos)
             snake.push_back(pointT(row, col));
              

@@ -68,7 +68,10 @@ int main(int argc, char *argv[], char *envp[])
             case 't':
         // TestVectorFunctor();
         // Alan::TestUMap();
-        TestVectorFunctor2();
+        // TestVectorFunctor2();
+        // TestVectorFunc3();
+        // TestRingBuffer();
+        TestAgainstVectorReverseWithNot();
         break;
         case 'y':
         gmt.init();
@@ -95,7 +98,7 @@ CONSTRUCT
 static void inline call_main()
 {   
     char *print_des = (char*)(malloc(37));
-    snprintf(print_des, 37, "Hi, Worktest, Compile time: %s\n", __TIME__);
+    snprintf(print_des, 39, "\nHi, Worktest, Compile time: %s\n", __TIME__);
     PRINTLN(_GREEN(string(print_des)));
 }
 
@@ -103,6 +106,6 @@ DESTRUCT
 static void inline exit_main()
 {   
     char *print_des = (char*)(malloc(34));
-    snprintf(print_des, 34, "iH, Worktest, Exit time: %s\n", __TIME__);
+    snprintf(print_des, 36, "\niH, Worktest, Exit time: %s", __TIME__);
     PRINTLN(_GREEN(string(print_des)));
 }

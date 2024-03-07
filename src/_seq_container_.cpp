@@ -3,6 +3,13 @@
 
 #include <iostream>
 #include <fstream>
+#include <iomanip>
+
+#include <ctime>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
 #include <algorithm>
 #include <iterator>
 #include <functional>
@@ -126,10 +133,170 @@ void TestVectorFunctor2()
     std::cout << _i32_cmp 
                 << " in vector occurs "
                 << std::count_if(_vi.begin(),
-                _vi.end(),
-                [&](int const &_i32){
-                    return _i32 == _i32_cmp;
-                }) 
+                                    _vi.end(),
+                                    [&](int const &_i32){
+                                        return _i32 == _i32_cmp;
+                                    }) 
                 << " times."
                 << std::endl;
 }
+
+
+void TestVectorFunc3()
+{   
+    // 4 4 
+    // 4 1
+    // 8 
+    typedef struct ele0
+    {
+        int a,b,c;
+        char si;
+        struct ele0* next_e;
+        ele0(int _a, 
+                int _b, 
+                int _c, 
+                char _si, 
+                struct ele0* _next_e): 
+                    a(_a), 
+                    b(_b), 
+                    c(_c), 
+                    si(_si), 
+                    next_e(_next_e){}
+        void print(){
+            printf("[%p, %d, %d, %d, %c, %p]", (void*)this, a, b, c, si, (void*)next_e);
+        }
+    } ele0;
+    std::vector<ele0> _ev;
+    ele0 _e0(1, 2, 3, 'c', NULL);
+    _ev.push_back(_e0);
+    _ev.emplace_back(_e0);
+    _ev.emplace_back(_e0);
+
+    for(auto &_e_ UNUSED : _ev)
+        _e_.print(), putchar(',');
+    
+
+    {
+        PRINTLN("\nsomething changed\n");
+        _e0.a = 999;
+        _e0.c = 'a';
+        _e0.next_e = &_e0;
+    }   
+
+    std::reverse(_ev.begin(), _ev.end());
+
+    // _ev.size();
+    _ev.erase(_ev.begin());
+
+    for(auto &_e_ UNUSED : _ev)
+        _e_.print(), putchar(',');
+    
+
+    std::deque<int> dq_i32;
+    for(int i=0;i<1<<6;i++)
+        dq_i32.push_back(i);
+
+    PRINTLN(std::to_string(dq_i32.size()));
+}
+
+void TestRingBuffer()
+{
+    _COLOR_START(_COLOR_BLUE);
+    Alan::RingBuffer<int> _ring(std::vector<int>{1,2,3,4,5,6,7,8,9,10});
+    _ring.print();
+    PRINTLN("something changed");
+    // _ring++;
+    _ring.print();
+    PRINTLN("something changed");
+    // _ring--;
+    _ring.print();
+    _COLOR_RECOVER;
+}
+
+static std::string inline genString(int const &_len)
+{
+    srand(time(NULL));
+    std::string _dest;
+    _dest.reserve(_len);
+    for(int i=0;i<_len;i++)
+        _dest += _letter_xx[rand()%_letter_len];
+    return _dest;
+}
+
+void TestAgainstVectorReverseWithNot()
+{   
+    srand(time(NULL));
+    
+    int MAX_SZ_T = 0;
+    int MAX_SZ_S = 0;
+    // parse arg
+    {
+        bool _first = true;
+        for(long unsigned int i = 0; i < strlen(optarg); ++i )
+        {
+            char argi = optarg[i];
+            if ( argi == ',')
+            {
+                _first = false;
+                continue;
+            }else if ( isdigit(argi) )
+            {
+                if (_first)
+                {
+                    MAX_SZ_T = I32_MUL10(MAX_SZ_T) + (argi - '0');
+                } else 
+                {
+                    MAX_SZ_S = I32_MUL10(MAX_SZ_S) + (argi - '0');
+                }
+            }
+        }
+        if (!I32_IN_RANGE(MAX_SZ_T, 0, 24))
+            MAX_SZ_T = 1 << 16;
+        else 
+            I32_LSHIFT(MAX_SZ_T);
+        if (!I32_IN_RANGE(MAX_SZ_T, 0, 16))
+            MAX_SZ_S = 1 << 8;
+        else 
+            I32_LSHIFT(MAX_SZ_S);
+    }
+
+    // reserved
+    {
+        std::vector<std::string> _v1;
+        clock_t _s = clock();
+        _v1.reserve(MAX_SZ_T);
+        for(int i=0;i< MAX_SZ_T;i++)    
+            _v1.push_back(genString(rand()%MAX_SZ_S));
+        _COLOR_START(_COLOR_BLUE);
+        std::cout << "    reserved "<< MAX_SZ_T << "*" << MAX_SZ_S << " cost " << TILLNOW(_s) << " seconds" << std::endl;
+        _COLOR_RECOVER;
+        _v1.clear();
+    }
+    
+    // not reserved
+    {
+        std::deque<std::string> _v2;
+        clock_t _s = clock();
+        for(int i=0;i< MAX_SZ_T;i++)    
+            _v2.push_back(genString(rand()%MAX_SZ_S));
+        _COLOR_START(_COLOR_PURPLE);
+        std::cout << "not reserved " << MAX_SZ_T << "*" << MAX_SZ_S << " cost " << TILLNOW(_s) << " seconds" << std::endl;
+        _COLOR_RECOVER;
+        _v2.clear();
+    }
+}
+
+std::string VigenereEncrypt(std::string const & _en, std::vector<int> _sa)
+{   
+    std::string _encrypted;
+    _encrypted.reserve(_en.size());
+    int char_CT = 256;
+    Alan::RingBuffer<int> _salt(_sa);
+    for(auto &_ch : _en)
+    {
+        _encrypted.push_back((_salt.readAtCursor() + _ch) % char_CT);
+        _salt.clockwise();
+    }
+
+    return _encrypted;
+}   

@@ -26,10 +26,25 @@ extern "C" {
 #define _CYAN(_ct_)      ("\033[0;36m"+_ct_+"\033[0m") 
 #define _WHITE(_ct_)     ("\033[0;37m"+_ct_+"\033[0m")
 
+#define _COLOR_BLACK    "0"
+#define _COLOR_RED      "1"
+#define _COLOR_GREEN    "2"
+#define _COLOR_YELLOW   "3"
+#define _COLOR_BLUE     "4"
+#define _COLOR_PURPLE   "5"
+#define _COLOR_CYAN     "6"
+#define _COLOR_WHITE    "7"
+
+#define _COLOR_START(_color_)       PRINT("\033[0;3"+std::string(_color_)+"m")
+#define _COLOR_RECOVER              PRINT("\033[0m")
+
 #define RED_STR(str) _RED(str)
 #define RED_I32(_i32) RED_STR(std::to_string(_i32))
 
-#define PRINTLN(_ct_) std::cout << std::string(_ct_) << std::endl
+#define PRINT(_ct_)   std::cout << std::string(_ct_)
+#define PRINTLN(_ct_) PRINT(_ct_) << std::endl
+
+#define TILLNOW(_start_time_) (((float)(clock() - _start_time_))/CLOCKS_PER_SEC)
 
 
 #define DECL_VAR(_type) _type var_##_type
@@ -57,7 +72,7 @@ static inline double max_f64(double x, double y)
 #include <ctype.h>
 #include <getopt.h>
 
-const std::string short_opts = "h?cwpgotyd:m:n:v0123456789";
+const std::string short_opts = "h?cwpgot:yd:m:n:v0123456789";
 static const struct option long_opts[] = {
     {"help", no_argument, NULL, 'h'},
     {"helps", no_argument, NULL, '?'},
@@ -66,6 +81,7 @@ static const struct option long_opts[] = {
     {"print", no_argument, NULL, 'p'},
     {"get", no_argument, NULL, 'g'},
     {"oss-test", no_argument, NULL, 'o'},
+    {"stl-test", optional_argument, NULL, 't'},
     {"draw-triangle", required_argument, NULL, 'd'},
     {"version", no_argument, NULL, 'v'},
     {"snake-game", no_argument, NULL, 'y'},
@@ -141,5 +157,13 @@ static inline _si_64 i64_qread()
     GET_RES_DIG(res, ch);
     return neg ? ~res+1 : res;
 }
+
+const std::string _letter_xx = "qweasdzxcrfvtgbyhnuiojklmp0987612345`-=[];',./~!@#$%+_)(*&^{}|<>?:";
+const int _letter_len = 66;
+
+#define I32_MUL10(_i32_)  (_i32_ = (_i32_ << 1) + (_i32_ << 3))
+#define I32_LSHIFT(_i32_) (_i32_ = 1 << _i32_)
+
+
 
 #endif 

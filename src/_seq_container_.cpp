@@ -97,12 +97,25 @@ void TestVector()
 void TestVectorFunctor()
 {
     std::vector<int> vi32(1<<5);
-    generate(vi32.begin(), vi32.end(), rand);
-    sort(vi32.begin(), vi32.end(), std::less<int>());
-    copy(vi32.begin(), vi32.end(), std::ostream_iterator<int>(std::cout, "\n"));
-    std::ofstream out("../test/static-file/num_gen_sort.txt", std::ios::out);
-    copy(vi32.begin(), vi32.end(), std::ostream_iterator<int>(out, "\n"));
-    std::ifstream in("../test/static-file/num_gen_sort.txt", std::ios::in);
+    generate(vi32.begin(), 
+                vi32.end(), 
+                rand);
+    sort(vi32.begin(), 
+            vi32.end(), 
+            std::less<int>());
+
+    copy(vi32.cbegin(), 
+            vi32.cend(), 
+            std::ostream_iterator<int>(std::cout, "\n"));
+
+    std::ofstream out("../test/static-file/num_gen_sort.txt", 
+                        std::ios::out);
+    copy(vi32.cbegin(), 
+            vi32.cend(), 
+            std::ostream_iterator<int>(out, "\n"));
+
+    std::ifstream in("../test/static-file/num_gen_sort.txt", 
+                        std::ios::in);
     copy(std::istreambuf_iterator<char>(in), 
             std::istreambuf_iterator<char>(), 
             std::ostreambuf_iterator<char>(std::cout));
@@ -120,20 +133,20 @@ void TestValArray()
 
 void TestVectorFunctor2()
 {       
-    srand(time(NULL));
+    PSEUDORANDOM_DECL
     std::vector<int> _vi(1<<8);
     std::fill(_vi.begin(), 
                 _vi.end(), 
-                rand()%10);
-    std::copy(_vi.begin(),
-                _vi.end(),
+                rand()%(1<<4));
+    std::copy(_vi.cbegin(),
+                _vi.cend(),
                 std::ostream_iterator<int>(std::cout, ", "));
     std::cout << std::endl;
     int _i32_cmp = rand()%10;
     std::cout << _i32_cmp 
                 << " in vector occurs "
-                << std::count_if(_vi.begin(),
-                                    _vi.end(),
+                << std::count_if(_vi.cbegin(),
+                                    _vi.cend(),
                                     [&](int const &_i32){
                                         return _i32 == _i32_cmp;
                                     }) 
@@ -183,7 +196,8 @@ void TestVectorFunc3()
         _e0.next_e = &_e0;
     }   
 
-    std::reverse(_ev.begin(), _ev.end());
+    std::reverse(_ev.begin(), 
+                    _ev.end());
 
     // _ev.size();
     _ev.erase(_ev.begin());
@@ -193,7 +207,7 @@ void TestVectorFunc3()
     
 
     std::deque<int> dq_i32;
-    for(int i=0;i<1<<6;i++)
+    for(int i=0;i<1<<6; ++i)
         dq_i32.push_back(i);
 
     PRINTLN(std::to_string(dq_i32.size()));
@@ -215,18 +229,19 @@ void TestRingBuffer()
 
 static std::string inline genString(int const &_len)
 {
-    srand(time(NULL));
+    PSEUDORANDOM_DECL
     std::string _dest;
     _dest.reserve(_len);
-    for(int i=0;i<_len;i++)
+    for(int i=0;i<_len; ++i)
         _dest += _letter_xx[rand()%_letter_len];
+
     return _dest;
 }
 
 void TestAgainstVectorReverseWithNot()
 {   
-    srand(time(NULL));
-    
+    PSEUDORANDOM_DECL
+
     int MAX_SZ_T = 0;
     int MAX_SZ_S = 0;
     // parse arg
@@ -265,10 +280,14 @@ void TestAgainstVectorReverseWithNot()
         std::vector<std::string> _v1;
         clock_t _s = clock();
         _v1.reserve(MAX_SZ_T);
-        for(int i=0;i< MAX_SZ_T;i++)    
+        for(int i=0;i< MAX_SZ_T; ++i)    
             _v1.push_back(genString(rand()%MAX_SZ_S));
         _COLOR_START(_COLOR_BLUE);
-        std::cout << "    reserved "<< MAX_SZ_T << "*" << MAX_SZ_S << " cost " << TILLNOW(_s) << " seconds" << std::endl;
+        std::cout << "    reserved " 
+                    << MAX_SZ_T << "*" 
+                    << MAX_SZ_S << " cost " 
+                    << TILLNOW(_s) 
+                    << " seconds" << std::endl;
         _COLOR_RECOVER;
         _v1.clear();
     }
@@ -277,20 +296,26 @@ void TestAgainstVectorReverseWithNot()
     {
         std::deque<std::string> _v2;
         clock_t _s = clock();
-        for(int i=0;i< MAX_SZ_T;i++)    
+        for(int i=0;i< MAX_SZ_T; ++i )    
             _v2.push_back(genString(rand()%MAX_SZ_S));
         _COLOR_START(_COLOR_PURPLE);
-        std::cout << "not reserved " << MAX_SZ_T << "*" << MAX_SZ_S << " cost " << TILLNOW(_s) << " seconds" << std::endl;
+        std::cout << "not reserved " 
+                    << MAX_SZ_T 
+                    << "*" << MAX_SZ_S 
+                    << " cost " 
+                    << TILLNOW(_s) 
+                    << " seconds" << std::endl;
         _COLOR_RECOVER;
         _v2.clear();
     }
 }
 
-std::string VigenereEncrypt(std::string const & _en, std::vector<int> _sa)
+std::string VigenereEncrypt(std::string const & _en, 
+                                std::vector<int> const &_sa)
 {   
     std::string _encrypted;
     _encrypted.reserve(_en.size());
-    int char_CT = 256;
+    char char_CT = 256;
     Alan::RingBuffer<int> _salt(_sa);
     for(auto &_ch : _en)
     {
@@ -300,3 +325,50 @@ std::string VigenereEncrypt(std::string const & _en, std::vector<int> _sa)
 
     return _encrypted;
 }   
+
+// xxx;1,2,3,4
+void TestVigenereEncrypt()
+{   
+    // std:: cout << VigenereEncrypt("sss", std::vector<int>()) << std::endl;
+    // return ;
+    std::string _en;
+    std::vector<int> _sa;
+    bool _en_fi = false;
+    int cur_sai = 0;
+    for(unsigned long int i = 0; i < strlen(optarg); ++i )
+    {
+        char argi = optarg[i];
+        if(argi == 'L')
+        {
+            _en_fi = true;
+            continue;
+        } 
+        if (!_en_fi){
+            _en += argi;
+        } else {
+            if (argi == ',')
+            {
+                _sa.push_back(cur_sai);
+                cur_sai = 0;
+            } else if (isdigit(argi))
+            {
+                I32_CHARIN(cur_sai, argi);
+            } else {
+                std::cerr << "err input" << std::endl;
+                exit(130);
+            }
+        }
+    }
+    if (cur_sai)
+        _sa.push_back(cur_sai);
+    
+    
+    _COLOR_START(_COLOR_CYAN);
+    //VigenereEncrypt(_en, _sa) segment-fault
+    std::string _res = VigenereEncrypt(_en, _sa);
+    std:: cout << "encrypted <" 
+                    << _en << "> = <" 
+                    << _res << ">" 
+                    << std::endl; 
+    _COLOR_RECOVER; 
+}

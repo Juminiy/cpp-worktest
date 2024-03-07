@@ -178,7 +178,11 @@ void PrintWorldCapitals(map<string,string> const &capitals, int const &cnt)
     {
         if(_cnt > 0){
             --_cnt;
-            cout << "<" << RED_STR(pr.first) << ", " << RED_STR(pr.second) << ">" << endl;
+            cout << "<" 
+                    << RED_STR(pr.first) 
+                    << ", " 
+                    << RED_STR(pr.second) 
+                    << ">" << endl;
         }
     }
 }
@@ -193,7 +197,12 @@ void PrintOSS(string const &_string_)
 void MultiTypesOSS(string const &_v)
 {
     ostringstream oss;
-    oss << "OSS: string<" << "string" << ">, int<" << 1 << ">, double<" << 1.0 << ">, char<" << 'c' << ">";
+    oss << "OSS: string<" 
+            << "string" 
+            << ">, int<" 
+            << 1 << ">, double<" 
+            << 1.0 << ">, char<" 
+            << 'c' << ">";
     cout << oss.str() << endl;
     oss.clear();
 
@@ -203,7 +212,13 @@ void MultiTypesOSS(string const &_v)
     double ast_f64;
     string ast_str5, ast_str8;
     char ast_ch1;
-    *(oss_ptr.get()) >> ast_i32 >> ast_f64 >> ast_str5 >> ast_str8 >> ast_ch1;
+    *(oss_ptr.get()) 
+                >> ast_i32 
+                >> ast_f64 
+                >> ast_str5 
+                >> ast_str8 
+                >> ast_ch1;
+                
     cout << "ast_i32<" << ast_i32 
             << ">, ast_f64<" << ast_f64 
             << ">, ast_str5<" << ast_str5 

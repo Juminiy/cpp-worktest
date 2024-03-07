@@ -17,7 +17,7 @@
 // random left or right 
 void gameT::ndir()
 {       
-    srand(time(NULL));
+    PSEUDORANDOM_DECL
     int _dd_ = rand() % 2;
     if(dx == 0)
     {   
@@ -65,8 +65,8 @@ void gameT::load(std::fstream &fileInput)
         if ((col = world[row].find(kSnakeTile)) != std::string::npos)
             snake.push_back(pointT(row, col));
              
-        numFood += count_if( world[row].begin(), 
-                                world[row].end(), 
+        numFood += count_if( world[row].cbegin(), 
+                                world[row].cend(), 
                                 [](char const &_x) { return _x == kFoodTile; });
     }
     numEaten = 0;
@@ -89,7 +89,7 @@ void gameT::putf()
 {
     if (numFood >= kMinFood)
         return ;
-    srand(time(NULL));
+    PSEUDORANDOM_DECL
     int _ex_ = (rand() % (numRows-1)) + 1;
     int _ey_ = (rand() % (numCols-1)) + 1;
     if (world[_ex_][_ey_] == kEmptyTile)
@@ -187,8 +187,47 @@ void pointT::walk(int _dx, int _dy)
     col += _dy;
 }
 
-void pointT::operator= (pointT &_p)
+void pointT::operator= (pointT const &_p) 
 {
     row = _p.row;
     col = _p.col;
+}
+
+bool pointT::operator== (pointT const &_p) const 
+{
+    return row == _p.row &&
+            col == _p.col;
+}
+
+bool pointT::operator< (pointT const &_p) const 
+{
+    return (row == _p.row) ? 
+            (col < _p.col) : 
+            (row < _p.row);
+}
+
+bool pointT::operator> (pointT const &_p) const 
+{
+    return (row == _p.row) ? 
+            (col > _p.col) : 
+            (row > _p.row);
+}
+
+void pointT::print()
+{
+    std::cout << "[" 
+                << row 
+                << ", "
+                << col 
+                << "]";
+}
+
+std::ostream& operator<<(std::ostream& _os, pointT const &_p)
+{
+    _os << "[" 
+        << _p.row 
+        << ", "
+        << _p.col 
+        << "]";
+    return _os;
 }

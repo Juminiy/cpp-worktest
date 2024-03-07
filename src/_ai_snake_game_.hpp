@@ -77,10 +77,16 @@ typedef struct pointT
     int row, col;
     
     pointT(int _row, int _col): row(_row), col(_col){}
-    void operator= (pointT &);
+    void operator= (pointT const &);
+    bool operator== (pointT const &) const;
+    bool operator< (pointT const &) const;
+    bool operator> (pointT const &) const;
     void walk(int, int);
+    void print();
 
 } pointT;
+std::ostream& operator<<(std::ostream&, pointT const &);
+
 
 typedef struct gameT 
 {

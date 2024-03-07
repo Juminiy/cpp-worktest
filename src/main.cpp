@@ -17,7 +17,13 @@ int main(int argc, char *argv[], char *envp[])
     int test_round = 0;
 
     gameT gmt = gameT();
-    while( (case_num = getopt_long(argc, argv, short_opts.c_str(), long_opts, NULL)) >= 0)
+    while( (case_num = 
+                getopt_long(argc, 
+                            argv, 
+                            short_opts.c_str(), 
+                            long_opts, 
+                            NULL)
+            ) >= 0)
         switch (case_num)
         {
             case 'w': case 'p': case 'g':
@@ -61,6 +67,10 @@ int main(int argc, char *argv[], char *envp[])
         break;
             case '6':
         MultiTypesOSS("9527 8.8888888 Canada America c");
+            case '7':
+        // Alan::TestBirthDayParadox();
+        Alan::TestUMap();
+        // Alan::TestUSet();
         break;
             case 'v':
         printf("GCC info: %s\n", __VERSION__);
@@ -71,7 +81,8 @@ int main(int argc, char *argv[], char *envp[])
         // TestVectorFunctor2();
         // TestVectorFunc3();
         // TestRingBuffer();
-        TestAgainstVectorReverseWithNot();
+        // TestAgainstVectorReverseWithNot();
+        TestVigenereEncrypt();
         break;
         case 'y':
         gmt.init();
@@ -98,7 +109,11 @@ CONSTRUCT
 static void inline call_main()
 {   
     char *print_des = (char*)(malloc(37));
-    snprintf(print_des, 39, "\nHi, Worktest, Compile time: %s\n", __TIME__);
+    snprintf(print_des, 
+                39, 
+                "\nHi, Worktest, Compile time: %s\n", 
+                __TIME__);
+
     PRINTLN(_GREEN(string(print_des)));
 }
 
@@ -106,6 +121,10 @@ DESTRUCT
 static void inline exit_main()
 {   
     char *print_des = (char*)(malloc(34));
-    snprintf(print_des, 36, "\niH, Worktest, Exit time: %s", __TIME__);
+    snprintf(print_des, 
+                36, 
+                "\niH, Worktest, Exit time: %s", 
+                __TIME__);
+
     PRINTLN(_GREEN(string(print_des)));
 }

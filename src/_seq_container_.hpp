@@ -2,8 +2,7 @@
 #ifndef _SEQ_CONTAINER_HPP
 #define _SEQ_CONTAINER_HPP
 
-#define USE_NAMESPACE_ALAN namespace Alan{
-#define END_NAMESPACE_ALAN }
+#include "_i_lib_.hpp"
 
 #include <vector>
 #include <deque>
@@ -31,16 +30,18 @@ void TestRingBuffer();
 
 void TestAgainstVectorReverseWithNot();
 
+void TestVigenereEncrypt();
+
 USE_NAMESPACE_ALAN
 
 template <typename _Tp, typename _Con = std::deque<_Tp>>
 class RingBuffer {
 public:
-    typedef _Tp value_type;
-    typedef _Tp& reference;
+    typedef _Tp             value_type;
+    typedef value_type&     reference;
     typedef const reference const_reference;
-    typedef _Tp* pointer;
-    typedef const pointer const_pointer;
+    typedef value_type*     pointer;
+    typedef const pointer   const_pointer;
 
     typedef _Con container_type;
 
@@ -49,12 +50,17 @@ public:
     {
         for (auto & _e : _vi)
             ring.push_back(_e);
+        cursor = nullptr;
+    }
+    ~RingBuffer()
+    {
+        ring.clear();
     }
 
     void print()
     {
-        std::copy(ring.begin(),  
-                ring.end(),
+        std::copy(ring.cbegin(),  
+                ring.cend(),
                 std::ostream_iterator<int>(std::cout, ", "));
         PRINTLN("");
     }
@@ -83,14 +89,16 @@ public:
         ring.front() = _val;
     }
 
-    [[nodiscard]] void operator++ ()
+    [[nodiscard]] RingBuffer* operator++ ()
     {
         clockwise();
+        return this;
     }
 
-    [[nodiscard]] void operator-- ()
+    [[nodiscard]] RingBuffer* operator-- ()
     {
         counterclockwise();
+        return this;
     }
 
 private: 

@@ -4,7 +4,8 @@
 
 #ifdef __cplusplus
 extern "C" {
-
+#define USE_NAMESPACE_ALAN namespace Alan{
+#define END_NAMESPACE_ALAN }
 #endif 
 #ifdef __cplusplus
 }
@@ -44,6 +45,7 @@ extern "C" {
 #define PRINT(_ct_)   std::cout << std::string(_ct_)
 #define PRINTLN(_ct_) PRINT(_ct_) << std::endl
 
+#define PSEUDORANDOM_DECL               srand(static_cast<unsigned>(time(NULL)));
 #define TILLNOW(_start_time_) (((float)(clock() - _start_time_))/CLOCKS_PER_SEC)
 
 
@@ -81,10 +83,10 @@ static const struct option long_opts[] = {
     {"print", no_argument, NULL, 'p'},
     {"get", no_argument, NULL, 'g'},
     {"oss-test", no_argument, NULL, 'o'},
-    {"stl-test", optional_argument, NULL, 't'},
+    {"stl-test", required_argument, NULL, 't'},
+    {"snake-game", no_argument, NULL, 'y'},
     {"draw-triangle", required_argument, NULL, 'd'},
     {"version", no_argument, NULL, 'v'},
-    {"snake-game", no_argument, NULL, 'y'},
     {"read-write-file-test", no_argument, NULL, '0'},
     {"boolalpha-test", no_argument, NULL, '1'},
     {"read-lines-test", no_argument, NULL, '2'},
@@ -163,7 +165,7 @@ const int _letter_len = 66;
 
 #define I32_MUL10(_i32_)  (_i32_ = (_i32_ << 1) + (_i32_ << 3))
 #define I32_LSHIFT(_i32_) (_i32_ = 1 << _i32_)
-
+#define I32_CHARIN(_i32_, _ch_)  (_i32_ = (I32_MUL10(_i32_) + (_ch_ - '0')))
 
 
 #endif 

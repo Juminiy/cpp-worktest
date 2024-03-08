@@ -2,10 +2,12 @@
 #include "_asso_container_.hpp"
 #include "_ai_snake_game_.hpp"
 #include "_stl_lib_.hpp"
+#include "_stream_.hpp"
 
 #include <ctime>
-
 #include <cmath>
+#include <cassert>
+
 #include <string>
 #include <iostream>
 
@@ -21,6 +23,7 @@
 
 #include <set>
 #include <unordered_set>
+
 
 USE_NAMESPACE_ALAN
 typedef std::pair<int, std::string> i32_str;
@@ -109,6 +112,150 @@ void TestUSet()
                 std::ostream_iterator <pointT>
                                 (std::cout, 
                                 "\n"));
+}
+
+
+void TestIterator()
+{
+    PSEUDORANDOM_DECL
+    std::set<int> i32_mus;
+    for(int i = 0; i < 1<< 10; ++ i)
+        i32_mus.insert(i >> 1),
+        i32_mus.insert(i << 1);
+    
+    _COLOR_START(_COLOR_CYAN);
+    PRINTLN("i32_mus size = "+std::to_string(i32_mus.size()));
+
+    for (auto _sit = i32_mus.lower_bound(10),
+                _eit = i32_mus.upper_bound(100); 
+                _sit != _eit; 
+                ++_sit)
+        std:: cout << *_sit << std::endl;
+    
+    _COLOR_RECOVER;
+}
+
+void TestMapDiffer()
+{   
+    {
+        std::map<std::string, std::string> _ssmp;
+        _ssmp["C++"] = "Great";
+        _ssmp["C++"] = "Alful";
+    }
+
+    {
+        std::map<std::string, std::string> _ssmp;
+        _ssmp.insert(ss_pair("C++", "Great"));
+        auto [_it, succ] = _ssmp.insert(ss_pair("C++", "Alful"));
+        if (succ)
+            std::cout << "insert new " << _it->second << std::endl;
+        else 
+            std::cout << "failed insert " << std::endl;
+    }
+}
+
+static bool inline is_space(char const & _ch)
+{
+    return _ch == ' ' || 
+            _ch == '\r' || 
+            _ch == '\t' || 
+            _ch == '\n';
+}
+
+static bool inline is_delimiter(std::string const & _delimiter)
+{
+    return _delimiter == "," ||
+            _delimiter == ";";
+}
+
+// trim string leading and ending space 
+std::string trim_string(std::string const & __str)
+{      
+    int l_idx = -1, r_idx = __str.size();
+    while(++l_idx < r_idx && 
+            is_space(__str[l_idx]));
+
+    while(0 <= --r_idx && 
+            is_space(__str[r_idx]));
+
+    return __str.substr(l_idx, r_idx+1);
+}
+
+std::vector<std::string> seperate_line(std::string const & __line)
+{
+    // seperate by space
+    std::vector<std::string> strv;
+    std::string _word;
+    for(auto _ch : __line)
+    {
+        if(is_space(_ch))
+        {
+            if (_word.size())
+                strv.push_back(_word);
+            _word.clear();
+        } else 
+        {
+            _word += _ch;
+        }
+    }
+    return strv;
+}
+
+void CountKeyWordsOccurences()
+{   
+    std::map<std::string, int> _kw_cnt;
+    {
+        // keywords file input
+        ASSERT_FILE("../test/static-file/CXX_keywords.txt");
+        // insert keyword to <"keyword-spec", 0>
+        std::string _line;
+        while(*inputFile >> _line)
+            _kw_cnt.insert(si_pair(trim_string(_line), 0));
+    }
+
+
+    {
+        // source code file input 
+        ASSERT_FILE("../test/static-file/Source_code.cpp");
+        // when encounter ["keyword-spec"] ++
+        std::string _line;
+        while(*inputFile >> _line)
+        {
+            // auto _wds = seperate_line(_line);
+            // for( auto &_wd : _wds)
+            //     if (_kw_cnt.find(_wd) !=
+            //         _kw_cnt.cend())
+            //         _kw_cnt[_wd] ++;
+            if (_kw_cnt.find(_line) != 
+                _kw_cnt.cend())
+                _kw_cnt[_line] ++;
+        }
+    }
+
+    // print map result
+    for(auto &_pr : _kw_cnt)
+        std::cout << RED_STR(_pr.first) << " occurs " << _pr.second << " times" << std::endl;
+
+}
+
+void TestFlatAdapter()
+{
+    // compiler lib not support yet
+}
+
+void TestMultiContainer()
+{
+    std::multiset<int> mus_i32;
+
+    for(int i = 0 ; i < 1 << 10; i ++)
+        mus_i32.insert(i >> 1),
+        mus_i32.insert(i >> 1);
+
+    mus_i32.erase( 8 );
+    _COLOR_START(_COLOR_RED);
+    std::cout << mus_i32.count( 8 ) << std::endl;
+    _COLOR_RECOVER;
+
 }
 
 END_NAMESPACE_ALAN

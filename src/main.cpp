@@ -69,8 +69,12 @@ int main(int argc, char *argv[], char *envp[])
         MultiTypesOSS("9527 8.8888888 Canada America c");
             case '7':
         // Alan::TestBirthDayParadox();
-        Alan::TestUMap();
+        // Alan::TestUMap();
         // Alan::TestUSet();
+        // Alan::TestIterator();
+        // Alan::TestMapDiffer();
+        // Alan::CountKeyWordsOccurences();
+        Alan::TestMultiContainer();
         break;
             case 'v':
         printf("GCC info: %s\n", __VERSION__);

@@ -315,7 +315,7 @@ std::string VigenereEncrypt(std::string const & _en,
 {   
     std::string _encrypted;
     _encrypted.reserve(_en.size());
-    char char_CT = 256;
+    int char_CT = 256;
     Alan::RingBuffer<int> _salt(_sa);
     for(auto &_ch : _en)
     {
@@ -371,4 +371,10 @@ void TestVigenereEncrypt()
                     << _res << ">" 
                     << std::endl; 
     _COLOR_RECOVER; 
+}
+
+void TestForwardList()
+{
+    std::forward_list<int> i32_fl;
+    // i32_fl.
 }

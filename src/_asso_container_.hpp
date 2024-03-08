@@ -6,6 +6,10 @@ USE_NAMESPACE_ALAN
     void TestUMap();
     void TestBirthDayParadox();
     void TestUSet();
+    void TestIterator();
+    void TestMapDiffer();
+    void CountKeyWordsOccurences();
+    void TestMultiContainer();
 END_NAMESPACE_ALAN
 
 #endif 

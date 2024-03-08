@@ -7,10 +7,12 @@
 #include <iostream>
 #include <ostream>
 #include <string>
+#include <utility>
 
+// can not be used yet (can not be compiled!!!)
 // _Container must have const_iterator cbegin() and cend()
 // _Container must hold the type _Tp element
-// _Tp must overload operator << (ostream)
+// _Tp must overload operator << (ostream&)
 template <typename _Container, typename _Tp>
 void ConsoleIterOutput(_Container __container, 
                         std::string const &_delimiter)
@@ -22,5 +24,7 @@ void ConsoleIterOutput(_Container __container,
             );
 }
 
+typedef std::pair<std::string, std::string> ss_pair;
+typedef std::pair<std::string, int> si_pair;
 
 #endif 

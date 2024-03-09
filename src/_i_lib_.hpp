@@ -18,15 +18,6 @@ extern "C" {
 
 
 
-#define _BLACK(_ct_)     ("\033[0;30m"+_ct_+"\033[0m") 
-#define _RED(_ct_)       ("\033[0;31m"+_ct_+"\033[0m") 
-#define _GREEN(_ct_)     ("\033[0;32m"+_ct_+"\033[0m")
-#define _YELLOW(_ct_)    ("\033[0;33m"+_ct_+"\033[0m")
-#define _BLUE(_ct_)      ("\033[0;34m"+_ct_+"\033[0m") 
-#define _PURPLE(_ct_)    ("\033[0;35m"+_ct_+"\033[0m")
-#define _CYAN(_ct_)      ("\033[0;36m"+_ct_+"\033[0m") 
-#define _WHITE(_ct_)     ("\033[0;37m"+_ct_+"\033[0m")
-
 #define _COLOR_BLACK    "0"
 #define _COLOR_RED      "1"
 #define _COLOR_GREEN    "2"
@@ -36,13 +27,22 @@ extern "C" {
 #define _COLOR_CYAN     "6"
 #define _COLOR_WHITE    "7"
 
-#define _COLOR_START(_color_)       PRINT("\033[0;3"+std::string(_color_)+"m")
+#define _COLOR_CL(_cl_, _ct_)       ("\033[0;3"+_cl_+_ct_+"\033[0m")
+#define _BLACK(_ct_)                ("\033[0;30m"+_ct_+"\033[0m")
+#define _RED(_ct_)                  ("\033[0;31m"+_ct_+"\033[0m") 
+#define _GREEN(_ct_)                ("\033[0;32m"+_ct_+"\033[0m")
+#define _YELLOW(_ct_)               ("\033[0;33m"+_ct_+"\033[0m")
+#define _BLUE(_ct_)                 ("\033[0;34m"+_ct_+"\033[0m") 
+#define _PURPLE(_ct_)               ("\033[0;35m"+_ct_+"\033[0m")
+#define _CYAN(_ct_)                 ("\033[0;36m"+_ct_+"\033[0m") 
+#define _WHITE(_ct_)                ("\033[0;37m"+_ct_+"\033[0m")
+
+#define _COLOR_START(_cl_)          PRINT("\033[0;3"+std::string(_cl_)+"m")
 #define _COLOR_RECOVER              PRINT("\033[0m")
 
-#define RED_STR(str) _RED(str)
-#define RED_I32(_i32) RED_STR(std::to_string(_i32))
 
-#define PRINT(_ct_)   std::cout << std::string(_ct_)
+
+#define PRINT(_ct_)   std::cout << _ct_
 #define PRINTLN(_ct_) PRINT(_ct_) << std::endl
 
 #define PSEUDORANDOM_DECL               srand(static_cast<unsigned>(time(NULL)));
@@ -52,20 +52,22 @@ extern "C" {
 #define DECL_VAR(_type) _type var_##_type
 #define DECL_FUN(_type, _func, _arg) _type fun_##_func##_type(_arg);
 
+// need to do more error __DATE__ __FILE__ __LINE__ 
+#define LOC_ERR(_err_info_) 
 
-#define MAX_T(_x, _y) ((_x) > (_y) ? (_x) : (_y))
-#define MIN_T(_x, _y) ((_x) < (_y) ? (_x) : (_y))
 
+#define MAX_Tt(_x, _y) ({ \
+    typeof(_x) __x = (_x);  \
+    typeof(_y) __y = (_y);  \
+    __x > __y ? __x : __y;  \
+})
 
-static inline int max_i32(int x, int y)
-{
-    return x > y ? x : y;
-}
+#define MIN_Tt(_x, _y) ({ \
+    typeof(_x) __x = (_x);  \
+    typeof(_y) __y = (_y);  \
+    __x < __y ? __x : __y;  \
+})
 
-static inline double max_f64(double x, double y)
-{
-    return x > y ? x : y;
-}
 
 #include <iostream>
 #include <string>
@@ -160,9 +162,11 @@ static inline _si_64 i64_qread()
     return neg ? ~res+1 : res;
 }
 
+// random string generate
 const std::string _letter_xx = "qweasdzxcrfvtgbyhnuiojklmp0987612345`-=[];',./~!@#$%+_)(*&^{}|<>?:";
 const int _letter_len = 66;
 
+// base 10 generate by string or char*
 #define I32_MUL10(_i32_)  (_i32_ = (_i32_ << 1) + (_i32_ << 3))
 #define I32_LSHIFT(_i32_) (_i32_ = 1 << _i32_)
 #define I32_CHARIN(_i32_, _ch_)  (_i32_ = (I32_MUL10(_i32_) + (_ch_ - '0')))

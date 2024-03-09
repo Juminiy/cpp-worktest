@@ -4,6 +4,7 @@
 #include "_seq_container_.hpp"
 #include "_ai_snake_game_.hpp"
 #include "_asso_container_.hpp"
+#include "_dfa_.hpp"
 
 #include <getopt.h>
 #include <unistd.h>
@@ -74,19 +75,20 @@ int main(int argc, char *argv[], char *envp[])
         // Alan::TestIterator();
         // Alan::TestMapDiffer();
         // Alan::CountKeyWordsOccurences();
-        Alan::TestMultiContainer();
+        // Alan::TestMultiContainer();
+        // TestVectorFunctor();
+        // TestVectorFunctor2();
         break;
             case 'v':
         printf("GCC info: %s\n", __VERSION__);
         break;
             case 't':
-        // TestVectorFunctor();
         // Alan::TestUMap();
-        // TestVectorFunctor2();
         // TestVectorFunc3();
         // TestRingBuffer();
         // TestAgainstVectorReverseWithNot();
-        TestVigenereEncrypt();
+        // TestVigenereEncrypt();
+        TestEmail();
         break;
         case 'y':
         gmt.init();

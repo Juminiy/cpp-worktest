@@ -34,13 +34,14 @@
             std::cout << _tip_ << endl; \
             std::cout << _extras_ << endl; 
 
-#define GameFileNamePrefix "../test/static-file/"
+#define GameFileNamePrefix StaticFilePrefix
 #define GameFileNameSuffix ".txt"
 #define GenFileName(baseName) GameFileNamePrefix+baseName+GameFileNameSuffix 
 
 static void inline GamePause(unsigned int micro_secs)
 {
-    #if defined(__APPLE__) || defined(__MACH__) || \
+    #if defined(__APPLE__) || \
+        defined(__MACH__) || \
         defined(__MACOS__)
     #include <unistd.h>
     usleep(micro_secs);
@@ -55,11 +56,15 @@ static void inline GamePause(unsigned int micro_secs)
 
 static void inline GameClearConsole()
 {
-    #if defined(__APPLE__) || defined(__MACH__) || defined(__MACOS__)
+    #if defined(__APPLE__) || \
+        defined(__MACH__) || \
+        defined(__MACOS__)
     #include <unistd.h>
     system("clear");
-    #elif defined(_WIN64) || defined(WIN64) || \
-        defined(_WIN32) || defined(WIN32) 
+    #elif defined(_WIN64) || \
+            defined(WIN64) || \
+            defined(_WIN32) || \
+            defined(WIN32) 
     #include <windows.h>
     system("CLS");
     #endif 

@@ -179,9 +179,9 @@ void PrintWorldCapitals(map<string,string> const &capitals, int const &cnt)
         if(_cnt > 0){
             --_cnt;
             cout << "<" 
-                    << RED_STR(pr.first) 
+                    << _RED(pr.first) 
                     << ", " 
-                    << RED_STR(pr.second) 
+                    << _RED(pr.second) 
                     << ">" << endl;
         }
     }

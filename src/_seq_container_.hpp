@@ -3,6 +3,7 @@
 #define _SEQ_CONTAINER_HPP
 
 #include "_i_lib_.hpp"
+#include "_stl_lib_.hpp"
 
 #include <vector>
 #include <deque>
@@ -34,16 +35,16 @@ void TestVigenereEncrypt();
 
 USE_NAMESPACE_ALAN
 
-template <typename _Tp, typename _Con = std::deque<_Tp>>
-class RingBuffer {
+template <typename _Tp, typename _Container = std::deque<_Tp>>
+class _LIBCPP_TEMPLATE_VIS RingBuffer {
 public:
-    typedef _Tp             value_type;
-    typedef value_type&     reference;
-    typedef const reference const_reference;
-    typedef value_type*     pointer;
-    typedef const pointer   const_pointer;
+    typedef _Tp                     value_type;
+    typedef value_type&             reference;
+    typedef const value_type&       const_reference;
+    typedef value_type*             pointer;
+    typedef const value_type*       const_pointer;
 
-    typedef _Con container_type;
+    typedef _Container              container_type;
 
 
     RingBuffer(std::vector<value_type> const & _vi)
@@ -59,9 +60,8 @@ public:
 
     void print()
     {
-        std::copy(ring.cbegin(),  
-                ring.cend(),
-                std::ostream_iterator<int>(std::cout, ", "));
+        ConsoleIterOutput<_Tp, container_type > 
+                            (ring, ", ");
         PRINTLN("");
     }
 

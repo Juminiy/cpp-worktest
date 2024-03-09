@@ -9,19 +9,40 @@
 #include <string>
 #include <utility>
 
-// can not be used yet (can not be compiled!!!)
+
+template <typename _Tp, 
+            typename _Container, 
+            typename _Ostream
+            >
+void IterOutput(const _Container &__container,
+                _Ostream &__ostream,
+                const char* __delimiter)
+{
+    std::copy(__container.cbegin(),
+                __container.cend(),
+                std::ostream_iterator<_Tp>(__ostream,
+                                            __delimiter)
+                );
+}
+
 // _Container must have const_iterator cbegin() and cend()
 // _Container must hold the type _Tp element
 // _Tp must overload operator << (ostream&)
-template <typename _Container, typename _Tp>
-void ConsoleIterOutput(_Container __container, 
-                        std::string const &_delimiter)
+template <typename _Tp,
+            typename _Container
+            >
+void ConsoleIterOutput(const _Container &__container, 
+                        const char* __delimiter)
 {
-    std::copy(__container.cbegin(), 
-                __container.cend(), 
-                std::ostream_iterator<_Tp>(std::cout, 
-                                            _delimiter)
-            );
+    IterOutput<_Tp, _Container, std::ostream >
+                (__container, std::cout, __delimiter);
+}
+
+template <typename _InputFile, typename _OutputFile>
+void FileIterOutput(const _InputFile &__input_file,
+                    _OutputFile &__output_file)
+{
+
 }
 
 typedef std::pair<std::string, std::string> ss_pair;

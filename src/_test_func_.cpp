@@ -15,8 +15,10 @@ void testLocalCppTypeLayout();
 void TestReadWriteFile()
 {
     string fileContent;
-    ReadFile(INPUT_FILE, fileContent);
-    RewriteFile(OUTPUT_FILE, fileContent);
+    ReadFile(ConFilePath(input.txt), 
+                fileContent);
+    RewriteFile(ConFilePath(output.txt), 
+                fileContent);
 }
 
 void TestBoolAlpha()
@@ -26,7 +28,7 @@ void TestBoolAlpha()
 
 void TestReadLines()
 {
-    ReadForStdout(INPUT_FILE);
+    ReadForStdout(ConFilePath(input.txt));
 }
 
 void TestCinAteN()
@@ -58,7 +60,8 @@ int Capitals(int const &case_num)
 {
     auto capitalsPtr = unique_ptr<map<string,string>>( new map<string, string> );
     auto capitals = *(capitalsPtr.get());
-    GetWorldCapitals(WORLD_CAPITALS, capitals);
+    GetWorldCapitals(ConFilePath(world-capital.txt), 
+                        capitals);
     string country;
 
     switch( case_num )
@@ -78,8 +81,8 @@ int Capitals(int const &case_num)
             !country.compare("exit") )
             break;
         country = replaceAllWhiteSpace(country);
-        cout << "Country: " << RED_STR(country) 
-                << "'s Capital: " << RED_STR(capitals[country]) << endl;
+        cout << "Country: " << _RED(country) 
+                << "'s Capital: " << _RED(capitals[country]) << endl;
     }
     break;
         default:
@@ -92,12 +95,19 @@ void testLocalCppTypeLayout()
 {
     ostringstream oss;
     string destArch;
-    #if defined(_WIN64) || defined(WIN64) || defined(__amd64__) || \
-	defined(__x86_64) || defined(__x86_64__) || defined(_M_IA64) || \
-	defined(_M_AMD64)
+    #if defined(_WIN64) || \
+        defined(WIN64) || \
+        defined(__amd64__) || \
+	    defined(__x86_64) || \
+        defined(__x86_64__) || \
+        defined(_M_IA64) || \
+	    defined(_M_AMD64)
     oss << "x86_x86_64_amd64" << "-" << "Win64";
-    #elif defined(_WIN32) || defined(WIN32) || defined(__i386__) || \
-    	defined(__i386) || defined(_M_X86)
+    #elif defined(_WIN32) || \
+            defined(WIN32) || \
+            defined(__i386__) || \
+    	    defined(__i386) || \
+            defined(_M_X86)
     oss << "x86_x86_64_amd64" << "-" << "Win32";
     #elif defined(__MACOS__)
 	oss << "none-arch" << "-" << "MacOS";
@@ -107,7 +117,9 @@ void testLocalCppTypeLayout()
     #elif defined(__BEOS__)
 	#include <sys/inttypes.h>
 	oss << "none-arch" << "-" << "BEOS";
-    #elif (defined(_MSC_VER) || defined(__BORLANDC__)) && (!defined(__MSDOS__))
+    #elif (defined(_MSC_VER) || \
+            defined(__BORLANDC__)) && \
+            (!defined(__MSDOS__))
 	oss << "none-arch" << "-" << "MSDOS";
     #elif defined(__GNUC__)
 	#include <stdint.h>
@@ -156,7 +168,7 @@ void testLocalCppTypeLayout()
     oss << "sizeof(uintmax_t) = " << sizeof(uintmax_t) << endl;
     oss << "local machine layout :" << testLocalLayout() << endl;
     string oss_str = oss.str();
-    AppendFile(string(SIZE_OF_TYPE_PREFIX)+ "." + destArch + ".txt", oss_str);
+    AppendFile(ConFilePath(type-info) "." + destArch + ".txt", oss_str);
     oss_str.clear();
     destArch.clear();
     oss.clear();

@@ -3,6 +3,7 @@
 #include "_ai_snake_game_.hpp"
 #include "_stl_lib_.hpp"
 #include "_stream_.hpp"
+#include "_stl_lib_.hpp"
 
 #include <ctime>
 #include <cmath>
@@ -51,10 +52,8 @@ void TestUMap()
 
     std::set<int> i32S;
     i32S.insert(1);
-    std::copy(i32S.cbegin(), 
-                i32S.cend(), 
-                std::ostream_iterator<int>(std::cout, "\n"));
-    // ConsoleIterOutput<std::set<int>, int>(i32S, "\n");
+    ConsoleIterOutput<int, std::set<int> >
+                        (i32S, "\n");
 
 }
 
@@ -107,11 +106,8 @@ void TestUSet()
                 << std::endl 
                 << "elem is " 
                 << std::endl;
-    std::copy(pTS.cbegin(),
-                pTS.cend(),
-                std::ostream_iterator <pointT>
-                                (std::cout, 
-                                "\n"));
+    ConsoleIterOutput<pointT, std::set<pointT> >
+                        (pTS, "\n");
 }
 
 
@@ -162,6 +158,7 @@ static bool inline is_space(char const & _ch)
             _ch == '\n';
 }
 
+UNUSED
 static bool inline is_delimiter(std::string const & _delimiter)
 {
     return _delimiter == "," ||
@@ -206,7 +203,7 @@ void CountKeyWordsOccurences()
     std::map<std::string, int> _kw_cnt;
     {
         // keywords file input
-        ASSERT_FILE("../test/static-file/CXX_keywords.txt");
+        ASSERT_FILE(ConFilePath(CXX_keywords.txt));
         // insert keyword to <"keyword-spec", 0>
         std::string _line;
         while(*inputFile >> _line)
@@ -216,7 +213,7 @@ void CountKeyWordsOccurences()
 
     {
         // source code file input 
-        ASSERT_FILE("../test/static-file/Source_code.cpp");
+        ASSERT_FILE(ConFilePath(Source_code.cpp));
         // when encounter ["keyword-spec"] ++
         std::string _line;
         while(*inputFile >> _line)
@@ -234,7 +231,7 @@ void CountKeyWordsOccurences()
 
     // print map result
     for(auto &_pr : _kw_cnt)
-        std::cout << RED_STR(_pr.first) << " occurs " << _pr.second << " times" << std::endl;
+        std::cout << _RED(_pr.first) << " occurs " << _pr.second << " times" << std::endl;
 
 }
 

@@ -13,14 +13,27 @@
 #include <utility>
 #include <functional>
 
+
 class DFA 
 {
 public:
+    
     std::map<std::pair<int, char>, int> trans;
+    // std::set<char>                      trans_set;
+    std::vector<char>                   trans_set;
+
     std::set<int>                       accps;
+
     int                                 start;
     
+    explicit DFA();
+    explicit DFA(const std::string &);
     bool simu(std::string const &);
+    
 };
+
+bool ValidateEmail(std::string const &);
+
+void TestEmail();
 
 #endif 

@@ -6,6 +6,7 @@ objects += _test_func_.o
 objects += _seq_container_.o
 objects += _ai_snake_game_.o
 objects += _asso_container_.o
+objects += _dfa_.o
 
 debug_gdb = echo "gdb -q -tui main"
 debug_lldb = echo "lldb main" && echo "gui"

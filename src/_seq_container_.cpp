@@ -1,5 +1,7 @@
 #include "_i_lib_.hpp"
 #include "_seq_container_.hpp"
+#include "_stl_lib_.hpp"
+#include "_stream_.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -104,19 +106,21 @@ void TestVectorFunctor()
             vi32.end(), 
             std::less<int>());
 
-    copy(vi32.cbegin(), 
-            vi32.cend(), 
-            std::ostream_iterator<int>(std::cout, "\n"));
+    ConsoleIterOutput<int, std::vector<int> >
+                        (vi32, ", ");
 
-    std::ofstream out("../test/static-file/num_gen_sort.txt", 
-                        std::ios::out);
-    copy(vi32.cbegin(), 
-            vi32.cend(), 
-            std::ostream_iterator<int>(out, "\n"));
+    
+    std::ofstream fileOp(ConFilePath(num_gen_sort.txt), 
+                            std::ios::out);
+    IterOutput<int , 
+                std::vector<int>, 
+                std::ofstream >
+                (vi32, fileOp, "\n");
+    
 
-    std::ifstream in("../test/static-file/num_gen_sort.txt", 
+    std::ifstream fileIp(ConFilePath(num_gen_sort.txt), 
                         std::ios::in);
-    copy(std::istreambuf_iterator<char>(in), 
+    copy(std::istreambuf_iterator<char>(fileIp), 
             std::istreambuf_iterator<char>(), 
             std::ostreambuf_iterator<char>(std::cout));
 }
@@ -138,9 +142,9 @@ void TestVectorFunctor2()
     std::fill(_vi.begin(), 
                 _vi.end(), 
                 rand()%(1<<4));
-    std::copy(_vi.cbegin(),
-                _vi.cend(),
-                std::ostream_iterator<int>(std::cout, ", "));
+    ConsoleIterOutput<int, std::vector<int> >
+                        (_vi, ",");
+
     std::cout << std::endl;
     int _i32_cmp = rand()%10;
     std::cout << _i32_cmp 
@@ -322,6 +326,11 @@ std::string VigenereEncrypt(std::string const & _en,
         _encrypted.push_back((_salt.readAtCursor() + _ch) % char_CT);
         _salt.clockwise();
     }
+
+    _COLOR_START(_COLOR_RED);
+        PRINTLN("RING BUFFER");
+        _salt.print();
+    _COLOR_RECOVER;
 
     return _encrypted;
 }   

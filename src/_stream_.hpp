@@ -11,6 +11,10 @@
 
 using namespace std;
 
+#define StaticFilePrefix "../test/static-file/"
+#define ConFilePath(_file_name_) StaticFilePrefix#_file_name_
+#define PatFilePath(_file_name_) StaticFilePrefix + std::string(_file_name_)
+
 #define ASSERT_FILE(f_name) \
     auto inputFilePtr = readFile(f_name); \
     assert(inputFilePtr); \

@@ -1,0 +1,80 @@
+ [0] = {
+    first = (first = 0, second = '*')
+    second = 1
+  }
+  [1] = {
+    first = (first = 0, second = '.')
+    second = 7
+  }
+  [2] = {
+    first = (first = 0, second = '@')
+    second = 7
+  }
+  [3] = {
+    first = (first = 0, second = 'a')
+    second = 1
+  }
+  [4] = {
+    first = (first = 1, second = '*')
+    second = 1
+  }
+  [5] = {
+    first = (first = 1, second = '.')
+    second = 3
+  }
+  [6] = {
+    first = (first = 1, second = '@')
+    second = 2
+  }
+  [7] = {
+    first = (first = 1, second = 'a')
+    second = 2
+  }
+  [8] = {
+    first = (first = 5, second = '*')
+    second = 6
+  }
+  [9] = {
+    first = (first = 5, second = '.')
+    second = 7
+  }
+  [10] = {
+    first = (first = 5, second = '@')
+    second = 7
+  }
+  [11] = {
+    first = (first = 5, second = 'a')
+    second = 6
+  }
+  [12] = {
+    first = (first = 6, second = '*')
+    second = 7
+  }
+  [13] = {
+    first = (first = 6, second = '.')
+    second = 7
+  }
+  [14] = {
+    first = (first = 6, second = '@')
+    second = 7
+  }
+  [15] = {
+    first = (first = 6, second = 'a')
+    second = 5
+  }
+  [16] = {
+    first = (first = 7, second = '*')
+    second = 7
+  }
+  [17] = {
+    first = (first = 7, second = '.')
+    second = 4
+  }
+  [18] = {
+    first = (first = 7, second = '@')
+    second = 5
+  }
+  [19] = {
+    first = (first = 7, second = 'a')
+    second = 7
+  }

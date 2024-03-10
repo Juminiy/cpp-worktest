@@ -121,5 +121,6 @@ typedef struct gameT
     void simu();
 } gameT;
 
+void TestAISnakeGame();
 
 #endif 

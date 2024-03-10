@@ -14,6 +14,13 @@
 
 #include <pthread.h>
 
+void TestAISnakeGame()
+{
+    gameT gmt = gameT();
+    gmt.init();
+    gmt.simu();
+}
+
 // random left or right 
 void gameT::ndir()
 {       

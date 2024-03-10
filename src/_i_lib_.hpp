@@ -171,5 +171,6 @@ const int _letter_len = 66;
 #define I32_LSHIFT(_i32_) (_i32_ = 1 << _i32_)
 #define I32_CHARIN(_i32_, _ch_)  (_i32_ = (I32_MUL10(_i32_) + (_ch_ - '0')))
 
+#define INPUT_ERROR 0xff
 
 #endif 

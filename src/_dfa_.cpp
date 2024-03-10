@@ -28,7 +28,7 @@ DFA::DFA()
 
 }
 
-bool is_state(const std::string & _state)
+bool is_num_state(const std::string &_state)
 {
     return find_if_not(_state.cbegin(),
                         _state.cend(),
@@ -38,7 +38,7 @@ bool is_state(const std::string & _state)
             == _state.cend();
 }
 
-bool is_email_transition(const std::string & _transition)
+bool is_email_trans(const std::string & _transition)
 {
     auto _is_tran = [](const char &_ch) 
                         -> bool {
@@ -49,16 +49,25 @@ bool is_email_transition(const std::string & _transition)
     };
     return  (_transition.size() == 1 &&
                 _is_tran(_transition[0]));   
-            // ||(!_transition.compare("s/t")) ; 
+}
+
+bool is_email_state(const std::string & _state)
+{
+    return is_num_state(_state);
 }
 
 DFA::DFA(const std::string &_file_name)
 {
     ASSERT_FILE(PatFilePath(_file_name));
-    std::string nextToken;
+
+    is_state = is_email_state;
+    is_trans = is_email_trans;
+
     #define BREAK_WHEN_SHARP \
             if (!nextToken.compare("#"))    \
                     break;  
+
+    std::string nextToken;
     while(*inputFile >> nextToken)
     {
         if (!nextToken.compare("trans"))
@@ -70,26 +79,30 @@ DFA::DFA(const std::string &_file_name)
             while(*inputFile >> nextToken)
             {
                 BREAK_WHEN_SHARP
-                else if (is_email_transition(nextToken))
+                else if (is_trans(nextToken))
                 {
                     trans_set.push_back(nextToken[0]);
-                    ++ trans_Const_Cnt; 
-                    trans_Current_Cnt = 
-                        (trans_Current_Cnt+1) % 5;
+                    trans_Const_Cnt =  
+                        ++ trans_Current_Cnt;
                 } else if (is_state(nextToken))
                 {   
                     trans_Current_Cnt = 
-                        (trans_Current_Cnt+1) % 5;
+                        (trans_Current_Cnt+1) % 
+                        (trans_Const_Cnt+1);
+
+                    int cur_state_i32 = 
+                        atoi(nextToken.c_str());
                     if (!trans_Current_Cnt)
                     {
-                        state_Arrow = atoi(nextToken.c_str());
+                        state_Arrow = cur_state_i32;
                     } else {
                         if (state_Arrow != -1 &&
-                            trans_Current_Cnt)
+                            trans_Current_Cnt &&
+                            cur_state_i32 != -1)
                         {   
                             trans[make_pair(state_Arrow, 
                                             trans_set[trans_Current_Cnt-1])]
-                                = atoi(nextToken.c_str());
+                                = cur_state_i32;
                         }
                     }
                 }
@@ -112,7 +125,6 @@ DFA::DFA(const std::string &_file_name)
             }
         } 
     }
-
 }
 
 bool DFA::simu(std::string const & _input)
@@ -152,3 +164,4 @@ void TestEmail()
                 << std::endl;
     _COLOR_RECOVER;
 }
+

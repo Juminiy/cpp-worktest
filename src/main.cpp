@@ -5,6 +5,7 @@
 #include "_ai_snake_game_.hpp"
 #include "_asso_container_.hpp"
 #include "_dfa_.hpp"
+#include "_nfa_.hpp"
 
 #include <getopt.h>
 #include <unistd.h>
@@ -17,7 +18,6 @@ int main(int argc, char *argv[], char *envp[])
     int err_code = 0;
     int test_round = 0;
 
-    gameT gmt = gameT();
     while( (case_num = 
                 getopt_long(argc, 
                             argv, 
@@ -88,11 +88,11 @@ int main(int argc, char *argv[], char *envp[])
         // TestRingBuffer();
         // TestAgainstVectorReverseWithNot();
         // TestVigenereEncrypt();
-        TestEmail();
+        // TestEmail();
+        TestNFA();
         break;
-        case 'y':
-        gmt.init();
-        gmt.simu();
+            case 'y':
+        TestAISnakeGame();
         break;
             case 'h': case '?': 
         err_code = 2;

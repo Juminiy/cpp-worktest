@@ -262,21 +262,21 @@ void TestAgainstVectorReverseWithNot()
             {
                 if (_first)
                 {
-                    MAX_SZ_T = I32_MUL10(MAX_SZ_T) + (argi - '0');
+                    I32_CHARIN(MAX_SZ_T, argi);
                 } else 
                 {
-                    MAX_SZ_S = I32_MUL10(MAX_SZ_S) + (argi - '0');
+                    I32_CHARIN(MAX_SZ_S, argi);
                 }
             }
         }
         if (!I32_IN_RANGE(MAX_SZ_T, 0, 24))
             MAX_SZ_T = 1 << 16;
         else 
-            I32_LSHIFT(MAX_SZ_T);
+            I32_POWER2_EQ(MAX_SZ_T);
         if (!I32_IN_RANGE(MAX_SZ_T, 0, 16))
             MAX_SZ_S = 1 << 8;
         else 
-            I32_LSHIFT(MAX_SZ_S);
+            I32_POWER2_EQ(MAX_SZ_S);
     }
 
     // reserved

@@ -23,7 +23,7 @@ main-static: main.o libstatic.a
 libstatic.a: $(objects)
 	ar rcs $@ $^
 
-# not finished
+# has not been avliable
 # 3. link main object file with dynamic linked library to generate exe file
 main-dynamic: main.o libdynamic.so
 	$(cxxc) $(cxx_args) -L. -ldynamic -o $@ $<

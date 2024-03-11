@@ -65,7 +65,7 @@ void BirthdayParadox(int const &_sides)
     while(true)
     {
         int _gen_i32 = rand() % _sides;
-        if (i32s.find(_gen_i32) != i32s.cend())
+        if (AssoFind<>(i32s, _gen_i32))
         {
             _i32_cnt = i32s.size();
             break;
@@ -223,8 +223,7 @@ void CountKeyWordsOccurences()
             //     if (_kw_cnt.find(_wd) !=
             //         _kw_cnt.cend())
             //         _kw_cnt[_wd] ++;
-            if (_kw_cnt.find(_line) != 
-                _kw_cnt.cend())
+            if (AssoFind<>(_kw_cnt, _line))
                 _kw_cnt[_line] ++;
         }
     }

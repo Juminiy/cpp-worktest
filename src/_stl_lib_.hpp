@@ -48,4 +48,26 @@ void FileIterOutput(const _InputFile &__input_file,
 typedef std::pair<std::string, std::string> ss_pair;
 typedef std::pair<std::string, int> si_pair;
 
+
+template <typename _Tp, 
+            typename _Asso_Container>
+bool AssoFind(const _Asso_Container &__container, 
+                const _Tp &__element)
+{
+    return __container.find(__element) 
+            != __container.cend();
+}
+
+template <typename _Tp,
+            typename _Seq_Container>
+bool SeqFind(const _Seq_Container &__container,
+                const _Tp &__element)
+{
+    return std::find(__container.cbegin(), 
+                        __container.cend(),
+                        __element)
+                != __container.cend(); 
+}
+
+
 #endif 

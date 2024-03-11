@@ -1,6 +1,7 @@
 #include "_i_lib_.hpp"
 #include "_dfa_.hpp"
 #include "_stream_.hpp"
+#include "_stl_lib_.hpp"
 
 #include <cassert>
 #include <cctype>
@@ -134,11 +135,10 @@ bool DFA::simu(std::string const & _input)
     {
         _state = trans[std::make_pair(_state, _is)];
     }
-    return accps.find(_state) !=
-            accps.cend();
+    return AssoFind<>(accps, _state);
 }
 
-
+// Test Pass
 bool ValidateEmail(std::string const & _email)
 {
     std::string _email_dup(_email);

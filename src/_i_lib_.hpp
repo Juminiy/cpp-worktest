@@ -2,6 +2,7 @@
 #ifndef _I_LIB_HPP
 #define _I_LIB_HPP
 
+// Alan namespace
 #ifdef __cplusplus
 extern "C" {
 #define USE_NAMESPACE_ALAN namespace Alan{
@@ -11,6 +12,9 @@ extern "C" {
 }
 #endif
 
+
+
+// ATTRI
 #define UNUSED __attribute__((unused))
 #define NORETURN __attribute__((noreturn))
 #define CONSTRUCT __attribute__((constructor))
@@ -18,6 +22,7 @@ extern "C" {
 
 
 
+// COLOR decleration
 #define _COLOR_BLACK    "0"
 #define _COLOR_RED      "1"
 #define _COLOR_GREEN    "2"
@@ -42,12 +47,12 @@ extern "C" {
 
 
 
+// PRINT and DECL 
 #define PRINT(_ct_)   std::cout << _ct_
 #define PRINTLN(_ct_) PRINT(_ct_) << std::endl
 
 #define PSEUDORANDOM_DECL               srand(static_cast<unsigned>(time(NULL)));
 #define TILLNOW(_start_time_) (((float)(clock() - _start_time_))/CLOCKS_PER_SEC)
-
 
 #define DECL_VAR(_type) _type var_##_type
 #define DECL_FUN(_type, _func, _arg) _type fun_##_func##_type(_arg);
@@ -56,19 +61,8 @@ extern "C" {
 #define LOC_ERR(_err_info_) 
 
 
-#define MAX_Tt(_x, _y) ({ \
-    typeof(_x) __x = (_x);  \
-    typeof(_y) __y = (_y);  \
-    __x > __y ? __x : __y;  \
-})
 
-#define MIN_Tt(_x, _y) ({ \
-    typeof(_x) __x = (_x);  \
-    typeof(_y) __y = (_y);  \
-    __x < __y ? __x : __y;  \
-})
-
-
+// getopt
 #include <iostream>
 #include <string>
 
@@ -130,14 +124,55 @@ opt_uint(char *val)
   return x;
 }
 
+
+
+// MATH UTILS DEFINE
+#define MAX_Tt(_x, _y) ({ \
+    typeof(_x) __x = (_x);  \
+    typeof(_y) __y = (_y);  \
+    __x > __y ? __x : __y;  \
+})
+
+#define MIN_Tt(_x, _y) ({ \
+    typeof(_x) __x = (_x);  \
+    typeof(_y) __y = (_y);  \
+    __x < __y ? __x : __y;  \
+})
+
+#define I32_POWER2(_i32_) (1 << _i32_)
+#define I32_POWER2_EQ(_i32_) (_i32_ = I32_POWER2(_i32_))
+
+#define I32_LSHIFT(_i32_, _bit_) (_i32_ << _bit_) 
+#define I32_LSHIFT_EQ(_i32_, _bit_) (_i32_ = I32_LSHIFT(_i32_, _bit_)) 
+#define I32_RSHIFT(_i32_, _bit_) (_i32_ >> _bit_) 
+#define I32_RSHIFT_EQ(_i32_, _bit_) (_i32_ = I32_RSHIFT(_i32_, _bit_)) 
+
+#define I32_MUL2(_i32_) I32_LSHIFT(_i32_, 1)
+#define I32_MUL2_EQ(_i32_) (_i32_ = I32_MUL2(_i32_))
+#define I32_MUL8(_i32_) I32_LSHIFT(_i32_, 3)
+#define I32_MUL8_EQ(_i32_) (_i32_ = I32_MUL8(_i32_))
+#define I32_MUL10(_i32_)  (I32_MUL2(_i32_) + I32_MUL8(_i32_))
+#define I32_MUL10_EQ(_i32_) (_i32_ = I32_MUL10(_i32_))
+
+#define I32_CHARIN(_i32_, _ch_)  (_i32_ = (I32_MUL10(_i32_) + (_ch_ - '0')))
+
+// non tested
 #define U32 (unsigned int)
 #define I32_IN_RANGE(_x, _min, _max) (U32(_x)-U32(_min) <= U32(_max)-U32(_min))
+// non tested
+#define U8 (unsigned char)
+#define I8_IN_RANGE(_x, _min, _max) (U8(_x)-U8(_min) <= U8(_max)-U8(_min))
 
 typedef unsigned long long _ui_64;
 typedef signed long long _si_64; 
 
-#define SKP_NON_DIG(_ch) while (_ch < '0' || _ch > '9') _ch = getchar()
-#define GET_RES_DIG(_res, _ch)  while (isdigit(_ch)) _res = (_res << 1) + (_res << 3) + (_ch - 48), _ch = getchar()
+#define SKP_NON_DIG(_ch)    \
+    while (!isdigit(_ch))   \
+        _ch = getchar()
+
+#define GET_RES_DIG(_res, _ch)  \
+    while (isdigit(_ch))    \
+        I32_CHARIN(_res, _ch), _ch = getchar()
  
 static inline _ui_64 u64_qread()
 {
@@ -165,11 +200,6 @@ static inline _si_64 i64_qread()
 // random string generate
 const std::string _letter_xx = "qweasdzxcrfvtgbyhnuiojklmp0987612345`-=[];',./~!@#$%+_)(*&^{}|<>?:";
 const int _letter_len = 66;
-
-// base 10 generate by string or char*
-#define I32_MUL10(_i32_)  (_i32_ = (_i32_ << 1) + (_i32_ << 3))
-#define I32_LSHIFT(_i32_) (_i32_ = 1 << _i32_)
-#define I32_CHARIN(_i32_, _ch_)  (_i32_ = (I32_MUL10(_i32_) + (_ch_ - '0')))
 
 #define INPUT_ERROR 0xff
 

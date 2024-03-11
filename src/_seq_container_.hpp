@@ -36,7 +36,13 @@ void TestVigenereEncrypt();
 USE_NAMESPACE_ALAN
 
 template <typename _Tp, typename _Container = std::deque<_Tp>>
-class _LIBCPP_TEMPLATE_VIS RingBuffer {
+class 
+#if defined(__APPLE__) || \
+    defined(__MACH__) || \
+    defined(__MACOS__)
+_LIBCPP_TEMPLATE_VIS
+#endif 
+RingBuffer {
 public:
     typedef _Tp                     value_type;
     typedef value_type&             reference;

@@ -8,7 +8,9 @@ objects += _ai_snake_game_.o
 objects += _asso_container_.o
 objects += _dfa_.o
 objects += _nfa_.o
+objects += _set_theory_.o
 
+debug_mode_print = -DDEBUG_MODE=1 
 debug_gdb = echo "gdb -q -tui main"
 debug_lldb = echo "lldb main" && echo "gui"
 
@@ -23,7 +25,7 @@ main-static: main.o libstatic.a
 libstatic.a: $(objects)
 	ar rcs $@ $^
 
-# has not been avliable
+# has not been avliable, donot know how to manage dylib
 # 3. link main object file with dynamic linked library to generate exe file
 main-dynamic: main.o libdynamic.so
 	$(cxxc) $(cxx_args) -L. -ldynamic -o $@ $<
@@ -33,7 +35,7 @@ libdynamic.so: $(objects)
 
 # compile by pattern matching
 %.o: %.cpp
-	$(cxxc) -c $(cxx_args) -o $@ $<
+	$(cxxc) -c $(cxx_args) $(debug_mode_print) -o $@ $<
 
 %.c.o: %.c
 	$(CC) -c $(c_args) -o $@ $<

@@ -6,6 +6,7 @@
 #include "_asso_container_.hpp"
 #include "_dfa_.hpp"
 #include "_nfa_.hpp"
+#include "_set_theory_.hpp"
 
 #include <getopt.h>
 #include <unistd.h>
@@ -30,44 +31,59 @@ int main(int argc, char *argv[], char *envp[])
             case 'w': case 'p': case 'g':
         prev_case_num = case_num;
         break;
+
             case 'c':
         err_code = Capitals(prev_case_num);
         break;
+
             case 'o':
         TestOSS();
         break;
+
             case 'd':
         DrawTriangle(opt_uint(optarg));
-        break; 
+        break;
+
             case 'm':
         test_round = opt_uint(optarg);
         TestInRange(test_round);
         break;
+
             case 'n':
         test_round = opt_uint(optarg);
         TestInRange(test_round);
         break;
+
             case '0':
         TestReadWriteFile();
         break;
+
             case '1':
         TestBoolAlpha();
         break;
+
             case '2':
         TestReadLines();
         break;
+
             case '3':
         TestCinAteN();  
         break;
+
             case '4':
         fprintf(stdout, "res: %llu\n", u64_qread());
         fprintf(stdout, "res: %lld\n", i64_qread());
         break;
+
             case '5':
         TestHasHexLetters_3_version_pat(1 << (rand() % 30) );
         break;
+
             case '6':
         MultiTypesOSS("9527 8.8888888 Canada America c");
+        break;
+        
+        // none parameter (argv)
             case '7':
         // Alan::TestBirthDayParadox();
         // Alan::TestUMap();
@@ -78,25 +94,31 @@ int main(int argc, char *argv[], char *envp[])
         // Alan::TestMultiContainer();
         // TestVectorFunctor();
         // TestVectorFunctor2();
-        break;
-            case 'v':
-        printf("GCC info: %s\n", __VERSION__);
-        break;
-            case 't':
-        // Alan::TestUMap();
         // TestVectorFunc3();
         // TestRingBuffer();
+        Alan::TestSSet();
+        break;
+            
+        // parameter (argv)
+            case 't':
         // TestAgainstVectorReverseWithNot();
         // TestVigenereEncrypt();
         // TestEmail();
-        TestNFA();
+        // TestNFA();
         break;
+
             case 'y':
         TestAISnakeGame();
         break;
+
+            case 'v':
+        printf("GCC info: %s\n", __VERSION__);
+        break;
+
             case 'h': case '?': 
         err_code = 2;
         break;
+
             default:
         err_code = 1;
         break;

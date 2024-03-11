@@ -59,6 +59,15 @@ bool AssoFind(const _Asso_Container &__container,
 }
 
 template <typename _Tp,
+            typename _Asso_Container>
+size_t AssoCount(const _Asso_Container &__container,
+                    const _Tp &__element) 
+{
+    return __container.count(__element);
+}
+                    
+
+template <typename _Tp,
             typename _Seq_Container>
 bool SeqFind(const _Seq_Container &__container,
                 const _Tp &__element)

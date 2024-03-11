@@ -128,7 +128,7 @@ DFA::DFA(const std::string &_file_name)
     }
 }
 
-bool DFA::simu(std::string const & _input)
+bool DFA::simu(std::string const & _input) 
 {
     int _state = start;
     for(auto &_is : _input)

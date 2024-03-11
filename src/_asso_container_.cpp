@@ -52,8 +52,7 @@ void TestUMap()
 
     std::set<int> i32S;
     i32S.insert(1);
-    ConsoleIterOutput<int, std::set<int> >
-                        (i32S, "\n");
+    ConsoleIterOutput<int>(i32S, "\n");
 
 }
 
@@ -106,8 +105,7 @@ void TestUSet()
                 << std::endl 
                 << "elem is " 
                 << std::endl;
-    ConsoleIterOutput<pointT, std::set<pointT> >
-                        (pTS, "\n");
+    ConsoleIterOutput<pointT>(pTS, "\n");
 }
 
 

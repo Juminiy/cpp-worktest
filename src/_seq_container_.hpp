@@ -35,7 +35,8 @@ void TestVigenereEncrypt();
 
 USE_NAMESPACE_ALAN
 
-template <typename _Tp, typename _Container = std::deque<_Tp>>
+template <typename _Tp, 
+            typename _Container = std::deque<_Tp> >
 class 
 #if defined(__APPLE__) || \
     defined(__MACH__) || \

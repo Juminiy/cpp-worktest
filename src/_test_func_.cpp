@@ -58,7 +58,7 @@ void TestOSS()
 // data from https://textlists.info/geography/countries-and-capitals-of-the-world/
 int Capitals(int const &case_num)
 {
-    auto capitalsPtr = unique_ptr<map<string,string>>( new map<string, string> );
+    auto capitalsPtr = unique_ptr<map<string,string> >( new map<string, string> );
     auto capitals = *(capitalsPtr.get());
     GetWorldCapitals(ConFilePath(world-capital.txt), 
                         capitals);

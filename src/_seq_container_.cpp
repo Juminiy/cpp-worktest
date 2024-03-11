@@ -76,7 +76,7 @@ void TestAutoBind()
 
 void TestVector()
 {
-    std::vector<std::vector<int>> vi32_2d;
+    std::vector<std::vector<int> > vi32_2d;
     vi32_2d.push_back({1,2,3});
     vi32_2d.push_back({4,5,6});
     vi32_2d.push_back({7,8,9});
@@ -106,16 +106,12 @@ void TestVectorFunctor()
             vi32.end(), 
             std::less<int>());
 
-    ConsoleIterOutput<int, std::vector<int> >
-                        (vi32, ", ");
+    ConsoleIterOutput<int>(vi32, ", ");
 
     
     std::ofstream fileOp(ConFilePath(num_gen_sort.txt), 
                             std::ios::out);
-    IterOutput<int , 
-                std::vector<int>, 
-                std::ofstream >
-                (vi32, fileOp, "\n");
+    IterOutput<int>(vi32, fileOp, "\n");
     
 
     std::ifstream fileIp(ConFilePath(num_gen_sort.txt), 
@@ -142,8 +138,7 @@ void TestVectorFunctor2()
     std::fill(_vi.begin(), 
                 _vi.end(), 
                 rand()%(1<<4));
-    ConsoleIterOutput<int, std::vector<int> >
-                        (_vi, ",");
+    ConsoleIterOutput<int>(_vi, ",");
 
     std::cout << std::endl;
     int _i32_cmp = rand()%10;

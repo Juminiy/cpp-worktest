@@ -24,7 +24,7 @@ void TestAISnakeGame()
 // random left or right 
 void gameT::ndir()
 {       
-    PSEUDORANDOM_DECL
+    PSEUDORANDOM_DECL;
     int _dd_ = rand() % 2;
     if(dx == 0)
     {   
@@ -74,7 +74,9 @@ void gameT::load(std::fstream &fileInput)
              
         numFood += count_if( world[row].cbegin(), 
                                 world[row].cend(), 
-                                [](char const &_x) { return _x == kFoodTile; });
+                                []
+                                (char const &_x) 
+                                { return _x == kFoodTile; });
     }
     numEaten = 0;
 }
@@ -96,7 +98,7 @@ void gameT::putf()
 {
     if (numFood >= kMinFood)
         return ;
-    PSEUDORANDOM_DECL
+    PSEUDORANDOM_DECL;
     int _ex_ = (rand() % (numRows-1)) + 1;
     int _ey_ = (rand() % (numCols-1)) + 1;
     if (world[_ex_][_ey_] == kEmptyTile)

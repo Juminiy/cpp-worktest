@@ -96,7 +96,9 @@ int main(int argc, char *argv[], char *envp[])
         // TestVectorFunctor2();
         // TestVectorFunc3();
         // TestRingBuffer();
-        Alan::TestSSet();
+        // Alan::TestSSet();
+        // Alan::TestRangeFind();
+        Alan::TestMatchingPrefix();
         break;
             
         // parameter (argv)

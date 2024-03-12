@@ -33,6 +33,17 @@ void TestAgainstVectorReverseWithNot();
 
 void TestVigenereEncrypt();
 
+static std::string inline genString(int const &_len)
+{
+    PSEUDORANDOM_DECL;
+    std::string _dest;
+    _dest.reserve(_len);
+    for(int i=0;i<_len; ++i)
+        _dest += _letter_xx[rand()%_letter_len];
+
+    return _dest;
+}
+
 USE_NAMESPACE_ALAN
 
 template <typename _Tp, 
@@ -96,13 +107,13 @@ public:
         ring.front() = _val;
     }
 
-    [[nodiscard]] RingBuffer* operator++ ()
+    [[__nodiscard__]] RingBuffer* operator++ ()
     {
         clockwise();
         return this;
     }
 
-    [[nodiscard]] RingBuffer* operator-- ()
+    [[__nodiscard__]] RingBuffer* operator-- ()
     {
         counterclockwise();
         return this;

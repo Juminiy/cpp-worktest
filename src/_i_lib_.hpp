@@ -48,14 +48,17 @@ extern "C" {
 
 
 // PRINT and DECL 
+// add va_list 
 #define PRINT(_ct_)   std::cout << _ct_
 #define PRINTLN(_ct_) PRINT(_ct_) << std::endl
+#define PRINT_DETAIL(_ct_) std::cout << #_ct_ << " = " << _ct_
+#define PRINTLN_DETAIL(_ct_) PRINT_DETAIL(_ct_) << std::endl
 
-#define PSEUDORANDOM_DECL               srand(static_cast<unsigned>(time(NULL)));
+#define PSEUDORANDOM_DECL               srand(static_cast<unsigned>(time(NULL)))
 #define TILLNOW(_start_time_) (((float)(clock() - _start_time_))/CLOCKS_PER_SEC)
 
 #define DECL_VAR(_type) _type var_##_type
-#define DECL_FUN(_type, _func, _arg) _type fun_##_func##_type(_arg);
+#define DECL_FUN(_type, _func, _arg) _type fun_##_func##_type(_arg)
 
 // need to do more error __DATE__ __FILE__ __LINE__ 
 #define LOC_ERR(_err_info_) 

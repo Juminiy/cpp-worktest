@@ -133,7 +133,7 @@ void TestValArray()
 
 void TestVectorFunctor2()
 {       
-    PSEUDORANDOM_DECL
+    PSEUDORANDOM_DECL;
     std::vector<int> _vi(1<<8);
     std::fill(_vi.begin(), 
                 _vi.end(), 
@@ -175,7 +175,8 @@ void TestVectorFunc3()
                     si(_si), 
                     next_e(_next_e){}
         void print(){
-            printf("[%p, %d, %d, %d, %c, %p]", (void*)this, a, b, c, si, (void*)next_e);
+            printf("[%p, %d, %d, %d, %c, %p]", 
+                    (void*)this, a, b, c, si, (void*)next_e);
         }
     } ele0;
     std::vector<ele0> _ev;
@@ -226,20 +227,11 @@ void TestRingBuffer()
     _COLOR_RECOVER;
 }
 
-static std::string inline genString(int const &_len)
-{
-    PSEUDORANDOM_DECL
-    std::string _dest;
-    _dest.reserve(_len);
-    for(int i=0;i<_len; ++i)
-        _dest += _letter_xx[rand()%_letter_len];
 
-    return _dest;
-}
 
 void TestAgainstVectorReverseWithNot()
 {   
-    PSEUDORANDOM_DECL
+    PSEUDORANDOM_DECL;
 
     int MAX_SZ_T = 0;
     int MAX_SZ_S = 0;
@@ -333,8 +325,10 @@ std::string VigenereEncrypt(std::string const & _en,
 // xxx;1,2,3,4
 void TestVigenereEncrypt()
 {   
-    // std:: cout << VigenereEncrypt("sss", std::vector<int>()) << std::endl;
-    // return ;
+    // std:: cout 
+    //         << VigenereEncrypt("sss", std::vector<int>()) 
+    //         << std::endl;
+    //  return ;
     std::string _en;
     std::vector<int> _sa;
     bool _en_fi = false;

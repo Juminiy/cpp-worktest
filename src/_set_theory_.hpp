@@ -31,15 +31,25 @@
 
 USE_NAMESPACE_ALAN
 
-// Single Set
-// Atom Operation
-// _Tp must overload the operator == 
-// extends unordered_set or set, do not recommand multiset
+// Single Set : Atom Operation
+// _Tp must overload the operator == when default container 
+// _Tp must overload the operator <  when set or multiset
+// _Container  recommend std::unordered_set         or std::set
+//      do not recommend std::unordered_multiset    or std::multiset
+// in addition, std::unordered_set      overloads opearator == !=
+//              std::set                overloads operator == != < <= > >=
+//              std::unordered_multiset overloads opearator == !=
+//              std::multiset           overloads operator == != < <= > >=
+// 
+
 template <typename _Tp,
             typename _Container = std::unordered_set<_Tp> >
 class SSet 
 {
 public:
+    typedef SSet<_Tp>           _SSet;
+    typedef SSet<_Tp>&          _SSet_reference;
+    typedef const SSet<_Tp>&    _SSet_const_reference;
     typedef _Container          container_type;
     typedef _Container&         container_reference;
     typedef const _Container&   const_container_reference;
@@ -49,16 +59,24 @@ public:
     typedef _Tp*                pointer;
     typedef const _Tp*          const_pointer;
 
-    SSet(){
+    explicit SSet(){
         #ifdef DEBUG_MODE
             PRINTLN("null construct");
         #endif 
     }
-    SSet(const_container_reference __set__){
+    SSet(_SSet_const_reference __sset__){
         #ifdef DEBUG_MODE
             PRINTLN("copy construct");
+        #endif
+        // this->_set_ = std::move(__sset__._set_);
+        this->_set_ = __sset__._set_;
+    }
+    SSet(const_container_reference __set__){
+        #ifdef DEBUG_MODE
+            PRINTLN("container construct");
         #endif 
-        this->_set_ = std::move(__set__);
+        // this->_set_ = std::move(__set__);
+        this->_set_ = __set__;
     }
 
     // iterator contruct
@@ -67,7 +85,16 @@ public:
         #ifdef DEBUG_MODE
             PRINTLN("iter construct");
         #endif 
+        // make no effect
+        // this->_set_ = std::move(container_type(_first, _last));
+
+        // make no effect
         this->_set_ = container_type(_first, _last);
+
+        // for(InputIterator _iit = _first;
+        //                     _iit != _last;
+        //                     ++ _iit)
+        //     this->_set_.insert(*_iit);
     }
 
     // sequential container construct
@@ -108,94 +135,170 @@ public:
 
     // element operation
     bool In(const_reference _element) const{
-        return AssoFind<_Tp>(_set_, _element);
+        return AssoFind<_Tp>(this->_set_, _element);
     }
-    bool NotIn(const _Tp&_element) const{
-        return !AssoFind<_Tp>(_set_, _element);
+    bool NotIn(const_reference _element) const{
+        return !AssoFind<_Tp>(this->_set_, _element);
     }
 
+    // whether to std::move or copy is a problem
+    // after std::move original object is set to null
     // assign
-    container_type operator = (const SSet &__sset__){
+    _SSet_reference operator = (_SSet_const_reference __sset__){
         #ifdef DEBUG_MODE
             PRINTLN("operator SSet assgin");
         #endif 
-        _set_.clear();
-        _set_ = std::move(__sset__._set_);
+        this->_set_.clear();
+        // make no effect
+        // this->_set_ = std::move(__sset__._set_);
+        this->_set_ = __sset__._set_;
+        return *this;
     }
-    container_type operator = (const_container_reference __set__){
+    _SSet_reference operator = (const_container_reference __set__){
         #ifdef DEBUG_MODE
             PRINTLN("operator container_type assgin");
         #endif 
-        _set_.clear();
-        _set_ = std::move(__set__);
+        this->_set_.clear();
+        // make no effect
+        // this->_set_ = std::move(__set__);
+        this->_set_ = __set__;
+        return *this;
     }
-    container_type operator = (const_reference __element){
+    _SSet_reference operator = (const_reference __element){
         #ifdef DEBUG_MODE
             PRINTLN("operator value_type assgin");
         #endif 
-        _set_.clear();
-        _set_.insert(__element);
+        this->_set_.clear();
+        this->_set_.insert(__element);
+        return *this;
     }
-    container_type operator + (const_container_reference) const;
-    container_type operator + (const _Tp&) const;
-    container_type operator += (const_container_reference);
-    container_type operator += (const _Tp&);
-    container_type operator - (const_container_reference) const;
-    container_type operator - (const _Tp&) const;
-    container_type operator -= (const_container_reference);
-    container_type operator -= (const _Tp&);
+
+    // math operation
+    _SSet_reference operator + (_SSet_const_reference __sset__) const{
+        
+    }
+    _SSet_reference operator + (const_container_reference __set__) const{
+
+    }
+    _SSet_reference operator + (const_reference __element) const{
+
+    }
+    _SSet_reference operator += (_SSet_const_reference __sset__) {
+        for(auto _element : __sset__._set_)
+            this->_set_.insert(_element);
+        return *this;
+    }
+    _SSet_reference operator += (const_container_reference __set__) {
+        for(auto _element : __set__)
+            this->_set_.insert(_element);
+        return *this;
+    }
+    _SSet_reference operator += (const_reference __element) {
+        this->_set_.insert(__element);
+        return *this;
+    }
+    _SSet_reference operator - (_SSet_const_reference __sset__) const{
+        
+    }
+    _SSet_reference operator - (const_container_reference __set__) const{
+
+    }
+    _SSet_reference operator - (const_reference __element) const{
+
+    }
+    _SSet_reference operator -= (_SSet_const_reference __sset__) {
+        for(auto _element : __sset__._set_)
+            this->_set_.erase(_element);
+        return *this;
+    }
+    _SSet_reference operator -= (const_container_reference __set__) {
+        for(auto _element : __set__)
+            this->_set_.erase(_element);
+        return *this;
+    }
+    _SSet_reference operator -= (const_reference __element) {
+        this->_set_.erase(__element);
+        return *this;
+    }
 
     // operation between another 
     // Union
-    container_type operator * (const_container_reference) const;
-    container_type operator * (const_reference) const;
-    container_type operator *= (const_container_reference);
-    container_type operator *= (const_reference);
+    _SSet_reference operator * (_SSet_const_reference) const;
+    _SSet_reference operator * (const_container_reference) const;
+    _SSet_reference operator * (const_reference) const;
+    _SSet_reference operator *= (_SSet_const_reference);
+    _SSet_reference operator *= (const_container_reference);
+    _SSet_reference operator *= (const_reference);
 
     // Intersection
-    container_type operator / (const_container_reference) const;
-    container_type operator / (const_reference) const;
-    container_type operator /= (const_container_reference);
-    container_type operator /= (const_reference);
+    _SSet_reference operator / (_SSet_const_reference) const;
+    _SSet_reference operator / (const_container_reference) const;
+    _SSet_reference operator / (const_reference) const;
+    _SSet_reference operator /= (_SSet_const_reference);
+    _SSet_reference operator /= (const_container_reference);
+    _SSet_reference operator /= (const_reference);
 
     // Complement
-    container_type operator % (const_container_reference) const;
-    container_type operator % (const_reference) const;
-    container_type operator %= (const_container_reference);
-    container_type operator %= (const_reference);
+    _SSet_reference operator % (_SSet_const_reference) const;
+    _SSet_reference operator % (const_container_reference) const;
+    _SSet_reference operator % (const_reference) const;
+    _SSet_reference operator %= (_SSet_const_reference);
+    _SSet_reference operator %= (const_container_reference);
+    _SSet_reference operator %= (const_reference);
 
-    // power 
-    std::unordered_set<container_type> operator ^ (const_container_reference UNUSED) const;
+    // Power 
+    std::unordered_set<_SSet> operator ^ (_SSet_const_reference UNUSED) const;
+    std::unordered_set<_SSet> operator ^ (const_container_reference UNUSED) const;
     
-    // only when container_type is (ordered) std::set<_Tp>
+    // only when container_type is (ordered) 
+    //                             std::set<_Tp>
+    //                             std::multiset<_Tp>
     // remove the largest element
-    container_type operator ++ ();
+    _SSet_reference operator ++ ();
     // remove the smallest element
-    container_type operator -- ();
+    _SSet_reference operator -- ();
 
     // equal, not equal
-    bool operator == (const_container_reference) const;
-    bool operator != (const_container_reference) const;
+    bool operator == (_SSet_const_reference __sset__) const{
+        return this->_set_ == __sset__._set_;
+    }
+    bool operator == (const_container_reference __set__) const{
+        return this->_set_ == __set__;
+    }
+    bool operator != (_SSet_const_reference __sset__) const{
+        return this->_set_ != __sset__._set_;
+    }
+    bool operator != (const_container_reference __set__) const{
+        return this->_set_ != __set__;
+    }
 
     // this is real subset of that, restrict < 
+    bool operator < (_SSet_const_reference) const;
     bool operator < (const_container_reference) const;
     // this is subset of that
+    bool operator <= (_SSet_const_reference) const;
     bool operator <= (const_container_reference) const;
     // that is real subset of this, restrict >
+    bool operator > (_SSet_const_reference) const;
     bool operator > (const_container_reference) const;
     // that is subset of this
+    bool operator >= (_SSet_const_reference) const;
     bool operator >= (const_container_reference) const;
 
     // input, output
+    template <typename __Tp__>
     friend std::ifstream& operator >> (std::ifstream &__ifs,
-                                        const SSet &__sset__) ;
+                                        const SSet<__Tp__> &__sset__);
+    template <typename __Tp__>
     friend std::istream& operator >> (std::istream &__is, 
-                                        const SSet &__sset__) ;
+                                        const SSet<__Tp__> &__sset__);
+    template <typename __Tp__>
     friend std::ofstream& operator << (std::ofstream &__ofs, 
-                                        const SSet &__sset__) ;
+                                        const SSet<__Tp__> &__sset__);
+    template <typename __Tp__>
     friend std::ostream& operator << (std::ostream &__os, 
-                                        const SSet &__sset__) {
-        ConsoleIterOutput<_Tp>(__sset__._set_, "\n");
+                                        const SSet<__Tp__> &__sset__) {
+        ConsoleIterOutput<_Tp>(__sset__._set_, ", ");
         return __os;
     }
 private:

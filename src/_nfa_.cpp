@@ -195,7 +195,7 @@ bool NFA::simu(const std::string &_input)
 
 void TestNFA()
 {
-    PSEUDORANDOM_DECL
+    PSEUDORANDOM_DECL;
     auto _gen_01_bits = [](const int &_bits) 
                             -> std::string{
         std::string _s;

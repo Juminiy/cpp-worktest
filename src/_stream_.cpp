@@ -38,7 +38,9 @@ void RewriteFile(string const &fileName, string &fileDesc)
     writeFile(fileName, fileDesc, rewriteOnly);
 }
 
-void writeFile(string const &fileName, string &fileDesc, writeMode const mode)
+void writeFile(string const &fileName, 
+                string &fileDesc, 
+                writeMode const mode)
 {
     fstream::openmode fOpenMode = ofstream::out;
     if (mode == appendOnly)
@@ -49,14 +51,20 @@ void writeFile(string const &fileName, string &fileDesc, writeMode const mode)
     
     } else 
     {
-        cerr << "OpenModeError: fileName" << "<" << fileName << ">" << ", " << "mode" << "<" << mode << ">" << endl;
+        cerr << "OpenModeError: fileName" 
+                << "<" << fileName << ">" 
+                << ", " 
+                << "mode" << "<" << mode << ">" 
+                << endl;
         return; 
     }
 
     ofstream outputFile(fileName, fOpenMode);
     if (!outputFile.is_open())
     {
-        cerr << "WriteError: fileName" << "<" << fileName << ">" << " was not opened" << endl;
+        cerr << "WriteError: fileName" 
+                << "<" << fileName << ">" 
+                << " was not opened" << endl;
         return ;
     }
     
@@ -85,9 +93,15 @@ void ReadForStdout(string const &fileName)
     string str5;
     while((*inputFile) >> i32 >> f64 >> str5)
     {
-        cout << "[" << setfill(' ') << right << setw(1<<3)  << i32 << " | "
-                    << setfill(' ') << right << setw(1<<3)  << f64 << " | "
-                    << setfill(' ') << right << setw(1<<3)  << str5 << " ] " << endl;
+        cout << "[" << setfill(' ') 
+                    << right << setw(1<<3) 
+                    << i32 << " | "
+                    << setfill(' ') 
+                    << right << setw(1<<3)  
+                    << f64 << " | "
+                    << setfill(' ') 
+                    << right << setw(1<<3)  
+                    << str5 << " ] " << endl;
     }
 
     inputFile->close();
@@ -96,10 +110,14 @@ void ReadForStdout(string const &fileName)
 
 unique_ptr<fstream> readFile(string const &fileName)
 {
-    unique_ptr<fstream> inputFile(new fstream(fileName, ifstream::in));
+    unique_ptr<fstream> 
+        inputFile(new fstream(fileName, 
+                                ifstream::in));
     if (!inputFile.get()->is_open())
     {
-        cerr << "ReadError: fileName" << "<" << fileName << ">" << " was not opened" << endl;
+        cerr << "ReadError: fileName" 
+                << "<" << fileName << ">" 
+                << " was not opened" << endl;
         return nullptr;
     }
 
@@ -116,7 +134,8 @@ void GetlineForStdout()
 
 // Country - Capital(s)
 // Afghanistan - Kabul
-void GetWorldCapitals(string const &fileName, map<string,string> &capitals)
+void GetWorldCapitals(string const &fileName, 
+                        map<string,string> &capitals)
 {
     // ignore first line 
     // split Country and Capital by "-" | '-'
@@ -144,13 +163,19 @@ void GetWorldCapitals(string const &fileName, map<string,string> &capitals)
     inputFile->close();
 }
 
-void parseCountryAndCapital(string const &src, string &country, string &capital)
+void parseCountryAndCapital
+(string const &src, 
+string &country, 
+string &capital)
 {
     char splitChar = '-';
     auto str_it = src.find(splitChar);
     if (str_it == string::npos)
     {
-        cerr << "src" << "<" << src << ">" << " do not contain any '-'" << endl;
+        cerr << "src" 
+                << "<" << src << ">" 
+                << " do not contain any '-'" 
+                << endl;
         return ;
     }
 
@@ -171,7 +196,9 @@ string replaceAllWhiteSpace(string &src)
     return dest;
 }
 
-void PrintWorldCapitals(map<string,string> const &capitals, int const &cnt)
+void PrintWorldCapitals
+(map<string,string> const &capitals, 
+                    int const &cnt)
 {   
     int _cnt = cnt;
     for (auto &pr : capitals)
@@ -247,12 +274,14 @@ RetType GetTypeValue()
         {
             char _rem;
             if (ss >> _rem)
-                cerr << "input remained: _rem< "<< _rem << " >" << endl;
+                cerr << "input remained: _rem< "
+                        << _rem << " >" << endl;
             else 
                 return _ret;
         } else
         {
-            cerr << "input error: _str< "<< ss.str() << " >" << endl;
+            cerr << "input error: _str< "
+                    << ss.str() << " >" << endl;
         }
     }
 }
@@ -318,7 +347,8 @@ bool HasHexLetters_loop_version(int const &_i32)
 }
 
 
-// 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000
+// 0000 0000 0000 0000 0000 0000 0000 0000 
+// 0000 0000 0000 0000 0000 0000 0000 0000
 bool HasHexLetters(long long const &_i64)
 {   
     char hi_8 = (_i64 & 0xff00000000000000) >> 56;

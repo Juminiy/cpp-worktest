@@ -10,6 +10,8 @@ USE_NAMESPACE_ALAN
     void TestMapDiffer();
     void CountKeyWordsOccurences();
     void TestMultiContainer();
+    void TestRangeFind();
+    void TestMatchingPrefix();
 END_NAMESPACE_ALAN
 
 #endif 

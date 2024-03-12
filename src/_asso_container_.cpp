@@ -4,6 +4,7 @@
 #include "_stl_lib_.hpp"
 #include "_stream_.hpp"
 #include "_stl_lib_.hpp"
+#include "_seq_container_.hpp"
 
 #include <ctime>
 #include <cmath>
@@ -24,6 +25,8 @@
 
 #include <set>
 #include <unordered_set>
+
+#include <memory>
 
 
 USE_NAMESPACE_ALAN
@@ -56,15 +59,16 @@ void TestUMap()
 
 }
 
-void BirthdayParadox(int const &_sides)
+void BirthdayParadox(int const &_sides, const int &_times = 2)
 {
-    PSEUDORANDOM_DECL
-    std::unordered_set<int> i32s;
+    PSEUDORANDOM_DECL;
+    std::unordered_multiset<int> i32s;
     int _i32_cnt = 0;
     while(true)
     {
         int _gen_i32 = rand() % _sides;
-        if (AssoFind<>(i32s, _gen_i32))
+        if (AssoCount<>(i32s, _gen_i32) == 
+            size_t (_times - 1))
         {
             _i32_cnt = i32s.size();
             break;
@@ -73,11 +77,13 @@ void BirthdayParadox(int const &_sides)
     }
     std::cout << "sides [" 
                 << _sides 
+                << "], occurs ["
+                << _times 
+                << "] times, "
+                << "expects ["
+                << (pow(float(_sides), float(1.0/_times))) 
                 << "], "
-                << "sqr ["
-                << (sqrt(double(_sides))) 
-                << "], "
-                << "count ["  
+                << "counts ["  
                 << _i32_cnt 
                 << "]" 
                 << std::endl;
@@ -85,17 +91,29 @@ void BirthdayParadox(int const &_sides)
 
 void TestBirthDayParadox()
 {
-    PSEUDORANDOM_DECL
-    int cnt = rand()%(1<<8);
-    while(cnt--)
+    PSEUDORANDOM_DECL;
     {
-        BirthdayParadox(rand() % (1<<16));
+        int cnt = rand()%(1<<8);
+        PRINTLN_DETAIL("occurs 2 times");
+        while(cnt--)
+        {
+            BirthdayParadox(rand() % (1<<16));
+        }
+    }
+
+    {
+        int cnt = rand()%(1<<8);
+        PRINTLN_DETAIL("occurs 3 times");
+        while(cnt--)
+        {
+            BirthdayParadox(rand() % (1<<16), 3);
+        }
     }
 }
 
 void TestUSet()
 {   
-    PSEUDORANDOM_DECL
+    PSEUDORANDOM_DECL;
     std::set<pointT> pTS;
     for( int i = 0; i < 1<<10; ++i)
         pTS.insert(pointT(rand()% (1<<8) , rand()% (1<<16)));
@@ -111,7 +129,7 @@ void TestUSet()
 
 void TestIterator()
 {
-    PSEUDORANDOM_DECL
+    PSEUDORANDOM_DECL;
     std::set<int> i32_mus;
     for(int i = 0; i < 1<< 10; ++ i)
         i32_mus.insert(i >> 1),
@@ -249,6 +267,162 @@ void TestMultiContainer()
     _COLOR_START(_COLOR_RED);
     std::cout << mus_i32.count( 8 ) << std::endl;
     _COLOR_RECOVER;
+
+}
+
+void TestRangeFind()
+{
+    std::multiset<int> mus_i32;
+    for(int i = 0 ; i < 1 << 10; i ++)
+        mus_i32.insert(i >> 1),
+        mus_i32.insert(i >> 1);
+
+    {
+        auto _it_rg = AssoRange_v0<int, 
+                                std::multiset<int>, 
+                                std::multiset<int>::iterator >
+                            (mus_i32, 10, 20);
+        PRINT("Assert 11, "), PRINTLN("Assert 19");
+        PRINT_DETAIL(*_it_rg.first), PRINTLN_DETAIL(*--_it_rg.second);
+    }
+    
+
+    {
+        auto _it_rg = AssoRange_v1<int, 
+                                std::multiset<int>, 
+                                std::multiset<int>::iterator >
+                            (mus_i32, 10, 20);
+        PRINT("Assert 11, "), PRINTLN("Assert 20");
+        PRINT_DETAIL(*_it_rg.first), PRINTLN_DETAIL(*--_it_rg.second);
+    }
+
+    {
+        auto _it_rg = AssoRange_v2<int, 
+                                std::multiset<int>, 
+                                std::multiset<int>::iterator >
+                            (mus_i32, 10, 20);
+        PRINT("Assert 10, "), PRINTLN("Assert 19");
+        PRINT_DETAIL(*_it_rg.first), PRINTLN_DETAIL(*--_it_rg.second);
+    }
+
+    {
+        auto _it_rg = AssoRange_v3<int, 
+                                std::multiset<int>, 
+                                std::multiset<int>::iterator >
+                            (mus_i32, 10, 20);
+        PRINT("Assert 10, "), PRINTLN("Assert 20");
+        PRINT_DETAIL(*_it_rg.first), PRINTLN_DETAIL(*--_it_rg.second);
+    }
+}
+
+typedef std::map<std::string, std::string > _SS_Map;
+typedef std::map<std::string, std::string > & _SS_Map_reference;
+typedef const std::map<std::string, std::string > & _SS_Map_const_reference;
+
+typedef std::multimap<std::string, std::string> _SS_MMap;
+typedef std::multimap<std::string, std::string> & _SS_MMap_reference;
+typedef const std::multimap<std::string, std::string> & _SS_MMap_const_reference;
+
+
+typedef std::map<std::string, int > _SI_Map;
+typedef std::map<std::string, int > & _SI_Map_referecne;
+typedef const std::map<std::string, int > & _SI_Map_const_reference;
+
+_SI_Map_referecne
+_NumberDuplicateEntries(_SS_Map_const_reference _ss_map)
+{   
+
+    auto _ss_val_cnt = 
+        std::make_shared<_SI_Map>(_SI_Map());
+    for(auto _it = _ss_map.begin();
+                _it != _ss_map.end();
+                ++ _it)
+        ++ (*_ss_val_cnt)[_it->second];
+
+    return *_ss_val_cnt;
+}
+
+_SS_MMap_reference
+_InvertMap(_SS_Map_const_reference _ss_map)
+{
+    auto _ss_mul_map = 
+        std::make_shared<_SS_MMap>(_SS_MMap());
+    for(auto _it = _ss_map.begin();
+                _it != _ss_map.end();
+                ++ _it)
+        _ss_mul_map->insert(std::make_pair(_it->second,
+                                            _it->first));
+
+    return *_ss_mul_map;
+}
+
+// all r in _ss_one, all s in _ss_two
+// if _ss_one[r] = s &
+//      _ss_two[s] = t 
+// then _Compose(one, two) -> _ss_res[r] = t 
+_SS_Map_reference
+_ComposeMap(_SS_Map_const_reference _ss_one, 
+            _SS_Map_const_reference _ss_two)
+{
+    auto _ss_res = 
+        std::make_shared<_SS_Map>(_SS_Map());
+    for(auto _o_it = _ss_one.begin(), 
+                _t_it = _ss_two.end();
+            _o_it != _ss_one.end();
+            ++ _o_it)
+    {   
+        _t_it = _ss_two.find(_o_it->second);
+        if(_t_it != _ss_two.cend())
+            _ss_res->insert(
+                ss_pair(_o_it->first, 
+                _t_it->second));
+    }
+
+    return *_ss_res;
+}
+
+void _PrintMatchingPrefixes(const std::set<std::string > &_s_s,
+                            const std::string &_s)
+{
+    auto _contain_prefix = 
+        [_s]
+        (const std::string &_dest)
+        -> bool {
+            if (_dest.size() < _s.size())
+                return false;
+            return !_s.compare(_dest.substr(0, _s.size()));
+        };
+    bool _matching = false;
+    for(auto &_it_s : _s_s)
+    {
+        if(_contain_prefix(_it_s))
+        {
+            _matching = true;
+            PRINT(_RED(_it_s.substr(0, _s.size()))), 
+            PRINTLN(_RED(_it_s.substr(_s.size(), _it_s.size())));
+        } else
+        {
+            if(_matching)
+                break;
+        }
+    }
+}
+
+void TestMatchingPrefix()
+{   
+    PSEUDORANDOM_DECL;
+    std::set <std::string > _s_s;
+    std::string _s = genString(1<<3); 
+    PRINTLN(_BLUE(_s));
+    for(int i = 0; i < (1<<8) ; ++i)
+        _s_s.insert(_s ),
+        _s_s.insert(_s + genString(1<<3)),
+        _s_s.insert(genString(1<<3) + _s),
+        _s_s.insert(genString(1<<3) + _s + genString(1<<3)),
+        _s_s.insert(genString(1<<4) + _s + genString(1<<4));
+    PRINTLN(_CYAN(std::string("_s_s.size() = ") + 
+                    std::to_string(_s_s.size())));
+    _PrintMatchingPrefixes(_s_s, _s);
 
 }
 

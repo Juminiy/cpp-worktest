@@ -14,11 +14,37 @@ USE_NAMESPACE_ALAN
 
 void TestSSet()
 {
-    
-    auto _i32_s = SSet<int>(std::vector<int>{1,2,3,4,5,5,5,6,6,7});
+
+
+    auto _i32_s = SSet<int>(std::vector<int>{7, 77, 777, 7777, 77777});
+
+    auto _i32_s2 = SSet<int> ();
+    _i32_s2 += 100;
+
+    _i32_s += 10;
+    _i32_s += SSet<int>::container_type({1, 2, 3});
+    _i32_s += _i32_s2;
 
     _COLOR_START(_COLOR_BLUE);
-    std::cout << _i32_s << std::endl;
+    PRINTLN_DETAIL(_i32_s);
+    PRINTLN_DETAIL(_i32_s2);
+    PRINTLN_DETAIL((_i32_s == _i32_s2));
+    _COLOR_RECOVER;
+
+    _i32_s2 = _i32_s;
+    _COLOR_START(_COLOR_CYAN);
+    PRINTLN_DETAIL(_i32_s);
+    PRINTLN_DETAIL(_i32_s2);
+    PRINTLN_DETAIL((_i32_s == _i32_s2));
+    PRINTLN("After add _i32_s");
+    _i32_s += 333;
+    PRINTLN_DETAIL(_i32_s);
+    PRINTLN_DETAIL(_i32_s2);
+    PRINTLN_DETAIL((_i32_s == _i32_s2));
+
+
+    PRINTLN_DETAIL(_i32_s.In(333));
+    PRINTLN_DETAIL(_i32_s.In(555));
     _COLOR_RECOVER;
 
 }

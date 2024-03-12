@@ -7,6 +7,7 @@
 #include "_dfa_.hpp"
 #include "_nfa_.hpp"
 #include "_set_theory_.hpp"
+#include "_algo_.hpp"
 
 #include <getopt.h>
 #include <unistd.h>
@@ -98,7 +99,9 @@ int main(int argc, char *argv[], char *envp[])
         // TestRingBuffer();
         // Alan::TestSSet();
         // Alan::TestRangeFind();
-        Alan::TestMatchingPrefix();
+        // Alan::TestMatchingPrefix();
+        // Alan::TestAlgo();
+        Alan::TestIteratorAdapter();
         break;
             
         // parameter (argv)

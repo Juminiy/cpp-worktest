@@ -49,9 +49,7 @@ USE_NAMESPACE_ALAN
 template <typename _Tp, 
             typename _Container = std::deque<_Tp> >
 class 
-#if defined(__APPLE__) || \
-    defined(__MACH__) || \
-    defined(__MACOS__)
+#if (__ARCH_OS__ == 2)
 _LIBCPP_TEMPLATE_VIS
 #endif 
 RingBuffer {

@@ -14,6 +14,24 @@ extern "C" {
 
 
 
+// ONLY FOR Cross Platform
+#if defined(__linux__)
+#define __ARCH_OS__ 3
+#elif defined(__APPLE__) || \
+        defined(__MACH__) || \
+        defined(__MACOS__)
+#define __ARCH_OS__ 2
+#elif defined(_WIN64) || \
+        defined(WIN64) || \
+        defined(_WIN32) || \
+        defined(WIN32) 
+#define __ARCH_OS__ 1
+#else 
+#define __ARCH_OS__ 0
+#endif
+
+
+
 // ATTRI
 #define UNUSED __attribute__((unused))
 #define NORETURN __attribute__((noreturn))

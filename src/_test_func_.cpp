@@ -93,6 +93,7 @@ int Capitals(int const &case_num)
 
 void testLocalCppTypeLayout()
 {
+    
     ostringstream oss;
     string destArch;
     #if defined(_WIN64) || \
@@ -109,9 +110,7 @@ void testLocalCppTypeLayout()
     	    defined(__i386) || \
             defined(_M_X86)
     oss << "x86_x86_64_amd64" << "-" << "Win32";
-    #elif defined(__MACOS__)
-	oss << "none-arch" << "-" << "MacOS";
-    #elif defined(__APPLE__) && defined(__MACH__)
+    #elif __ARM_MACOS__
 	#include <sys/types.h>
 	oss << "multi-arch" << "-" << "Apple";
     #elif defined(__BEOS__)

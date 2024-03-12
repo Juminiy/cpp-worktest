@@ -2,12 +2,19 @@
 #ifndef _STL_LIB_HPP
 #define _STL_LIB_HPP
 
-#include <algorithm>
-#include <iterator>
 #include <iostream>
 #include <ostream>
+#include <istream>
+#include <fstream>
+
 #include <string>
+
+#include <iterator>
+
 #include <utility>
+#include <numeric>
+#include <algorithm>
+
 
 
 template <typename _Tp, 
@@ -34,6 +41,7 @@ void ConsoleIterOutput(const _Container &__container,
 {
     IterOutput<_Tp, _Container, std::ostream >
                 (__container, std::cout, __delimiter);
+    std::cout << std::endl;
 }
 
 // Beauty Output 
@@ -132,7 +140,24 @@ AssoRange_v3(const _Asso_Ordered_Container &__container,
                             __container.upper_bound(_max_element));
 }
 
+template <typename _Tp,
+            typename _Container >
+_Tp _Sum(const _Container &__container,
+            _Tp __init_val)
+{
+    return std::accumulate(__container.begin(),    
+                            __container.end(),
+                            __init_val);
+}
 
+template <typename _Tp,
+            typename _Container >
+_Tp _Avg(const _Container &__container,
+            _Tp __init_val)
+{
+    return _Sum(__container, __init_val) /
+            __container.size();
+}
 
 template <typename _Tp,
             typename _Seq_Container >

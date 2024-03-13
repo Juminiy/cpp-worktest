@@ -287,21 +287,18 @@ public:
 
     // input, output
     template <typename __Tp__>
-    friend std::ifstream& operator >> (std::ifstream &__ifs,
-                                        const SSet<__Tp__> &__sset__);
-    template <typename __Tp__>
     friend std::istream& operator >> (std::istream &__is, 
-                                        const SSet<__Tp__> &__sset__);
-    template <typename __Tp__>
-    friend std::ofstream& operator << (std::ofstream &__ofs, 
-                                        const SSet<__Tp__> &__sset__);
+                                        const SSet<__Tp__> &__sset__){
+        
+        return __is;
+    }
     template <typename __Tp__>
     friend std::ostream& operator << (std::ostream &__os, 
                                         const SSet<__Tp__> &__sset__) {
         ConsoleIterOutput<_Tp>(__sset__._set_, ", ");
         return __os;
     }
-private:
+protected:
     container_type _set_;
 };
 

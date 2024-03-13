@@ -116,9 +116,7 @@ void TestVectorFunctor()
 
     std::ifstream fileIp(ConFilePath(num_gen_sort.txt), 
                         std::ios::in);
-    copy(std::istreambuf_iterator<char>(fileIp), 
-            std::istreambuf_iterator<char>(), 
-            std::ostreambuf_iterator<char>(std::cout));
+    CompleteIterOutput<>(fileIp, std::cout);
 }
 
 void TestValArray()
@@ -228,7 +226,8 @@ void TestRingBuffer()
 }
 
 
-
+// example:
+// optarg <_Tp = std::string > = 8,4 
 void TestAgainstVectorReverseWithNot()
 {   
     PSEUDORANDOM_DECL;
@@ -322,7 +321,8 @@ std::string VigenereEncrypt(std::string const & _en,
     return _encrypted;
 }   
 
-// xxx;1,2,3,4
+// example:
+// optarg <_Tp = std::string > = 123L1,2,3 
 void TestVigenereEncrypt()
 {   
     // std:: cout 

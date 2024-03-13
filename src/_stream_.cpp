@@ -374,8 +374,8 @@ bool HasHexLetters_ss_functor_version(long long const &_i64)
 {
     stringstream ss;
     ss << hex << _i64;
-    return any_of(istreambuf_iterator<char>(ss), 
-                    istreambuf_iterator<char>(), 
+    return any_of(istream_iterator<char>(ss), 
+                    istream_iterator<char>(), 
                     [](char const &ch){
                         return ((ch & 0xf0) >> 4) >= 0x0a || 
                                 (ch & 0x0f) >= 0x0a;

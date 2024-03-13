@@ -42,15 +42,21 @@ int main(int argc, char *argv[], char *envp[])
         break;
 
             case 'd':
+        // example:
+        // optarg <_Tp = int> = 10 
         DrawTriangle(opt_uint(optarg));
         break;
 
             case 'm':
+        // example:
+        // optarg <_Tp = int> = 10 
         test_round = opt_uint(optarg);
         TestInRange(test_round);
         break;
 
             case 'n':
+        // example:
+        // optarg <_Tp = int> = 10 
         test_round = opt_uint(optarg);
         TestInRange(test_round);
         break;
@@ -97,12 +103,12 @@ int main(int argc, char *argv[], char *envp[])
         // TestVectorFunctor2();
         // TestVectorFunc3();
         // TestRingBuffer();
-        // Alan::TestSSet();
+        Alan::TestSSet();
         // Alan::TestRangeFind();
         // Alan::TestMatchingPrefix();
         // Alan::TestAlgo();
         // Alan::TestIteratorAdapter();
-        Alan::TestAssoContainerAlgo();
+        // Alan::TestAssoContainerAlgo();
         break;
             
         // parameter (argv)
@@ -159,6 +165,9 @@ static void inline exit_main()
                 36, 
                 "\niH, Worktest, Exit time: %s", 
                 __TIME__);
+    // bug report: compile time also, 
+    // wiil build a global variable to add 
+    //          or other way to solve 
 
     PRINTLN(_GREEN(string(print_des)));
 }

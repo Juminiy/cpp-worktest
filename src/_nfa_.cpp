@@ -193,6 +193,8 @@ bool NFA::simu(const std::string &_input)
     return false; 
 }
 
+// example:
+// optarg <_Tp = int > = 10 
 void TestNFA()
 {
     PSEUDORANDOM_DECL;

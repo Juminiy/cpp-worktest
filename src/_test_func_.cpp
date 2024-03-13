@@ -95,7 +95,7 @@ void testLocalCppTypeLayout()
 {
     
     ostringstream oss;
-    string destArch = std::to_string(__PORTABLE__);
+    string destArch = std::string(__PORTABLE__);
     oss << "sizeof builtin type: " << endl;
     oss << "sizeof(bool) = " << sizeof(bool) << endl;
     oss << "sizeof(char) = " << sizeof(char) << endl;

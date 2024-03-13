@@ -8,12 +8,44 @@
 #include <fstream>
 
 #include <string>
-
 #include <iterator>
 
 #include <utility>
 #include <numeric>
 #include <algorithm>
+
+#include <chrono>
+
+#define TIME_BASED_SEED std::chrono::system_clock::now().time_since_epoch().count()
+
+
+// _Tp must oveload:                            operator >> 
+// _Seq_Container must have member function:    push_back()
+// _Istream must allow:                         implicit type convertion
+template <typename _Tp, 
+            typename _Seq_Container, 
+            typename _Istream >
+void SeqIterInput(const _Seq_Container &__container,
+                _Istream &__istream)
+{
+    std::copy(std::istream_iterator<_Tp>(__istream),
+                std::istream_iterator<_Tp>(),
+                std::back_inserter(__container));
+}
+
+// _Tp must oveload:                            operator >> 
+// _Seq_Container must have member function:    insert()
+// _Istream must allow:                         implicit type convertion
+template <typename _Tp, 
+            typename _Asso_Container, 
+            typename _Istream >
+void AssoIterInput(const _Asso_Container &__container,
+                _Istream &__istream)
+{
+    std::copy(std::istream_iterator<_Tp>(__istream),
+                std::istream_iterator<_Tp>(),
+                std::inserter(__container));
+}
 
 
 
@@ -45,9 +77,9 @@ void ConsoleIterOutput(const _Container &__container,
 }
 
 // Beauty Output 
-// [] '\n'
-// [ele0] '\n'
-// [ele0, ele1, ele2] '\n'
+// size = 0 -> [] '\n'
+// size = 1 -> [ele0] '\n'
+// size = 2 -> [ele0, ele1, ele2] '\n'
 template <typename _Tp,
             typename _Container >
 void ConsoleBeautyOutput(const _Container &__container,
@@ -56,11 +88,14 @@ void ConsoleBeautyOutput(const _Container &__container,
     
 }
 
-template <typename _InputFile, typename _OutputFile >
-void FileIterOutput(const _InputFile &__input_file,
-                    _OutputFile &__output_file)
+// don't skip any a white space or any '\n', '\t', '\r'
+template <typename _InputStream, typename _OutputStream >
+void CompleteIterOutput(_InputStream &__input_stream,
+                        _OutputStream &__output_stream)
 {
-
+    copy(std::istreambuf_iterator<char>(__input_stream),
+            std::istreambuf_iterator<char>(),
+            std::ostreambuf_iterator<char>(__output_stream));
 }
 
 typedef std::pair<std::string, std::string > ss_pair;
@@ -140,24 +175,6 @@ AssoRange_v3(const _Asso_Ordered_Container &__container,
                             __container.upper_bound(_max_element));
 }
 
-template <typename _Tp,
-            typename _Container >
-_Tp _Sum(const _Container &__container,
-            _Tp __init_val)
-{
-    return std::accumulate(__container.begin(),    
-                            __container.end(),
-                            __init_val);
-}
-
-template <typename _Tp,
-            typename _Container >
-_Tp _Avg(const _Container &__container,
-            _Tp __init_val)
-{
-    return _Sum(__container, __init_val) /
-            __container.size();
-}
 
 template <typename _Tp,
             typename _Seq_Container >
@@ -169,6 +186,31 @@ bool SeqFind(const _Seq_Container &__container,
                         __element)
                 != __container.cend(); 
 }
+
+
+
+// _Tp must overload + 
+template <typename _Tp,
+            typename _Container >
+_Tp _Sum(const _Container &__container,
+            _Tp __init_val)
+{
+    return std::accumulate(__container.begin(),    
+                            __container.end(),
+                            __init_val);
+}
+
+// _Tp must overload operator + and operator /
+template <typename _Tp,
+            typename _Container >
+_Tp _Avg(const _Container &__container,
+            _Tp __init_val)
+{
+    return _Sum(__container, __init_val) /
+            __container.size();
+}
+
+
 
 
 #endif 

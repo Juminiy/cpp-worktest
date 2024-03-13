@@ -156,6 +156,8 @@ bool ValidateEmail(std::string const & _email)
     return _email_dfa.simu(_email_dup);
 }
 
+// example:
+// optarg <_Tp = std::string > = lanasula.ss@loq.euc
 void TestEmail()
 {   
     _COLOR_START(_COLOR_CYAN);

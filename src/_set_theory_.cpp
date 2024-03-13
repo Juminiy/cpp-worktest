@@ -15,7 +15,8 @@ USE_NAMESPACE_ALAN
 void TestSSet()
 {
 
-
+    // why iterator constructor do not make any sense,
+    // be sure to effect, but the private member _set_ disappear.
     auto _i32_s = SSet<int>(std::vector<int>{7, 77, 777, 7777, 77777});
 
     auto _i32_s2 = SSet<int> ();

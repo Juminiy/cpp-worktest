@@ -110,9 +110,10 @@ extern "C" {
 
 // c/cxx lib
 
-
+#define __STRFY__(__expr_x__) #__expr_x__
+#define __TOSTR__(__expr_x__) __STRFY__(__expr_x__)
 #define __PORTABLE__ \
-        (__ISA_VER__ + __OS_VER__ + __CC_VER__)
+        __TOSTR__(__ISA_VER__) __TOSTR__(__OS_VER__) __TOSTR__(__CC_VER__)
 
 
 
@@ -155,6 +156,15 @@ extern "C" {
 #define PRINTLN(_ct_) PRINT(_ct_) << std::endl
 #define PRINT_DETAIL(_ct_) std::cout << #_ct_ << " = " << _ct_
 #define PRINTLN_DETAIL(_ct_) PRINT_DETAIL(_ct_) << std::endl
+#define PRINT_VA(_ct_, ...) \
+    do {\
+        printf(_ct_ __VA_OPT__(,) __VA_ARGS__);\
+    }while(0)
+#define PRINTLN_VA(_ct_, ...) \
+    do {\
+        printf(_ct_ __VA_OPT__(,) __VA_ARGS__);\
+        puts("");\
+    }while(0)
 
 #define PSEUDORANDOM_DECL               srand(static_cast<unsigned>(time(NULL)))
 #define TILLNOW(_start_time_) (((float)(clock() - _start_time_))/CLOCKS_PER_SEC)
@@ -162,9 +172,27 @@ extern "C" {
 #define DECL_VAR(_type) _type var_##_type
 #define DECL_FUN(_type, _func, _arg) _type fun_##_func##_type(_arg)
 
-// need to do more error __DATE__ __FILE__ __LINE__ 
-#define LOC_ERR(_err_info_) 
-
+// need to do more error 
+// __DATE__, __TIME__, __FILE__, __LINE__
+// more easy to locate error
+#define LOG_ERR(_err_info_, ...) \
+        PRINTLN_VA("error_info = %s" \
+                    "Date = %s" \
+                    "Time = %s" \
+                    "File = %s" \
+                    "Line = %d", \
+                    _err_info_ \
+                    __VA_OPT__(,) \
+                    __VA_ARGS__ )
+#define LOGLN_ERR(_err_info_, ...) \
+        PRINTLN_VA("error_info = %s\n" \
+                    "Date = %s\n" \
+                    "Time = %s\n" \
+                    "File = %s\n" \
+                    "Line = %d", \
+                    _err_info_ \
+                    __VA_OPT__(,) \
+                    __VA_ARGS__ )
 
 
 // getopt
@@ -229,18 +257,25 @@ opt_uint(char *val)
   return x;
 }
 
-
+#if (__CC_VER__ == 8 || \
+        __CC_VER__ == 2) 
+    #undef __TYPE_OF__
+    #define __TYPE_OF__(__x__) typeof(__x__)
+#elif (__CC_VER__ == 4)
+    #undef __TYPE_OF__
+    #define __TYPE_OF__(__x__) __typeof__(__x__)
+#endif 
 
 // MATH UTILS DEFINE
 #define MAX_Tt(_x, _y) ({ \
-    typeof(_x) __x = (_x);  \
-    typeof(_y) __y = (_y);  \
+    __TYPE_OF__(_x) __x = (_x);  \
+    __TYPE_OF__(_y) __y = (_y);  \
     __x > __y ? __x : __y;  \
 })
 
 #define MIN_Tt(_x, _y) ({ \
-    typeof(_x) __x = (_x);  \
-    typeof(_y) __y = (_y);  \
+    __TYPE_OF__(_x) __x = (_x);  \
+    __TYPE_OF__(_y) __y = (_y);  \
     __x < __y ? __x : __y;  \
 })
 

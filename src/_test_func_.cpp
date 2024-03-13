@@ -95,40 +95,7 @@ void testLocalCppTypeLayout()
 {
     
     ostringstream oss;
-    string destArch;
-    #if defined(_WIN64) || \
-        defined(WIN64) || \
-        defined(__amd64__) || \
-	    defined(__x86_64) || \
-        defined(__x86_64__) || \
-        defined(_M_IA64) || \
-	    defined(_M_AMD64)
-    oss << "x86_x86_64_amd64" << "-" << "Win64";
-    #elif defined(_WIN32) || \
-            defined(WIN32) || \
-            defined(__i386__) || \
-    	    defined(__i386) || \
-            defined(_M_X86)
-    oss << "x86_x86_64_amd64" << "-" << "Win32";
-    #elif __ARM_MACOS__
-	#include <sys/types.h>
-	oss << "multi-arch" << "-" << "Apple";
-    #elif defined(__BEOS__)
-	#include <sys/inttypes.h>
-	oss << "none-arch" << "-" << "BEOS";
-    #elif (defined(_MSC_VER) || \
-            defined(__BORLANDC__)) && \
-            (!defined(__MSDOS__))
-	oss << "none-arch" << "-" << "MSDOS";
-    #elif defined(__GNUC__)
-	#include <stdint.h>
-	oss << "none-arch" << "-" << "GNU";
-    #else 
-    oss << "none-arch" << "-" << "none-os";
-    #endif
-    destArch = oss.str();
-    oss << endl;
-
+    string destArch = std::to_string(__PORTABLE__);
     oss << "sizeof builtin type: " << endl;
     oss << "sizeof(bool) = " << sizeof(bool) << endl;
     oss << "sizeof(char) = " << sizeof(char) << endl;

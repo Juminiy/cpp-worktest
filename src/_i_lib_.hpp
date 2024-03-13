@@ -14,21 +14,105 @@ extern "C" {
 
 
 
-// ONLY FOR Cross Platform
-#if defined(__linux__)
-#define __ARCH_OS__ 3
+// ONLY FOR Cross Platform and Protable
+// istruction set architecture
+#if defined(__x86_64__) || \
+    defined(__x86_64) || \
+    defined(__amd64__) || \
+    defined(__amd64)
+    #define __ISA_VER__ 64
+
+#elif defined(__aarch64__)
+    #define __ISA_VER__ 32
+
+#elif defined(__arm__)
+    #if defined(__ARM_ARCH_5T__)
+        #define __ISA_VER__ 10
+    #elif defined(__ARM_ARCH_7A__)
+        #define __ISA_VER__ 9
+    #else
+        #define __ISA_VER__ 8
+    #endif
+
+#elif defined(__i386__)
+    #define __ISA_VER__ 4
+
+#elif defined(__powerpc64__)
+    #define __ISA_VER__ 2
+
+#elif defined(risc_v)
+    #define __ISA_VER__ 1
+
+#else
+    #define __ISA_VER__ 0
+
+#endif 
+
+
+// operating system
+#if defined(__unix__) || \
+    defined(__unix) || \
+    defined(unix)
+    #define __OS_VER__ 8
+
+#elif defined(__linux__)
+    #define __OS_VER__ 4
+
 #elif defined(__APPLE__) || \
         defined(__MACH__) || \
         defined(__MACOS__)
-#define __ARCH_OS__ 2
+    #define __OS_VER__ 2
+
 #elif defined(_WIN64) || \
         defined(WIN64) || \
         defined(_WIN32) || \
-        defined(WIN32) 
-#define __ARCH_OS__ 1
-#else 
-#define __ARCH_OS__ 0
+        defined(WIN32)
+    #define __OS_VER__ 1
+
+#else
+    #define __OS_VER__ 0
+
 #endif
+
+
+// memory layout
+#if defined(_LP64) || \
+    defined(__LP64__) 
+    #define __MEM_LAY__ 1
+#endif 
+
+
+// c/cxx compiler
+#if defined(__GNUC__)
+    #undef __CC_VER__
+    #define __CC_VER__ 8
+#endif 
+
+#if defined(__clang__) || \
+        defined(__llvm__)
+    #undef __CC_VER__
+    #define __CC_VER__ 4
+#endif 
+
+#if defined(__MINGW64__) || \
+        defined(__MINGW32__) || \
+        defined(__CYGWIN64__) || \
+        defined(__CYGWIN__) || \
+        defined(__MSYS__)
+    #undef __CC_VER__
+    #define __CC_VER__ 2
+#endif 
+
+#if defined(_MSC_VER)
+    #undef __CC_VER__
+    #define __CC_VER__ 1
+#endif 
+
+// c/cxx lib
+
+
+#define __PORTABLE__ \
+        (__ISA_VER__ + __OS_VER__ + __CC_VER__)
 
 
 

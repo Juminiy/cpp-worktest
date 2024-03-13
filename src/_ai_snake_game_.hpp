@@ -12,6 +12,15 @@
 
 #include <cstdarg>
 
+
+#if (__CC_VER__ > 1)
+    #include <unistd.h>
+#elif (__CC_VER__ == 1)
+    #include <windows.h>
+#endif
+
+
+
 #define kMaxFood 1<<3
 #define kMinFood 5
 #define kEmptyTile ' '
@@ -28,28 +37,28 @@
 
 #define GameFileNamePrefix StaticFilePrefix
 #define GameFileNameSuffix ".txt"
-#define GenFileName(baseName) GameFileNamePrefix+baseName+GameFileNameSuffix 
+#define GenFileName(baseName) \
+        GameFileNamePrefix+baseName+GameFileNameSuffix 
 
 
 
 static void inline GamePause(unsigned int micro_secs)
-{
-    #if (__ARCH_OS__ > 1)
-        #include <unistd.h>
+{   
+    #if (__CC_VER__ == 8 || \
+            __CC_VER__ ==4)
         usleep(micro_secs);
-    #elif (__ARCH_OS__ == 1)
-        #include <windows.h>
+    #elif (__CC_VER__ == 2)
+        sleep(micro_secs / 1000000);
+    #elif (__CC_VER__ == 1)
         Sleep(micro_secs * 1000);
     #endif
 }
 
 static void inline GameClearConsole()
 {
-    #if (__ARCH_OS__ > 1)
-        #include <unistd.h>
+    #if (__CC_VER__ > 1)
         system("clear");
-    #elif (__ARCH_OS__ == 1)
-        #include <windows.h>
+    #elif (__CC_VER__ == 1)
         system("CLS");
     #endif
 }

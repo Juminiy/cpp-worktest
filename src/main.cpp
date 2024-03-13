@@ -101,7 +101,8 @@ int main(int argc, char *argv[], char *envp[])
         // Alan::TestRangeFind();
         // Alan::TestMatchingPrefix();
         // Alan::TestAlgo();
-        Alan::TestIteratorAdapter();
+        // Alan::TestIteratorAdapter();
+        Alan::TestAssoContainerAlgo();
         break;
             
         // parameter (argv)

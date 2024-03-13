@@ -8,6 +8,7 @@ USE_NAMESPACE_ALAN
 
 void TestAlgo();
 void TestIteratorAdapter();
+void TestAssoContainerAlgo();
 
 END_NAMESPACE_ALAN
 

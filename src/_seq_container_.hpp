@@ -49,7 +49,7 @@ USE_NAMESPACE_ALAN
 template <typename _Tp, 
             typename _Container = std::deque<_Tp> >
 class 
-#if (__ARCH_OS__ == 2)
+#if (__CC_VER__ == 4)
 _LIBCPP_TEMPLATE_VIS
 #endif 
 RingBuffer {

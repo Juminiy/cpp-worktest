@@ -56,7 +56,7 @@ void gameT::load(std::fstream &fileInput)
 {
     fileInput >> numRows >> numCols;
     world.resize(numRows);
-    fileInput >> dx >> dy;
+    fileInput >> dx >> dy; 
     numFood =0;
     std::string _line;
     getline(fileInput, _line);
@@ -66,7 +66,7 @@ void gameT::load(std::fstream &fileInput)
         _line.compare(" "))
         // TODO: do something to avoid 
     for(int row = 0; row < numRows; ++row)
-    {   
+    {    
         getline(fileInput, world[row]);
         size_t col = 0;
         if ((col = world[row].find(kSnakeTile)) != std::string::npos)

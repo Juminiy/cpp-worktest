@@ -1,5 +1,5 @@
 cxxc = g++
-cxx_args= -Wall -pedantic -O0 -std=c++17 -g
+cxx_args= -Wall -pedantic -O0 -std=c++20 -g
 c_args = -Wall -pedantic -O0 -std=gnu99 -g
 objects += _stream_.o
 objects += _test_func_.o

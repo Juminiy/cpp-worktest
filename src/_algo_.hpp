@@ -9,6 +9,8 @@ USE_NAMESPACE_ALAN
 void TestAlgo();
 void TestIteratorAdapter();
 void TestAssoContainerAlgo();
+void TestRemoveAlgo();
+void TestArbitraryAlgo();
 
 END_NAMESPACE_ALAN
 

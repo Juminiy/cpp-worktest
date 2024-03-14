@@ -257,8 +257,7 @@ opt_uint(char *val)
   return x;
 }
 
-#if (__CC_VER__ == 8 || \
-        __CC_VER__ == 2) 
+#if (__CC_VER__ == 8)
     #undef __TYPE_OF__
     #define __TYPE_OF__(__x__) typeof(__x__)
 #elif (__CC_VER__ == 4)
@@ -338,8 +337,8 @@ static inline _si_64 i64_qread()
 }
 
 // random string generate
-const std::string _letter_xx = "qweasdzxcrfvtgbyhnuiojklmp0987612345`-=[];',./~!@#$%+_)(*&^{}|<>?:";
-const int _letter_len = 66;
+const std::string _letter_xx = "qweasdzxcrfvtgbyhnuiojklmpQWERTYUIOPLKJHGFDSAZXCVBNM0987612345`-=[];',./~!@#$%+_)(*&^{}|<>?:";
+const int _letter_len = 92;
 
 #define INPUT_ERROR 0xff
 

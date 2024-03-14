@@ -3,6 +3,10 @@
 #include "_stl_lib_.hpp"
 #include "_ai_snake_game_.hpp"
 
+#include <cstdlib>
+#include <cstring>
+#include <cctype>
+
 #include <iostream>
 #include <iomanip>
 
@@ -116,7 +120,12 @@ void TestIteratorAdapter()
         auto i32_v = std::vector<pointT>();
         i32_v.reserve(1<<8);
         auto cin_itr = std::istream_iterator<pointT>(std::cin);
-        __TYPE_OF__(cin_itr) cin_itr_end;
+        #if defined(__TYPE_OF__)
+            __TYPE_OF__(cin_itr) cin_itr_end;
+        #else 
+            auto cin_itr_end = std::istream_iterator<pointT>();
+        #endif 
+        
         std::copy(cin_itr, cin_itr_end,
                     std::back_inserter<>(i32_v));
         ConsoleIterOutput<pointT>(i32_v, ", ");
@@ -126,7 +135,7 @@ void TestIteratorAdapter()
 void TestAssoContainerAlgo()
 {
     std::set<int > i32_s1, i32_s2;
-    #if (__CC_VER__ > 1)
+    #if defined(__TYPE_OF__)
         __TYPE_OF__(i32_s1) i32_s_diff;
         __TYPE_OF__(i32_s1) i32_s_union;
         __TYPE_OF__(i32_s1) i32_s_inters;
@@ -177,6 +186,55 @@ void TestAssoContainerAlgo()
      _COLOR_RECOVER;
     _COLOR_RECOVER;
 
+}
+
+
+void TestRemoveAlgo()
+{       
+    PSEUDORANDOM_DECL;
+    auto i32_v = std::vector<int >(1<<4);
+    std::generate(i32_v.begin(),
+                    i32_v.end(),
+                    []() -> int
+                    {
+                        return rand() % (1<<5);
+                    });
+    
+    PRINTLN("After gen");                
+    std::copy(i32_v.begin(), i32_v.end(),
+                std::back_inserter(i32_v));
+    PRINTLN("After copy");
+    _COLOR_START(_COLOR_GREEN);
+    ConsoleIterOutput<int > (i32_v, ", ");
+
+
+    i32_v.erase(std::remove_if(i32_v.begin(), i32_v.end(), 
+                                [](const int &_i32) -> bool 
+                                {
+                                    return !(_i32 & (_i32 -1));
+                                }), 
+                i32_v.end());
+    
+    PRINTLN("After vi remove");
+    _COLOR_START(_COLOR_BLUE);
+    ConsoleIterOutput<int > (i32_v, ", ");
+}
+
+void TestArbitraryAlgo()
+{
+    std::string _s;
+    _s.resize(1<<5);
+    std::string char_sets(_letter_xx.substr(0, 52));
+    std::generate(_s.begin(), _s.end(),
+                    [char_sets]()-> char 
+                    {
+                        return char_sets[rand()%52];
+                    });
+    ConsoleIterOutput<char >(_s, ", ");
+
+    std::transform(_s.begin(), _s.end(), 
+                    _s.begin(), ::tolower);
+    ConsoleIterOutput<char >(_s, ", ");
 }
 
 END_NAMESPACE_ALAN

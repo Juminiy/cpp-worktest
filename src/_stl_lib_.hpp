@@ -69,7 +69,7 @@ void IterOutput(const _Container &__container,
 template <typename _Tp,
             typename _Container >
 void ConsoleIterOutput(const _Container &__container, 
-                        const char* __delimiter)
+                        const char* __delimiter = ", ")
 {
     IterOutput<_Tp, _Container, std::ostream >
                 (__container, std::cout, __delimiter);
@@ -200,6 +200,28 @@ _Tp _Sum(const _Container &__container,
                             __init_val);
 }
 
+// [_start, _end)
+template <typename _Tp, 
+            typename _Container,
+            typename _Iterator >
+std::pair<_Tp, std::pair<_Iterator , _Iterator > >
+_Sum(_Container &__container,
+        const _Tp __range_start,
+        const _Tp __range_end,
+        _Tp __init_val)
+{       
+    std::pair<_Iterator, _Iterator > _it_rg = std::make_pair(
+                    std::lower_bound(__container.begin(), __container.end(), 
+                                        __range_start),
+                    std::lower_bound(__container.begin(), __container.end(), 
+                                        __range_end));
+    return std::make_pair(std::accumulate(
+                            _it_rg.first,
+                            _it_rg.second,
+                            __init_val), 
+                        _it_rg);
+}
+
 // _Tp must overload operator + and operator /
 template <typename _Tp,
             typename _Container >
@@ -208,6 +230,22 @@ _Tp _Avg(const _Container &__container,
 {
     return _Sum(__container, __init_val) /
             __container.size();
+}
+
+template <typename _Tp,
+            typename _Container,
+            typename _Iterator >
+_Tp _Avg(_Container &__container,
+            const _Tp __range_start,
+            const _Tp __range_end,
+            _Tp __init_val)
+{
+    std::pair<_Tp, std::pair<_Iterator, _Iterator > > res_pair = 
+        _Sum<_Tp, _Container, _Iterator>
+            (__container, __range_start, __range_end, __init_val);
+    return (res_pair.first) / 
+            (std::distance(res_pair.second.first, 
+                            res_pair.second.second));
 }
 
 

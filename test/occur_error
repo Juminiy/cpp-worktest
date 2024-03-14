@@ -1,0 +1,22 @@
+_stl_lib_.hpp: 
+In instantiation of ‘std::pair<_Tp, std::pair<_Asso_Iter, _Asso_Iter> > 
+_Sum(const _Container&, _Tp, _Tp, _Tp) 
+[with _Tp = int; _Container = std::vector<int>; _Iterator = __gnu_cxx::__normal_iterator<int*, std::vector<int> >]’:
+_stl_lib_.hpp:245:13:   
+required from ‘_Tp _Avg(const _Container&, _Tp, _Tp, _Tp) 
+[with _Tp = int; _Container = std::vector<int>; _Iterator = __gnu_cxx::__normal_iterator<int*, std::vector<int> >]’
+_algo_.cpp:330:21:   required from here
+_stl_lib_.hpp:213:61: error: conversion from 
+‘pair<__normal_iterator<const int*,[...]>,__normal_iterator<const int*,[...]>>’ to non-scalar type 
+‘pair<__normal_iterator<int*,[...]>,__normal_iterator<int*,[...]>>’ requested
+  213 |     std::pair<_Iterator, _Iterator > _it_rg = std::make_pair(
+      |                                               ~~~~~~~~~~~~~~^
+  214 |                     std::lower_bound(__container.begin(), __container.end(),
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  215 |                                         __range_start),
+      |                                         ~~~~~~~~~~~~~~~
+  216 |                     std::lower_bound(__container.begin(), __container.end(),
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  217 |                                         __range_end));
+      |                                         ~~~~~~~~~~~~~
+make: *** [Makefile:39: _algo_.o] Error 1

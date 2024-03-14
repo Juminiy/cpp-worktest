@@ -8,6 +8,7 @@
 #include "_nfa_.hpp"
 #include "_set_theory_.hpp"
 #include "_algo_.hpp"
+#include "_rand_lib_.hpp"
 
 #include <getopt.h>
 #include <unistd.h>
@@ -110,7 +111,9 @@ int main(int argc, char *argv[], char *envp[])
         // Alan::TestIteratorAdapter();
         // Alan::TestAssoContainerAlgo();
         // Alan:: TestRemoveAlgo();
-        Alan:: TestArbitraryAlgo();
+        // Alan:: TestArbitraryAlgo();
+        // Alan::  Test_Tp_AVG();
+        TestRandRDMT19937();
         break;
             
         // parameter (argv)
@@ -119,6 +122,7 @@ int main(int argc, char *argv[], char *envp[])
         // TestVigenereEncrypt();
         // TestEmail();
         // TestNFA();
+        Alan:: Test_Palindrome();
         break;
 
             case 'y':

@@ -237,4 +237,100 @@ void TestArbitraryAlgo()
     ConsoleIterOutput<char >(_s, ", ");
 }
 
+// 1. remove not alpha
+// 2. all alpha to uppercase
+// 3. is palindrome
+bool Char_Palindrome(const std::string &_par)
+{   
+    std::string _par_cp(_par);
+    _par_cp.erase(std::remove_if(_par_cp.begin(), _par_cp.end(), 
+                                [](const char _ch) -> bool{
+                                    return !isalpha(_ch);
+                                }), 
+                _par_cp.end());
+
+    std::transform(_par_cp.begin(), _par_cp.end(),
+                    _par_cp.begin(), ::toupper);
+
+    return std::equal(_par_cp.begin(),
+                        _par_cp.begin() + (_par_cp.size() >> 1),
+                        _par_cp.rbegin());
+}
+
+// 1. split words by white space ' ' put them into vector<std::string> 
+// 1. remove not alpha words
+// 2. all words to uppercase
+// 3. vector is palindrome
+bool Word_Palindrome(const std::string &_par)
+{   
+    std::string _par_cp(_par);
+    std::vector<std::string > str_v;
+    size_t start_i = 0, last_i = 0;
+    std::for_each(_par_cp.begin(), _par_cp.end(),
+                    [&str_v, _par_cp,
+                    &start_i, &last_i]
+                    (const char &_ch){
+                        last_i++;
+                        if(_ch == ' ')
+                        {   
+                            auto _par_sub = _par_cp.substr(start_i, last_i-start_i-1);
+                            if (std::find_if_not(_par_sub.begin(), _par_sub.end(), isalpha) 
+                                == _par_sub.end())
+                                std::transform(_par_sub.begin(), _par_sub.end(),
+                                                _par_sub.begin(), ::toupper),
+                                str_v.push_back(_par_sub);
+                            start_i = last_i;
+                        }
+                    });
+    ConsoleIterOutput<std::string > (str_v);
+    return std::equal(str_v.begin(),
+                        str_v.begin() + (str_v.size() >> 1),
+                        str_v.rbegin());
+}
+
+
+// example: 
+// 1. <_Tp = std::string > = AccbccA
+// 2. <_Tp = std::string > = This is this
+void Test_Palindrome()
+{   
+    _COLOR_START(_COLOR_BLUE);
+    PRINTLN("char palindrome");
+    std:: cout << std::boolalpha
+                << Alan::Char_Palindrome(optarg) << std::endl;
+    _COLOR_RECOVER;
+
+    _COLOR_START(_COLOR_GREEN);
+    PRINTLN("word palindrome");
+    std:: cout << std::boolalpha
+                << Alan::Word_Palindrome("wow THis is this wow ") << std::endl;
+    std:: cout << std::boolalpha
+                << Alan::Word_Palindrome("wow kaobei ss") << std::endl;
+    _COLOR_RECOVER;
+}
+
+
+void Test_Tp_AVG()
+{       
+
+    PSEUDORANDOM_DECL;
+    size_t i32_v_sz = rand() % (1<<8);
+
+    auto i32_v = std::vector<int>(i32_v_sz);
+    std::generate(i32_v.begin(),
+                    i32_v.end(),
+                    [](){return rand() % (1<<10);});
+    PRINTLN("gen ok ");
+
+    std::sort(i32_v.begin(), i32_v.end());
+    PRINTLN("sort ok");
+
+    ConsoleIterOutput<int >(i32_v);
+    std:: cout << _Avg<int, 
+                        std::vector<int >, 
+                        std::vector<int >::iterator >
+                    (i32_v, 8, 105, 0) 
+                << std::endl;
+}
+
 END_NAMESPACE_ALAN

@@ -11,6 +11,8 @@ void TestIteratorAdapter();
 void TestAssoContainerAlgo();
 void TestRemoveAlgo();
 void TestArbitraryAlgo();
+void Test_Palindrome();
+void Test_Tp_AVG();
 
 END_NAMESPACE_ALAN
 

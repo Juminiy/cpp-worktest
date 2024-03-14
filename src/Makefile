@@ -10,6 +10,7 @@ objects += _dfa_.o
 objects += _nfa_.o
 objects += _set_theory_.o
 objects += _algo_.o
+objects += _rand_lib_.o
 
 debug_mode_print = -DDEBUG_MODE=1 
 debug_gdb = echo "gdb -q -tui main"

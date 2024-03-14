@@ -30,7 +30,14 @@
 
 
 USE_NAMESPACE_ALAN
-typedef std::pair<int, std::string> i32_str;
+
+typedef std::unordered_map<int, std::string > um_i32_str;
+typedef um_i32_str::value_type _i32_str_pr ;
+std::ostream& operator << (std::ostream & _os, const _i32_str_pr & _i32_str_val)
+{
+    _os << "[" << _i32_str_val.first << ", " << _i32_str_val.second << "]" ;
+    return _os ;    
+}
 
 void TestUMap()
 {   
@@ -41,21 +48,23 @@ void TestUMap()
     // cout << bh.size() << endl;
 
     std::unordered_map<int, std::string > umis ;
-    umis.insert(i32_str(1, "w"));
-    std::map<int, std::string> mis;
-    mis.insert(i32_str(1, "s"));
-    std::multimap<int, std::string> mm;
-    mm.insert(i32_str(1, "ss"));
-    mm.insert(i32_str(1, "bb"));
-    mm.insert(i32_str(1, "ss"));
-    mm.insert(i32_str(1, "kk"));
-    for(auto &_e_ UNUSED : mm)
-        ;
-        // std::cout << "[" << _e_.first << ", " << _e_.second << "]" << std::endl;
+    
+    umis.insert(_i32_str_pr(1, "w"));
+    // TODO: overload std::pair<_Tp1, _Tp2 >
+    // ConsoleIterOutput<_i32_str_pr >(umis);
 
+    std::map<int, std::string> mis;
+    mis.insert(_i32_str_pr(1, "s"));
+
+    std::multimap<int, std::string> mm;
+    mm.insert(_i32_str_pr(1, "ss"));
+    mm.insert(_i32_str_pr(1, "bb"));
+    mm.insert(_i32_str_pr(1, "ss"));
+    mm.insert(_i32_str_pr(1, "kk"));
+    
     std::set<int> i32S;
     i32S.insert(1);
-    ConsoleIterOutput<int>(i32S, "\n");
+    ConsoleIterOutput<int>(i32S);
 
 }
 

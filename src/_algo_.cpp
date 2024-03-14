@@ -333,4 +333,49 @@ void Test_Tp_AVG()
                 << std::endl;
 }
 
+void Test_LB_UB()
+{
+    auto i32_v = std::vector<int > {1, 2, 3, 4, 
+                            5, 5, 5, 6, 6, 
+                            77, 88, 99, 1000, 
+                            1888, 10001};
+    auto i32_vi = std::vector<int>
+        {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14};
+
+    const size_t max_num_width = 
+        std::to_string(*std::max_element(i32_v.begin(), i32_v.end(),
+                            [](const int &_lhs, 
+                                const int &_rhs) -> bool {
+                                return std::to_string(_lhs).size() < 
+                                        std::to_string(_rhs).size();
+                            })).size();
+    PRINTLN_DETAIL(max_num_width);
+
+    PRINT("index: ");
+    CONSOLE_FIXED_OUTPUT(i32_vi, int, 5, ' ', std::internal, ", ");
+    PRINT("value: ");
+    CONSOLE_FIXED_OUTPUT(i32_v, int, 5, ' ', std::internal, ", ");
+
+    
+
+    auto _is_it = std::istream_iterator<int> (std::cin);
+    int dest = 0;
+    while (dest != (1<<31)) {
+        dest = *_is_it;
+        PRINTLN_DETAIL(  
+            std::to_string(std::distance(
+                            i32_v.begin(),
+                            std::lower_bound(i32_v.begin(), 
+                                                i32_v.end(), 
+                                                dest))));
+        PRINTLN_DETAIL(
+            std::to_string(std::distance(
+                            i32_v.begin(),
+                            std::upper_bound(i32_v.begin(), 
+                                                i32_v.end(), 
+                                                dest))));
+        _is_it++;
+    }
+}
+
 END_NAMESPACE_ALAN

@@ -94,7 +94,7 @@ int main(int argc, char *argv[], char *envp[])
         // none parameter (argv)
             case '7':
         // Alan::TestBirthDayParadox();
-        // Alan::TestUMap();
+        Alan::TestUMap();
         // Alan::TestUSet();
         // Alan::TestIterator();
         // Alan::TestMapDiffer();
@@ -113,7 +113,8 @@ int main(int argc, char *argv[], char *envp[])
         // Alan:: TestRemoveAlgo();
         // Alan:: TestArbitraryAlgo();
         // Alan::  Test_Tp_AVG();
-        TestRandRDMT19937();
+        // TestRandRDMT19937();
+        // Alan::Test_LB_UB();
         break;
             
         // parameter (argv)

@@ -6,6 +6,7 @@
 #include <ostream>
 #include <istream>
 #include <fstream>
+#include <iomanip>
 
 #include <string>
 #include <iterator>
@@ -47,6 +48,51 @@ void AssoIterInput(const _Asso_Container &__container,
                 std::inserter(__container));
 }
 
+typedef std::ios_base& (*_AlignFunc) (std::ios_base&);
+
+// inspired and extended by
+// https://stackoverflow.com/questions/405039/permanent-stdsetw
+template < typename _Tp, 
+            size_t _Width, 
+            char _FillCT,
+            _AlignFunc _AlignType >
+class _FixedAlign
+{
+public:
+    _FixedAlign(_Tp _elem_val) : 
+                elem_val(_elem_val){} 
+
+    template < typename _Tp_tp, 
+                size_t _Width_wd, 
+                char _FillCT_ct, 
+                _AlignFunc _AlignType_type>
+    friend std::ostream& 
+        operator << (std::ostream & _os, 
+                    const _FixedAlign< _Tp_tp, 
+                                        _Width_wd,
+                                        _FillCT_ct,
+                                        _AlignType_type > & _fa)
+    {
+        _os << std::setfill(_FillCT_ct) 
+            << std::setw(_Width_wd) 
+            << _AlignType_type << _fa.elem_val;
+        return _os ;
+    }
+
+private:
+    _Tp elem_val;
+};
+
+// Template can not do, but Macro can do !!!
+#define CONSOLE_FIXED_OUTPUT(__container__, __Tp__, \
+    __fixed_sz__, __fill_ct__ , __align_func__, __delimiter__) \
+    std::copy(__container__.cbegin(), __container__.cend(), \
+                std::ostream_iterator< _FixedAlign <__Tp__, \
+                                                    __fixed_sz__, \
+                                                    __fill_ct__, \
+                                                    __align_func__ > > \
+                    (std::cout, __delimiter__)), \
+    std::cout << std::endl; 
 
 
 template <typename _Tp, 
@@ -58,8 +104,8 @@ void IterOutput(const _Container &__container,
 {
     std::copy(__container.cbegin(),
                 __container.cend(),
-                std::ostream_iterator<_Tp>(__ostream,
-                                            __delimiter)
+                std::ostream_iterator< _Tp >
+                    (__ostream, __delimiter)
                 );
 }
 

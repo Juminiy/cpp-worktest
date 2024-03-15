@@ -40,7 +40,10 @@ extern "C" {
 #elif defined(__powerpc64__)
     #define __ISA_VER__ 2
 
-#elif defined(risc_v)
+#elif defined(__riscv__) || \
+        defined(__riscv) || \
+        defined(_riscv) || \
+        defined(__riscv32)
     #define __ISA_VER__ 1
 
 #else
@@ -82,6 +85,10 @@ extern "C" {
 #endif 
 
 
+// thread model
+
+
+
 // c/cxx compiler
 #if defined(__GNUC__)
     #undef __CC_VER__
@@ -108,7 +115,10 @@ extern "C" {
     #define __CC_VER__ 1
 #endif 
 
+
 // c/cxx lib
+
+
 
 #define __STRFY__(__expr_x__) #__expr_x__
 #define __TOSTR__(__expr_x__) __STRFY__(__expr_x__)

@@ -378,4 +378,96 @@ void Test_LB_UB()
     }
 }
 
+void TestTask()
+{
+    auto RemoveShortWords UNUSED = 
+        [](std::vector<std::string > &_sv) 
+        -> bool {
+            _sv.erase(
+                std::remove_if(_sv.begin(), _sv.end(), 
+                                [](const std::string &_si) 
+                                -> bool 
+                                {return _si.size() <= 3;}), 
+                _sv.end());
+            return true;
+        };
+
+    auto _sv UNUSED = std::vector<std::string >
+        {"qwe", "qwertyu", "Me First", "afsfasq", "afasfasg", 
+        "qfqwfqwqwfw", "a", "", "Me First", "aa", "safs", "Me First", "Me First"};
+
+    // PRINTLN("after gen");
+    // ConsoleIterOutput<std::string>(_sv);
+
+    // PRINTLN("after filter");
+    // RemoveShortWords(_sv);
+    // ConsoleIterOutput<std::string>(_sv);
+
+
+    auto DistanceToOrigin UNUSED = 
+        [](std::vector<double > &_pv)
+        -> double  
+        {
+            return ::sqrt(
+                std::inner_product(_pv.begin(), _pv.end(),
+                                    _pv.begin(), 0.0));
+        };
+
+    auto _pv UNUSED = std::vector<double > {1, 2, 3, 4, 5, 6};
+    // std::cout << std::setprecision(10) << DistanceToOrigin(_pv) << std::endl;
+
+    auto BiasedSort UNUSED = 
+        [](std::vector<std::string > &_sv, const std::string &_Se)
+        -> bool 
+        {
+            std::stable_sort(_sv.begin(), _sv.end(),
+                            [_Se](const std::string &_lhs, 
+                                const std::string & _rhs) 
+                            -> bool  
+                            {   
+                                if (_lhs == _Se)
+                                    return true;
+                                else if (_rhs == _Se)
+                                    return false;
+                                else 
+                                    return _lhs < _rhs;                                
+                            });
+            return true; 
+        };
+    
+
+    // BiasedSort(_sv, "Me First");
+    // ConsoleIterOutput<std::string>(_sv);
+
+    auto CriticsPick = 
+        [](const std::map< std::string, double > &_movies,
+            const int &_top_n)
+        -> std::set< std::string > 
+        {   
+            auto _re_ms = std::multimap< double, std::string, std::greater<double > > ();
+            int __top_n = _top_n;
+            for(auto &_pr : _movies)
+                _re_ms.insert(std::make_pair(_pr.second, _pr.first));
+
+            // need to debug
+            auto _res = std::set< std::string > ();
+            for(auto &_pr : _re_ms)
+                if(__top_n)
+                    --__top_n,
+                    _res.insert(_pr.second);
+            return _res;
+        };
+
+    auto _movies = std::map< std::string, double >();
+    _movies["mskasw"] = 1.0, _movies["jrtjt"] = 1.0, _movies["xcz"] = 1.0;
+    _movies["dgsq"] = 2.0, _movies["ndse"] = 2.0, _movies["wyq"] = 2.0;
+    _movies["qwyye"] = 3.0, _movies["saaa"] = 3.0, _movies["faaa"] = 3.0;
+    _movies["sfw"] = 4.0, _movies["xb"] = 4.0, _movies["sfwq"] = 4.0;
+    _movies["mskasw"] = 5.0, _movies["jrtjt"] = 5.0, _movies["sawqqqqw"] = 5.0;
+    _movies["dgsq"] = 6.0, _movies["xxxawq"] = 6.0, _movies["wyq"] = 6.0;
+    _movies["mskwwqqqwwasw"] = 7.0, _movies["ssasdfaz"] = 7.0, _movies["sfaqqwqwrqr"] = 7.0;
+    _movies["qw"] = 8.0, _movies["zqq"] = 8.0, _movies["wewqrqwcqw"] = 8.0;
+    ConsoleIterOutput<std::string > ( CriticsPick(_movies, 10) );
+}
+
 END_NAMESPACE_ALAN

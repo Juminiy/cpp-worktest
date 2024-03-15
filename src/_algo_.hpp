@@ -14,6 +14,7 @@ void TestArbitraryAlgo();
 void Test_Palindrome();
 void Test_Tp_AVG();
 void Test_LB_UB();
+void TestTask();
 
 END_NAMESPACE_ALAN
 

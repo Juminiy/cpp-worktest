@@ -115,6 +115,7 @@ int main(int argc, char *argv[], char *envp[])
         // Alan::  Test_Tp_AVG();
         // TestRandRDMT19937();
         // Alan::Test_LB_UB();
+        Alan:: TestTask();
         break;
             
         // parameter (argv)

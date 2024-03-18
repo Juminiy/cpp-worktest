@@ -9,6 +9,7 @@
 #include "_set_theory_.hpp"
 #include "_algo_.hpp"
 #include "_rand_lib_.hpp"
+#include "chara/_chara_.hpp"
 
 #include <getopt.h>
 #include <unistd.h>
@@ -115,7 +116,8 @@ int main(int argc, char *argv[], char *envp[])
         // Alan::  Test_Tp_AVG();
         // TestRandRDMT19937();
         // Alan::Test_LB_UB();
-        Alan:: TestTask();
+        // Alan:: TestTask();
+        TestLiterals();
         break;
             
         // parameter (argv)

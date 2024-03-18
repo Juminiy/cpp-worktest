@@ -147,22 +147,44 @@ void CompleteIterOutput(_InputStream &__input_stream,
 typedef std::pair<std::string, std::string > ss_pair;
 typedef std::pair<std::string, int> si_pair;
 
+// TODO: 
+// how to define a pair name 
+// for example: 
+// 1. _i32_str_pair -> std::pair<int, std::string >
+// 2. _i64_ch_pair -> std::pair<long long, char >
+// 3. _i32_ptr_wch_pair -> std::pair<int*, wchar_t > 
+#define __TYPEDEF_STD_PAIR__(__Tp1__, __Tp2__) \
+        typedef std::pair<__Tp1__, __Tp2__> __Tp1__ __Tp2__ pair
+
+template <typename _Tp1, 
+            typename _Tp2 >
+std::ostream& operator << (std::ostream &__os, 
+                            const std::pair<_Tp1, _Tp2 > &__tp_pair)
+{
+    __os << "[" 
+            << __tp_pair.first 
+            << ", " 
+            << __tp_pair.second 
+        << "]";
+    return __os;
+}
+
 
 template <typename _Tp, 
             typename _Asso_Container >
 bool AssoFind(const _Asso_Container &__container, 
-                const _Tp &__element)
+                const _Tp &__element_key)
 {
-    return __container.find(__element) 
+    return __container.find(__element_key) 
             != __container.cend();
 }
 
 template <typename _Tp,
             typename _Asso_Container >
 size_t AssoCount(const _Asso_Container &__container,
-                    const _Tp &__element) 
+                    const _Tp &__element_key) 
 {
-    return __container.count(__element);
+    return __container.count(__element_key);
 }
 
 // (_min, _max)
@@ -172,11 +194,11 @@ template <typename _Tp,
             typename _Asso_Iter >
 std::pair<_Asso_Iter, _Asso_Iter >
 AssoRange_v0(const _Asso_Ordered_Container &__container,
-                const _Tp &_min_element, 
-                const _Tp &_max_element)
+                const _Tp &_min_element_key, 
+                const _Tp &_max_element_key)
 {
-    return std::make_pair(__container.upper_bound(_min_element),
-                            __container.lower_bound(_max_element));
+    return std::make_pair(__container.upper_bound(_min_element_key),
+                            __container.lower_bound(_max_element_key));
 }
 
 // (_min, _max]
@@ -186,11 +208,11 @@ template <typename _Tp,
             typename _Asso_Iter >
 std::pair<_Asso_Iter, _Asso_Iter >
 AssoRange_v1(const _Asso_Ordered_Container &__container,
-                const _Tp &_min_element, 
-                const _Tp &_max_element)
+                const _Tp &_min_element_key, 
+                const _Tp &_max_element_key)
 {
-    return std::make_pair(__container.upper_bound(_min_element),
-                            __container.upper_bound(_max_element));
+    return std::make_pair(__container.upper_bound(_min_element_key),
+                            __container.upper_bound(_max_element_key));
 }
 
 // [_min, _max)
@@ -200,11 +222,11 @@ template <typename _Tp,
             typename _Asso_Iter >
 std::pair<_Asso_Iter, _Asso_Iter >
 AssoRange_v2(const _Asso_Ordered_Container &__container,
-                const _Tp &_min_element, 
-                const _Tp &_max_element)
+                const _Tp &_min_element_key, 
+                const _Tp &_max_element_key)
 {
-    return std::make_pair(__container.lower_bound(_min_element),
-                            __container.lower_bound(_max_element));
+    return std::make_pair(__container.lower_bound(_min_element_key),
+                            __container.lower_bound(_max_element_key));
 }
 
 // [_min, _max]
@@ -214,11 +236,11 @@ template <typename _Tp,
             typename _Asso_Iter >
 std::pair<_Asso_Iter, _Asso_Iter >
 AssoRange_v3(const _Asso_Ordered_Container &__container,
-                const _Tp &_min_element, 
-                const _Tp &_max_element)
+                const _Tp &_min_element_key, 
+                const _Tp &_max_element_key)
 {
-    return std::make_pair(__container.lower_bound(_min_element),
-                            __container.upper_bound(_max_element));
+    return std::make_pair(__container.lower_bound(_min_element_key),
+                            __container.upper_bound(_max_element_key));
 }
 
 
@@ -293,6 +315,7 @@ _Tp _Avg(_Container &__container,
             (std::distance(res_pair.second.first, 
                             res_pair.second.second));
 }
+
 
 
 

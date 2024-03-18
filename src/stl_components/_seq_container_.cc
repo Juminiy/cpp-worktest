@@ -1,7 +1,8 @@
-#include "_i_lib_.hpp"
-#include "_seq_container_.hpp"
-#include "_stl_lib_.hpp"
-#include "_stream_.hpp"
+#include "../../include/_i_lib_.hpp"
+#include "../../include/_stl_lib_.hpp"
+
+#include "../../include/_seq_container_.hpp"
+#include "../../include/_stream_.hpp"
 
 #include <iostream>
 #include <fstream>

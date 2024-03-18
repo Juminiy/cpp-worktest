@@ -1,11 +1,15 @@
-#include "_algo_.hpp"
-#include "_i_lib_.hpp"
-#include "_stl_lib_.hpp"
-#include "_ai_snake_game_.hpp"
+#include "../../include/_i_lib_.hpp"
+#include "../../include/_stl_lib_.hpp"
+
+#include "../../include/_algo_.hpp"
+#include "../../include/_ai_snake_game_.hpp"
+
+
 
 #include <cstdlib>
 #include <cstring>
 #include <cctype>
+
 
 #include <iostream>
 #include <iomanip>
@@ -378,6 +382,8 @@ void Test_LB_UB()
     }
 }
 
+
+
 void TestTask()
 {
     auto RemoveShortWords UNUSED = 
@@ -449,12 +455,19 @@ void TestTask()
             for(auto &_pr : _movies)
                 _re_ms.insert(std::make_pair(_pr.second, _pr.first));
 
+            // error is here
+            // ConsoleIterOutput< std::pair<double , std::string> >(_re_ms); 
             // need to debug
             auto _res = std::set< std::string > ();
             for(auto &_pr : _re_ms)
-                if(__top_n)
-                    --__top_n,
+            {
+                std::cout << _pr << std::endl;
+                if(__top_n--)
                     _res.insert(_pr.second);
+                else 
+                    break;
+            }
+                
             return _res;
         };
 
@@ -467,6 +480,7 @@ void TestTask()
     _movies["dgsq"] = 6.0, _movies["xxxawq"] = 6.0, _movies["wyq"] = 6.0;
     _movies["mskwwqqqwwasw"] = 7.0, _movies["ssasdfaz"] = 7.0, _movies["sfaqqwqwrqr"] = 7.0;
     _movies["qw"] = 8.0, _movies["zqq"] = 8.0, _movies["wewqrqwcqw"] = 8.0;
+    
     ConsoleIterOutput<std::string > ( CriticsPick(_movies, 10) );
 }
 

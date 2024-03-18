@@ -1,8 +1,11 @@
-#include "_nfa_.hpp"
-#include "_i_lib_.hpp"
-#include "_stream_.hpp"
-#include "_dfa_.hpp"
-#include "_stl_lib_.hpp"
+#include "../../include/_i_lib_.hpp"
+#include "../../include/_stl_lib_.hpp"
+
+#include "../../include/_nfa_.hpp"
+#include "../../include/_stream_.hpp"
+#include "../../include/_dfa_.hpp"
+
+
 
 #include <cstdlib>
 #include <cstring>

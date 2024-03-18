@@ -1,10 +1,12 @@
-#include "_i_lib_.hpp"
-#include "_asso_container_.hpp"
-#include "_ai_snake_game_.hpp"
-#include "_stl_lib_.hpp"
-#include "_stream_.hpp"
-#include "_stl_lib_.hpp"
-#include "_seq_container_.hpp"
+#include "../../include/_i_lib_.hpp"
+#include "../../include/_stl_lib_.hpp"
+
+#include "../../include/_stream_.hpp"
+#include "../../include/_seq_container_.hpp"
+#include "../../include/_asso_container_.hpp"
+#include "../../include/_ai_snake_game_.hpp"
+
+
 
 #include <ctime>
 #include <cmath>
@@ -33,11 +35,6 @@ USE_NAMESPACE_ALAN
 
 typedef std::unordered_map<int, std::string > um_i32_str;
 typedef um_i32_str::value_type _i32_str_pr ;
-std::ostream& operator << (std::ostream & _os, const _i32_str_pr & _i32_str_val)
-{
-    _os << "[" << _i32_str_val.first << ", " << _i32_str_val.second << "]" ;
-    return _os ;    
-}
 
 void TestUMap()
 {   

@@ -1,14 +1,11 @@
 # project specific ignore dirs & files 
+/bin
 /build 
 /.vscode
 /.idea
 /*.dSYM
 
 main
-# *.txt
-# *.test
-
-
 
 # Cpp github template ignore
 # include from https://github.com/github/gitignore/blob/main/C%2B%2B.gitignore

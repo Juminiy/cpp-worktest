@@ -1,5 +1,6 @@
-#include "_ai_snake_game_.hpp"
-#include "_stream_.hpp"
+#include "../../include/_ai_snake_game_.hpp"
+#include "../../include/_stream_.hpp"
+
 
 
 #include <fstream>

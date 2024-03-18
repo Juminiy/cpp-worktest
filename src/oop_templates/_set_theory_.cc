@@ -1,5 +1,6 @@
-#include "_i_lib_.hpp"
-#include "_set_theory_.hpp"
+#include "../../include/_i_lib_.hpp"
+
+#include "../../include/_set_theory_.hpp"
 
 #include <vector>
 #include <iostream>

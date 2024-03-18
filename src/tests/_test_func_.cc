@@ -1,6 +1,9 @@
-#include "_test_func_.hpp"
-#include "_i_lib_.hpp"
-#include "_stream_.hpp"
+#include "../../include/_i_lib_.hpp"
+
+#include "../../include/_stream_.hpp"
+#include "../../include/_test_func_.hpp"
+
+
 
 #include <iostream>
 #include <memory>

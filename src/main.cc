@@ -23,7 +23,6 @@
 int main(int argc, char *argv[], char *envp[])
 {
     int case_num = 0;
-    int err_code = 0;
 
     while( (case_num = 
             getopt_long(argc, 
@@ -41,7 +40,7 @@ int main(int argc, char *argv[], char *envp[])
 
             // ai snake game
             case 'g':
-        TestAISnakeGame();
+        // TestAISnakeGame();
         break;
 
             // none parameter (argv)
@@ -70,28 +69,23 @@ int main(int argc, char *argv[], char *envp[])
         // Alan::Test_LB_UB();
         // Alan::TestTask();
         // Alan::TestFunc();
-        Alan::TestTask2();
+        // Alan::TestTask2();
         break;
                 
             case 'a':
         // TestAgainstVectorReverseWithNot();
         // TestVigenereEncrypt();
         // TestEmail();
-        TestNFA();
+        // TestNFA();
         // Alan::Test_Palindrome();
         break;
 
             default:
-        err_code = 1;
+        OptUsageV2();
+        exit(ARGUS_ERROR);
         break;
 
         }
-
-    if (err_code)
-    {
-        OptUsageV2();
-        exit(err_code);
-    }
 
     return 0;
 }
@@ -107,7 +101,7 @@ static void inline call_main()
                 "\nHi, Worktest, Compile time: %s\n", 
                 __TIME__);
 
-    PRINTLN(_GREEN(string(print_des)));
+    PRINT(_GREEN(print_des));
 }
 
 DESTRUCT
@@ -115,12 +109,12 @@ static void inline exit_main()
 {   
     char *print_des = (char*)(malloc(34));
     snprintf(print_des, 
-                36, 
-                "\niH, Worktest, Exit time: %s", 
+                37, 
+                "\niH, Worktest, Exit time: %s\n", 
                 __TIME__);
     // bug report: compile time also, 
     // wiil build a global variable to add 
     //          or other way to solve 
 
-    PRINTLN(_GREEN(string(print_des)));
+    PRINT(_GREEN(print_des));
 }

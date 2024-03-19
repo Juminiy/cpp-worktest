@@ -30,13 +30,13 @@ _exe = $(install_dir)/main
 
 build: _ass _oop _stl _tes
 	rm -rf $(build_dir) && mkdir -p $(build_dir)
-	rm -rf $(install_dir) && mkdir -p $(install_dir)
 	mv $(_ass_dir)/*.o $(build_dir)
 	mv $(_oop_dir)/*.o $(build_dir)
 	mv $(_stl_dir)/*.o $(build_dir)
 	mv $(_tes_dir)/*.o $(build_dir)
 
 install: main
+	rm -rf $(install_dir) && mkdir -p $(install_dir)
 	mv -f $< $(_exe)
 
 run: main
@@ -88,9 +88,12 @@ objs: $(patsubst %.cc,%.o,$(wildcard *.cc))
 clean:
 	rm -rf $(install_dir)
 	rm -rf $(build_dir)
-	rm -f main
+	rm -f main $(src_dir)/*.o
 	rm -f main-dynamic libdynamic.so
 	rm -f main-static libstatic.a
 	rm -rf *.dSYM/
 
-.PHONY: run install build clean
+clear: clean
+	clear
+
+.PHONY: run install build clean clear

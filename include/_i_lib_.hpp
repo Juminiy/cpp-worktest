@@ -136,27 +136,44 @@ extern "C" {
 
 
 // COLOR decleration
-#define _COLOR_BLACK    "0"
-#define _COLOR_RED      "1"
-#define _COLOR_GREEN    "2"
-#define _COLOR_YELLOW   "3"
-#define _COLOR_BLUE     "4"
-#define _COLOR_PURPLE   "5"
-#define _COLOR_CYAN     "6"
-#define _COLOR_WHITE    "7"
+#define _COLOR_BLACK    0
+#define _COLOR_RED      1
+#define _COLOR_GREEN    2
+#define _COLOR_YELLOW   3
+#define _COLOR_BLUE     4
+#define _COLOR_PURPLE   5
+#define _COLOR_CYAN     6
+#define _COLOR_WHITE    7
 
-#define _COLOR_CL(_cl_, _ct_)       ("\033[0;3"+_cl_+_ct_+"\033[0m")
-#define _BLACK(_ct_)                ("\033[0;30m"+_ct_+"\033[0m")
-#define _RED(_ct_)                  ("\033[0;31m"+_ct_+"\033[0m") 
-#define _GREEN(_ct_)                ("\033[0;32m"+_ct_+"\033[0m")
-#define _YELLOW(_ct_)               ("\033[0;33m"+_ct_+"\033[0m")
-#define _BLUE(_ct_)                 ("\033[0;34m"+_ct_+"\033[0m") 
-#define _PURPLE(_ct_)               ("\033[0;35m"+_ct_+"\033[0m")
-#define _CYAN(_ct_)                 ("\033[0;36m"+_ct_+"\033[0m") 
-#define _WHITE(_ct_)                ("\033[0;37m"+_ct_+"\033[0m")
+//not effect
+#define _COLOR_CL(_cl_, _ct_) \
+        ("\033[0;3" \
+        __TOSTR__(_cl_)"m" + \
+        std::string(_ct_) + \
+        "\033[0m")
+#define _BLACK(_ct_) \
+        _COLOR_CL(_COLOR_BLACK, _ct_)
+#define _RED(_ct_) \
+        _COLOR_CL(_COLOR_RED, _ct_)
+#define _GREEN(_ct_) \
+        _COLOR_CL(_COLOR_GREEN, _ct_)
+#define _YELLOW(_ct_) \
+        _COLOR_CL(_COLOR_YELLOW, _ct_)
+#define _BLUE(_ct_) \
+        _COLOR_CL(_COLOR_BLUE, _ct_)
+#define _PURPLE(_ct_) \
+        _COLOR_CL(_COLOR_PURPLE, _ct_)
+#define _CYAN(_ct_) \
+        _COLOR_CL(_COLOR_CYAN, _ct_)
+#define _WHITE(_ct_) \
+        _COLOR_CL(_COLOR_WHITE, _ct_)
 
-#define _COLOR_START(_cl_)          PRINT("\033[0;3"+std::string(_cl_)+"m")
-#define _COLOR_RECOVER              PRINT("\033[0m")
+#define _COLOR_START(_cl_) \
+        PRINT("\033[0;3" \
+        __TOSTR__(_cl_) \
+        "m")
+#define _COLOR_RECOVER \
+        PRINT("\033[0m")
 
 
 
@@ -522,5 +539,6 @@ _letter_xx = "qweasdzxcrfvtgbyhnuiojklmp"
 const int _letter_len = 92;
 
 #define INPUT_ERROR 0xff
+#define ARGUS_ERROR 0xf1
 
 #endif 

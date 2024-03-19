@@ -16,7 +16,8 @@
 class AutoMata
 {
 public:
-    virtual bool simu(const std::string &) const = 0;
+    virtual bool 
+    simu(const std::string &) const = 0;
 };
 
 bool is_num_state(const std::string &);

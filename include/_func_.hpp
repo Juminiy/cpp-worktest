@@ -9,8 +9,12 @@
 
 USE_NAMESPACE_ALAN
 
-typedef std::function<int (const int &, const int &)> calBinOpt;
-typedef std::pair<std::string, calBinOpt> calBinPair;
+typedef 
+std::function<int (const int &, const int &)> 
+calBinOpt;
+
+typedef std::pair<std::string, calBinOpt> 
+calBinPair;
 
 void TestFunc();
 void TestTask2();

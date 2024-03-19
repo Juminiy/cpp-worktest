@@ -116,24 +116,26 @@ void TestIteratorAdapter()
 
     // conflict buffer with above ? how to solve that ? 
     // should flush buffer ? ios::flush()?
-    {   
-        pointT i32_i32_p;
-        std::cin >> i32_i32_p;
-        std::cout << i32_i32_p << std::endl;
 
-        auto i32_v = std::vector<pointT>();
-        i32_v.reserve(1<<8);
-        auto cin_itr = std::istream_iterator<pointT>(std::cin);
-        #if defined(__TYPE_OF__)
-            __TYPE_OF__(cin_itr) cin_itr_end;
-        #else 
-            auto cin_itr_end = std::istream_iterator<pointT>();
-        #endif 
+
+    // {   
+    //     pointT i32_i32_p;
+    //     std::cin >> i32_i32_p;
+    //     std::cout << i32_i32_p << std::endl;
+
+    //     auto i32_v = std::vector<pointT>();
+    //     i32_v.reserve(1<<8);
+    //     auto cin_itr = std::istream_iterator<pointT>(std::cin);
+    //     #if defined(__TYPE_OF__)
+    //         __TYPE_OF__(cin_itr) cin_itr_end;
+    //     #else 
+    //         auto cin_itr_end = std::istream_iterator<pointT>();
+    //     #endif 
         
-        std::copy(cin_itr, cin_itr_end,
-                    std::back_inserter<>(i32_v));
-        ConsoleIterOutput<pointT>(i32_v, ", ");
-    }
+    //     std::copy(cin_itr, cin_itr_end,
+    //                 std::back_inserter<>(i32_v));
+    //     ConsoleIterOutput<pointT>(i32_v, ", ");
+    // }
 }
 
 void TestAssoContainerAlgo()
@@ -152,13 +154,13 @@ void TestAssoContainerAlgo()
         i32_s1.insert(i << 1),
         i32_s2.insert(i >> 1);
 
-    PRINTLN(_GREEN(std::string("s1")));
+    PRINTLN(_GREEN("s1"));
     ConsoleIterOutput<int> (i32_s1, ", ");
-    PRINTLN(_GREEN(std::string("s2")));
+    PRINTLN(_GREEN("s2"));
     ConsoleIterOutput<int> (i32_s2, ", ");
 
     {   
-        PRINTLN(_RED(std::string("s1 diffs s2")));
+        PRINTLN(_RED("s1 diffs s2"));
         std::set_difference(i32_s1.begin(), i32_s1.end(),
                             i32_s2.begin(), i32_s2.end(),
                             std::inserter(i32_s_diff, i32_s_diff.begin()));
@@ -166,7 +168,7 @@ void TestAssoContainerAlgo()
     }
 
     {   
-        PRINTLN(_YELLOW(std::string("s1 unions s2")));
+        PRINTLN(_YELLOW("s1 unions s2"));
         std::set_union(i32_s1.begin(), i32_s1.end(),
                         i32_s2.begin(), i32_s2.end(),
                         std::inserter(i32_s_union, i32_s_union.begin()));
@@ -174,7 +176,7 @@ void TestAssoContainerAlgo()
     }
 
     {   
-        PRINTLN(_BLUE(std::string("s1 intersections s2")));
+        PRINTLN(_BLUE("s1 intersections s2"));
         std::set_intersection(i32_s1.begin(), i32_s1.end(),
                                 i32_s2.begin(), i32_s2.end(),
                                 std::inserter(i32_s_inters, i32_s_inters.begin()));
@@ -183,11 +185,11 @@ void TestAssoContainerAlgo()
     _COLOR_START(_COLOR_GREEN);
     
     PRINT_VA("%s\n", "va 1 parameter");
-    _COLOR_START(_COLOR_RED);
-    LOG_ERR("tag match error",
-                __DATE__, __TIME__,
-                __FILE__, __LINE__);
-     _COLOR_RECOVER;
+        _COLOR_START(_COLOR_RED);
+        LOG_ERR("tag match error",
+                    __DATE__, __TIME__,
+                    __FILE__, __LINE__);
+        _COLOR_RECOVER;
     _COLOR_RECOVER;
 
 }
@@ -362,24 +364,24 @@ void Test_LB_UB()
 
     
 
-    auto _is_it = std::istream_iterator<int> (std::cin);
-    int dest = 0;
-    while (dest != (1<<31)) {
-        dest = *_is_it;
-        PRINTLN_DETAIL(  
-            std::to_string(std::distance(
-                            i32_v.begin(),
-                            std::lower_bound(i32_v.begin(), 
-                                                i32_v.end(), 
-                                                dest))));
-        PRINTLN_DETAIL(
-            std::to_string(std::distance(
-                            i32_v.begin(),
-                            std::upper_bound(i32_v.begin(), 
-                                                i32_v.end(), 
-                                                dest))));
-        _is_it++;
-    }
+    // auto _is_it = std::istream_iterator<int> (std::cin);
+    // int dest = 0;
+    // while (dest != (1<<31)) {
+    //     dest = *_is_it;
+    //     PRINTLN_DETAIL(  
+    //         std::to_string(std::distance(
+    //                         i32_v.begin(),
+    //                         std::lower_bound(i32_v.begin(), 
+    //                                             i32_v.end(), 
+    //                                             dest))));
+    //     PRINTLN_DETAIL(
+    //         std::to_string(std::distance(
+    //                         i32_v.begin(),
+    //                         std::upper_bound(i32_v.begin(), 
+    //                                             i32_v.end(), 
+    //                                             dest))));
+    //     _is_it++;
+    // }
 }
 
 

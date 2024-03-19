@@ -252,7 +252,11 @@ void CountKeyWordsOccurences()
 
     // print map result
     for(auto &_pr : _kw_cnt)
-        std::cout << _RED(_pr.first) << " occurs " << _pr.second << " times" << std::endl;
+        std::cout << _RED(_pr.first) 
+                    << " occurs " 
+                    << _pr.second 
+                    << " times" 
+                    << std::endl;
 
 }
 
@@ -426,7 +430,7 @@ void TestMatchingPrefix()
         _s_s.insert(genString(1<<3) + _s),
         _s_s.insert(genString(1<<3) + _s + genString(1<<3)),
         _s_s.insert(genString(1<<4) + _s + genString(1<<4));
-    PRINTLN(_CYAN(std::string("_s_s.size() = ") + 
+    PRINTLN(_CYAN("_s_s.size() = " + 
                     std::to_string(_s_s.size())));
     _PrintMatchingPrefixes(_s_s, _s);
 

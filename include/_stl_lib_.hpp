@@ -17,6 +17,9 @@
 
 #include <chrono>
 
+#include <map>
+#include <unordered_map>
+
 #define TIME_BASED_SEED std::chrono::system_clock::now().time_since_epoch().count()
 
 
@@ -347,7 +350,7 @@ class RWRBTree
 
 // can read only by .find
 template <typename _Key, typename _Val, 
-            typename _Asso_Container = std::unordered_map<_Key, _Val> >
+            typename _Asso_Container = std::unordered_map<_Key, _Val > >
 class ReadOnlyHashMap
 {
 
@@ -356,7 +359,7 @@ class ReadOnlyHashMap
 // read operation can only by .find
 // write operation can only by .insert
 template <typename _Key, typename _Val, 
-            typename _Asso_Container = std::unordered_map<_Key, _Val> >
+            typename _Asso_Container = std::unordered_map<_Key, _Val > >
 class RWriteOnceHashMap
 {
 
@@ -365,7 +368,7 @@ class RWriteOnceHashMap
 // read operation can only by .find
 // write operation can only by .operator[]
 template <typename _Key, typename _Val, 
-            typename _Asso_Container = std::unordered_map<_Key, _Val> >
+            typename _Asso_Container = std::unordered_map<_Key, _Val > >
 class RWHashMap
 {
 

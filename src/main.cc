@@ -40,7 +40,7 @@ int main(int argc, char *argv[], char *envp[])
 
             // ai snake game
             case 'g':
-        // TestAISnakeGame();
+        TestAISnakeGame();
         break;
 
             // none parameter (argv)
@@ -69,7 +69,7 @@ int main(int argc, char *argv[], char *envp[])
         // Alan::Test_LB_UB();
         // Alan::TestTask();
         // Alan::TestFunc();
-        // Alan::TestTask2();
+        Alan::TestTask2();
         break;
                 
             case 'a':
@@ -77,7 +77,7 @@ int main(int argc, char *argv[], char *envp[])
         // TestVigenereEncrypt();
         // TestEmail();
         // TestNFA();
-        // Alan::Test_Palindrome();
+        Alan::Test_Palindrome();
         break;
 
             default:

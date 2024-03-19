@@ -316,6 +316,60 @@ _Tp _Avg(_Container &__container,
                             res_pair.second.second));
 }
 
+// TODO: encapsulate some < _Tp >associate containers 
+// to restrict the operate
+
+// can read only by .find
+template <typename _Key, typename _Val, 
+            typename _Asso_Container = std::map<_Key, _Val> >
+class ReadOnlyRBTree
+{
+
+};
+
+// read operation can only by .find
+// write operation can only by .insert
+template <typename _Key, typename _Val, 
+            typename _Asso_Container = std::map<_Key, _Val> >
+class RWriteOnceRBTree
+{
+
+};
+
+// read operation can only by .find
+// write operation can only by .operator[]
+template <typename _Key, typename _Val, 
+            typename _Asso_Container = std::map<_Key, _Val> >
+class RWRBTree
+{
+
+};
+
+// can read only by .find
+template <typename _Key, typename _Val, 
+            typename _Asso_Container = std::unordered_map<_Key, _Val> >
+class ReadOnlyHashMap
+{
+
+};
+
+// read operation can only by .find
+// write operation can only by .insert
+template <typename _Key, typename _Val, 
+            typename _Asso_Container = std::unordered_map<_Key, _Val> >
+class RWriteOnceHashMap
+{
+
+};
+
+// read operation can only by .find
+// write operation can only by .operator[]
+template <typename _Key, typename _Val, 
+            typename _Asso_Container = std::unordered_map<_Key, _Val> >
+class RWHashMap
+{
+
+};
 
 
 

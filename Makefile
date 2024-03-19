@@ -28,6 +28,9 @@ _tes_dir= $(src_dir)/tests
 
 _exe = $(install_dir)/main
 
+# conflict
+# all: build main install
+
 build: _ass _oop _stl _tes
 	rm -rf $(build_dir) && mkdir -p $(build_dir)
 	mv $(_ass_dir)/*.o $(build_dir)
@@ -38,9 +41,6 @@ build: _ass _oop _stl _tes
 install: main
 	rm -rf $(install_dir) && mkdir -p $(install_dir)
 	mv -f $< $(_exe)
-
-run: main
-	./$< -n
 
 _ass: 
 	$(MAKE) -C $(_ass_dir)
@@ -96,4 +96,4 @@ clean:
 clear: clean
 	clear
 
-.PHONY: run install build clean clear
+.PHONY: all build install clean clear

@@ -1,0 +1,6 @@
+#include <future>
+
+void TestAsync()
+{
+    
+}

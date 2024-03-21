@@ -65,11 +65,13 @@ int main(int argc, char *argv[], char *envp[])
         // Alan::TestRemoveAlgo();
         // Alan::TestArbitraryAlgo();
         // Alan::Test_Tp_AVG();
-        // TestRandRDMT19937();
         // Alan::Test_LB_UB();
         // Alan::TestTask();
         // Alan::TestFunc();
-        Alan::TestTask2();
+        // Alan::TestTask2();
+        // TestNormalRand();
+        // TestRandRDMT19937();
+        TestReadOnlyRBTree();
         break;
                 
             case 'a':

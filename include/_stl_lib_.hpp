@@ -53,7 +53,7 @@ void AssoIterInput(const _Asso_Container &__container,
 
 typedef std::ios_base& (*_AlignFunc) (std::ios_base&);
 
-// inspired and extended by
+// inspired by and extended by
 // https://stackoverflow.com/questions/405039/permanent-stdsetw
 template < typename _Tp, 
             size_t _Width, 
@@ -327,16 +327,67 @@ template <typename _Key, typename _Val,
             typename _Asso_Container = std::map<_Key, _Val> >
 class ReadOnlyRBTree
 {
+// learn from back_insert_iterator
+// support Golang map[k]v interface
+public:
+    typedef ReadOnlyRBTree _RORBTree;
+    typedef ReadOnlyRBTree & _RORBTree_Ref;
+    typedef _Asso_Container * _Container_Ptr;
+    typedef _Asso_Container & _Container_Ref;
 
+    ReadOnlyRBTree(){
+        this->_container_ptr = 
+            new _Asso_Container;
+    }
+
+    // parameter reference constructor
+    // private member variable pointer receiver
+    explicit ReadOnlyRBTree
+    (_Container_Ref _container_ref) : 
+        _container_ptr(std::addressof(_container_ref)){}
+    
+    explicit ReadOnlyRBTree
+    (std::initializer_list<std::pair<_Key, _Val > > &__init_list)
+    noexcept;
+
+    // donot move original
+    // donot modify by 
+    // donot return value_reference or value_pointer 
+    _Val get(_Key _key) const {
+        auto _pair_it = 
+            _container_ptr->find(_key);
+        if ( _pair_it == 
+            _container_ptr->cend())
+            return _Val();
+        else 
+            return _pair_it->second;
+    }
+
+    // operator overload
+    // value cannot be modified
+    _Val operator[](_Key _key) const{
+        return this->get(_key);
+    }
+    _RORBTree_Ref operator*()       {return *this;}
+    _RORBTree_Ref operator++()      {return *this;}
+    _RORBTree_Ref operator++(int)   {return *this;}
+
+private:
+    _Container_Ptr _container_ptr;
 };
+
+// to add more than one template 
+// template in template or more 
+
 
 // read operation can only by .find
 // write operation can only by .insert
 template <typename _Key, typename _Val, 
             typename _Asso_Container = std::map<_Key, _Val> >
-class RWriteOnceRBTree
+class RWriteOnceRBTree : 
+    public ReadOnlyRBTree<_Key, _Val, _Asso_Container>
 {
-
+// _RORBTree_Ref operator=(const _Asso_Container::value_type & __value)
 };
 
 // read operation can only by .find

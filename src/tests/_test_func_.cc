@@ -2,7 +2,7 @@
 
 #include "../../include/_stream_.hpp"
 #include "../../include/_test_func_.hpp"
-
+#include "../../include/_stl_lib_.hpp"
 
 
 #include <iostream>
@@ -253,4 +253,20 @@ void TestInRangeV2(int const &_round)
         if (_rand >= 0 && _rand <= (1<<30) - 1)
             ++_count;
     }
+}
+
+void TestReadOnlyRBTree()
+{
+    auto str_i32_map = 
+        std::map<std::string, int >();
+    str_i32_map["vivi"s] = 1;
+    str_i32_map["kaka"s] = 2;
+    str_i32_map["lolo"s] = 3;
+    auto um_map = 
+        ReadOnlyRBTree<std::string, int >(
+            str_i32_map
+        );
+    PRINTLN_DETAIL(um_map["vivi"]);
+    PRINTLN_DETAIL(um_map["kaka"]);
+    PRINTLN_DETAIL(um_map["lolo"]);
 }

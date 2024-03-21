@@ -22,4 +22,6 @@ void TestInRange(int const &);
 
 void TestInRangeV2(int const &);
 
+void TestReadOnlyRBTree();
+
 #endif 

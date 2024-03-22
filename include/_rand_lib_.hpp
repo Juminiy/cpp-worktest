@@ -83,14 +83,14 @@ void _Iter_Gen_Num
                     });
 }
 
-// PreAlloced container scoped value
+// PreAlloced sequential container scoped value
 template <typename _Num_Tp, 
             typename _Container >
 inline
 // #if (__CC_VER__ >= 4)
 // _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR_SINCE_CXX20
 // #endif
-void _Con_Gen_Num
+void _Seq_Con_Fil_Gen_Num
 (_Container &__container, 
     _Num_Tp const &__range_1, _Num_Tp const &__range_2)
 {
@@ -99,19 +99,25 @@ void _Con_Gen_Num
 }
 
 // Not PreAllocated container
-// template <typename _Num_Tp, 
-//             typename _Container >
-// inline
+// ##use (back_inserter + reserve) upperdays, 
+// ##but this idea was deprecated in 2024.3.22
+// use .resize more efficient
+template <typename _Num_Tp, 
+            typename _Container >
+inline
 // #if (__CC_VER__ >= 4)
 // _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR_SINCE_CXX20
 // #endif
-// void _Gen_Num
-// (_Container __container, 
-//     _Num_Tp const &__range_1, _Num_Tp const &__range_2)
-// {
-//     _Gen_Num(__container.begin(), __container.end(), 
-//                 __range_1, __range_2);
-// }
+void _Seq_Con_Ins_Gen_Num
+(_Container &__container, size_t const &__gen_count,
+    _Num_Tp const &__range_1, _Num_Tp const &__range_2)
+{
+    __container.resize(__gen_count);
+    _Iter_Gen_Num(__container.begin(), __container.end(), 
+                __range_1, __range_2);
+}
+
+
 
 void TestNormalRand();
 void TestRandRDMT19937();

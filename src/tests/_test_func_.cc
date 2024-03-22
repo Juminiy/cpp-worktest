@@ -3,7 +3,7 @@
 #include "../../include/_stream_.hpp"
 #include "../../include/_test_func_.hpp"
 #include "../../include/_stl_lib_.hpp"
-
+#include "../../include/_ai_snake_game_.hpp"
 
 #include <iostream>
 #include <memory>
@@ -262,11 +262,61 @@ void TestReadOnlyRBTree()
     str_i32_map["vivi"s] = 1;
     str_i32_map["kaka"s] = 2;
     str_i32_map["lolo"s] = 3;
-    auto um_map = 
+    auto um_map UNUSED = 
         ReadOnlyRBTree<std::string, int >(
             str_i32_map
         );
-    PRINTLN_DETAIL(um_map["vivi"]);
-    PRINTLN_DETAIL(um_map["kaka"]);
-    PRINTLN_DETAIL(um_map["lolo"]);
+    // PRINTLN_DETAIL(um_map["vivi"]);
+    // PRINTLN_DETAIL(um_map["kaka"]);
+    // PRINTLN_DETAIL(um_map["lolo"]);
+
+    // PRINTLN_DETAIL(um_map["mama"]);
+    // PRINTLN_DETAIL(um_map["dada"]);
+    // PRINTLN_DETAIL(um_map["nono"]);
+
+
+    auto str_p32_map =
+        std::map<std::string, pointT>();
+    str_p32_map["m10"s] = pointT(0, -1);
+    str_p32_map["m11"s] = pointT(1, 0);
+    str_p32_map["m12"s] = pointT(0, 1);
+    str_p32_map["m13"s] = pointT(-1, 0);
+    auto sp_map = 
+        ReadOnlyRBTree<std::string, pointT >(
+            str_p32_map
+        );
+    
+    PRINTLN_DETAIL(sp_map["m10"]);
+    PRINTLN_DETAIL(sp_map["m11"]);
+    PRINTLN_DETAIL(sp_map["m12"]);
+    PRINTLN_DETAIL(sp_map["m13"]);
+
+    PRINTLN_DETAIL(sp_map["m20"]);
+    PRINTLN_DETAIL(sp_map["m21"]);
+    PRINTLN_DETAIL(sp_map["m22"]);
+    PRINTLN_DETAIL(sp_map["m23"]);
+
+
+    PRINTLN_DETAIL(std::boolalpha <<(sp_map | "m10"));
+    PRINTLN_DETAIL(std::boolalpha <<(sp_map | "m11"));
+    PRINTLN_DETAIL(std::boolalpha <<(sp_map | "m12"));
+    PRINTLN_DETAIL(std::boolalpha <<(sp_map | "m13"));
+
+    PRINTLN_DETAIL(std::boolalpha <<(sp_map | "m20"));
+    PRINTLN_DETAIL(std::boolalpha <<(sp_map | "m21"));
+    PRINTLN_DETAIL(std::boolalpha <<(sp_map | "m22"));
+    PRINTLN_DETAIL(std::boolalpha <<(sp_map | "m23"));
+
+}
+
+
+void TestRRef()
+{
+    auto i32_v = 
+        std::vector<int >();
+
+    i32_v.emplace_back(10);
+    i32_v.push_back(10);
+
+    ConsoleIterOutput<int >(i32_v);
 }

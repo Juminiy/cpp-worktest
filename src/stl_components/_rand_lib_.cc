@@ -37,7 +37,9 @@ void TestRandRDMT19937()
 {   
     auto i32_v = std::vector<int>(1<<4);
     _Gen_Num(1, 2);
-    _Con_Gen_Num<int > (i32_v, 1<<4, 1<<10);    
+    _Seq_Con_Fil_Gen_Num<int > (i32_v, 1<<4, 1<<10);    
+
+    // i32_v.resize();
 
     _COLOR_START(_COLOR_BLUE);
     ConsoleIterOutput<int > (i32_v);

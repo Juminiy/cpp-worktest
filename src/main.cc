@@ -11,6 +11,7 @@
 #include "../include/_algo_.hpp"
 #include "../include/_rand_lib_.hpp"
 #include "../include/_func_.hpp"
+#include "../include/_keno_game_.hpp"
 
 
 
@@ -71,7 +72,9 @@ int main(int argc, char *argv[], char *envp[])
         // Alan::TestTask2();
         // TestNormalRand();
         // TestRandRDMT19937();
-        TestReadOnlyRBTree();
+        // TestReadOnlyRBTree();
+        // TestRRef();
+        TestKenoGame();
         break;
                 
             case 'a':

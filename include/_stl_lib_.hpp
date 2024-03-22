@@ -328,7 +328,7 @@ template <typename _Key, typename _Val,
 class ReadOnlyRBTree
 {
 // learn from back_insert_iterator
-// support Golang map[k]v interface
+// support Golang map[k]v like interface
 public:
     typedef ReadOnlyRBTree _RORBTree;
     typedef ReadOnlyRBTree & _RORBTree_Ref;
@@ -350,10 +350,27 @@ public:
     (std::initializer_list<std::pair<_Key, _Val > > &__init_list)
     noexcept;
 
+
+    // operator overload
+    // value cannot be modified
+    bool operator|(_Key _key) const {
+        return this->get_exi(_key).second;
+    }
+
+    _Val operator[](_Key _key) const{
+        return this->get_val(_key);
+    }
+    _RORBTree_Ref operator*()       {return *this;}
+    _RORBTree_Ref operator++()      {return *this;}
+    _RORBTree_Ref operator++(int)   {return *this;}
+
+private:
+    _Container_Ptr _container_ptr;
+
     // donot move original
     // donot modify by 
     // donot return value_reference or value_pointer 
-    _Val get(_Key _key) const {
+    _Val get_val(_Key _key) const {
         auto _pair_it = 
             _container_ptr->find(_key);
         if ( _pair_it == 
@@ -363,17 +380,15 @@ public:
             return _pair_it->second;
     }
 
-    // operator overload
-    // value cannot be modified
-    _Val operator[](_Key _key) const{
-        return this->get(_key);
+    std::pair<_Val, bool> get_exi(_Key _key) const {
+        auto _pair_it = 
+            _container_ptr->find(_key);
+        if ( _pair_it == 
+            _container_ptr->cend())
+            return std::make_pair(_Val(), false);
+        else 
+            return std::make_pair(_pair_it->second, true);
     }
-    _RORBTree_Ref operator*()       {return *this;}
-    _RORBTree_Ref operator++()      {return *this;}
-    _RORBTree_Ref operator++(int)   {return *this;}
-
-private:
-    _Container_Ptr _container_ptr;
 };
 
 // to add more than one template 
@@ -428,4 +443,4 @@ class RWHashMap
 
 
 
-#endif 
+#endif

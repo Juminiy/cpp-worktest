@@ -36,7 +36,8 @@ USE_NAMESPACE_ALAN
 // _Tp must overload the operator <  when set or multiset
 // _Container  recommend std::unordered_set         or std::set
 //      do not recommend std::unordered_multiset    or std::multiset
-// in addition, std::unordered_set      overloads opearator == !=
+// in addition, stdlib asso_container set overloads: 
+//              std::unordered_set      overloads opearator == !=
 //              std::set                overloads operator == != < <= > >=
 //              std::unordered_multiset overloads opearator == !=
 //              std::multiset           overloads operator == != < <= > >=
@@ -50,34 +51,39 @@ public:
     typedef SSet<_Tp>           _SSet;
     typedef SSet<_Tp>&          _SSet_reference;
     typedef const SSet<_Tp>&    _SSet_const_reference;
+    typedef SSet<_Tp>*          _SSet_pointer;
+    typedef const SSet<_Tp>*    _SSet_const_pointer;
+
     typedef _Container          container_type;
     typedef _Container&         container_reference;
-    typedef const _Container&   const_container_reference;
+    typedef _Container&&        container_rreference;
+    typedef const _Container&   container_const_reference;
+    typedef _Container*         container_pointer;
+    typedef const _Container*   container_const_pointer;
+
     typedef _Tp                 value_type;
     typedef _Tp&                reference;
     typedef const _Tp&          const_reference;
     typedef _Tp*                pointer;
     typedef const _Tp*          const_pointer;
 
-    explicit SSet(){
+
+    explicit SSet() noexcept{
         #ifdef DEBUG_MODE
             PRINTLN("null construct");
         #endif 
     }
-    SSet(_SSet_const_reference __sset__){
+    SSet(_SSet_reference __sset__){
         #ifdef DEBUG_MODE
             PRINTLN("copy construct");
         #endif
-        // this->_set_ = std::move(__sset__._set_);
         this->_set_ = __sset__._set_;
     }
-    SSet(const_container_reference __set__){
-        #ifdef DEBUG_MODE
-            PRINTLN("container construct");
-        #endif 
-        // this->_set_ = std::move(__set__);
-        this->_set_ = __set__;
-    }
+    // SSet(container_reference __set__) : _set_(__set__){
+    //     #ifdef DEBUG_MODE
+    //         PRINTLN("container construct");
+    //     #endif 
+    // }
 
     // iterator contruct
     template <class InputIterator>
@@ -86,21 +92,10 @@ public:
             PRINTLN("iter construct");
         #endif 
         // make no effect
-        // this->_set_ = std::move(container_type(_first, _last));
-
-        // make no effect
-        this->_set_ = container_type(_first, _last);
-
-        // for(InputIterator _iit = _first;
-        //                     _iit != _last;
-        //                     ++ _iit)
-        //     this->_set_.insert(*_iit);
+        this->a(container_type(_first, _last));
     }
 
     // sequential container construct
-    // explicit SSet(const std::array<_Tp> &_array_){
-    //     SSet(_array_.begin(), _array_.end());
-    // }
     SSet(const_pointer _raw_array, size_t __size){
         #ifdef DEBUG_MODE
             PRINTLN("raw_array construct");
@@ -149,18 +144,14 @@ public:
             PRINTLN("operator SSet assgin");
         #endif 
         this->_set_.clear();
-        // make no effect
-        // this->_set_ = std::move(__sset__._set_);
         this->_set_ = __sset__._set_;
         return *this;
     }
-    _SSet_reference operator = (const_container_reference __set__){
+    _SSet_reference operator = (container_const_reference __set__){
         #ifdef DEBUG_MODE
             PRINTLN("operator container_type assgin");
         #endif 
         this->_set_.clear();
-        // make no effect
-        // this->_set_ = std::move(__set__);
         this->_set_ = __set__;
         return *this;
     }
@@ -177,7 +168,7 @@ public:
     _SSet_reference operator + (_SSet_const_reference __sset__) const{
         
     }
-    _SSet_reference operator + (const_container_reference __set__) const{
+    _SSet_reference operator + (container_const_reference __set__) const{
 
     }
     _SSet_reference operator + (const_reference __element) const{
@@ -188,7 +179,7 @@ public:
             this->_set_.insert(_element);
         return *this;
     }
-    _SSet_reference operator += (const_container_reference __set__) {
+    _SSet_reference operator += (container_const_reference __set__) {
         for(auto _element : __set__)
             this->_set_.insert(_element);
         return *this;
@@ -200,7 +191,7 @@ public:
     _SSet_reference operator - (_SSet_const_reference __sset__) const{
         
     }
-    _SSet_reference operator - (const_container_reference __set__) const{
+    _SSet_reference operator - (container_const_reference __set__) const{
 
     }
     _SSet_reference operator - (const_reference __element) const{
@@ -211,7 +202,7 @@ public:
             this->_set_.erase(_element);
         return *this;
     }
-    _SSet_reference operator -= (const_container_reference __set__) {
+    _SSet_reference operator -= (container_const_reference __set__) {
         for(auto _element : __set__)
             this->_set_.erase(_element);
         return *this;
@@ -224,31 +215,31 @@ public:
     // operation between another 
     // Union
     _SSet_reference operator * (_SSet_const_reference) const;
-    _SSet_reference operator * (const_container_reference) const;
+    _SSet_reference operator * (container_const_reference) const;
     _SSet_reference operator * (const_reference) const;
     _SSet_reference operator *= (_SSet_const_reference);
-    _SSet_reference operator *= (const_container_reference);
+    _SSet_reference operator *= (container_const_reference);
     _SSet_reference operator *= (const_reference);
 
     // Intersection
     _SSet_reference operator / (_SSet_const_reference) const;
-    _SSet_reference operator / (const_container_reference) const;
+    _SSet_reference operator / (container_const_reference) const;
     _SSet_reference operator / (const_reference) const;
     _SSet_reference operator /= (_SSet_const_reference);
-    _SSet_reference operator /= (const_container_reference);
+    _SSet_reference operator /= (container_const_reference);
     _SSet_reference operator /= (const_reference);
 
     // Complement
     _SSet_reference operator % (_SSet_const_reference) const;
-    _SSet_reference operator % (const_container_reference) const;
+    _SSet_reference operator % (container_const_reference) const;
     _SSet_reference operator % (const_reference) const;
     _SSet_reference operator %= (_SSet_const_reference);
-    _SSet_reference operator %= (const_container_reference);
+    _SSet_reference operator %= (container_const_reference);
     _SSet_reference operator %= (const_reference);
 
     // Power 
     std::unordered_set<_SSet> operator ^ (_SSet_const_reference UNUSED) const;
-    std::unordered_set<_SSet> operator ^ (const_container_reference UNUSED) const;
+    std::unordered_set<_SSet> operator ^ (container_const_reference UNUSED) const;
     
     // only when container_type is (ordered) 
     //                             std::set<_Tp>
@@ -262,28 +253,28 @@ public:
     bool operator == (_SSet_const_reference __sset__) const{
         return this->_set_ == __sset__._set_;
     }
-    bool operator == (const_container_reference __set__) const{
+    bool operator == (container_const_reference __set__) const{
         return this->_set_ == __set__;
     }
     bool operator != (_SSet_const_reference __sset__) const{
         return this->_set_ != __sset__._set_;
     }
-    bool operator != (const_container_reference __set__) const{
+    bool operator != (container_const_reference __set__) const{
         return this->_set_ != __set__;
     }
 
     // this is real subset of that, restrict < 
     bool operator < (_SSet_const_reference) const;
-    bool operator < (const_container_reference) const;
+    bool operator < (container_const_reference) const;
     // this is subset of that
     bool operator <= (_SSet_const_reference) const;
-    bool operator <= (const_container_reference) const;
+    bool operator <= (container_const_reference) const;
     // that is real subset of this, restrict >
     bool operator > (_SSet_const_reference) const;
-    bool operator > (const_container_reference) const;
+    bool operator > (container_const_reference) const;
     // that is subset of this
     bool operator >= (_SSet_const_reference) const;
-    bool operator >= (const_container_reference) const;
+    bool operator >= (container_const_reference) const;
 
     // input, output
     template <typename __Tp__>
@@ -300,6 +291,7 @@ public:
     }
 protected:
     container_type _set_;
+    void a(container_rreference __set__) { this->_set_ = std::move(__set__); }
 };
 
 
@@ -312,7 +304,7 @@ class MSet
 public:
     typedef _Container          container_type;
     typedef _Container&         container_reference;
-    typedef const _Container&   const_container_reference;
+    typedef const _Container&   container_const_reference;
     typedef _Tp                 value_type;
     typedef _Tp&                reference;
     typedef const _Tp&          const_reference;
@@ -321,12 +313,12 @@ public:
 
     explicit MSet();
     explicit MSet(const _Tp&);
-    explicit MSet(const_container_reference);
+    explicit MSet(container_const_reference);
     explicit MSet(const std::vector<container_type> &);
 
     // U
     container_type           MUnion() const;
-    // 
+    // I
     container_type           MIntersection() const;
 private:
     std::vector<container_type>     m_sets;

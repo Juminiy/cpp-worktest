@@ -178,11 +178,30 @@ extern "C" {
 
 
 // PRINT and DECL 
-// add va_list 
-#define PRINT(_ct_)   std::cout << _ct_
-#define PRINTLN(_ct_) PRINT(_ct_) << std::endl
-#define PRINT_DETAIL(_ct_) std::cout << #_ct_ << " = " << _ct_
-#define PRINTLN_DETAIL(_ct_) PRINT_DETAIL(_ct_) << std::endl
+// add va_list
+#define __LN__ std::endl
+#define OUTPUT(_os_, _ct_) \
+        _os_ << _ct_
+#define OUTPUTLN(_os_, _ct_) \
+        OUTPUT(_os_, _ct_) << __LN__
+#define OUTPUT_DETAIL(_os_, _ct_) \
+        _os_ << #_ct_ << " = " << _ct_
+#define OUTPUTLN_DETAIL(_os_, _ct_) \
+        OUTPUT_DETAIL(_os_, _ct_) << __LN__
+#define __ONEW_LINE__(_os_) \
+        _os_ << __LN__
+
+#define PRINT(_ct_) \
+        OUTPUT(std::cout, _ct_)
+#define PRINTLN(_ct_) \
+        PRINT(_ct_) << __LN__
+#define PRINT_DETAIL(_ct_) \
+        OUTPUT_DETAIL(std::cout, _ct_)
+#define PRINTLN_DETAIL(_ct_) \
+        PRINT_DETAIL(_ct_) << __LN__
+#define __CNEW_LINE__ \
+        __ONEW_LINE__(std::cout)
+
 #define PRINT_VA(_ct_, ...) \
     do {\
         printf(_ct_ __VA_OPT__(,) __VA_ARGS__);\

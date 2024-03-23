@@ -30,10 +30,8 @@
 #define kSleepTime 1
 
 
-#define GameTip(_tip_) std::cout << _tip_ ;
-#define GameTips(_tip_, _extras_) \
-            std::cout << _tip_ << endl; \
-            std::cout << _extras_ << endl; 
+#define GameTip(_tip_) PRINT(_tip_)
+#define GameTips(_tip_, ...) PRINTLN_VA(_tip_, ...)
 
 #define GameFileNamePrefix StaticFilePrefix
 #define GameFileNameSuffix ".txt"

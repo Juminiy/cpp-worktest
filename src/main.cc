@@ -74,7 +74,9 @@ int main(int argc, char *argv[], char *envp[])
         // TestRandRDMT19937();
         // TestReadOnlyRBTree();
         // TestRRef();
-        TestKenoGame();
+        // TestKenoGame();
+        // TestXorshift32();
+        Alan::TestSSet();
         break;
                 
             case 'a':

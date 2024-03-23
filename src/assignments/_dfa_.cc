@@ -104,7 +104,7 @@ DFA::DFA(const std::string &_file_name)
                             trans_Current_Cnt &&
                             cur_state_i32 != -1)
                         {   
-                            trans[make_pair(state_Arrow, 
+                            trans[std::make_pair(state_Arrow, 
                                             trans_set[trans_Current_Cnt-1])]
                                 = cur_state_i32;
                         }
@@ -138,7 +138,7 @@ bool DFA::simu(std::string const & _input)
     {
         _state = trans[std::make_pair(_state, _is)];
     }
-    return AssoFind<>(accps, _state);
+    return Alan::AssoFind<>(accps, _state);
 }
 
 // Test Pass
@@ -164,7 +164,7 @@ bool ValidateEmail(std::string const & _email)
 void TestEmail()
 {   
     _COLOR_START(_COLOR_CYAN);
-    std:: cout << boolalpha 
+    std:: cout << std::boolalpha 
                 << ValidateEmail(std::string(optarg)) 
                 << std::endl;
     _COLOR_RECOVER;

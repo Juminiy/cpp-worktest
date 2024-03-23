@@ -9,7 +9,6 @@
 #include <map>
 #include <memory>
 
-using namespace std;
 
 #define StaticFilePrefix "test/static-file/"
 #define ConFilePath(_file_name_) StaticFilePrefix#_file_name_
@@ -27,32 +26,32 @@ enum writeMode{
     rewriteOnly
 };
 
-void ReadFile(string const &, string &);
-void AppendFile(string const &, string &);
-void RewriteFile(string const &, string &);
-void writeFile(string const &, string &, writeMode const);
-void DeferCloseFile(list<fstream> &);
-void ReadForStdout(string const &);
+void ReadFile(std::string const &, std::string &);
+void AppendFile(std::string const &, std::string &);
+void RewriteFile(std::string const &, std::string &);
+void writeFile(std::string const &, std::string &, writeMode const);
+void DeferCloseFile(std::list<std::fstream> &);
+void ReadForStdout(std::string const &);
 void GetlineForStdout();
-void GetWorldCapitals(string const &, map<string, string> &);
-void parseCountryAndCapital(string const &, string &, string &);
-void PrintWorldCapitals(map<string,string> const &, int const &);
-string replaceAllWhiteSpace(string &);
-void PrintOSS(string const &);
-void MultiTypesOSS(string const &);
+void GetWorldCapitals(std::string const &, std::map<std::string, std::string> &);
+void parseCountryAndCapital(std::string const &, std::string &, std::string &);
+void PrintWorldCapitals(std::map<std::string, std::string> const &, int const &);
+std::string replaceAllWhiteSpace(std::string &);
+void PrintOSS(std::string const &);
+void MultiTypesOSS(std::string const &);
 
 template <typename RetType>
 RetType GetTypeValue();
 
 template <typename SrcType>
-string Type2String(SrcType const &);
+std::string Type2String(SrcType const &);
 
 bool HasHexLetters(long long const &);
 bool HasHexLetters_bits_version(int const &);
 bool HasHexLetters_loop_version(int const &);
 bool HasHexLetters_ss_functor_version(long long const &);
 
-string GetLine();
-unique_ptr<fstream> readFile(string const &);
+std::string GetLine();
+std::unique_ptr<std::fstream> readFile(std::string const &);
 
 #endif 

@@ -155,19 +155,23 @@ void gameT::disp()
     GameClearConsole();
     for( auto &s : world)
     {
-        cout << s << endl;
+        PRINTLN(s);
     }
 }
 
 void gameT::resp()
 {
-    cout << "You ate " << numEaten << " pieces of food" << endl;
+    std::cout << "You ate " 
+        << numEaten 
+        << " pieces of food" 
+        << std::endl;
+
     if (numEaten == kMaxFood)
     {
-        cout << "Game Wins" << endl;
+        PRINTLN("Game Wins");
     } else 
     {
-        cout << "Game Over" << endl;
+        PRINTLN("Game Over");
     }
 }
 

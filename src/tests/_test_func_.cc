@@ -11,13 +11,16 @@
 #include <string>
 #include <sstream>
 #include <cstdlib>
+#include <tuple>
 
-string testLocalLayout();
+using namespace std::literals;
+
+std::string testLocalLayout();
 void testLocalCppTypeLayout();
 
 void TestReadWriteFile()
 {
-    string fileContent;
+    std::string fileContent;
     ReadFile(ConFilePath(input.txt), 
                 fileContent);
     RewriteFile(ConFilePath(output.txt), 
@@ -44,7 +47,7 @@ void TestCinAteN()
     // cout << str3 << endl;
     
     // case 2.
-    getline(cin, str3, '\n');
+    std::getline(std::cin, str3, '\n');
     std::cout << str3 ;
 }
 
@@ -53,19 +56,20 @@ void TestOSS()
     // string _str_;
     // getline(cin, _str_);
     // PrintOSS(_str_);
-    cout << Type2String<int>(GetTypeValue<int>()) << endl;
-    cout << Type2String<double>(GetTypeValue<double>()) << endl;
-    cout << boolalpha << Type2String<bool>(GetTypeValue<bool>()) << endl;
+    std::cout << Type2String<int>(GetTypeValue<int>()) << std::endl;
+    std::cout << Type2String<double>(GetTypeValue<double>()) << std::endl;
+    std::cout << std::boolalpha << Type2String<bool>(GetTypeValue<bool>()) << std::endl;
 }
 
 // data from https://textlists.info/geography/countries-and-capitals-of-the-world/
 int Capitals(int const &case_num)
 {
-    auto capitalsPtr = unique_ptr<map<string,string> >( new map<string, string> );
+    auto capitalsPtr = std::unique_ptr<std::map<std::string, std::string> >
+        ( new std::map<std::string, std::string> );
     auto capitals = *(capitalsPtr.get());
     GetWorldCapitals(ConFilePath(world-capital.txt), 
                         capitals);
-    string country;
+    std::string country;
 
     switch( case_num )
     {
@@ -77,15 +81,15 @@ int Capitals(int const &case_num)
     break;
         case 'g':
     
-    while(getline(cin, country))
+    while(std::getline(std::cin, country))
     {   
         if (!country.compare("q") ||
             !country.compare("quit") ||
             !country.compare("exit") )
             break;
         country = replaceAllWhiteSpace(country);
-        cout << "Country: " << _RED(country) 
-                << "'s Capital: " << _RED(capitals[country]) << endl;
+        std::cout << "Country: " << _RED(country) 
+                << "'s Capital: " << _RED(capitals[country]) << std::endl;
     }
     break;
         default:
@@ -97,47 +101,54 @@ int Capitals(int const &case_num)
 void testLocalCppTypeLayout()
 {
     
-    ostringstream oss;
-    string destArch = std::string(__PORTABLE__);
-    oss << "sizeof builtin type: " << endl;
-    oss << "sizeof(bool) = " << sizeof(bool) << endl;
-    oss << "sizeof(char) = " << sizeof(char) << endl;
-    oss << "sizeof(short) = " << sizeof(short) << endl;
-    oss << "sizeof(int) = " << sizeof(int) << endl;
-    oss << "sizeof(long) = " << sizeof(long) << endl;
-    oss << "sizeof(long long) = " << sizeof(long long) << endl;
-    oss << "sizeof(float) = " << sizeof(float) << endl;
-    oss << "sizeof(double) = " << sizeof(double) << endl;
-    oss << "sizeof(long double) = " << sizeof(long double) << endl;
-    oss << "sizeof(nullptr_t) = " << sizeof(nullptr_t) << endl;
+    std::ostringstream oss;
+    std::string destArch = std::string(__PORTABLE__);
+    OUTPUTLN(oss, "sizeof builtin type:");
+    OUTPUTLN_DETAIL(oss, sizeof(bool));
+    OUTPUTLN_DETAIL(oss, sizeof(char));
+    OUTPUTLN_DETAIL(oss, sizeof(short));
+    OUTPUTLN_DETAIL(oss, sizeof(int));
+    OUTPUTLN_DETAIL(oss, sizeof(long));
+    OUTPUTLN_DETAIL(oss, sizeof(long long));
+    OUTPUTLN_DETAIL(oss, sizeof(float));
+    OUTPUTLN_DETAIL(oss, sizeof(double));
+    OUTPUTLN_DETAIL(oss, sizeof(long double));
+    OUTPUTLN_DETAIL(oss, sizeof(nullptr_t));
 
-    oss << "sizeof some value: " << endl;
-    oss << "sizeof(NULL) = " << sizeof(NULL) << endl;
-    oss << "sizeof(true) = " << sizeof(true) << endl;
-    oss << "sizeof(false) = " << sizeof(false) << endl;
+    OUTPUTLN(oss, "sizeof some constexpr value:");
+    OUTPUTLN_DETAIL(oss, sizeof(NULL));
+    OUTPUTLN_DETAIL(oss, sizeof(nullptr));
+    OUTPUTLN_DETAIL(oss, sizeof(true));
+    OUTPUTLN_DETAIL(oss, sizeof(false));
+
+    OUTPUTLN(oss, "sizeof ext type:");
+    OUTPUTLN_DETAIL(oss, sizeof(char16_t));
+    OUTPUTLN_DETAIL(oss, sizeof(char32_t));
+    OUTPUTLN_DETAIL(oss, sizeof(wchar_t));
+    OUTPUTLN_DETAIL(oss, sizeof(int8_t));
+    OUTPUTLN_DETAIL(oss, sizeof(int16_t));
+    OUTPUTLN_DETAIL(oss, sizeof(int32_t));
+    OUTPUTLN_DETAIL(oss, sizeof(int64_t));
+    OUTPUTLN_DETAIL(oss, sizeof(uint8_t));
+    OUTPUTLN_DETAIL(oss, sizeof(uint16_t));
+    OUTPUTLN_DETAIL(oss, sizeof(uint32_t));
+    OUTPUTLN_DETAIL(oss, sizeof(uint64_t));
+
+    OUTPUTLN_DETAIL(oss, sizeof(size_t));
+    OUTPUTLN_DETAIL(oss, sizeof(ssize_t));
+    OUTPUTLN_DETAIL(oss, sizeof(off_t));
+    OUTPUTLN_DETAIL(oss, sizeof(ptrdiff_t));
+
+    OUTPUTLN_DETAIL(oss, sizeof(intptr_t));
+    OUTPUTLN_DETAIL(oss, sizeof(uintptr_t));
+    OUTPUTLN_DETAIL(oss, sizeof(intmax_t));
+    OUTPUTLN_DETAIL(oss, sizeof(uintmax_t));
+
+    OUTPUTLN(oss, "local machine layout :"""
+                    << testLocalLayout() );
     
-    oss << "sizeof(char16_t) = " << sizeof(char16_t) << endl;
-    oss << "sizeof(char32_t) = " << sizeof(char32_t) << endl;
-    oss << "sizeof(wchar_t) = " << sizeof(wchar_t) << endl;
-    oss << "sizeof(int8_t) = " << sizeof(int8_t) << endl;
-    oss << "sizeof(int16_t) = " << sizeof(int16_t) << endl;
-    oss << "sizeof(int32_t) = " << sizeof(int32_t) << endl;
-    oss << "sizeof(int64_t) = " << sizeof(int64_t) << endl;
-    oss << "sizeof(uint8_t) = " << sizeof(uint8_t) << endl;
-    oss << "sizeof(uint16_t) = " << sizeof(uint16_t) << endl;
-    oss << "sizeof(uint32_t) = " << sizeof(uint32_t) << endl;
-    oss << "sizeof(uint64_t) = " << sizeof(uint64_t) << endl;
-    oss << "sizeof(size_t) = " << sizeof(size_t) << endl;
-    oss << "sizeof(ssize_t) = " << sizeof(ssize_t) << endl;
-    oss << "sizeof(off_t) = " << sizeof(off_t) << endl;
-    oss << "sizeof(ptrdiff_t) = " << sizeof(ptrdiff_t) << endl;
-    oss << "sizeof(intptr_t) = " << sizeof(intptr_t) << endl;
-    oss << "sizeof(uintptr_t) = " << sizeof(uintptr_t) << endl;
-    oss << "sizeof(intmax_t) = " << sizeof(intmax_t) << endl;
-    oss << "sizeof(uintmax_t) = " << sizeof(uintmax_t) << endl;
-    oss << "local machine layout :" << testLocalLayout() << endl;
-    string oss_str = oss.str();
-    AppendFile(ConFilePath(type-info) "." + destArch + ".txt", oss_str);
+    std::string oss_str = oss.str();
+    AppendFile(ConFilePath(type-info) "." + destArch + "." "txt", oss_str);
     oss_str.clear();
     destArch.clear();
     oss.clear();
@@ -151,7 +162,7 @@ LLP64	4/4/8	4B	    4B	    8B	        x86_64/arm64:Win32 API
 LP64	4/8/8	4B	    8B	    8B	        Unix/Linux/MacOS
 ILP64	8/8/8	8B	    8B	    8B	        very rare(:UNICOS on Cray)
 */
-string testLocalLayout()
+std::string testLocalLayout()
 {
     size_t _int_ = sizeof(int);
     size_t _long_ = sizeof(long);
@@ -196,10 +207,10 @@ void TestHasHexLetters_3_version_pat(int const &_round)
         bool _t_res_bits_2 = HasHexLetters(_rand_);
         bool _t_res_loop_ = HasHexLetters_loop_version(_rand_);
         bool _t_res_ss_ = HasHexLetters_ss_functor_version(_rand_);
-        cout << "bits(" << _rand_ << ") = " << _t_res_bits_ << ", " 
+        std::cout << "bits(" << _rand_ << ") = " << _t_res_bits_ << ", " 
                 << "bitsv2(" << _rand_ << ") = " << _t_res_bits_2 << ", "
                 << "loop(" << _rand_ << ") = " << _t_res_loop_ << ", "
-                << "ss(" << _rand_ << ") = " << _t_res_ss_ << endl;
+                << "ss(" << _rand_ << ") = " << _t_res_ss_ << std::endl;
         if (_t_res_bits_ !=
             _t_res_loop_ ||
             _t_res_bits_2 != 
@@ -209,9 +220,9 @@ void TestHasHexLetters_3_version_pat(int const &_round)
             printf("un_eq _num_ = %x\n", _rand_), 
             ++_count_;
     }
-    cout << "not ok count = " << _count_ << ", total count = " << _round << endl;
-    cout.precision(4);
-    cout << "not pass rate = "<< ((double)_count_ / (double)_round) * 100<< "%" << endl;
+    std::cout << "not ok count = " << _count_ << ", total count = " << _round << std::endl;
+    std::cout.precision(4);
+    std::cout << "not pass rate = "<< ((double)_count_ / (double)_round) * 100<< "%" << std::endl;
 }
 
 void DrawTriangle(int const& _n)
@@ -222,9 +233,9 @@ void DrawTriangle(int const& _n)
         for (int j = 0; j < (_n << 1) - 1; ++j)
         {
             if (j < _n - i - 1 || j > _n + i - 1)
-                cout << " ";
+                std::cout << " ";
             else
-                cout << "#";
+                std::cout << "#";
         }
         puts("");
     }
@@ -263,7 +274,7 @@ void TestReadOnlyRBTree()
     str_i32_map["kaka"s] = 2;
     str_i32_map["lolo"s] = 3;
     auto um_map UNUSED = 
-        ReadOnlyRBTree<std::string, int >(
+        Alan::ReadOnlyRBTree<std::string, int >(
             str_i32_map
         );
     // PRINTLN_DETAIL(um_map["vivi"]);
@@ -282,7 +293,7 @@ void TestReadOnlyRBTree()
     str_p32_map["m12"s] = pointT(0, 1);
     str_p32_map["m13"s] = pointT(-1, 0);
     auto sp_map = 
-        ReadOnlyRBTree<std::string, pointT >(
+        Alan::ReadOnlyRBTree<std::string, pointT >(
             str_p32_map
         );
     
@@ -318,5 +329,14 @@ void TestRRef()
     i32_v.emplace_back(10);
     i32_v.push_back(10);
 
-    ConsoleIterOutput<int >(i32_v);
+    Alan::ConsoleIterOutput<int >(i32_v);
+}
+
+void TestTuple()
+{
+    std::tuple<long long, long long, double, double > 
+        f256(0xff, 0x11, 1.25f, 1.25f);
+
+    PRINTLN_DETAIL(std::get<2>(f256));
+    // PRINTLN_DETAIL(f256);
 }

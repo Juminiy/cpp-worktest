@@ -463,7 +463,7 @@ void TestTask()
             auto _res = std::set< std::string > ();
             for(auto &_pr : _re_ms)
             {
-                std::cout << _pr << std::endl;
+                PRINTLN(_pr);
                 if(__top_n--)
                     _res.insert(_pr.second);
                 else 

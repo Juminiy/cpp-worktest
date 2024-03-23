@@ -14,6 +14,7 @@
 #include <cctype>
 
 #include <vector>
+#include <set>
 #include <algorithm>
 
 #include <numeric>
@@ -36,15 +37,33 @@ void TestNormalRand()
 void TestRandRDMT19937()
 {   
     auto i32_v = std::vector<int>(1<<4);
-    _Gen_Num(1, 2);
-    _Seq_Con_Fil_Gen_Num<int > (i32_v, 1<<4, 1<<10);    
+    Alan::_Gen_Num(1, 2);
+    Alan::_Seq_Con_Fil_Gen_Num<int > (i32_v, 1<<4, 1<<10);    
 
     // i32_v.resize();
 
     _COLOR_START(_COLOR_BLUE);
-    ConsoleIterOutput<int > (i32_v);
+    Alan::ConsoleIterOutput<int > (i32_v);
     _COLOR_RECOVER;
     
     // PRINTLN_DETAIL(std::to_string(sizeof(double long)));
 }
 
+void TestXorshift32()
+{
+    auto _x = Alan::_xorshift32_gen(0x114514ff);
+    std::uniform_int_distribution<int > _uid(1, 1<<10);
+
+    std::set<int > _s;
+    for(int _gen_by_xor = ~0; ;
+            _gen_by_xor = _uid(_x))
+        if(!Alan::AssoFind<>(_s, _gen_by_xor))
+            _s.insert(_gen_by_xor),
+            PRINTLN_DETAIL(_gen_by_xor),
+            usleep(500000);
+        else
+            break;
+    PRINTLN_DETAIL("conflict after " 
+                    << _s.size()
+                    << " times");
+}

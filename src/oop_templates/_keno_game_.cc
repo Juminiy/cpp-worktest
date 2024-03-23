@@ -27,7 +27,7 @@ size_t KenoGame::NumMaxChs(){
 size_t KenoGame::NumWinner(std::vector<int > const &_chsd){
     size_t _cnt = 0;
     for (auto &_val : _chsd)
-        if(AssoFind<>(this->user_guessed, _val))
+        if(Alan::AssoFind<>(this->user_guessed, _val))
             ++ _cnt;
     return _cnt;
 }
@@ -52,7 +52,7 @@ void TestKenoGame()
             _kgame.AddNumber(*_it);
         else{
             _COLOR_START(_COLOR_RED);
-                std::cerr << "illegal number repeat" << std::endl;
+                OUTPUTLN(std::cerr, "illegal number repeat");
             _COLOR_RECOVER;
         }
         _it++;
@@ -60,10 +60,10 @@ void TestKenoGame()
 
     auto _vi = 
         std::vector<int >();
-    _Seq_Con_Ins_Gen_Num<>(_vi, KenoCountMax,
+    Alan::_Seq_Con_Ins_Gen_Num<>(_vi, KenoCountMax,
                             KenoRange1, KenoRange2);
 
-    ConsoleIterOutput<int >(_vi);
+    Alan::ConsoleIterOutput<int >(_vi);
 
     std::cout << "same count < " 
                 << _kgame.NumWinner(_vi)

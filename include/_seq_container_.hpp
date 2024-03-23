@@ -78,7 +78,6 @@ public:
     {
         ConsoleIterOutput<_Tp, container_type > 
                             (ring, ", ");
-        PRINTLN("");
     }
 
     void clockwise()

@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <cctype>
+#include <cstdint>
 
 #include <vector>
 #include <algorithm>
@@ -16,6 +17,7 @@
 #include <utility>
 #include <chrono>
 
+USE_NAMESPACE_ALAN
 // TODO: 
 // generate random data for Batch Test
 // 1. random number < integer, float >: 
@@ -51,6 +53,11 @@
     std::uniform_int_distribution<_Num_Tp > \
         UNUSED _Uid_Gen_Num_Tp(_Num_Range_1, _Num_Range_2);
 
+#define __RD_LAMBDA__ \
+        [&_Rand_Dev_AO, &_Uid_Gen_Num_Tp] \
+        () -> _Num_Tp \
+        { return _Uid_Gen_Num_Tp(_Rand_Dev_AO); } 
+
 // single value
 template <typename _Num_Tp >
 // #if (__CC_VER__ >= 4)
@@ -75,12 +82,7 @@ void _Iter_Gen_Num
     _Num_Tp const &__range_1, _Num_Tp const &__range_2)
 {
     __RD_NUM__(_Num_Tp, __range_1, __range_2);
-    std::generate(__first, __last,
-                    [&_Rand_Dev_AO, &_Uid_Gen_Num_Tp]
-                    () -> _Num_Tp
-                    {
-                        return _Uid_Gen_Num_Tp(_Rand_Dev_AO);
-                    });
+    std::generate(__first, __last, __RD_LAMBDA__);
 }
 
 // PreAlloced sequential container scoped value
@@ -102,6 +104,7 @@ void _Seq_Con_Fil_Gen_Num
 // ##use (back_inserter + reserve) upperdays, 
 // ##but this idea was deprecated in 2024.3.22
 // use .resize more efficient
+// has changed in 2024.3.23
 template <typename _Num_Tp, 
             typename _Container >
 inline
@@ -112,15 +115,67 @@ void _Seq_Con_Ins_Gen_Num
 (_Container &__container, size_t const &__gen_count,
     _Num_Tp const &__range_1, _Num_Tp const &__range_2)
 {
-    __container.resize(__gen_count);
-    _Iter_Gen_Num(__container.begin(), __container.end(), 
-                __range_1, __range_2);
+    __RD_NUM__(_Num_Tp, __range_1, __range_2);
+    std::generate_n(std::back_inserter(__container), 
+                    __gen_count, __RD_LAMBDA__);
 }
 
+// design interface for std::mt19937
+// xorshift (more efficient, in game)
+class _xorshift32_gen
+{
+public:
+    using result_type = uint32_t;
 
+    explicit 
+    _xorshift32_gen
+    (uint32_t const &_x_v)
+    noexcept 
+        : _xv(_x_v){}
+    
+    constexpr 
+    uint32_t 
+    operator() 
+    () noexcept
+    {
+        uint32_t _t = _xv;
+        _t ^= _t << 13;
+	    _t ^= _t >> 17;
+	    _t ^= _t << 5;
+        return _xv = _t;
+    }
+
+    static constexpr 
+    uint32_t 
+    min() noexcept 
+    { return 0x1; }
+
+    static constexpr 
+    uint32_t 
+    max() noexcept 
+    { return UINT32_MAX; }
+
+private:
+    uint32_t _xv;
+
+};
+
+
+
+
+// TODO: more effective
+// wangshash (use to gen parallelly)
+class _wangshash_gen_num
+{
+public:
+
+};
+
+
+END_NAMESPACE_ALAN
 
 void TestNormalRand();
 void TestRandRDMT19937();
-
+void TestXorshift32();
 
 #endif 

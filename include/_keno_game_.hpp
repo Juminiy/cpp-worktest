@@ -22,7 +22,7 @@ class KenoGame
 public:
     explicit KenoGame() noexcept{
         this->user_max_chs = 
-            _Gen_Num<size_t >(KenoCount1, KenoCount2);
+            Alan::_Gen_Num<size_t >(KenoCount1, KenoCount2);
     }
 
     void   AddNumber(int const &);

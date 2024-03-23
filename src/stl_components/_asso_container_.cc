@@ -42,7 +42,7 @@ void TestUMap()
                         std::vector<int>, 
                         std::greater<int>> bh;
     bh.push(1);
-    // cout << bh.size() << endl;
+    PRINTLN(bh.size());
 
     std::unordered_map<int, std::string > umis ;
     
@@ -148,7 +148,7 @@ void TestIterator()
                 _eit = i32_mus.upper_bound(100); 
                 _sit != _eit; 
                 ++_sit)
-        std:: cout << *_sit << std::endl;
+        PRINTLN(*_sit);
     
     _COLOR_RECOVER;
 }

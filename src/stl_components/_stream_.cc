@@ -16,13 +16,13 @@
 #include <functional>
 #include <iterator>
 
-unique_ptr<fstream> readFile(string const &);
+std::unique_ptr<std::fstream> readFile(std::string const &);
 
-void ReadFile(string const &fileName, string &fileDesc)
+void ReadFile(std::string const &fileName, std::string &fileDesc)
 {
     ASSERT_FILE(fileName);
 
-    string fileDescPart;
+    std::string fileDescPart;
     while((*inputFile) >> fileDescPart)
     {
         fileDesc += fileDescPart + "";
@@ -31,52 +31,52 @@ void ReadFile(string const &fileName, string &fileDesc)
     inputFile->close();
 }
 
-void AppendFile(string const &fileName, string &fileDesc)
+void AppendFile(std::string const &fileName, std::string &fileDesc)
 {
     writeFile(fileName, fileDesc, appendOnly);
 }
 
-void RewriteFile(string const &fileName, string &fileDesc)
+void RewriteFile(std::string const &fileName, std::string &fileDesc)
 {
     writeFile(fileName, fileDesc, rewriteOnly);
 }
 
-void writeFile(string const &fileName, 
-                string &fileDesc, 
+void writeFile(std::string const &fileName, 
+                std::string &fileDesc, 
                 writeMode const mode)
 {
-    fstream::openmode fOpenMode = ofstream::out;
+    std::fstream::openmode fOpenMode = std::ofstream::out;
     if (mode == appendOnly)
     {
-        fOpenMode |= ofstream::app;
+        fOpenMode |= std::ofstream::app;
     } else if (mode == rewriteOnly)
     {
     
     } else 
     {
-        cerr << "OpenModeError: fileName" 
+        std::cerr << "OpenModeError: fileName" 
                 << "<" << fileName << ">" 
                 << ", " 
                 << "mode" << "<" << mode << ">" 
-                << endl;
+                << std::endl;
         return; 
     }
 
-    ofstream outputFile(fileName, fOpenMode);
+    std::ofstream outputFile(fileName, fOpenMode);
     if (!outputFile.is_open())
     {
-        cerr << "WriteError: fileName" 
+        std::cerr << "WriteError: fileName" 
                 << "<" << fileName << ">" 
-                << " was not opened" << endl;
+                << " was not opened" << std::endl;
         return ;
     }
     
-    outputFile << fileDesc << endl;
+    outputFile << fileDesc << std::endl;
 
     outputFile.close();
 }
 
-void DeferCloseFile(list<fstream> &fileStreams)
+void DeferCloseFile(std::list<std::fstream> &fileStreams)
 {
     for ( auto &fileStream : fileStreams)
     {
@@ -87,40 +87,40 @@ void DeferCloseFile(list<fstream> &fileStreams)
     }
 }
 
-void ReadForStdout(string const &fileName)
+void ReadForStdout(std::string const &fileName)
 {
     ASSERT_FILE(fileName);
 
     int i32;
     double f64;
-    string str5;
+    std::string str5;
     while((*inputFile) >> i32 >> f64 >> str5)
     {
-        cout << "[" << setfill(' ') 
-                    << right << setw(1<<3) 
+        std::cout << "[" << std::setfill(' ') 
+                    << std::right << std::setw(1<<3) 
                     << i32 << " | "
-                    << setfill(' ') 
-                    << right << setw(1<<3)  
+                    << std::setfill(' ') 
+                    << std::right << std::setw(1<<3)  
                     << f64 << " | "
-                    << setfill(' ') 
-                    << right << setw(1<<3)  
-                    << str5 << " ] " << endl;
+                    << std::setfill(' ') 
+                    << std::right << std::setw(1<<3)  
+                    << str5 << " ] " << std::endl;
     }
 
     inputFile->close();
 }
 
 
-unique_ptr<fstream> readFile(string const &fileName)
+std::unique_ptr<std::fstream> readFile(std::string const &fileName)
 {
-    unique_ptr<fstream> 
-        inputFile(new fstream(fileName, 
-                                ifstream::in));
+    std::unique_ptr<std::fstream> 
+        inputFile(new std::fstream(fileName, 
+                                std::ifstream::in));
     if (!inputFile.get()->is_open())
     {
-        cerr << "ReadError: fileName" 
+        std::cerr << "ReadError: fileName" 
                 << "<" << fileName << ">" 
-                << " was not opened" << endl;
+                << " was not opened" << std::endl;
         return nullptr;
     }
 
@@ -130,35 +130,35 @@ unique_ptr<fstream> readFile(string const &fileName)
 void GetlineForStdout()
 {   
     fprintf(stdout, " input: ");
-    string one_line;
-    getline(std::cin, one_line);
+    std::string one_line;
+    std::getline(std::cin, one_line);
     fprintf(stdout, "output: %s\n", one_line.c_str());
 }
 
 // Country - Capital(s)
 // Afghanistan - Kabul
-void GetWorldCapitals(string const &fileName, 
-                        map<string,string> &capitals)
+void GetWorldCapitals(std::string const &fileName, 
+                        std::map<std::string, std::string> &capitals)
 {
     // ignore first line 
     // split Country and Capital by "-" | '-'
     
     ASSERT_FILE(fileName);
 
-    typedef pair<string,string> country_capital;
-    string one_line;
+    typedef std::pair<std::string, std::string> country_capital;
+    std::string one_line;
     int cal_line = 0;
 
     printf("%s\n%d\n",__FILE__, __LINE__);
 
-    while(getline(*inputFile, one_line))
+    while(std::getline(*inputFile, one_line))
     {   
         assert(!inputFile->fail());
         ++cal_line;
         if (cal_line == 1){
             continue;
         }
-        string country, capital;
+        std::string country, capital;
         parseCountryAndCapital(one_line, country, capital);
         capitals.insert(country_capital(country, capital));
     }
@@ -167,18 +167,18 @@ void GetWorldCapitals(string const &fileName,
 }
 
 void parseCountryAndCapital
-(string const &src, 
-string &country, 
-string &capital)
+(std::string const &src, 
+std::string &country, 
+std::string &capital)
 {
     char splitChar = '-';
     auto str_it = src.find(splitChar);
-    if (str_it == string::npos)
+    if (str_it == std::string::npos)
     {
-        cerr << "src" 
+        std::cerr << "src" 
                 << "<" << src << ">" 
                 << " do not contain any '-'" 
-                << endl;
+                << std::endl;
         return ;
     }
 
@@ -188,9 +188,9 @@ string &capital)
     capital = replaceAllWhiteSpace(capital);
 }
 
-string replaceAllWhiteSpace(string &src)
+std::string replaceAllWhiteSpace(std::string &src)
 {
-    string dest;
+    std::string dest;
 
     for( auto &ch : src)
         if(ch != ' ')
@@ -200,7 +200,7 @@ string replaceAllWhiteSpace(string &src)
 }
 
 void PrintWorldCapitals
-(map<string,string> const &capitals, 
+(std::map<std::string, std::string> const &capitals, 
                     int const &cnt)
 {   
     int _cnt = cnt;
@@ -208,39 +208,39 @@ void PrintWorldCapitals
     {
         if(_cnt > 0){
             --_cnt;
-            cout << "<" 
+            std::cout << "<" 
                     << _RED(pr.first) 
                     << ", " 
                     << _RED(pr.second) 
-                    << ">" << endl;
+                    << ">" << std::endl;
         }
     }
 }
 
-void PrintOSS(string const &_string_)
+void PrintOSS(std::string const &_string_)
 {
-    ostringstream oss;
+    std::ostringstream oss;
     oss << "OSS: _string_<" << _string_ << ">" ;
-    cout << oss.str() << endl;
+    std::cout << oss.str() << std::endl;
 }
 
-void MultiTypesOSS(string const &_v)
+void MultiTypesOSS(std::string const &_v)
 {
-    ostringstream oss;
+    std::ostringstream oss;
     oss << "OSS: string<" 
             << "string" 
             << ">, int<" 
             << 1 << ">, double<" 
             << 1.0 << ">, char<" 
             << 'c' << ">";
-    cout << oss.str() << endl;
+    std::cout << oss.str() << std::endl;
     oss.clear();
 
-    unique_ptr<stringstream> oss_ptr(new stringstream);
+    std::unique_ptr<std::stringstream> oss_ptr(new std::stringstream);
     *(oss_ptr.get()) << _v ;
     int ast_i32;
     double ast_f64;
-    string ast_str5, ast_str8;
+    std::string ast_str5, ast_str8;
     char ast_ch1;
     *(oss_ptr.get()) 
                 >> ast_i32 
@@ -249,18 +249,18 @@ void MultiTypesOSS(string const &_v)
                 >> ast_str8 
                 >> ast_ch1;
                 
-    cout << "ast_i32<" << ast_i32 
+    std::cout << "ast_i32<" << ast_i32 
             << ">, ast_f64<" << ast_f64 
             << ">, ast_str5<" << ast_str5 
             << ">, ast_str8<" << ast_str8 
             << ">, ast_ch1<" << ast_ch1 
-            << ">" << endl;
+            << ">" << std::endl;
 }
 
-string GetLine()
+std::string GetLine()
 {
-    string _str;
-    getline(std::cin, _str);
+    std::string _str;
+    std::getline(std::cin, _str);
     return _str;
 }
 
@@ -269,22 +269,22 @@ RetType GetTypeValue()
 {
     while(true)
     {
-        stringstream ss;
+        std::stringstream ss;
         ss << GetLine();
 
         RetType _ret;
-        if (ss >> boolalpha >> _ret)
+        if (ss >> std::boolalpha >> _ret)
         {
             char _rem;
             if (ss >> _rem)
-                cerr << "input remained: _rem< "
-                        << _rem << " >" << endl;
+                std::cerr << "input remained: _rem< "
+                        << _rem << " >" << std::endl;
             else 
                 return _ret;
         } else
         {
-            cerr << "input error: _str< "
-                    << ss.str() << " >" << endl;
+            std::cerr << "input error: _str< "
+                    << ss.str() << " >" << std::endl;
         }
     }
 }
@@ -294,16 +294,16 @@ template double GetTypeValue();
 template bool GetTypeValue();
 
 template <typename SrcType>
-string Type2String(SrcType const &_val)
+std::string Type2String(SrcType const &_val)
 {
-    stringstream ss;
-    ss << boolalpha << _val;
+    std::stringstream ss;
+    ss << std::boolalpha << _val;
     return ss.str();
 }
 
-template string Type2String(int const &);
-template string Type2String(double const &);
-template string Type2String(bool const &);
+template std::string Type2String(int const &);
+template std::string Type2String(double const &);
+template std::string Type2String(bool const &);
 
 
 
@@ -340,9 +340,9 @@ bool HasHexLetters_bits_version(int const &_i32)
 
 bool HasHexLetters_loop_version(int const &_i32)
 {
-    stringstream ss;
-    ss << hex << _i32;
-    string hex_str = ss.str();
+    std::stringstream ss;
+    ss << std::hex << _i32;
+    std::string hex_str = ss.str();
     for ( auto &_x : hex_str)
         if (isalpha(_x))
             return true;
@@ -375,10 +375,10 @@ bool HasHexLetters(long long const &_i64)
 
 bool HasHexLetters_ss_functor_version(long long const &_i64)
 {
-    stringstream ss;
-    ss << hex << _i64;
-    return any_of(istream_iterator<char>(ss), 
-                    istream_iterator<char>(), 
+    std::stringstream ss;
+    ss << std::hex << _i64;
+    return std::any_of(std::istream_iterator<char>(ss), 
+                    std::istream_iterator<char>(), 
                     [](char const &ch){
                         return ((ch & 0xf0) >> 4) >= 0x0a || 
                                 (ch & 0x0f) >= 0x0a;

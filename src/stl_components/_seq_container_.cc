@@ -107,17 +107,17 @@ void TestVectorFunctor()
             vi32.end(), 
             std::less<int>());
 
-    ConsoleIterOutput<int>(vi32, ", ");
+    Alan::ConsoleIterOutput<int>(vi32, ", ");
 
     
     std::ofstream fileOp(ConFilePath(num_gen_sort.txt), 
                             std::ios::out);
-    IterOutput<int>(vi32, fileOp, "\n");
+    Alan::IterOutput<int>(vi32, fileOp, "\n");
     
 
     std::ifstream fileIp(ConFilePath(num_gen_sort.txt), 
                         std::ios::in);
-    CompleteIterOutput<>(fileIp, std::cout);
+    Alan::CompleteIterOutput<>(fileIp, std::cout);
 }
 
 void TestValArray()
@@ -137,9 +137,9 @@ void TestVectorFunctor2()
     std::fill(_vi.begin(), 
                 _vi.end(), 
                 rand()%(1<<4));
-    ConsoleIterOutput<int>(_vi, ",");
+    Alan::ConsoleIterOutput<int>(_vi, ",");
 
-    std::cout << std::endl;
+    __CNEW_LINE__;
     int _i32_cmp = rand()%10;
     std::cout << _i32_cmp 
                 << " in vector occurs "

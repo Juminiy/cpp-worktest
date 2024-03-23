@@ -9,4 +9,4 @@ objs: $(patsubst %.cc,%.o,$(wildcard *.cc))
 	$(cxxc) -c $(cxx_args) $(debug_mode_print) -o $@ $<
 
 %.o: %.c
-	$(CC) -c $(c_args) -o $@ $<
+	$(CC) -c $(c_args) $(debug_mode_print) -o $@ $<

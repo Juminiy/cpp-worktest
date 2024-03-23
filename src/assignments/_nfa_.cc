@@ -70,7 +70,7 @@ std::vector<int> break_up_states(const std::string &_states)
                         << "_states< " 
                         << _RED(_states)   
                         << " >" 
-                        << endl;
+                        << std::endl;
             exit(INPUT_ERROR);
         }
     }
@@ -191,7 +191,7 @@ bool NFA::simu(const std::string &_input)
     }
 
     for(auto _state : _states)
-        if(AssoFind<>(accps, _state))
+        if(Alan::AssoFind<>(accps, _state))
             return true;
     return false; 
 }
@@ -226,6 +226,6 @@ void TestNFA()
     for( auto &_it : res_map)
         std::cout << _RED(_it.first)
                     << " = " 
-                    << boolalpha 
+                    << std::boolalpha 
                     << _it.second << std::endl;
 }

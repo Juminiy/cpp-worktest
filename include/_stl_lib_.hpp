@@ -2,6 +2,8 @@
 #ifndef _STL_LIB_HPP
 #define _STL_LIB_HPP
 
+#include "_i_lib_.hpp"
+
 #include <iostream>
 #include <ostream>
 #include <istream>
@@ -20,8 +22,16 @@
 #include <map>
 #include <unordered_map>
 
-#define TIME_BASED_SEED std::chrono::system_clock::now().time_since_epoch().count()
+#define TIME_BASED_SEED \
+        std::chrono:: \
+        system_clock \
+        ::now().time_since_epoch() \
+        .count()
 
+#define NEXT_LINE \
+        __CNEW_LINE__
+
+USE_NAMESPACE_ALAN
 
 // _Tp must oveload:                            operator >> 
 // _Seq_Container must have member function:    push_back()
@@ -95,7 +105,7 @@ private:
                                                     __fill_ct__, \
                                                     __align_func__ > > \
                     (std::cout, __delimiter__)), \
-    std::cout << std::endl; 
+    __CNEW_LINE__; 
 
 
 template <typename _Tp, 
@@ -122,7 +132,7 @@ void ConsoleIterOutput(const _Container &__container,
 {
     IterOutput<_Tp, _Container, std::ostream >
                 (__container, std::cout, __delimiter);
-    std::cout << std::endl;
+    NEXT_LINE;
 }
 
 // Beauty Output 
@@ -135,6 +145,7 @@ void ConsoleBeautyOutput(const _Container &__container,
                             const char* __delimiter)
 {
     
+    NEXT_LINE;
 }
 
 // don't skip any a white space or any '\n', '\t', '\r'
@@ -172,6 +183,26 @@ std::ostream& operator << (std::ostream &__os,
     return __os;
 }
 
+/// @brief not used, also make no sense
+/// @tparam ..._Tp 
+/// @param __os 
+/// @param __tp_tuple 
+/// @return 
+template <typename ..._Tp>
+std::ostream& operator << (std::ostream &__os, 
+                            const std::tuple<_Tp...> &__tp_tuple)
+{   
+    size_t _tps_sz = 
+        std::tuple_size<decltype(__tp_tuple)>::value;
+    __os << "[" 
+            << std::get<0>(__tp_tuple);
+    for(size_t _tp_i = 1;
+        _tp_i < _tps_sz;
+        ++_tp_i)
+        __os << ", "
+                << std::get<_tp_i>(__tp_tuple);
+    __os << "]";
+}
 
 template <typename _Tp, 
             typename _Asso_Container >
@@ -441,6 +472,6 @@ class RWHashMap
 };
 
 
-
+END_NAMESPACE_ALAN
 
 #endif

@@ -14,7 +14,6 @@
 #include "../include/_keno_game_.hpp"
 
 
-
 #include <getopt.h>
 #include <unistd.h>
 #include <cstdlib>
@@ -76,7 +75,8 @@ int main(int argc, char *argv[], char *envp[])
         // TestRRef();
         // TestKenoGame();
         // TestXorshift32();
-        Alan::TestSSet();
+        // TestHashTable();
+        TestADV();
         break;
                 
             case 'a':

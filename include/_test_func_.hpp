@@ -26,4 +26,8 @@ void TestReadOnlyRBTree();
 
 void TestRRef();
 
+void TestHashTable();
+
+void TestADV();
+
 #endif 

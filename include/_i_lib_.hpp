@@ -180,6 +180,8 @@ extern "C" {
 // PRINT and DECL 
 // add va_list
 #define __LN__ std::endl
+#define INPUT(_is_, _ct_) \
+        _is_ >> _ct_
 #define OUTPUT(_os_, _ct_) \
         _os_ << _ct_
 #define OUTPUTLN(_os_, _ct_) \

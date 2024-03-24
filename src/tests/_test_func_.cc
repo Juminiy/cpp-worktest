@@ -8,6 +8,9 @@
 #include <iostream>
 #include <memory>
 #include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
 #include <string>
 #include <sstream>
 #include <cstdlib>
@@ -339,4 +342,22 @@ void TestTuple()
 
     PRINTLN_DETAIL(std::get<2>(f256));
     // PRINTLN_DETAIL(f256);
+}
+
+void TestHashTable()
+{   
+    auto pHash = 
+        [](const pointT & _p)
+        -> std::size_t
+        {
+            return 0;
+        };
+    typedef std::function<std::size_t(const pointT &)> 
+        pHashFunc ;
+    auto _pS = 
+        std::unordered_set<pointT, pHashFunc>(1<<4, pHash);
+    for(int i = 0;i < 1 << 5; ++i)
+        _pS.emplace((i>>1)-1, (i<<1) + 1);
+
+    Alan::ConsoleIterOutput<pointT >(_pS);
 }

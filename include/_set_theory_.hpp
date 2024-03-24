@@ -279,7 +279,7 @@ public:
     // input, output
     template <typename __Tp__>
     friend std::istream& operator >> (std::istream &__is, 
-                                        const SSet<__Tp__> &__sset__){
+                                        SSet<__Tp__> &__sset__){
         
         return __is;
     }

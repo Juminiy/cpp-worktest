@@ -20,3 +20,19 @@ _stl_lib_.hpp:213:61: error: conversion from
   217 |                                         __range_end));
       |                                         ~~~~~~~~~~~~~
 make: *** [Makefile:39: _algo_.o] Error 1
+
+// new error 
+../../include/_stl_seq_.hpp: 
+In instantiation of ‘std::pair<_Seq_Iter, _Seq_Iter> 
+Alan::SeqRange_v0(const _Seq_Ordered_Container&, const _Tp&, const _Tp&) 
+[with _Tp = int; _Seq_Ordered_Container = std::vector<int>; _Seq_Iter = __gnu_cxx::__normal_iterator<int*, std::vector<int> >]’:
+_test_func_2.cc:76:17:   required from here
+../../include/_stl_seq_.hpp:51:26: error: could not convert 
+‘std::make_pair<__gnu_cxx::__normal_iterator<const int*, vector<int> >, __gnu_cxx::__normal_iterator<const int*, vector<int> > >
+(std::upper_bound<__gnu_cxx::__normal_iterator<const int*, vector<int> >, int>
+((& __container)->std::vector<int>::begin(), (& __container)->std::vector<int>::end(), (* & _min_element)), 
+std::lower_bound<__gnu_cxx::__normal_iterator<const int*, vector<int> >, int>
+((& __container)->std::vector<int>::begin(), (& __container)->std::vector<int>::end(), (* & _max_element)))
+’ from ‘pair<__normal_iterator<const int*,[...]>,__normal_iterator<const int*,[...]>>’ to ‘pair<__normal_iterator<int*,[...]>,__normal_iterator<int*,[...]>>’
+
+// the same, to cancel the type identifier const keyword 

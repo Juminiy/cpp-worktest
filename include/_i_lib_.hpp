@@ -192,6 +192,9 @@ extern "C" {
         OUTPUT_DETAIL(_os_, _ct_) << __LN__
 #define __ONEW_LINE__(_os_) \
         _os_ << __LN__
+#define NEXT_LINE \
+        __CNEW_LINE__
+
 
 #define PRINT(_ct_) \
         OUTPUT(std::cout, _ct_)
@@ -218,6 +221,11 @@ extern "C" {
         srand(static_cast<unsigned>(time(NULL)))
 #define TILLNOW(_start_time_) \
         (((float)(clock() - _start_time_))/CLOCKS_PER_SEC)
+#define TIME_BASED_SEED \
+        std::chrono:: \
+        system_clock \
+        ::now().time_since_epoch() \
+        .count()
 
 #define DECL_VAR(_type) _type var_##_type
 #define DECL_FUN(_type, _func, _arg) \

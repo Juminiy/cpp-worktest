@@ -30,4 +30,10 @@ void TestHashTable();
 
 void TestADV();
 
+void TestCon2By();
+
+void TestSeqLB_UB();
+
+void TestPLoc();
+
 #endif 

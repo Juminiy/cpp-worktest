@@ -15,6 +15,8 @@
 #include <sstream>
 #include <cstdlib>
 #include <tuple>
+#include <functional>
+#include <cstddef>
 
 using namespace std::literals;
 
@@ -352,10 +354,10 @@ void TestHashTable()
         {
             return 0;
         };
-    typedef std::function<std::size_t(const pointT &)> 
+    typedef std::function<std::size_t(const pointT &) > 
         pHashFunc ;
     auto _pS = 
-        std::unordered_set<pointT, pHashFunc>(1<<4, pHash);
+        std::unordered_set<pointT, pHashFunc >(1<<4, pHash);
     for(int i = 0;i < 1 << 5; ++i)
         _pS.emplace((i>>1)-1, (i<<1) + 1);
 

@@ -7,6 +7,10 @@
 #include <utility>
 #include <memory>
 #include <iostream>
+#include <numeric>
+#include <ext/numeric>
+
+#include <cassert>
 
 USE_NAMESPACE_ALAN
 
@@ -14,9 +18,11 @@ template <typename _Tp >
 class _Point_Loc
 {
 public:
-    // typedef _Point_Loc<_Tp > _PLoc;
-    // typedef _Point_Loc<_Tp >& _PLoc_reference;
-    // typedef const _Point_Loc<_Tp >& _PLoc_const_reference;
+    static _Tp _min_bound;
+    static _Tp _max_bound;
+    // typedef _Point_Loc _PLoc;
+    // typedef _Point_Loc& _PLoc_reference;
+    // typedef const _Point_Loc& _PLoc_const_reference;
 
     _Point_Loc(_Point_Loc & _p_loc){
         this->_x = _p_loc._x;
@@ -32,8 +38,16 @@ public:
     _Point_Loc() 
         : _x(_Tp()), _y(_Tp()), _z(_Tp())   {}
     
-    // default
-    _Point_Loc& operator+
+    // operator assign
+    _Point_Loc operator=
+    (_Point_Loc & _p_loc)
+    {
+        this->_x = _p_loc._x;
+        this->_y = _p_loc._y;
+        this->_z = _p_loc._z;
+    }
+
+    _Point_Loc& operator+=
     (const _Point_Loc & _p_loc)
     {
         this->_x += _p_loc._x;
@@ -52,8 +66,7 @@ public:
         return _p_cp;
     }
 
-    // default
-    _Point_Loc& operator-
+    _Point_Loc& operator-=
     (const _Point_Loc & _p_loc)
     {
         this->_x -= _p_loc._x;
@@ -71,7 +84,77 @@ public:
         _p_cp._z -= _p_loc._z;
         return _p_cp;
     }
+
+    bool operator==
+    (const _Point_Loc & _p_loc) const 
+    {
+        return this->_x == _p_loc._x &&
+                this->_y == _p_loc._y &&
+                this->_z == _p_loc._z;
+    }
+
+    bool operator!=
+    (const _Point_Loc & _p_loc) const 
+    {
+        return !(*this == _p_loc);
+    }
+
+    _Tp operator[]
+    (const size_t & _axis) const 
+    {
+        assert(_axis >= 0 && _axis <= 2);
+        // static_assert(_axis >= 0 && _axis <= 2);
+        switch (_axis)
+        {
+        case 0:
+            return this->_x;
+        case 1:
+            return this->_y;
+        case 2:
+            return this->_z;
+        default:
+            return _Tp();
+        }
+    }
     
+    // inner product
+    _Tp operator*
+    (const _Point_Loc & _p_loc) const
+    {
+        return this->_x * _p_loc._x +
+                this->_y * _p_loc._y +
+                this->_z * _p_loc._z;
+    }
+
+    // point euclidean distance
+    _Tp operator^
+    (const _Point_Loc & _p_loc) const
+    {
+        // return (this->_x - _p_loc._x) *
+        //         (this->_x - _p_loc._x) +
+        //         (this->_y - _p_loc._y) *
+        //         (this->_y - _p_loc._y) +
+        //         (this->_z - _p_loc._z) *
+        //         (this->_z - _p_loc._z);
+        return Sqrt<_Tp >
+                (Power<_Tp >(this->_x - _p_loc._x , 2) + 
+                    Power<_Tp >(this->_y - _p_loc._y , 2) + 
+                    Power<_Tp >(this->_z - _p_loc._z , 2));
+    }
+
+    std::string to_string() const
+    {
+        auto _str = std::string();
+        _str += "(";
+        _str += std::to_string(_x);
+        _str += ", ";
+        _str += std::to_string(_y);
+        _str += ", ";
+        _str += std::to_string(_z);
+        _str += ")";
+        return _str;
+    }
+
     // template <typename _Tp_ >
     friend std::istream& 
     operator >>(std::istream& _is, 
@@ -101,26 +184,6 @@ private:
     _Tp _x, _y, _z;
 };
 
-
-template <typename _Tp_1,
-            typename _Tp_2 >
-auto _t_plus(_Tp_1 & __lhs, 
-                _Tp_2 & __rhs)
--> decltype(__lhs + __rhs)
-{
-    return __lhs + __rhs;
-}
-
-template <typename _Tp_1,
-            typename _Tp_2 >
-auto _t_plus(_Tp_1 && __lhs, 
-                _Tp_2 && __rhs)
--> decltype(std::move(__lhs) + 
-            std::move(__rhs))
-{
-    return std::move(__lhs) + 
-            std::move(__rhs);
-}
 
 
 END_NAMESPACE_ALAN

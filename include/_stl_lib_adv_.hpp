@@ -8,7 +8,10 @@
 #include <memory>
 #include <iostream>
 #include <numeric>
+
+#if __CC_VER__ == 2
 #include <ext/numeric>
+#endif 
 
 #include <cassert>
 
@@ -169,7 +172,7 @@ public:
     // template <typename _Tp_ >
     friend std::ostream& 
     operator <<(std::ostream& _os, 
-                const _Point_Loc & _p_loc)
+            const _Point_Loc & _p_loc)
     {
         OUTPUT(_os, "("),
         OUTPUT(_os, _p_loc._x),
@@ -184,6 +187,40 @@ private:
     _Tp _x, _y, _z;
 };
 
+
+template < 
+        template < typename > 
+        typename _Container_1, typename _Tp_1,
+        template < typename > 
+        typename _Container_2, typename _Tp_2 > 
+auto _con_plus(_Container_1<_Tp_1 > __container_1,
+                _Container_2<_Tp_2 > __container_2)
+{
+    auto _ret = 
+        _Container_1< decltype(std::declval<_Tp_1>() + 
+                                std::declval<_Tp_2>()) >();
+    auto _iter_1t = __container_1.begin();
+    auto _iter_1e = __container_1.end();
+    auto _iter_2t = __container_2.begin();
+    auto _iter_2e = __container_2.end();
+
+    for(; _iter_1t != _iter_1e &&
+            _iter_2t != _iter_2e;
+        ++ _iter_1t, ++ _iter_2t)
+        // TODO: how to define whether a < class > 
+        // has a function member???
+        _ret.emplace_back(*_iter_1t + *_iter_2t);
+
+    for(; _iter_1t != _iter_1e;
+        ++ _iter_1t)
+        _ret.emplace_back(*_iter_1t);
+    
+    for(; _iter_2t != _iter_2e;
+        ++ _iter_2t)
+        _ret.emplace_back(*_iter_2t);
+
+    return _ret;
+}
 
 
 END_NAMESPACE_ALAN

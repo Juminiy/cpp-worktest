@@ -36,15 +36,17 @@ auto _t_plus(_Tp_1 & __lhs,
     return __lhs + __rhs;
 }
 
-// template <typename _Tp_1,
-//             typename _Tp_2 >
-// auto _t_plus(_Tp_1 __lhs,
-//                 _Tp_2 __rhs)
-// -> decltype(__lhs + __rhs)
-// {
-//     return __lhs + __rhs;
-// }
+template <typename _Tp_1,
+            typename _Tp_2 >
+auto _t_plus(const _Tp_1 & __lhs,
+                const _Tp_2 & __rhs)
+-> decltype(__lhs + __rhs)
+{
+    return __lhs + __rhs;
+}
 
+// compiler will default choose
+// more efficiency
 template <typename _Tp_1,
             typename _Tp_2 >
 auto _t_plus(_Tp_1 && __lhs, 
@@ -55,6 +57,8 @@ auto _t_plus(_Tp_1 && __lhs,
     return std::move(__lhs) + 
             std::move(__rhs);
 }
+
+
 
 template <typename _Tp >
 _Tp Sqrt(const _Tp & _num)

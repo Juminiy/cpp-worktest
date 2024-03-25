@@ -36,4 +36,8 @@ void TestSeqLB_UB();
 
 void TestPLoc();
 
+void TestConstPointer();
+
+void TestConPlus();
+
 #endif 

@@ -7,8 +7,12 @@
 
 #include <iostream>
 #include <vector>
+#include <deque>
 #include <cassert>
 
+// example:
+// 1 2 3
+// 4.0 5.0 6.0
 void TestADV()
 {
     PRINTLN_DETAIL(Alan::_t_plus(1, 2.5));
@@ -21,6 +25,7 @@ void TestADV()
     Alan::_Point_Loc <double >_pb;
     std::cin >> _pa >> _pb;
     PRINTLN_DETAIL(Alan::_t_plus(_pa, _pb));
+    PRINTLN_DETAIL(Alan::_t_plus("su7", 1));
 }
 
 void TestCon2By()
@@ -117,4 +122,32 @@ void TestPLoc()
     PRINTLN_DETAIL(p1 * p2);
     PRINTLN_DETAIL((p1 ^ p2));
     PRINTLN_DETAIL(p1.to_string());
+}
+
+void TestConstPointer()
+{
+    char const * const _c_l_s = "Hello, Wase!";
+    PRINTLN(_c_l_s);
+
+    auto _tsvc = 
+        [](const std::vector<int > &i32_v)->bool {
+            for( std::vector<int >::const_iterator
+                    _it = i32_v.begin();
+                    _it != i32_v.end();
+                    ++ _it)
+                PRINT(*_it), PRINT(", ");
+            return true;
+        };
+    _tsvc(std::vector<int >{1 , 2});
+}
+
+void TestConPlus()
+{
+    typedef std::vector<int > _con_type_1;
+    typedef std::deque<double> _con_type_2;
+    _con_type_1 con1 = {1, 2, 3, 4};
+    _con_type_2 con2 = {6.0, 9.8, 7.9, 6.2, 8.3};
+    // subsitution failure is not an error 
+    // resulting compile failure !!!
+    // Alan::ConsoleBeautyOutput<>(Alan::_con_plus<>(con1, con2));
 }

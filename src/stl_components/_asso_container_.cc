@@ -129,7 +129,7 @@ void TestUSet()
                 << std::endl 
                 << "elem is " 
                 << std::endl;
-    ConsoleIterOutput<pointT>(pTS, "\n");
+    ConsoleBeautyOutput<pointT>(pTS);
 }
 
 
@@ -144,11 +144,13 @@ void TestIterator()
     _COLOR_START(_COLOR_CYAN);
     PRINTLN("i32_mus size = "+std::to_string(i32_mus.size()));
 
-    for (auto _sit = i32_mus.lower_bound(10),
-                _eit = i32_mus.upper_bound(100); 
-                _sit != _eit; 
-                ++_sit)
-        PRINTLN(*_sit);
+    #define _val_type decltype(i32_mus)::value_type
+    #define _con_type decltype(i32_mus)
+    #define _iter_type decltype(i32_mus)::iterator
+    Alan::ConsoleIterOutputIterPair(
+        Alan::AssoRange_v3<_val_type, _con_type, _iter_type>
+            (i32_mus, 10, 100)
+    );
     
     _COLOR_RECOVER;
 }

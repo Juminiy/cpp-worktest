@@ -232,6 +232,35 @@ void ConsoleIterOutputIterPair(const _Iter_Pair &_iter_pair)
     PRINTLN("");
 }
 
+// std::ostream& operator<< 
+// (std::ostream &_os, const char * const _cc_str)
+// {
+//     _os << std::string(_cc_str);
+//     return _os;
+// }
+
+// std::ostream& operator<< 
+// (std::ostream &_os, const char * _cc_str)
+// {
+//     _os << _cc_str ;
+//     return _os;
+// }
+
+// std::ostream& operator<< 
+// (std::ostream &_os, char * const _cc_str)
+// {
+//     _os << _cc_str ;
+//     return _os;
+// }
+
+// std::ostream& operator<< 
+// (std::ostream &_os, char * _cc_str)
+// {
+//     _os << _cc_str ;
+//     return _os;
+// }
+
+
 END_NAMESPACE_ALAN
 
 

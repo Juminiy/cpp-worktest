@@ -476,6 +476,24 @@ opt_uint(char *val)
     #define __TYPE_OF__(__x__) __typeof__(__x__)
 #endif 
 
+#define __REF__(__type__) \
+        __type__ &
+#define __CONST_REF__(__type__) \
+        __type__ const &
+
+#define __RREF__(__type__) \
+        __type__ &&
+#define __MV_RREF__(__rref__) \
+        std::move(__rref__)
+
+#define __CONST_PTR__(__type__) \
+        __type__ * const
+#define __PTR_TO_CONST__(__type__) \
+        __type__ const *
+#define __CONST_PTR_TO_CONST__(__type__) \
+        __type__ const * const
+
+
 // MATH UTILS DEFINE
 #define MAX_Tt(_x, _y) ({ \
     __TYPE_OF__(_x) __x = (_x);  \

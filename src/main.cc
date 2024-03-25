@@ -79,7 +79,9 @@ int main(int argc, char *argv[], char *envp[])
         // TestADV();
         // TestCon2By();
         // TestSeqLB_UB();
-        TestPLoc();
+        // TestPLoc();
+        // TestConstPointer();
+        TestConPlus();
         break;
                 
             case 'a':

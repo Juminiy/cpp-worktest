@@ -476,6 +476,9 @@ opt_uint(char *val)
     #define __TYPE_OF__(__x__) __typeof__(__x__)
 #endif 
 
+
+
+// Type determine
 #define __REF__(__type__) \
         __type__ &
 #define __CONST_REF__(__type__) \

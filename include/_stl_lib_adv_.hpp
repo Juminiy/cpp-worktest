@@ -5,9 +5,11 @@
 #include "_i_lib_.hpp"
 #include "_stl_lib_.hpp"
 #include <utility>
+// #include <type_traits>
 #include <memory>
 #include <iostream>
 #include <numeric>
+
 
 #if __CC_VER__ == 2
 #include <ext/numeric>
@@ -158,6 +160,25 @@ public:
         return _str;
     }
 
+    // template in template 
+    // operator overload
+    template < typename __Tp__ >
+    auto operator+ 
+    (const _Point_Loc<__Tp__ > & _rhs) const 
+    {
+        auto _p_loc = 
+            _Point_Loc<__TP_PLUS_TRAITS__(_Tp, __Tp__) >();
+        _p_loc._x = this->_x + _rhs.getX();
+        _p_loc._y = this->_y + _rhs.getY();
+        _p_loc._z = this->_z + _rhs.getZ();
+        return _p_loc;
+    }
+
+    _Tp getX() const { return this->_x; }
+    _Tp getY() const { return this->_y; }
+    _Tp getZ() const { return this->_z; }
+
+
     // template <typename _Tp_ >
     friend std::istream& 
     operator >>(std::istream& _is, 
@@ -188,17 +209,23 @@ private:
 };
 
 
+
 template < 
-        template < typename > 
+    template < typename > 
         typename _Container_1, typename _Tp_1,
-        template < typename > 
-        typename _Container_2, typename _Tp_2 > 
-auto _con_plus(_Container_1<_Tp_1 > __container_1,
-                _Container_2<_Tp_2 > __container_2)
+    template < typename > 
+        typename _Container_2, typename _Tp_2 >
+std::enable_if_t< 
+    _infer_container<_Container_1<_Tp_1 >, 
+                    _Container_2<_Tp_2 > >::value, 
+    __CON_TP_TRAITS__(_Container_1, _Tp_1, 
+                    _Container_2, _Tp_2 ) >
+_t_plus(const _Container_1<_Tp_1 > & __container_1,
+                const _Container_2<_Tp_2 > & __container_2)
 {
     auto _ret = 
-        _Container_1< decltype(std::declval<_Tp_1>() + 
-                                std::declval<_Tp_2>()) >();
+        __CON_TP_TRAITS__(_Container_1, _Tp_1, 
+                        _Container_2, _Tp_2 ) ();
     auto _iter_1t = __container_1.begin();
     auto _iter_1e = __container_1.end();
     auto _iter_2t = __container_2.begin();
@@ -221,6 +248,23 @@ auto _con_plus(_Container_1<_Tp_1 > __container_1,
 
     return _ret;
 }
+
+
+
+// template <typename _Tp_1, 
+//             typename _Tp_2 >
+// bool _type_equal(_Tp_1 _tp_1_val,
+//                 _Tp_2 _tp_2_val )
+// {
+//     if (constexpr std::is_same_v(_tp_1_val, int) ||
+//         constexpr std::is_same_v(_tp_2_val, int))
+//     {
+//         return true;
+//     } else 
+//     {
+//         return false;
+//     }
+// }
 
 
 END_NAMESPACE_ALAN

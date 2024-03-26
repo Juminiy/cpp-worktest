@@ -40,4 +40,6 @@ void TestConstPointer();
 
 void TestConPlus();
 
+void TestBitwiseChange();
+
 #endif 

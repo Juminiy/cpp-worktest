@@ -22,11 +22,16 @@ void TestADV()
     PRINTLN_DETAIL(Alan::_t_plus(Alan::_Point_Loc<int >(0xff, 0x88, 0x11), 
                                 Alan::_Point_Loc<int >(1, 2, 3)));
 
-    Alan::_Point_Loc <double >_pa;
-    Alan::_Point_Loc <int >_pb;
-    std::cin >> _pa >> _pb;
-    PRINTLN_DETAIL(Alan::_t_plus(_pa, _pb));
-    PRINTLN_DETAIL(Alan::_t_plus("su7", 1));
+    // Alan::_Point_Loc <double >_pa;
+    // Alan::_Point_Loc <int >_pb;
+    // std::cin >> _pa >> _pb;
+    // PRINTLN_DETAIL(Alan::_t_plus(_pa, _pb));
+    // PRINTLN_DETAIL(Alan::_t_plus("su7", 1));
+    _COLOR_START(_COLOR_BLUE);
+        // decltype( Alan::_t_plus(1, 2.5) );
+        // PRINTLN_DETAIL();
+    _COLOR_RECOVER;
+
 }
 
 void TestCon2By()
@@ -144,16 +149,31 @@ void TestConstPointer()
 
 void TestConPlus()
 {
-    typedef std::vector<int > _con_type_1;
-    typedef std::deque<double > _con_type_2;
-    typedef _con_type_1::value_type _val_tp1;
-    typedef _con_type_2::value_type _val_tp2;
+    typedef std::vector<int >       UNUSED _con_type_1;
+    typedef std::deque<double >     UNUSED _con_type_2;
+    typedef _con_type_1::value_type UNUSED _val_tp1;
+    typedef _con_type_2::value_type UNUSED _val_tp2;
 
-    _con_type_1 con1 = {1, 2, 3, 4};
-    _con_type_2 con2 = {6.0, 9.8, 7.9, 6.2, 8.3};
-    // subsitution failure is not an error 
-    // resulting compile failure !!!
-    Alan::ConsoleBeautyOutput
-        < __TP_PLUS_TRAITS__(_val_tp1, _val_tp2) >
-        (Alan::_t_plus(con1, con2));
+    // here clang claims about substitution failuire:
+    // so I think, substitution failuire is an error(SFIAE)
+    #if (__CC_VER__ != 4)
+        _con_type_1 con1 = {1, 2, 3, 4};
+        _con_type_2 con2 = {6.0, 9.8, 7.9, 6.2, 8.3};
+        // subsitution failure is not an error 
+        // resulting compile failure !!!
+        Alan::ConsoleBeautyOutput
+            < __TP_PLUS_TRAITS__(_val_tp1, _val_tp2) >
+            (Alan::_t_plus(con1, con2));
+    #endif
+}
+
+void TestBitwiseChange()
+{
+    Alan::_parr<int > pArr0(10);
+    auto pArr0_data = pArr0.data();
+    pArr0_data[3] = 5;
+    for(size_t _i=0; _i < 10; ++_i)
+        PRINTLN_DETAIL(pArr0_data[_i]);
+    
+    PRINTLN_DETAIL(pArr0.data()[3]);
 }

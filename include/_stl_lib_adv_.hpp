@@ -221,7 +221,7 @@ std::enable_if_t<
     __CON_TP_TRAITS__(_Container_1, _Tp_1, 
                     _Container_2, _Tp_2 ) >
 _t_plus(const _Container_1<_Tp_1 > & __container_1,
-                const _Container_2<_Tp_2 > & __container_2)
+            const _Container_2<_Tp_2 > & __container_2)
 {
     auto _ret = 
         __CON_TP_TRAITS__(_Container_1, _Tp_1, 
@@ -249,7 +249,27 @@ _t_plus(const _Container_1<_Tp_1 > & __container_1,
     return _ret;
 }
 
-
+template <typename _Tp>
+class _parr
+{
+public:
+    _parr(__CONST_REF__(_Tp) _sz)
+    {
+        this->sz = _sz;
+        this->elems = new _Tp[_sz];
+    }   
+    __PTR__(_Tp) data()
+    {
+        return this->elems;
+    }
+    __PTR_TO_CONST__(_Tp) data() const
+    {
+        return this->elems;
+    }
+private:
+    _Tp *elems;
+    size_t sz;
+};
 
 // template <typename _Tp_1, 
 //             typename _Tp_2 >

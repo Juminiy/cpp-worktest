@@ -489,6 +489,8 @@ opt_uint(char *val)
 #define __MV_RREF__(__rref__) \
         std::move(__rref__)
 
+#define __PTR__(__type__) \
+        __type__ *
 #define __CONST_PTR__(__type__) \
         __type__ * const
 #define __PTR_TO_CONST__(__type__) \

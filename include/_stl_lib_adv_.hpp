@@ -209,7 +209,7 @@ private:
 };
 
 
-
+// make no sense on clang
 template < 
     template < typename > 
         typename _Container_1, typename _Tp_1,

@@ -76,13 +76,14 @@ int main(int argc, char *argv[], char *envp[])
         // TestKenoGame();
         // TestXorshift32();
         // TestHashTable();
-        TestADV();
+        // TestADV();
         // TestCon2By();
         // TestSeqLB_UB();
         // TestPLoc();
         // TestConstPointer();
         // TestConPlus();
         // TestBitwiseChange();
+        TestSZof();
         break;
                 
             case 'a':

@@ -85,6 +85,8 @@ public:
     //     #endif 
     // }
 
+    // make no sense
+    // has debug but no found any mistakes
     // iterator contruct
     template <class InputIterator>
     SSet(InputIterator _first, InputIterator _last){

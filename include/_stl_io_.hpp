@@ -199,6 +199,47 @@ std::ostream& operator << (std::ostream &__os,
     return __os;
 }
 
+// make no sense
+// template pair_pair recursive
+template < typename _Tp1_1, typename _Tp1_2, 
+            typename _Tp2_1, typename _Tp2_2 > 
+std::ostream& operator << (std::ostream &__os,
+                            const std::pair<
+                                std::pair<_Tp1_1, _Tp1_2 >, 
+                                std::pair<_Tp2_1, _Tp2_2 > > 
+                                &__tp_pair_4e)
+{
+    __os << "[" 
+            << __tp_pair_4e.first
+            << ", "
+            << __tp_pair_4e.second
+        << "]";
+    return __os;
+}
+
+// make no sense
+// partial specialization
+// compile error 
+// std::ostream& operator << (std::ostream &__os, 
+//                             const std::pair <
+//                                 std::pair<std::string, int >, 
+//                                 std::pair<int, std::string > > 
+//                                 &__tp_pair_4e_partial)
+// {
+//     __os << "["
+//             << __tp_pair_4e_partial.first.first
+//             << ", "
+//             << __tp_pair_4e_partial.first.second
+//             << "; "
+//             << __tp_pair_4e_partial.second.first
+//             << ", "
+//             << __tp_pair_4e_partial.second.second
+//         << "]";
+//     return __os;
+// }
+
+
+
 /// @brief not used, also make no sense
 /// @tparam ..._Tp 
 /// @param __os 

@@ -10,6 +10,7 @@
 #include <deque>
 #include <cassert>
 #include <utility>
+#include <map>
 
 // example:
 // 1 2 3
@@ -176,4 +177,23 @@ void TestBitwiseChange()
         PRINTLN_DETAIL(pArr0_data[_i]);
     
     PRINTLN_DETAIL(pArr0.data()[3]);
+}
+
+void TestSZof()
+{
+    _COLOR_START(_COLOR_PURPLE);
+        PRINTLN_DETAIL(sizeof(Alan::_Point_Loc<double >));
+        PRINTLN_DETAIL(sizeof(Alan::_Point_Loc<double >::_min_bound));
+        PRINTLN_DETAIL(sizeof(Alan::_Point_Loc<double >::_max_bound));
+    _COLOR_RECOVER;
+    // // make no sense 
+    // // using namespace std::literals;
+    // PRINTLN_DETAIL(std::make_pair 
+    //                     (std::make_pair("key", 1), 
+    //                     std::make_pair(2, "value")));
+
+
+    // // make no sense
+    // PRINTLN_DETAIL(std::make_pair(std::string("key"), 1));
+    // PRINTLN_DETAIL(std::make_pair(2, std::string("val")));
 }

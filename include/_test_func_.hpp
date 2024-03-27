@@ -42,4 +42,6 @@ void TestConPlus();
 
 void TestBitwiseChange();
 
+void TestSZof();
+
 #endif 

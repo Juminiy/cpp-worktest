@@ -8,6 +8,12 @@ debug_mode_print = -DDEBUG_MODE=1
 debug_gdb = echo "gdb -q -tui main"
 debug_lldb = echo "lldb main" && echo "gui"
 
+# leveldb
+leveldb_prefix= /usr/local
+include_leveldb= -I$(leveldb_prefix)/include/leveldb
+link_leveldb= -L$(leveldb_prefix)/lib -lleveldb
+il_ldb= $(include_leveldb) $(link_leveldb)
+
 # search 
 VPATH = $(src_dir):$(include_dir):$(build_dir):$(install_dir)
 vpath main $(install_dir):$(build_dir)
@@ -54,7 +60,7 @@ _tes:
 
 # 1. link all object files to generate exe file
 main: $(src_dir)/main.o $(build_dir)/*.o
-	$(cxxc) $(cxx_args) -o $@ $^
+	$(cxxc) $(cxx_args) $(il_ldb) -o $@ $^
 
 # 2. link main object file with static linked library to generate exe file
 main-static: main.o libstatic.a

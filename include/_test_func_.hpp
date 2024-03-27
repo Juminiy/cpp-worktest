@@ -44,4 +44,6 @@ void TestBitwiseChange();
 
 void TestSZof();
 
+void TestLevelDB();
+
 #endif 

@@ -12,6 +12,7 @@
 #include "../include/_rand_lib_.hpp"
 #include "../include/_func_.hpp"
 #include "../include/_keno_game_.hpp"
+#include "../include/_level_db_.hpp"
 
 
 #include <getopt.h>
@@ -83,15 +84,28 @@ int main(int argc, char *argv[], char *envp[])
         // TestConstPointer();
         // TestConPlus();
         // TestBitwiseChange();
-        TestSZof();
+        // TestSZof();
+        TestLevelDB();
         break;
-                
+
             case 'a':
         // TestAgainstVectorReverseWithNot();
         // TestVigenereEncrypt();
         // TestEmail();
         // TestNFA();
         Alan::Test_Palindrome();
+        break;
+
+            case 'l':
+            #include "leveldb/export.h"
+            #if defined(LEVELDB_EXPORT)
+                _LDB_GET(std::string(optarg));
+            #else 
+                _COLOR_START(_COLOR_RED);
+                    ERRLN("leveldb has not found in /usr/local");
+                    ERRLN("or change option 'leveldb_prefix' in Makefile");
+                _COLOR_RECOVER;
+            #endif 
         break;
 
             default:

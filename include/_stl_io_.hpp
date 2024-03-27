@@ -27,6 +27,7 @@ USE_NAMESPACE_ALAN
 
 // I/O:
 
+// has not been tested
 // _Tp must oveload:                            operator >> 
 // _Seq_Container must have member function:    push_back()
 // _Istream must allow:                         implicit type convertion
@@ -41,6 +42,7 @@ void SeqIterInput(_Seq_Container &__container,
                 std::back_inserter(__container));
 }
 
+// has not been tested
 // _Tp must oveload:                            operator >> 
 // _Seq_Container must have member function:    insert()
 // _Istream must allow:                         implicit type convertion
@@ -176,6 +178,7 @@ void CompleteIterOutput(_InputStream &__input_stream,
 
 typedef std::pair<std::string, std::string > ss_pair;
 typedef std::pair<std::string, int> si_pair;
+typedef std::pair<int, std::string> is_pair;
 
 // TODO: 
 // how to define a pair name 
@@ -186,10 +189,12 @@ typedef std::pair<std::string, int> si_pair;
 #define __TYPEDEF_STD_PAIR__(__Tp1__, __Tp2__) \
         typedef std::pair<__Tp1__, __Tp2__> __Tp1__ __Tp2__ pair
 
+// pass tested
 template <typename _Tp1, 
             typename _Tp2 >
 std::ostream& operator << (std::ostream &__os, 
-                            const std::pair<_Tp1, _Tp2 > &__tp_pair)
+                            const std::pair<_Tp1, _Tp2 > 
+                            &__tp_pair)
 {
     __os << "[" 
             << __tp_pair.first 
@@ -199,23 +204,35 @@ std::ostream& operator << (std::ostream &__os,
     return __os;
 }
 
+template <typename _Tp1, 
+            typename _Tp2 >
+std::istream& operator >> (std::istream &__is, 
+                            std::pair<_Tp1, _Tp2 > 
+                            &__tp_pair)
+{
+    __is >> __tp_pair.first;
+    __is >> __tp_pair.second;
+    return __is;
+}
+
+
 // make no sense
 // template pair_pair recursive
-template < typename _Tp1_1, typename _Tp1_2, 
-            typename _Tp2_1, typename _Tp2_2 > 
-std::ostream& operator << (std::ostream &__os,
-                            const std::pair<
-                                std::pair<_Tp1_1, _Tp1_2 >, 
-                                std::pair<_Tp2_1, _Tp2_2 > > 
-                                &__tp_pair_4e)
-{
-    __os << "[" 
-            << __tp_pair_4e.first
-            << ", "
-            << __tp_pair_4e.second
-        << "]";
-    return __os;
-}
+// template < typename _Tp1_1, typename _Tp1_2, 
+//             typename _Tp2_1, typename _Tp2_2 > 
+// std::ostream& operator << (std::ostream &__os,
+//                             const std::pair<
+//                                 std::pair<_Tp1_1, _Tp1_2 >, 
+//                                 std::pair<_Tp2_1, _Tp2_2 > > 
+//                                 &__tp_pair_4e)
+// {
+//     __os << "[" 
+//             << __tp_pair_4e.first
+//             << ", "
+//             << __tp_pair_4e.second
+//         << "]";
+//     return __os;
+// }
 
 // make no sense
 // partial specialization

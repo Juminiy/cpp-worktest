@@ -1,6 +1,7 @@
 #include "../../include/_i_lib_.hpp"
 #include "../../include/_stl_lib_.hpp"
 #include "../../include/_stl_lib_adv_.hpp"
+#include "../../include/_stl_io_.hpp"
 #include "../../include/_rand_lib_.hpp"
 
 #include "../../include/_test_func_.hpp"
@@ -11,6 +12,7 @@
 #include <cassert>
 #include <utility>
 #include <map>
+
 
 // example:
 // 1 2 3
@@ -188,12 +190,41 @@ void TestSZof()
     _COLOR_RECOVER;
     // // make no sense 
     // // using namespace std::literals;
+    using namespace Alan;
+
     // PRINTLN_DETAIL(std::make_pair 
     //                     (std::make_pair("key", 1), 
     //                     std::make_pair(2, "value")));
 
 
-    // // make no sense
-    // PRINTLN_DETAIL(std::make_pair(std::string("key"), 1));
+    // make no sense
+    // why ? _algo_.cc:466 make effect
+    // but here not 
+    // PRINTLN(std::pair(std::string("key"), 1));
+    // auto _re_ms = 
+    //     std::multimap< double, std::string, std::greater<double > > ();
+    // for (auto &_pr : _re_ms)
+    //     PRINTLN(_pr);
+
+    // PRINTLN_DETAIL(*_smap.begin());
+    
+    // PRINTLN_DETAIL(std::make_pair(std::string("key"), 1)
     // PRINTLN_DETAIL(std::make_pair(2, std::string("val")));
+
+    typedef std::pair <
+        std::pair <
+            std::pair <std::string, int>, 
+            std::pair <int, int > >,
+        std::pair <
+            std::pair <double, double >,
+            std::pair <unsigned int, std::string> > >
+        sipiipddpusp_pair;
+
+    sipiipddpusp_pair _bagabaga;
+
+    HANDINPUT(_bagabaga);
+    _COLOR_START(_COLOR_BLUE);
+        PRINTLN_DETAIL(_bagabaga);
+    _COLOR_RECOVER;
 }
+

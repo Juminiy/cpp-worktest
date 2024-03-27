@@ -195,7 +195,8 @@ extern "C" {
 #define NEXT_LINE \
         __CNEW_LINE__
 
-
+#define HANDINPUT(_ct_) \
+        INPUT(std::cin, _ct_)
 #define PRINT(_ct_) \
         OUTPUT(std::cout, _ct_)
 #define PRINTLN(_ct_) \
@@ -206,6 +207,17 @@ extern "C" {
         PRINT_DETAIL(_ct_) << __LN__
 #define __CNEW_LINE__ \
         __ONEW_LINE__(std::cout)
+
+#define ERR(_ct_) \
+        OUTPUT(std::cerr, _ct_)
+#define ERR_DETAIL(_ct_) \
+        ERR(_ct_) << __LN__
+#define ERRLN(_ct_) \
+        OUTPUT_DETAIL(std::cerr, _ct_)
+#define ERRLN_DETAIL(_ct_) \
+        ERRLN(_ct_) << __LN__
+
+
 
 #define PRINT_VA(_ct_, ...) \
     do {\
@@ -255,6 +267,9 @@ extern "C" {
 
 
 // getopt
+// TODO: 
+// 1. support for multiple levels
+// 2. support for multiple args
 #include <iostream>
 #include <string>
 
@@ -264,7 +279,7 @@ extern "C" {
 
 // const std::string short_opts = "h?cwpgot:yd:m:n:v0123456789";
 const std::string 
-short_opts = "vgna:";
+short_opts = "vgna:l:";
 static const struct option long_opts[] = {
     // {"help", no_argument, NULL, 'h'},
     // {"helps", no_argument, NULL, '?'},
@@ -284,10 +299,11 @@ static const struct option long_opts[] = {
     // {"get-uint64-test", no_argument, NULL, '4'},
     // {"get-int64-test", no_argument, NULL, '5'},
     // {"multiple-type-oss", no_argument, NULL, '6'},
-    {"version", no_argument, NULL, 'v'},
-    {"game", no_argument, NULL, 'g'},
-    {"no_arguments", no_argument, NULL, 'n'},
-    {"arguments", required_argument, NULL, 'a'},
+    {"version", no_argument, NULL, 'v' },
+    {"game", no_argument, NULL, 'g' },
+    {"no_arguments", no_argument, NULL, 'n' },
+    {"arguments", required_argument, NULL, 'a' },
+    {"level_db", required_argument, NULL, 'l' },//local_data_base(leveldb)
     {NULL, 0, NULL, 0}
 };
 static inline void OptUsage() 
@@ -312,8 +328,9 @@ static inline void OptUsageV2()
     PRINTLN("Usage:");
     PRINTLN("Option [-v] | [--version]");
     PRINTLN("Option [-g] | [--game]");
-    PRINTLN("Option [-n] | [--no_arguments] (...args)");
-    PRINTLN("Option [-a] | [--arguments]");
+    PRINTLN("Option [-n] | [--no_arguments]");
+    PRINTLN("Option [-a] | [--arguments](...args)");
+    PRINTLN("Option [-l] | [--level_db] (...args)");
 }
 // void _main_v1(int argc, char *argv[], char *envp[]){
 //     int case_num, prev_case_num;

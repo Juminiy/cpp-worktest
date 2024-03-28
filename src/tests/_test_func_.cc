@@ -337,8 +337,10 @@ void TestRRef()
     Alan::ConsoleIterOutput<int >(i32_v);
 }
 
+// tested failure
 void TestTuple()
-{
+{   
+    using namespace Alan;
     std::tuple<long long, long long, double, double > 
         f256(0xff, 0x11, 1.25f, 1.25f);
 

@@ -16,6 +16,7 @@
 #include <numeric>
 #include <algorithm>
 #include <chrono>
+#include <any>
 
 #include <string>
 #include <set>
@@ -257,7 +258,7 @@ std::istream& operator >> (std::istream &__is,
 
 
 
-/// @brief not used, also make no sense
+/// @brief make sense
 /// @tparam ..._Tp 
 /// @param __os 
 /// @param __tp_tuple 
@@ -279,6 +280,12 @@ std::ostream& operator << (std::ostream &__os,
     return __os;
 }
 
+// std::ostream& operator << (std::ostream & __os,
+//                             const std::any & _any_val)
+// {
+//     __os << _any_val;
+//     return __os;
+// }
 
 template <typename _Iter_Pair >
 void ConsoleIterOutputIterPair(const _Iter_Pair &_iter_pair)

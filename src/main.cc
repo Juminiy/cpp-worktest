@@ -46,46 +46,7 @@ int main(int argc, char *argv[], char *envp[])
 
             // none parameter (argv)
             case 'n':
-        // Alan::TestBirthDayParadox();
-        // Alan::TestUMap();
-        // Alan::TestUSet();
-        // Alan::TestIterator();
-        // Alan::TestMapDiffer();
-        // Alan::CountKeyWordsOccurences();
-        // Alan::TestMultiContainer();
-        // TestVectorFunctor();
-        // TestVectorFunctor2();
-        // TestVectorFunc3();
-        // TestRingBuffer();
-        // Alan::TestSSet();
-        // Alan::TestRangeFind();
-        // Alan::TestMatchingPrefix();
-        // Alan::TestAlgo();
-        // Alan::TestIteratorAdapter();
-        // Alan::TestAssoContainerAlgo();
-        // Alan::TestRemoveAlgo();
-        // Alan::TestArbitraryAlgo();
-        // Alan::Test_Tp_AVG();
-        // Alan::Test_LB_UB();
-        // Alan::TestTask();
-        // Alan::TestFunc();
-        // Alan::TestTask2();
-        // TestNormalRand();
-        // TestRandRDMT19937();
-        // TestReadOnlyRBTree();
-        // TestRRef();
-        // TestKenoGame();
-        // TestXorshift32();
-        // TestHashTable();
-        // TestADV();
-        // TestCon2By();
-        // TestSeqLB_UB();
-        // TestPLoc();
-        // TestConstPointer();
-        // TestConPlus();
-        // TestBitwiseChange();
-        // TestSZof();
-        TestLevelDB();
+        TestAll();
         break;
 
             case 'a':
@@ -97,9 +58,10 @@ int main(int argc, char *argv[], char *envp[])
         break;
 
             case 'l':
-            #include "leveldb/export.h"
+            #include <leveldb/export.h>
             #if defined(LEVELDB_EXPORT)
-                _LDB_GET(std::string(optarg));
+                leveldb_cmd();
+                // __LDB_CMD__
             #else 
                 _COLOR_START(_COLOR_RED);
                     ERRLN("leveldb has not found in /usr/local");
@@ -126,10 +88,10 @@ static void inline call_main()
     char *print_des = (char*)(malloc(37));
     snprintf(print_des, 
                 39, 
-                "\nHi, Worktest, Compile time: %s\n", 
+                "Hi, Worktest, Compile time: %s\n\n", 
                 __TIME__);
 
-    PRINT(_GREEN(print_des));
+    PRINT(_WHITE(print_des));
 }
 
 DESTRUCT
@@ -144,5 +106,5 @@ static void inline exit_main()
     // wiil build a global variable to add 
     //          or other way to solve 
 
-    PRINT(_GREEN(print_des));
+    PRINT(_WHITE(print_des));
 }

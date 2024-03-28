@@ -8,11 +8,12 @@ debug_mode_print = -DDEBUG_MODE=1
 debug_gdb = echo "gdb -q -tui main"
 debug_lldb = echo "lldb main" && echo "gui"
 
-# leveldb
+# global lib: leveldb snappy 
 leveldb_prefix= /usr/local
 include_leveldb= -I$(leveldb_prefix)/include/leveldb
 link_leveldb= -L$(leveldb_prefix)/lib -lleveldb
-il_ldb= $(include_leveldb) $(link_leveldb)
+link_snappy= -L$(leveldb_prefix)/lib -lsnappy -lpthread
+il_ldb= $(include_leveldb) $(link_leveldb) $(link_snappy)
 
 # search 
 VPATH = $(src_dir):$(include_dir):$(build_dir):$(install_dir)
@@ -31,18 +32,20 @@ _ass_dir= $(src_dir)/assignments
 _oop_dir= $(src_dir)/oop_templates
 _stl_dir= $(src_dir)/stl_components
 _tes_dir= $(src_dir)/tests
+_sim_dir= $(src_dir)/simds
 
 _exe = $(install_dir)/main
 
 # conflict
 # all: build main install
 
-build: _ass _oop _stl _tes
+build: _ass _oop _stl _tes _sim
 	rm -rf $(build_dir) && mkdir -p $(build_dir)
 	mv $(_ass_dir)/*.o $(build_dir)
 	mv $(_oop_dir)/*.o $(build_dir)
 	mv $(_stl_dir)/*.o $(build_dir)
 	mv $(_tes_dir)/*.o $(build_dir)
+	mv $(_sim_dir)/*.o $(build_dir)
 
 install: main
 	rm -rf $(install_dir) && mkdir -p $(install_dir)
@@ -56,6 +59,8 @@ _stl:
 	$(MAKE) -C $(_stl_dir)
 _tes:
 	$(MAKE) -C $(_tes_dir)
+_sim:
+	$(MAKE) -C $(_sim_dir)
 
 
 # 1. link all object files to generate exe file

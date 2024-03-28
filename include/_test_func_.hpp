@@ -46,4 +46,10 @@ void TestSZof();
 
 void TestLevelDB();
 
+void TestTuple();
+
+void TestSTDAny();
+
+void TestAll();
+
 #endif 

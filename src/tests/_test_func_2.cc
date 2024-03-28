@@ -12,6 +12,7 @@
 #include <cassert>
 #include <utility>
 #include <map>
+#include <any>
 
 
 // example:
@@ -228,3 +229,61 @@ void TestSZof()
     _COLOR_RECOVER;
 }
 
+// tested failure
+void TestSTDAny()
+{
+    // auto any_vec = 
+    //     std::vector<std::any>();
+
+    // any_vec.push_back(1);
+    // any_vec.push_back("dot");
+    // any_vec.push_back('c');
+
+    // Alan::ConsoleBeautyOutput<std::any >(any_vec);
+}
+
+void TestAll()
+{
+    // Alan::TestBirthDayParadox();
+    // Alan::TestUMap();
+    // Alan::TestUSet();
+    // Alan::TestIterator();
+    // Alan::TestMapDiffer();
+    // Alan::CountKeyWordsOccurences();
+    // Alan::TestMultiContainer();
+    // TestVectorFunctor();
+    // TestVectorFunctor2();
+    // TestVectorFunc3();
+    // TestRingBuffer();
+    // Alan::TestSSet();
+    // Alan::TestRangeFind();
+    // Alan::TestMatchingPrefix();
+    // Alan::TestAlgo();
+    // Alan::TestIteratorAdapter();
+    // Alan::TestAssoContainerAlgo();
+    // Alan::TestRemoveAlgo();
+    // Alan::TestArbitraryAlgo();
+    // Alan::Test_Tp_AVG();
+    // Alan::Test_LB_UB();
+    // Alan::TestTask();
+    // Alan::TestFunc();
+    // Alan::TestTask2();
+    // TestNormalRand();
+    // TestRandRDMT19937();
+    // TestReadOnlyRBTree();
+    // TestRRef();
+    // TestKenoGame();
+    // TestXorshift32();
+    // TestHashTable();
+    // TestADV();
+    // TestCon2By();
+    // TestSeqLB_UB();
+    // TestPLoc();
+    // TestConstPointer();
+    // TestConPlus();
+    // TestBitwiseChange();
+    // TestSZof();
+    // TestLevelDB();
+    // TestTuple();
+    // TestSTDAny();
+}

@@ -114,6 +114,10 @@ SeqRange_v3(_Seq_Ordered_Container &__container,
                             _max_element));
 }   
 
+/// @brief duplicates all of the @param __container for @param __dup_time times 
+/// @tparam _Container 
+/// @param __container 
+/// @param __dup_time 
 template < typename _Container >
 void _Seq_Con_Dup(_Container &__container, 
                     const size_t &__dup_time)
@@ -129,10 +133,11 @@ void _Seq_Con_Dup(_Container &__container,
 template < typename _Tp,
             typename _Container,
             typename _Compare = std::less<_Tp > >
-void _Seq_Con_Sort(_Container &__container)
+void _Seq_Con_Sort(_Container &__container, 
+                    const _Compare &_comp = std::less<_Tp >() )
 {
-    std::sort(__container.begin(),
-            __container.end());
+    std::sort(__container.begin(), __container.end(),
+                _comp);
 }
 
 

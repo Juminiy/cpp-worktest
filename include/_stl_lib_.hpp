@@ -21,13 +21,31 @@
 USE_NAMESPACE_ALAN
 
 
+// // infer value_type 
+
+// // unfinished
+// // infer char, int, double
+// // normal version
+// template< typename, typename = std::void_t< > >
+// struct _infer_num_type
+// : std::false_type {	};
+
+// // partial specialization
+// template< typename _num_type >
+// struct _infer_num_type
+// < _num_type, 
+// 	std::void_t<typename __num_type,
+// 				decltype(  ) > >
+// : std::true_type {	};
+
+
 
 // infer meta function exists 
+
 // in std::container<_Tp > by
 // iterator begin() or end() 
-
 // normal version
-template<typename, typename, typename = std::void_t< > >
+template< typename, typename, typename = std::void_t< > >
 struct _infer_container 
 : std::false_type {  };  
 
@@ -42,6 +60,10 @@ struct _infer_container
                         std::declval<_con2_type>().begin() ) > >
 : std::true_type {  };
 
+
+
+// TODO: how to define whether a < class > 
+// has a function member???
 
 
 END_NAMESPACE_ALAN

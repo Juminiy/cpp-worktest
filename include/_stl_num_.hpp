@@ -61,6 +61,9 @@ auto _t_plus(_Tp_1 && __lhs,
 
 
 template <typename _Tp >
+// std::enable_if_t< 
+//     _infer_num_type<_Tp>::value, 
+//     _Tp >
 _Tp Sqrt(const _Tp & _num)
 {
     return sqrt(double(_num));

@@ -120,6 +120,30 @@ void _Seq_Con_Ins_Gen_Num
                     __gen_count, __RD_LAMBDA__);
 }
 
+// TODO: 
+// gen arbitrary data from _Tp
+// std::declval<_Tp>().gen_data()
+
+// 1. use _Container<_Tp >
+// 2. use _Tp<_Meta_Tp ... >
+// 3. use enable_if <> ??? 
+// template <typename _Tp, 
+//             typename _Container,
+//             typename _Meta_Tp ... >
+// inline
+// // #if (__CC_VER__ >= 4)
+// // _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR_SINCE_CXX20
+// // #endif
+// void _Seq_Con_Ins_Gen_Arbitrary
+// (_Container &__container, size_t const &__gen_count)
+// {
+//     __RD_NUM__(_Num_Tp, __range_1, __range_2);
+//     std::generate_n(std::back_inserter(__container), 
+//                     __gen_count, __RD_LAMBDA__);
+// }
+
+
+
 // design interface for std::mt19937
 // xorshift (more efficient, in game)
 class _xorshift32_gen
@@ -162,7 +186,6 @@ private:
 
 
 
-
 // TODO: more effective
 // wangshash (use to gen parallelly)
 class _wangshash_gen_num
@@ -171,6 +194,12 @@ public:
 
 };
 
+
+
+// we have a self defined class, the class must have a method
+// which is named gen_data()
+// our _rand_lib_ must call the class gen_data() to insert into class container 
+// 
 
 END_NAMESPACE_ALAN
 

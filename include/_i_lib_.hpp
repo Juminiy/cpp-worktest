@@ -495,7 +495,18 @@ opt_uint(char *val)
 
 
 
-// Type determine
+// Type determine and extension
+#define __DEF_ALL__(__alias_type__, __meta_type__) \
+        typedef __meta_type__ __alias_type__; \
+        __DEF_REF__(__alias_type__); \
+        __DEF_CREF__(__alias_type__); \
+        __DEF_RREF__(__alias_type__); \
+        __DEF_PTR__(__alias_type__); \
+        __DEF_CONST_PTR__(__alias_type__); \
+        __DEF_PTR_TO_CONST__(__alias_type__); \
+        __DEF_CONST_PTR_TO_CONST__(__alias_type__)
+
+
 #define __REF__(__type__) \
         __type__ &
 #define __CONST_REF__(__type__) \
@@ -514,6 +525,27 @@ opt_uint(char *val)
         __type__ const *
 #define __CONST_PTR_TO_CONST__(__type__) \
         __type__ const * const
+
+#define __DEF_DCL__(__wrap_type__, __meta_type__, __decl__) \
+        typedef __wrap_type__ __meta_type__ ## __decl__
+
+#define __DEF_REF__(__type__) \
+        __DEF_DCL__(__REF__(__type__), __type__, _reference)
+#define __DEF_CREF__(__type__) \
+        __DEF_DCL__(__CONST_REF__(__type__), __type__, _const_reference)
+#define __DEF_RREF__(__type__) \
+        __DEF_DCL__(__RREF__(__type__), __type__, _r_reference)
+
+#define __DEF_PTR__(__type__) \
+        __DEF_DCL__(__PTR__(__type__), __type__, _pointer)
+#define __DEF_CONST_PTR__(__type__) \
+        __DEF_DCL__(__CONST_PTR__(__type__), __type__, _const_pointer)
+#define __DEF_PTR_TO_CONST__(__type__) \
+        __DEF_DCL__(__PTR_TO_CONST__(__type__), __type__, _pointer_to_const)
+#define __DEF_CONST_PTR_TO_CONST__(__type__) \
+        __DEF_DCL__(__CONST_PTR_TO_CONST__(__type__), __type__, _const_pointer_to_const)
+
+
 
 
 // MATH UTILS DEFINE

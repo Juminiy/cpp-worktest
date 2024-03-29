@@ -1,7 +1,7 @@
 #include "../../include/_i_lib_.hpp"
 #include "../../include/_stl_lib_.hpp"
 #include "../../include/_stl_lib_adv_.hpp"
-#include "../../include/_stl_io_.hpp"
+#include "../../include/_point_loc_.hpp"
 #include "../../include/_rand_lib_.hpp"
 
 #include "../../include/_test_func_.hpp"
@@ -13,6 +13,7 @@
 #include <utility>
 #include <map>
 #include <any>
+#include <algorithm>
 
 
 // example:
@@ -20,22 +21,59 @@
 // 4.0 5.0 6.0
 void TestADV()
 {
+
     PRINTLN_DETAIL(Alan::_t_plus(1, 2.5));
     using namespace std::literals;
     PRINTLN_DETAIL(Alan::_t_plus("to"s, "wa"s));
     PRINTLN_DETAIL(Alan::_t_plus(Alan::_Point_Loc<int >(0xff, 0x88, 0x11), 
                                 Alan::_Point_Loc<int >(1, 2, 3)));
-
-    // Alan::_Point_Loc <double >_pa;
-    // Alan::_Point_Loc <int >_pb;
-    // std::cin >> _pa >> _pb;
-    // PRINTLN_DETAIL(Alan::_t_plus(_pa, _pb));
-    // PRINTLN_DETAIL(Alan::_t_plus("su7", 1));
     _COLOR_START(_COLOR_BLUE);
         // decltype( Alan::_t_plus(1, 2.5) );
         // PRINTLN_DETAIL();
+        PRINTLN(Alan::_Point_Loc<int >::getInstCnt());
     _COLOR_RECOVER;
 
+    Alan::_Point_Loc <double > UNUSED _pa;
+    Alan::_Point_Loc <double > UNUSED _pb;
+    Alan::_Point_Loc <double > UNUSED _pc;
+    // std::cin >> _pa >> _pb;
+    // PRINTLN_DETAIL(Alan::_t_plus(_pa, _pb));
+    // PRINTLN_DETAIL(Alan::_t_plus("su7", 1));
+    Alan::_Point_Loc <int > UNUSED _pi0;
+    Alan::_Point_Loc <int > UNUSED _pi1;
+    _COLOR_START(_COLOR_BLUE);
+        // decltype( Alan::_t_plus(1, 2.5) );
+        // PRINTLN_DETAIL();
+        PRINTLN(Alan::_Point_Loc<double >::getInstCnt());
+        PRINTLN(Alan::_Point_Loc<int >::getInstCnt());
+    _COLOR_RECOVER;
+
+    auto _f64_pl_vec = 
+        std::vector<Alan::_Point_Loc<double > >();
+
+    typedef std::vector<Alan::_Point_Loc<double > > _con_type;
+    typedef _con_type::value_type _val_type;
+
+    _f64_pl_vec.emplace_back(1.5, 2.5, 3.5);
+    _f64_pl_vec.emplace_back(0.3, 0.6, 0.74);
+    _f64_pl_vec.emplace_back(1.5, 2.5, 3.5);
+    _f64_pl_vec.emplace_back(0.3, 0.6, 0.74);
+    _f64_pl_vec.emplace_back(9.5, 11.5, 2.5);
+    _f64_pl_vec.emplace_back(0.32, 0.61, 4.74);
+
+    Alan::_Seq_Con_Sort<_val_type >(_f64_pl_vec);
+    Alan::ConsoleBeautyOutput<_val_type >(_f64_pl_vec);
+}
+
+void TestScopeAway()
+{
+    _COLOR_START(_COLOR_BLUE);
+        // decltype( Alan::_t_plus(1, 2.5) );
+        // PRINTLN_DETAIL();
+        PRINTLN(Alan::_Point_Loc<double >::getInstCnt());
+        PRINTLN(Alan::_Point_Loc<int >::getInstCnt());
+        PRINTLN(Alan::_Point_Loc<uint32_t >::getInstCnt());
+    _COLOR_RECOVER;
 }
 
 void TestCon2By()
@@ -120,10 +158,10 @@ void TestPLoc()
     Alan::_Point_Loc<double > p1;
     Alan::_Point_Loc<double > p2;
     Alan::_Point_Loc<double > UNUSED p3;
-    std::cin >> p1 >> p2;
-    PRINTLN_DETAIL(p1[0]);
-    PRINTLN_DETAIL(p1[1]);
-    PRINTLN_DETAIL(p1[2]);
+    // INPUT(std::cin , p1 >> p2);
+    PRINTLN_DETAIL(p1 [ Alan::_Point_Loc<double >::_axis_x]);
+    PRINTLN_DETAIL(p1[Alan::_Point_Loc<double >::_axis_y]);
+    PRINTLN_DETAIL(p1[Alan::_Point_Loc<double >::_axis_z]);
     // PRINTLN_DETAIL(p1[3]);
     PRINTLN_DETAIL(p1);
     PRINTLN_DETAIL((p1 == p2));
@@ -186,8 +224,8 @@ void TestSZof()
 {
     _COLOR_START(_COLOR_PURPLE);
         PRINTLN_DETAIL(sizeof(Alan::_Point_Loc<double >));
-        PRINTLN_DETAIL(sizeof(Alan::_Point_Loc<double >::_min_bound));
-        PRINTLN_DETAIL(sizeof(Alan::_Point_Loc<double >::_max_bound));
+        // PRINTLN_DETAIL(sizeof(Alan::_Point_Loc<double >::_min_bound));
+        // PRINTLN_DETAIL(sizeof(Alan::_Point_Loc<double >::_max_bound));
     _COLOR_RECOVER;
     // // make no sense 
     // // using namespace std::literals;
@@ -275,7 +313,9 @@ void TestAll()
     // TestKenoGame();
     // TestXorshift32();
     // TestHashTable();
-    // TestADV();
+    TestPLoc();
+    TestADV();
+    TestScopeAway();
     // TestCon2By();
     // TestSeqLB_UB();
     // TestPLoc();

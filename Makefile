@@ -4,7 +4,7 @@ cxxc = g++
 cxx_args= -Wall -pedantic -O0 -std=c++20 -g
 c_args = -Wall -pedantic -O0 -std=gnu99 -g
 
-debug_mode_print = -DDEBUG_MODE=1 
+debug_mode_print = -DDEBUG_MODE=1 # -D_LDB_=1
 debug_gdb = echo "gdb -q -tui main"
 debug_lldb = echo "lldb main" && echo "gui"
 
@@ -65,7 +65,7 @@ _sim:
 
 # 1. link all object files to generate exe file
 main: $(src_dir)/main.o $(build_dir)/*.o
-	$(cxxc) $(cxx_args) $(il_ldb) -o $@ $^
+	$(cxxc) $(cxx_args) -o $@ $^ # $(il_ldb)
 
 # 2. link main object file with static linked library to generate exe file
 main-static: main.o libstatic.a

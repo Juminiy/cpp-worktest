@@ -4,7 +4,9 @@
 
 #include "_i_lib_.hpp"
 
+#ifdef _LDB_
 #include "leveldb/db.h"
+#endif
 
 #include <string>
 

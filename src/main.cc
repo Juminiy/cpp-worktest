@@ -14,6 +14,9 @@
 #include "../include/_keno_game_.hpp"
 #include "../include/_level_db_.hpp"
 
+#ifdef _LDB_
+#include <leveldb/export.h>
+#endif
 
 #include <getopt.h>
 #include <unistd.h>
@@ -58,7 +61,7 @@ int main(int argc, char *argv[], char *envp[])
         break;
 
             case 'l':
-            #include <leveldb/export.h>
+            
             #if defined(LEVELDB_EXPORT)
                 leveldb_cmd();
                 // __LDB_CMD__

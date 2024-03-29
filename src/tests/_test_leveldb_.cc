@@ -4,7 +4,9 @@
 
 #include "../../include/_level_db_.hpp"
 
+#ifdef _LDB_
 #include "leveldb/db.h"
+#endif
 
 #if defined(LEVELDB_EXPORT)
 

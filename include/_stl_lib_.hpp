@@ -9,16 +9,39 @@
 #include "_stl_num_.hpp"
 
 #include <utility>
-
-#define __TP_PLUS_TRAITS__(__tp_1__, __tp_2__) \
-        decltype(std::declval<__tp_1__ >() + \
-                std::declval<__tp_2__ >() )
-
-#define __CON_TP_TRAITS__(__con1_type__, __tp_1__, __con2_type__, __tp_2__) \
-        __con1_type__< __TP_PLUS_TRAITS__(__tp_1__, __tp_2__) >
+#include <cstdbool>
+#include <cstdint>
 
 
 USE_NAMESPACE_ALAN
+
+// meta function 
+// map self to self 
+template <bool _bool_value >
+struct _bool_type {
+	static constexpr bool _value = _bool_value;
+};
+
+// template meta struct
+template <typename _Tp, typename _Up >
+struct _is_same_type 
+: _bool_type<false> { };
+
+// template meta struct
+// template partial specialization
+template <typename _Tp >
+struct _is_same_type<_Tp, _Tp >
+: _bool_type<true> { };
+
+
+template <bool _Cond, typename _Tp = void >
+struct _enable_if_cond { };
+
+template <typename _Tp >
+struct _enable_if_cond<true, _Tp >{
+	using _value_type = _Tp;
+};
+
 
 
 // // infer value_type 
@@ -42,12 +65,14 @@ USE_NAMESPACE_ALAN
 
 // infer meta function exists 
 
+// can cook from std::vector -> std::__is_allocator
+
 // in std::container<_Tp > by
 // iterator begin() or end() 
 // normal version
 template< typename, typename, typename = std::void_t< > >
 struct _infer_container 
-: std::false_type {  };  
+: std::false_type {	}; 
 
 // partial specialization
 template < typename _con1_type, 
@@ -58,7 +83,7 @@ struct _infer_container
                 typename _con2_type::iterator,
                 decltype( std::declval<_con1_type>().begin(),
                         std::declval<_con2_type>().begin() ) > >
-: std::true_type {  };
+: std::true_type { };
 
 
 

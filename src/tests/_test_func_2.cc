@@ -7,13 +7,20 @@
 #include "../../include/_test_func_.hpp"
 
 #include <iostream>
+#include <iomanip>
+
 #include <vector>
 #include <deque>
-#include <cassert>
-#include <utility>
 #include <map>
-#include <any>
+
+#include <utility>
 #include <algorithm>
+
+#include <cassert>
+#include <any>
+#include <cstdint>
+#include <cstddef>
+#include <cfloat>
 
 
 // example:
@@ -158,18 +165,29 @@ void TestPLoc()
     Alan::_Point_Loc<double > p1;
     Alan::_Point_Loc<double > p2;
     Alan::_Point_Loc<double > UNUSED p3;
+    // PRINTLN("console input double 3d point p1 and p2:");
     // INPUT(std::cin , p1 >> p2);
-    PRINTLN_DETAIL(p1 [ Alan::_Point_Loc<double >::_axis_x]);
+    PRINTLN_DETAIL(p1[Alan::_Point_Loc<double >::_axis_x]);
     PRINTLN_DETAIL(p1[Alan::_Point_Loc<double >::_axis_y]);
     PRINTLN_DETAIL(p1[Alan::_Point_Loc<double >::_axis_z]);
-    // PRINTLN_DETAIL(p1[3]);
+    // PRINTLN_DETAIL(p1[3]); // assert error 
     PRINTLN_DETAIL(p1);
     PRINTLN_DETAIL((p1 == p2));
     PRINTLN_DETAIL((p1 != p2));
+    PRINTLN_DETAIL((p1 < p2));
     PRINTLN_DETAIL(p1 + p2);
     PRINTLN_DETAIL(p1 * p2);
     PRINTLN_DETAIL((p1 ^ p2));
+    PRINTLN_DETAIL((p1 += p2));
+    PRINTLN_DETAIL((p1 -= p2));
     PRINTLN_DETAIL(p1.to_string());
+    PRINTLN("------------------------------");
+    Alan::_Point_Loc<int32_t > i32_p0 = 12;
+    Alan::_Point_Loc<double_t > f64_p0 = 24.87;
+    // PRINTLN("console input i32 3d point p1 and f64 3d p2:");
+    // INPUT(std::cin, i32_p0 >> f64_p0);
+    PRINTLN_DETAIL(i32_p0 + f64_p0);
+
 }
 
 void TestConstPointer()
@@ -280,6 +298,20 @@ void TestSTDAny()
     // Alan::ConsoleBeautyOutput<std::any >(any_vec);
 }
 
+void TestTypeTrait()
+{
+    PRINTLN(std::boolalpha << 
+                (Alan::_is_same_type<int, const int >::_value));
+    PRINTLN(std::boolalpha << 
+                (Alan::_is_same_type<double, const double >::_value));
+    PRINTLN(std::boolalpha << 
+                (Alan::_is_same_type<int const *, const int * >::_value));
+    PRINTLN(std::boolalpha << 
+                (Alan::_is_same_type<int const *, int * const >::_value));
+    
+    PRINTLN(Alan::_t_plus_v2(1.0, 2.4));
+}
+
 void TestAll()
 {
     // Alan::TestBirthDayParadox();
@@ -313,9 +345,9 @@ void TestAll()
     // TestKenoGame();
     // TestXorshift32();
     // TestHashTable();
-    TestPLoc();
-    TestADV();
-    TestScopeAway();
+    // TestPLoc();
+    // TestADV();
+    // TestScopeAway();
     // TestCon2By();
     // TestSeqLB_UB();
     // TestPLoc();
@@ -326,4 +358,5 @@ void TestAll()
     // TestLevelDB();
     // TestTuple();
     // TestSTDAny();
+    TestTypeTrait();
 }

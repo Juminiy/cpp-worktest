@@ -11,6 +11,7 @@
 #include <iostream>
 #include <numeric>
 #include <cstdint>
+#include <cstddef>
 
 
 #if __CC_VER__ == 2
@@ -21,39 +22,60 @@
 
 USE_NAMESPACE_ALAN
 
+// TODO:
+// 
+// 1. template _Tp constraint
+//  (1). _Tp must overload < 
+//  (2). when calculate _Point_Loc distance 
+//      _Tp must be int_type, real_type
+// 2. member variable constraint
+// 3. member function constraint
+// 4. ...
+
+
 template <typename _Tp >
 class _Point_Loc
 {
 public:
+    // _Point_Loc typedef Macro
     __DEF_ALL__(PLoc, _Point_Loc);
 
+    // _Point_Loc constructor
+    // (0)
     _Point_Loc(PLoc_const_reference _rhs)
         : _x(_rhs._x), _y(_rhs._y), _z(_rhs._z) {
             ++ this->_inst_cnt;
         }
+    // (1)
     _Point_Loc(PLoc_r_reference _rhs) 
         : _x(_rhs._x), _y(_rhs._y), _z(_rhs._z) {
             ++ this->_inst_cnt;
         }
-    _Point_Loc(_Tp __x__, _Tp __y__, _Tp __z__)
+    // (2)
+    _Point_Loc(_Tp __x__ = _Tp(), 
+                _Tp __y__ = _Tp(), 
+                _Tp __z__ = _Tp())
         : _x(__x__), _y(__y__), _z(__z__)     {
             ++ this->_inst_cnt;
         }
     // _Tp value r_reference
+    // invalid with above (2)
     // _Point_Loc(_Tp &&__x, _Tp &&__y, _Tp &&__z)
     //     : _x(std::move(__x)),
     //         _y(std::move(__x)), 
     //         _z(std::move(__x))         {}
-    _Point_Loc() 
-        : _x(_Tp()), _y(_Tp()), _z(_Tp())   {
-            ++ this->_inst_cnt;
-        }
+
+    // conflict with above (2)
+    // _Point_Loc() 
+    //     : _x(_Tp()), _y(_Tp()), _z(_Tp())   {
+    //         ++ this->_inst_cnt;
+    //     }
     ~_Point_Loc(){
         -- this->_inst_cnt;
     }
 
     // operator assign
-    PLoc_reference operator=
+    PLoc_reference operator =
     (PLoc_const_reference _p_loc)
     {
         this->_x = _p_loc._x;
@@ -61,7 +83,7 @@ public:
         this->_z = _p_loc._z;
         return *this;
     }
-    PLoc_reference operator+=
+    PLoc_reference operator +=
     (PLoc_const_reference _p_loc)
     {
         this->_x += _p_loc._x;
@@ -69,7 +91,7 @@ public:
         this->_z += _p_loc._z;
         return *this;
     }
-    PLoc_reference operator-=
+    PLoc_reference operator -=
     (PLoc_const_reference _p_loc)
     {
         this->_x -= _p_loc._x;
@@ -79,20 +101,8 @@ public:
     }
 
 
-    // template in template 
     // operator overload
-    template < typename __Tp__ >
-    auto operator+ 
-    (const _Point_Loc<__Tp__ > & _rhs) const 
-    {
-        auto _p_loc = 
-            _Point_Loc<__TP_PLUS_TRAITS__(_Tp, __Tp__) >();
-        _p_loc._x = this->_x + _rhs.getX();
-        _p_loc._y = this->_y + _rhs.getY();
-        _p_loc._z = this->_z + _rhs.getZ();
-        return _p_loc;
-    }
-    PLoc operator+
+    PLoc operator +
     (PLoc_const_reference _p_loc) const
     {
         auto _p_cp = _Point_Loc(_x, _y, _z);
@@ -101,7 +111,19 @@ public:
         _p_cp._z += _p_loc._z;
         return _p_cp;
     }
-    PLoc operator-
+    // differ template version
+    template < typename __Tp__ >
+    auto operator + 
+    (const _Point_Loc<__Tp__ > & _rhs) const 
+    {
+        auto _p_loc = 
+            _Point_Loc<__TP_PLUS_TRAITS__(_Tp, __Tp__) >();
+        _p_loc.setX(this->_x + _rhs.getX());
+        _p_loc.setY(this->_y + _rhs.getY());
+        _p_loc.setZ(this->_z + _rhs.getZ());
+        return _p_loc;
+    }
+    PLoc operator -
     (PLoc_const_reference _p_loc) const
     {
         auto _p_cp = _Point_Loc(_x, _y, _z);
@@ -110,8 +132,20 @@ public:
         _p_cp._z -= _p_loc._z;
         return _p_cp;
     }
+    // differ template version
+    template < typename __Tp__ >
+    auto operator -
+    (const _Point_Loc<__Tp__ > & _rhs) const 
+    {
+        auto _p_loc = 
+            _Point_Loc<__TP_PLUS_TRAITS__(_Tp, __Tp__) >();
+        _p_loc.setX(this->_x - _rhs.getX());
+        _p_loc.setY(this->_y - _rhs.getY());
+        _p_loc.setZ(this->_z - _rhs.getZ());
+        return _p_loc;
+    }
 
-    bool operator==
+    bool operator ==
     (PLoc_const_reference _p_loc) const 
     {
         return this->_x == _p_loc._x &&
@@ -119,7 +153,7 @@ public:
                 this->_z == _p_loc._z;
     }
 
-    bool operator!=
+    bool operator !=
     (PLoc_const_reference _p_loc) const 
     {
         return !(*this == _p_loc);
@@ -128,33 +162,31 @@ public:
     bool operator < 
     (PLoc_const_reference _rhs) const 
     {
-        return this->_x < _rhs._x &&
-            this->_y < _rhs._y &&
-            this->_z < _rhs._z;
+        return (this->_x < _rhs._x &&
+                this->_y < _rhs._y &&
+                this->_z < _rhs._z) 
+                || (this->_micro_sum() < 
+                    _rhs._micro_sum());
     }
     bool operator <= 
     (PLoc_const_reference _rhs) const 
     {
-        return this->_x < _rhs._x &&
-            this->_y < _rhs._y &&
-            this->_z < _rhs._z;
+        return *this < _rhs ||
+                *this == _rhs;
     }
     bool operator >
     (PLoc_const_reference _rhs) const 
     {
-        return this->_x < _rhs._x &&
-            this->_y < _rhs._y &&
-            this->_z < _rhs._z;
+        return !(*this < _rhs);
     }
     bool operator >=
     (PLoc_const_reference _rhs) const 
     {
-        return this->_x < _rhs._x &&
-            this->_y < _rhs._y &&
-            this->_z < _rhs._z;
+        return *this > _rhs ||
+                *this == _rhs;
     }
 
-    _Tp operator[]
+    _Tp operator []
     (const size_t & _axis) const 
     {
         assert(_axis >= _axis_x && 
@@ -174,7 +206,7 @@ public:
     }
     
     // inner product
-    _Tp operator*
+    _Tp operator *
     (PLoc_const_reference _p_loc) const
     {
         return this->_x * _p_loc._x +
@@ -183,7 +215,7 @@ public:
     }
 
     // point euclidean distance(p2p distance)
-    _Tp operator^
+    _Tp operator ^
     (PLoc_const_reference _p_loc) const
     {
         // return (this->_x - _p_loc._x) *
@@ -214,19 +246,28 @@ public:
     _Tp getX() const { return this->_x; }
     _Tp getY() const { return this->_y; }
     _Tp getZ() const { return this->_z; }
+    void setX(_Tp && __x__) { this->_x = __MV_RREF__(__x__); }
+    void setY(_Tp && __y__) { this->_y = __MV_RREF__(__y__); }
+    void setZ(_Tp && __z__) { this->_z = __MV_RREF__(__z__); }
 
-
-    
 private:
     _Tp _x, _y, _z;
-    static _Tp _min_bound;
-    static _Tp _max_bound;
-    static uint64_t _inst_cnt;
+    // when initial _min_bound and _max_bound 
+    // _Tp must int_type, real_type
+    const static _Tp _min_bound;
+    const static _Tp _max_bound;
+    static size_t _inst_cnt;
+    _Tp _micro_sum() const {
+        return _x + _y + _z;
+    }
+
+
+
 public:
-    static size_t _axis_x;
-    static size_t _axis_y;
-    static size_t _axis_z;
-    static inline uint64_t getInstCnt(){
+    const static size_t _axis_x;
+    const static size_t _axis_y;
+    const static size_t _axis_z;
+    static inline size_t getInstCnt(){
         return _inst_cnt;
     }
 
@@ -258,13 +299,13 @@ public:
 };
 
 template <typename _Tp>
-uint64_t _Point_Loc<_Tp>::_inst_cnt = 0;
+size_t _Point_Loc<_Tp>::_inst_cnt(0);
 template <typename _Tp>
-uint64_t _Point_Loc<_Tp>::_axis_x = 0;
+const size_t _Point_Loc<_Tp>::_axis_x(0);
 template <typename _Tp>
-uint64_t _Point_Loc<_Tp>::_axis_y = 1;
+const size_t _Point_Loc<_Tp>::_axis_y(1);
 template <typename _Tp>
-uint64_t _Point_Loc<_Tp>::_axis_z = 2;
+const size_t _Point_Loc<_Tp>::_axis_z(2);
 
 END_NAMESPACE_ALAN
 

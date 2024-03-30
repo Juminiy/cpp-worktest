@@ -77,6 +77,29 @@ _Tp_1 Power(const _Tp_1 & _num,
     return pow(double(_num), _pow);
 }
 
+
+template <typename _Tp>
+class _parr
+{
+public:
+    _parr(__CONST_REF__(_Tp) _sz)
+    {
+        this->sz = _sz;
+        this->elems = new _Tp[_sz];
+    }   
+    __PTR__(_Tp) data()
+    {
+        return this->elems;
+    }
+    __PTR_TO_CONST__(_Tp) data() const
+    {
+        return this->elems;
+    }
+private:
+    _Tp *elems;
+    size_t sz;
+};
+
 END_NAMESPACE_ALAN
 
 #endif 

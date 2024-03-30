@@ -15,23 +15,44 @@
 #include <ext/numeric>
 #endif 
 
+#define __TP_PLUS_TRAITS__(__tp_1__, __tp_2__) \
+        decltype(std::declval<__tp_1__ >() + \
+                std::declval<__tp_2__ >() )
+
+#define __CON_TP_TRAITS__(__con1_type__, __tp_1__, __con2_type__, __tp_2__) \
+        __con1_type__< __TP_PLUS_TRAITS__(__tp_1__, __tp_2__) >
 
 
 USE_NAMESPACE_ALAN
 
+
+
+// template <typename _Tp_1, 
+//             typename _Tp_2 >
+// bool _type_equal(_Tp_1 _tp_1_val,
+//                 _Tp_2 _tp_2_val )
+// {
+//     if (constexpr std::is_same_v(_tp_1_val, int) ||
+//         constexpr std::is_same_v(_tp_2_val, int))
+//     {
+//         return true;
+//     } else 
+//     {
+//         return false;
+//     }
+// }
+
 // make no sense on clang
 template < 
-    template < typename > 
-        typename _Container_1, typename _Tp_1,
-    template < typename > 
-        typename _Container_2, typename _Tp_2 >
+    template < typename > typename _Container_1, typename _Tp_1,
+    template < typename > typename _Container_2, typename _Tp_2 >
 std::enable_if_t< 
     _infer_container<_Container_1<_Tp_1 >, 
                     _Container_2<_Tp_2 > >::value, 
     __CON_TP_TRAITS__(_Container_1, _Tp_1, 
                     _Container_2, _Tp_2 ) >
 _t_plus(const _Container_1<_Tp_1 > & __container_1,
-            const _Container_2<_Tp_2 > & __container_2)
+        const _Container_2<_Tp_2 > & __container_2)
 {
     auto _ret = 
         __CON_TP_TRAITS__(_Container_1, _Tp_1, 
@@ -57,42 +78,19 @@ _t_plus(const _Container_1<_Tp_1 > & __container_1,
     return _ret;
 }
 
-template <typename _Tp>
-class _parr
-{
-public:
-    _parr(__CONST_REF__(_Tp) _sz)
-    {
-        this->sz = _sz;
-        this->elems = new _Tp[_sz];
-    }   
-    __PTR__(_Tp) data()
-    {
-        return this->elems;
-    }
-    __PTR_TO_CONST__(_Tp) data() const
-    {
-        return this->elems;
-    }
-private:
-    _Tp *elems;
-    size_t sz;
-};
 
-// template <typename _Tp_1, 
-//             typename _Tp_2 >
-// bool _type_equal(_Tp_1 _tp_1_val,
-//                 _Tp_2 _tp_2_val )
-// {
-//     if (constexpr std::is_same_v(_tp_1_val, int) ||
-//         constexpr std::is_same_v(_tp_2_val, int))
-//     {
-//         return true;
-//     } else 
-//     {
-//         return false;
-//     }
-// }
+// partial specialization _t_plus
+template <typename _Tp_1, typename _Tp_2,
+        typename = typename 
+        _enable_if_cond<_is_same_type<_Tp_1, _Tp_2 >::_value >::_value_type >
+auto _t_plus_v2(_Tp_1 && __lhs, 
+                _Tp_2 && __rhs)
+-> decltype(std::move(__lhs) + 
+            std::move(__rhs))
+{
+    return std::move(__lhs) + 
+            std::move(__rhs);
+}
 
 END_NAMESPACE_ALAN
 

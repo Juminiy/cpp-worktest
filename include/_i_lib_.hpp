@@ -506,6 +506,18 @@ opt_uint(char *val)
         __DEF_PTR_TO_CONST__(__alias_type__); \
         __DEF_CONST_PTR_TO_CONST__(__alias_type__)
 
+// after C++11 Standard
+// TODO: substitution
+// use : __DEF_DCL_V2__
+#define __DEF_ALL_V2__(__alias_type__, __meta_type__) \
+        typedef __meta_type__ __alias_type__; \
+        __DEF_REF__(__alias_type__); \
+        __DEF_CREF__(__alias_type__); \
+        __DEF_RREF__(__alias_type__); \
+        __DEF_PTR__(__alias_type__); \
+        __DEF_CONST_PTR__(__alias_type__); \
+        __DEF_PTR_TO_CONST__(__alias_type__); \
+        __DEF_CONST_PTR_TO_CONST__(__alias_type__)
 
 #define __REF__(__type__) \
         __type__ &
@@ -528,6 +540,8 @@ opt_uint(char *val)
 
 #define __DEF_DCL__(__wrap_type__, __meta_type__, __decl__) \
         typedef __wrap_type__ __meta_type__ ## __decl__
+#define __DEF_DCL_V2__(__wrap_type__, __meta_type__, __decl__) \
+        using __meta_type__ ## __decl__ = __wrap_type__
 
 #define __DEF_REF__(__type__) \
         __DEF_DCL__(__REF__(__type__), __type__, _reference)

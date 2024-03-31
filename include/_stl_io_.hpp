@@ -4,6 +4,7 @@
 
 #include "_i_lib_.hpp"
 #include "_stl_lib_.hpp"
+#include "_stl_asso_.hpp"
 
 #include <iostream>
 #include <ostream>
@@ -26,7 +27,139 @@
 
 USE_NAMESPACE_ALAN
 
-// I/O:
+
+/// @bug make sense??? I can not be sure
+/// @brief overload std::tuple ostream
+/// @tparam ..._Tp 
+/// @param __os 
+/// @param __tp_tuple 
+/// @return 
+template <typename ..._Tp>
+std::ostream& operator << (std::ostream &__os,
+                            const std::tuple<_Tp...> &__tp_tuple)
+{   
+    size_t _tps_sz = 
+        std::tuple_size<decltype(__tp_tuple)>::value;
+    __os << "[" 
+            << std::get<0>(__tp_tuple);
+    for(size_t _tp_i = 1;
+        _tp_i < _tps_sz;
+        ++_tp_i)
+        __os << ", "
+                << std::get<_tp_i>(__tp_tuple);
+    __os << "]";
+    return __os;
+}
+
+// std::ostream& operator << (std::ostream & __os,
+//                             const std::any & _any_val)
+// {
+//     __os << _any_val;
+//     return __os;
+// }
+
+
+// TODO: 
+// how to define a pair name 
+// for example: 
+// 1. _i32_str_pair -> std::pair<int, std::string >
+// 2. _i64_ch_pair -> std::pair<long long, char >
+// 3. _i32_ptr_wch_pair -> std::pair<int*, wchar_t > 
+#define __TYPEDEF_STD_PAIR__(__Tp1__, __Tp2__) \
+        typedef std::pair<__Tp1__, __Tp2__> __Tp1__ __Tp2__ pair
+
+typedef std::pair<std::string, std::string > ss_pair;
+typedef std::pair<std::string, int> si_pair;
+typedef std::pair<int, std::string> is_pair;
+
+
+/// @brief overload std::pair ostream
+/// @tparam _Tp1 
+/// @tparam _Tp2 
+/// @param __os 
+/// @param __tp_pair 
+/// @return 
+template <typename _Tp1, 
+            typename _Tp2 >
+std::ostream& operator << (std::ostream &__os, 
+                            const std::pair<_Tp1, _Tp2 > 
+                            &__tp_pair)
+{
+    __os << "[" 
+            << __tp_pair.first 
+            << ", " 
+            << __tp_pair.second 
+        << "]";
+    return __os;
+}
+
+template <typename _Tp1, 
+            typename _Tp2 >
+std::ostream& operator << (std::ostream &__os, 
+                            std::pair<_Tp1, _Tp2 > 
+                            && __tp_pair)
+{
+    __os << "[" 
+            << __tp_pair.first 
+            << ", " 
+            << __tp_pair.second 
+        << "]";
+    return __os;
+}
+
+template <typename _Tp1, 
+            typename _Tp2 >
+std::istream& operator >> (std::istream &__is, 
+                            std::pair<_Tp1, _Tp2 > 
+                            &__tp_pair)
+{
+    __is >> __tp_pair.first;
+    __is >> __tp_pair.second;
+    return __is;
+}
+
+
+// make no sense
+// template pair_pair recursive
+// template < typename _Tp1_1, typename _Tp1_2, 
+//             typename _Tp2_1, typename _Tp2_2 > 
+// std::ostream& operator << (std::ostream &__os,
+//                             const std::pair<
+//                                 std::pair<_Tp1_1, _Tp1_2 >, 
+//                                 std::pair<_Tp2_1, _Tp2_2 > > 
+//                                 &__tp_pair_4e)
+// {
+//     __os << "[" 
+//             << __tp_pair_4e.first
+//             << ", "
+//             << __tp_pair_4e.second
+//         << "]";
+//     return __os;
+// }
+
+// make no sense
+// partial specialization
+// compile error 
+// std::ostream& operator << (std::ostream &__os, 
+//                             const std::pair <
+//                                 std::pair<std::string, int >, 
+//                                 std::pair<int, std::string > > 
+//                                 &__tp_pair_4e_partial)
+// {
+//     __os << "["
+//             << __tp_pair_4e_partial.first.first
+//             << ", "
+//             << __tp_pair_4e_partial.first.second
+//             << "; "
+//             << __tp_pair_4e_partial.second.first
+//             << ", "
+//             << __tp_pair_4e_partial.second.second
+//         << "]";
+//     return __os;
+// }
+
+
+// std::Container<_Tp > I/O:
 
 // has not been tested
 // _Tp must oveload:                            operator >> 
@@ -167,7 +300,7 @@ void ConsoleBeautyOutput(const _Container &__container,
 
 // don't skip any a white space or any '\n', '\t', '\r'
 template <typename _InputStream, typename _OutputStream >
-void CompleteIterOutput(_InputStream &__input_stream,
+void IterInputOutput(_InputStream &__input_stream,
                         _OutputStream &__output_stream)
 {
     copy(std::istreambuf_iterator<char>(__input_stream),
@@ -176,119 +309,8 @@ void CompleteIterOutput(_InputStream &__input_stream,
 }
 
 
-
-typedef std::pair<std::string, std::string > ss_pair;
-typedef std::pair<std::string, int> si_pair;
-typedef std::pair<int, std::string> is_pair;
-
-// TODO: 
-// how to define a pair name 
-// for example: 
-// 1. _i32_str_pair -> std::pair<int, std::string >
-// 2. _i64_ch_pair -> std::pair<long long, char >
-// 3. _i32_ptr_wch_pair -> std::pair<int*, wchar_t > 
-#define __TYPEDEF_STD_PAIR__(__Tp1__, __Tp2__) \
-        typedef std::pair<__Tp1__, __Tp2__> __Tp1__ __Tp2__ pair
-
-// pass tested
-template <typename _Tp1, 
-            typename _Tp2 >
-std::ostream& operator << (std::ostream &__os, 
-                            const std::pair<_Tp1, _Tp2 > 
-                            &__tp_pair)
-{
-    __os << "[" 
-            << __tp_pair.first 
-            << ", " 
-            << __tp_pair.second 
-        << "]";
-    return __os;
-}
-
-template <typename _Tp1, 
-            typename _Tp2 >
-std::istream& operator >> (std::istream &__is, 
-                            std::pair<_Tp1, _Tp2 > 
-                            &__tp_pair)
-{
-    __is >> __tp_pair.first;
-    __is >> __tp_pair.second;
-    return __is;
-}
-
-
-// make no sense
-// template pair_pair recursive
-// template < typename _Tp1_1, typename _Tp1_2, 
-//             typename _Tp2_1, typename _Tp2_2 > 
-// std::ostream& operator << (std::ostream &__os,
-//                             const std::pair<
-//                                 std::pair<_Tp1_1, _Tp1_2 >, 
-//                                 std::pair<_Tp2_1, _Tp2_2 > > 
-//                                 &__tp_pair_4e)
-// {
-//     __os << "[" 
-//             << __tp_pair_4e.first
-//             << ", "
-//             << __tp_pair_4e.second
-//         << "]";
-//     return __os;
-// }
-
-// make no sense
-// partial specialization
-// compile error 
-// std::ostream& operator << (std::ostream &__os, 
-//                             const std::pair <
-//                                 std::pair<std::string, int >, 
-//                                 std::pair<int, std::string > > 
-//                                 &__tp_pair_4e_partial)
-// {
-//     __os << "["
-//             << __tp_pair_4e_partial.first.first
-//             << ", "
-//             << __tp_pair_4e_partial.first.second
-//             << "; "
-//             << __tp_pair_4e_partial.second.first
-//             << ", "
-//             << __tp_pair_4e_partial.second.second
-//         << "]";
-//     return __os;
-// }
-
-
-
-/// @brief make sense
-/// @tparam ..._Tp 
-/// @param __os 
-/// @param __tp_tuple 
-/// @return 
-template <typename ..._Tp>
-std::ostream& operator << (std::ostream &__os,
-                            const std::tuple<_Tp...> &__tp_tuple)
-{   
-    size_t _tps_sz = 
-        std::tuple_size<decltype(__tp_tuple)>::value;
-    __os << "[" 
-            << std::get<0>(__tp_tuple);
-    for(size_t _tp_i = 1;
-        _tp_i < _tps_sz;
-        ++_tp_i)
-        __os << ", "
-                << std::get<_tp_i>(__tp_tuple);
-    __os << "]";
-    return __os;
-}
-
-// std::ostream& operator << (std::ostream & __os,
-//                             const std::any & _any_val)
-// {
-//     __os << _any_val;
-//     return __os;
-// }
-
 template <typename _Iter_Pair >
-void ConsoleIterOutputIterPair(const _Iter_Pair &_iter_pair)
+void ConsoleIterOutputIterPairRange(const _Iter_Pair &_iter_pair)
 {
     for(auto _it = _iter_pair.first;
             _it != _iter_pair.second;
@@ -297,6 +319,17 @@ void ConsoleIterOutputIterPair(const _Iter_Pair &_iter_pair)
     PRINTLN("");
 }
 
+template <typename _Asso_Container>
+void ConsoleOutputAsso(const _Asso_Container & __container)
+{   
+    using _container_type = _Asso_Container;
+    using _iterator_type = typename _Asso_Container::const_iterator;
+    using _iterator_pair_type = std::pair<_iterator_type, _iterator_type>;
+    ConsoleIterOutputIterPairRange<_iterator_pair_type >(
+        Asso_Range_all<_container_type, _iterator_type >(__container));
+}
+
+// following 4 overload is illegal
 // std::ostream& operator<< 
 // (std::ostream &_os, const char * const _cc_str)
 // {

@@ -52,9 +52,10 @@ public:
             ++ this->_inst_cnt;
         }
     // (2)
-    _Point_Loc(_Tp __x__ = _Tp(), 
-                _Tp __y__ = _Tp(), 
-                _Tp __z__ = _Tp())
+    explicit _Point_Loc(
+            _Tp __x__ = _Tp(), 
+            _Tp __y__ = _Tp(), 
+            _Tp __z__ = _Tp())
         : _x(__x__), _y(__y__), _z(__z__)     {
             ++ this->_inst_cnt;
         }

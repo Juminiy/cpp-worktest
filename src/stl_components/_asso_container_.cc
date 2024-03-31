@@ -147,7 +147,7 @@ void TestIterator()
     #define _val_type decltype(i32_mus)::value_type
     #define _con_type decltype(i32_mus)
     #define _iter_type decltype(i32_mus)::iterator
-    Alan::ConsoleIterOutputIterPair(
+    Alan::ConsoleIterOutputIterPairRange(
         Alan::AssoRange_v3<_val_type, _con_type, _iter_type>
             (i32_mus, 10, 100)
     );

@@ -133,25 +133,25 @@ void TestSeqLB_UB()
 
 
     _COLOR_START(_COLOR_CYAN);
-        Alan::ConsoleIterOutputIterPair(
+        Alan::ConsoleIterOutputIterPairRange(
             Alan::SeqRange_v0<_val_type, _con_type, _iter_type>
                 (i32_v, 1<<5, 1<<6));
     _COLOR_RECOVER;
 
     _COLOR_START(_COLOR_YELLOW);
-        Alan::ConsoleIterOutputIterPair(
+        Alan::ConsoleIterOutputIterPairRange(
             Alan::SeqRange_v1<_val_type, _con_type, _iter_type>
                 (i32_v, 1<<5, 1<<6));
     _COLOR_RECOVER;
 
     _COLOR_START(_COLOR_GREEN);
-        Alan::ConsoleIterOutputIterPair(
+        Alan::ConsoleIterOutputIterPairRange(
             Alan::SeqRange_v2<_val_type, _con_type, _iter_type>
                 (i32_v, 1<<5, 1<<6));
     _COLOR_RECOVER;
 
     _COLOR_START(_COLOR_PURPLE);
-        Alan::ConsoleIterOutputIterPair(
+        Alan::ConsoleIterOutputIterPairRange(
             Alan::SeqRange_v3<_val_type, _con_type, _iter_type>
                 (i32_v, 1<<5, 1<<6));
     _COLOR_RECOVER;
@@ -182,8 +182,8 @@ void TestPLoc()
     PRINTLN_DETAIL((p1 -= p2));
     PRINTLN_DETAIL(p1.to_string());
     PRINTLN("------------------------------");
-    Alan::_Point_Loc<int32_t > i32_p0 = 12;
-    Alan::_Point_Loc<double_t > f64_p0 = 24.87;
+    Alan::_Point_Loc<int32_t > i32_p0(12);
+    Alan::_Point_Loc<double_t > f64_p0(24.87);
     // PRINTLN("console input i32 3d point p1 and f64 3d p2:");
     // INPUT(std::cin, i32_p0 >> f64_p0);
     PRINTLN_DETAIL(i32_p0 + f64_p0);
@@ -298,6 +298,87 @@ void TestSTDAny()
     // Alan::ConsoleBeautyOutput<std::any >(any_vec);
 }
 
+void TestOp0()
+{
+    auto i32_mp = std::map<int, int>();
+    i32_mp[0];
+    using namespace Alan;
+    Alan::ConsoleOutputAsso
+        <decltype(i32_mp)>
+        (i32_mp);
+    // for(auto _mit = i32_mp.begin();
+    //     _mit != i32_mp.end();
+    //     ++ _mit)
+    //     PRINT(*_mit), PRINT(", ");
+    #define OPT_ORION_INC 1
+    #define OPT_ORION_DEC -1
+    class Orion {
+    public:
+        Orion(const int _oc = 0): _opt_code(_oc){}
+        void inc() { ++_opt_code; }
+        void dec() { --_opt_code; }
+        int get() const { return _opt_code; }
+    private:
+        int _opt_code;
+    };
+    class Altair {
+    public:
+        Altair(Orion * _ptr): _orion_ptr(_ptr) {}
+        void OptOrion(const int _opt_type) const {
+            switch (_opt_type)
+            {
+            case OPT_ORION_INC:
+                this->_orion_ptr->inc();
+                break;
+            case OPT_ORION_DEC:
+                this->_orion_ptr->inc();
+                break;
+            default:
+                OUTPUT(std::cerr, "opt_type error");
+                break;
+            }
+        }
+        void ShowOrion() const {
+            PRINTLN(this->_orion_ptr->get());
+        }
+    private:
+        Orion * const _orion_ptr;
+    };
+    auto _orion_ptr = std::make_shared<Orion>(1);
+    auto _altar_obj = Altair(&(*_orion_ptr));
+    _altar_obj.ShowOrion();
+    _altar_obj.OptOrion(OPT_ORION_INC);
+    _altar_obj.ShowOrion();
+
+    _COLOR_START(_COLOR_BLUE);
+    class _num0 {
+    public:
+        _num0(const int __i32 = 0) : _i32(__i32) {}
+        int get() const {
+            return _i32;
+        }
+    private:
+        int _i32;
+    };
+    class _num1 {
+    public:
+        _num1(const _num0 & _n0 = _num0()) : _i32(_n0.get()) {}
+        // _num1(const int __i32) : _i32(__i32) {}
+        int get() const {
+            return _i32;
+        }
+    private:
+        int _i32;
+    };
+    class _num2 {
+
+    };
+    _num0 _n0 = 100;
+    PRINTLN(_n0.get());
+    _num1 _n1; //= 11; // illegal
+    PRINTLN(_n1.get());
+}
+
 void TestTypeTrait()
 {
     PRINTLN(std::boolalpha << 
@@ -358,5 +439,6 @@ void TestAll()
     // TestLevelDB();
     // TestTuple();
     // TestSTDAny();
-    TestTypeTrait();
+    // TestTypeTrait();
+    TestOp0();
 }

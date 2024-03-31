@@ -117,7 +117,7 @@ void TestVectorFunctor()
 
     std::ifstream fileIp(ConFilePath(num_gen_sort.txt), 
                         std::ios::in);
-    Alan::CompleteIterOutput<>(fileIp, std::cout);
+    Alan::IterInputOutput<>(fileIp, std::cout);
 }
 
 void TestValArray()

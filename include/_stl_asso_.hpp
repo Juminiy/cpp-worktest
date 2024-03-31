@@ -100,6 +100,14 @@ AssoRange_v3(const _Asso_Ordered_Container &__container,
                             __container.upper_bound(_max_element_key));
 }
 
+template <typename _Asso_Container,
+            typename _Asso_Iter >
+std::pair<_Asso_Iter, _Asso_Iter >
+Asso_Range_all(const _Asso_Container &__container)
+{
+    return std::make_pair(__container.cbegin(), 
+                            __container.cend());
+}
 
 
 // Encapsulation of AssoContainer:

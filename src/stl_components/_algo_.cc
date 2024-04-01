@@ -63,7 +63,7 @@ void TestAlgo()
         std::binary_search(i32_v.begin(),
                             i32_v.end(),
                             rand()%(1<<16))
-                << std::endl;
+                << __LN__;
 
 
     #if (__CC_VER__ == 1<<2)
@@ -121,7 +121,7 @@ void TestIteratorAdapter()
     // {   
     //     pointT i32_i32_p;
     //     std::cin >> i32_i32_p;
-    //     std::cout << i32_i32_p << std::endl;
+    //     std::cout << i32_i32_p << __LN__;
 
     //     auto i32_v = std::vector<pointT>();
     //     i32_v.reserve(1<<8);
@@ -303,15 +303,15 @@ void Test_Palindrome()
     _COLOR_START(_COLOR_BLUE);
     PRINTLN("char palindrome");
     std:: cout << std::boolalpha
-                << Alan::Char_Palindrome(optarg) << std::endl;
+                << Alan::Char_Palindrome(optarg) << __LN__;
     _COLOR_RECOVER;
 
     _COLOR_START(_COLOR_GREEN);
     PRINTLN("word palindrome");
     std:: cout << std::boolalpha
-                << Alan::Word_Palindrome("wow THis is this wow ") << std::endl;
+                << Alan::Word_Palindrome("wow THis is this wow ") << __LN__;
     std:: cout << std::boolalpha
-                << Alan::Word_Palindrome("wow kaobei ss") << std::endl;
+                << Alan::Word_Palindrome("wow kaobei ss") << __LN__;
     _COLOR_RECOVER;
 }
 
@@ -336,7 +336,7 @@ void Test_Tp_AVG()
                         std::vector<int >, 
                         std::vector<int >::iterator >
                     (i32_v, 8, 105, 0) 
-                << std::endl;
+                << __LN__;
 }
 
 void Test_LB_UB()
@@ -422,7 +422,7 @@ void TestTask()
         };
 
     auto _pv UNUSED = std::vector<double > {1, 2, 3, 4, 5, 6};
-    // std::cout << std::setprecision(10) << DistanceToOrigin(_pv) << std::endl;
+    // std::cout << std::setprecision(10) << DistanceToOrigin(_pv) << __LN__;
 
     auto BiasedSort UNUSED = 
         [](std::vector<std::string > &_sv, const std::string &_Se)

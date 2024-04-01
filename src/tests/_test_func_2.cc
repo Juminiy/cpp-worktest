@@ -393,6 +393,22 @@ void TestTypeTrait()
     PRINTLN(Alan::_t_plus_v2(1.0, 2.4));
 }
 
+void TestOp2()
+{
+    unsigned long long _i64_num = 0;
+    _COLOR_START(_COLOR_CYAN);
+        do {
+            // std::cin.dec;
+            // _i64_num = std::cin.get();
+            // TODO:
+            // how to realize a buffer safety unsigned long long ?
+            std::cin >> std::dec >> _i64_num;
+            std::cin.sync();
+            PRINTLN(_i64_num);
+        }while(_i64_num);
+    _COLOR_RECOVER;
+}
+
 void TestAll()
 {
     // Alan::TestBirthDayParadox();
@@ -440,5 +456,6 @@ void TestAll()
     // TestTuple();
     // TestSTDAny();
     // TestTypeTrait();
-    TestOp0();
+    // TestOp0();
+    TestOp2();
 }

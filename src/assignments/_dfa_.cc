@@ -166,7 +166,7 @@ void TestEmail()
     _COLOR_START(_COLOR_CYAN);
     std:: cout << std::boolalpha 
                 << ValidateEmail(std::string(optarg)) 
-                << std::endl;
+                << __LN__;
     _COLOR_RECOVER;
 }
 

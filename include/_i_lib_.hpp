@@ -179,7 +179,8 @@ extern "C" {
 
 // PRINT and DECL 
 // add va_list
-#define __LN__ std::endl
+#define __LN__ '\n'
+#define __FLUSH_LN__ std::endl
 #define INPUT(_is_, _ct_) \
         _is_ >> _ct_
 #define OUTPUT(_os_, _ct_) \
@@ -232,7 +233,7 @@ extern "C" {
 #define PSEUDORANDOM_DECL \
         srand(static_cast<unsigned>(time(NULL)))
 #define TILLNOW(_start_time_) \
-        (((float)(clock() - _start_time_))/CLOCKS_PER_SEC)
+        ((static_cast<float>(clock() - _start_time_))/CLOCKS_PER_SEC)
 #define TIME_BASED_SEED \
         std::chrono:: \
         system_clock \
@@ -496,8 +497,11 @@ opt_uint(char *val)
 
 
 // Type determine and extension
+// use: 	__DEF_ALL__
+// detail:	typedef __meta_type__##__xx_xx__ __alias_type__;
 #define __DEF_ALL__(__alias_type__, __meta_type__) \
-        typedef __meta_type__ __alias_type__; \
+        typedef __meta_type__ __alias_type__ ; \
+        __DEF_CONST__(__alias_type__); \
         __DEF_REF__(__alias_type__); \
         __DEF_CREF__(__alias_type__); \
         __DEF_RREF__(__alias_type__); \
@@ -507,18 +511,22 @@ opt_uint(char *val)
         __DEF_CONST_PTR_TO_CONST__(__alias_type__)
 
 // after C++11 Standard
-// TODO: substitution
-// use : __DEF_DCL_V2__
+// TODO: substitution with (using = syntax)
+// use :	__DEF_DCL_V2__
+// detail:	using __alias_type__ = __meta_type__##__xx_xx__;
 #define __DEF_ALL_V2__(__alias_type__, __meta_type__) \
-        typedef __meta_type__ __alias_type__; \
-        __DEF_REF__(__alias_type__); \
-        __DEF_CREF__(__alias_type__); \
-        __DEF_RREF__(__alias_type__); \
-        __DEF_PTR__(__alias_type__); \
-        __DEF_CONST_PTR__(__alias_type__); \
-        __DEF_PTR_TO_CONST__(__alias_type__); \
-        __DEF_CONST_PTR_TO_CONST__(__alias_type__)
+        using __alias_type__ = __meta_type__ ; \
+        __DEF_CONST_V2__(__alias_type__); \
+        __DEF_REF_V2__(__alias_type__); \
+        __DEF_CREF_V2__(__alias_type__); \
+        __DEF_RREF_V2__(__alias_type__); \
+        __DEF_PTR_V2__(__alias_type__); \
+        __DEF_CONST_PTR_V2__(__alias_type__); \
+        __DEF_PTR_TO_CONST_V2__(__alias_type__); \
+        __DEF_CONST_PTR_TO_CONST_V2__(__alias_type__)
 
+#define __CONST__(__type__) \
+        __type__ const
 #define __REF__(__type__) \
         __type__ &
 #define __CONST_REF__(__type__) \
@@ -543,6 +551,8 @@ opt_uint(char *val)
 #define __DEF_DCL_V2__(__wrap_type__, __meta_type__, __decl__) \
         using __meta_type__ ## __decl__ = __wrap_type__
 
+#define __DEF_CONST__(__type__) \
+        __DEF_DCL__(__CONST__(__type__), __type__, _const)
 #define __DEF_REF__(__type__) \
         __DEF_DCL__(__REF__(__type__), __type__, _reference)
 #define __DEF_CREF__(__type__) \
@@ -558,6 +568,24 @@ opt_uint(char *val)
         __DEF_DCL__(__PTR_TO_CONST__(__type__), __type__, _pointer_to_const)
 #define __DEF_CONST_PTR_TO_CONST__(__type__) \
         __DEF_DCL__(__CONST_PTR_TO_CONST__(__type__), __type__, _const_pointer_to_const)
+
+#define __DEF_CONST_V2__(__type__) \
+        __DEF_DCL_V2__(__CONST__(__type__), __type__, _const)
+#define __DEF_REF_V2__(__type__) \
+        __DEF_DCL_V2__(__REF__(__type__), __type__, _reference)
+#define __DEF_CREF_V2__(__type__) \
+        __DEF_DCL_V2__(__CONST_REF__(__type__), __type__, _const_reference)
+#define __DEF_RREF_V2__(__type__) \
+        __DEF_DCL_V2__(__RREF__(__type__), __type__, _r_reference)
+
+#define __DEF_PTR_V2__(__type__) \
+        __DEF_DCL_V2__(__PTR__(__type__), __type__, _pointer)
+#define __DEF_CONST_PTR_V2__(__type__) \
+        __DEF_DCL_V2__(__CONST_PTR__(__type__), __type__, _const_pointer)
+#define __DEF_PTR_TO_CONST_V2__(__type__) \
+        __DEF_DCL_V2__(__PTR_TO_CONST__(__type__), __type__, _pointer_to_const)
+#define __DEF_CONST_PTR_TO_CONST_V2__(__type__) \
+        __DEF_DCL_V2__(__CONST_PTR_TO_CONST__(__type__), __type__, _const_pointer_to_const)
 
 
 

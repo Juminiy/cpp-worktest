@@ -70,7 +70,7 @@ std::vector<int> break_up_states(const std::string &_states)
                         << "_states< " 
                         << _RED(_states)   
                         << " >" 
-                        << std::endl;
+                        << __LN__;
             exit(INPUT_ERROR);
         }
     }
@@ -227,5 +227,5 @@ void TestNFA()
         std::cout << _RED(_it.first)
                     << " = " 
                     << std::boolalpha 
-                    << _it.second << std::endl;
+                    << _it.second << __LN__;
 }

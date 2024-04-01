@@ -38,20 +38,14 @@ class _Point_Loc
 {
 public:
     // _Point_Loc typedef Macro
-    __DEF_ALL__(PLoc, _Point_Loc);
+    __DEF_ALL_V2__(PLoc, _Point_Loc);
 
+    // _Point_Loc destructor
+    ~_Point_Loc(){
+        -- this->_inst_cnt;
+    }
     // _Point_Loc constructor
     // (0)
-    _Point_Loc(PLoc_const_reference _rhs)
-        : _x(_rhs._x), _y(_rhs._y), _z(_rhs._z) {
-            ++ this->_inst_cnt;
-        }
-    // (1)
-    _Point_Loc(PLoc_r_reference _rhs) 
-        : _x(_rhs._x), _y(_rhs._y), _z(_rhs._z) {
-            ++ this->_inst_cnt;
-        }
-    // (2)
     explicit _Point_Loc(
             _Tp __x__ = _Tp(), 
             _Tp __y__ = _Tp(), 
@@ -59,57 +53,87 @@ public:
         : _x(__x__), _y(__y__), _z(__z__)     {
             ++ this->_inst_cnt;
         }
-    // _Tp value r_reference
+    // conflict with above (0)
+    // _Point_Loc() 
+    //     : _x(_Tp()), _y(_Tp()), _z(_Tp())   {
+    //         ++ this->_inst_cnt;
+    //     }
+    
+    // _Tp value r_reference???
     // invalid with above (2)
     // _Point_Loc(_Tp &&__x, _Tp &&__y, _Tp &&__z)
     //     : _x(std::move(__x)),
     //         _y(std::move(__x)), 
     //         _z(std::move(__x))         {}
 
-    // conflict with above (2)
-    // _Point_Loc() 
-    //     : _x(_Tp()), _y(_Tp()), _z(_Tp())   {
-    //         ++ this->_inst_cnt;
-    //     }
-    ~_Point_Loc(){
-        -- this->_inst_cnt;
-    }
 
+
+    // (1)
+    // const reference parameter, constructor
+    _Point_Loc(PLoc_const_reference _rhs)
+        : _x(_rhs._x), _y(_rhs._y), _z(_rhs._z) {
+            ++ this->_inst_cnt;
+        }
+    // (2)
+    // rvalue reference parameter, constructor
+    _Point_Loc(PLoc_r_reference _rhs) 
+        : _x(_rhs._x), _y(_rhs._y), _z(_rhs._z) {
+            ++ this->_inst_cnt;
+        }
+    
     // operator assign
+    // const reference parameter, operator assign
     PLoc_reference operator =
-    (PLoc_const_reference _p_loc)
+    (PLoc_const_reference _rhs)
     {
-        this->_x = _p_loc._x;
-        this->_y = _p_loc._y;
-        this->_z = _p_loc._z;
+        this->_x = _rhs._x;
+        this->_y = _rhs._y;
+        this->_z = _rhs._z;
         return *this;
     }
-    PLoc_reference operator +=
-    (PLoc_const_reference _p_loc)
+    // rvalue reference parameter, operator assign
+    PLoc_reference operator =
+    (PLoc_r_reference _rhs)
     {
-        this->_x += _p_loc._x;
-        this->_y += _p_loc._y;
-        this->_z += _p_loc._z;
+        this->_x = _rhs._x;
+        this->_y = _rhs._y;
+        this->_z = _rhs._z;
+        return *this;
+    }
+
+    PLoc_reference operator +=
+    (PLoc_const_reference _rhs)
+    {
+        this->_x += _rhs._x;
+        this->_y += _rhs._y;
+        this->_z += _rhs._z;
         return *this;
     }
     PLoc_reference operator -=
-    (PLoc_const_reference _p_loc)
+    (PLoc_const_reference _rhs)
     {
-        this->_x -= _p_loc._x;
-        this->_y -= _p_loc._y;
-        this->_z -= _p_loc._z;
+        this->_x -= _rhs._x;
+        this->_y -= _rhs._y;
+        this->_z -= _rhs._z;
         return *this;
     }
 
 
     // operator overload
-    PLoc operator +
-    (PLoc_const_reference _p_loc) const
+    PLoc_const operator +
+    () const 
     {
-        auto _p_cp = _Point_Loc(_x, _y, _z);
-        _p_cp._x += _p_loc._x;
-        _p_cp._y += _p_loc._y;
-        _p_cp._z += _p_loc._z;
+        return PLoc(+this->_x, 
+                    +this->_y, 
+                    +this->_z);
+    }
+    PLoc operator +
+    (PLoc_const_reference _rhs) const
+    {
+        auto _p_cp = PLoc(_x, _y, _z);
+        _p_cp._x += _rhs._x;
+        _p_cp._y += _rhs._y;
+        _p_cp._z += _rhs._z;
         return _p_cp;
     }
     // differ template version
@@ -117,20 +141,27 @@ public:
     auto operator + 
     (const _Point_Loc<__Tp__ > & _rhs) const 
     {
-        auto _p_loc = 
+        auto _ploc = 
             _Point_Loc<__TP_PLUS_TRAITS__(_Tp, __Tp__) >();
-        _p_loc.setX(this->_x + _rhs.getX());
-        _p_loc.setY(this->_y + _rhs.getY());
-        _p_loc.setZ(this->_z + _rhs.getZ());
-        return _p_loc;
+        _ploc.setX(this->_x + _rhs.getX());
+        _ploc.setY(this->_y + _rhs.getY());
+        _ploc.setZ(this->_z + _rhs.getZ());
+        return _ploc;
+    }
+    PLoc_const operator -
+    () const 
+    {
+        return PLoc(-this->_x, 
+                    -this->_y, 
+                    -this->_z);
     }
     PLoc operator -
-    (PLoc_const_reference _p_loc) const
+    (PLoc_const_reference _rhs) const
     {
-        auto _p_cp = _Point_Loc(_x, _y, _z);
-        _p_cp._x -= _p_loc._x;
-        _p_cp._y -= _p_loc._y;
-        _p_cp._z -= _p_loc._z;
+        auto _p_cp = PLoc(_x, _y, _z);
+        _p_cp._x -= _rhs._x;
+        _p_cp._y -= _rhs._y;
+        _p_cp._z -= _rhs._z;
         return _p_cp;
     }
     // differ template version
@@ -138,26 +169,26 @@ public:
     auto operator -
     (const _Point_Loc<__Tp__ > & _rhs) const 
     {
-        auto _p_loc = 
+        auto _ploc = 
             _Point_Loc<__TP_PLUS_TRAITS__(_Tp, __Tp__) >();
-        _p_loc.setX(this->_x - _rhs.getX());
-        _p_loc.setY(this->_y - _rhs.getY());
-        _p_loc.setZ(this->_z - _rhs.getZ());
-        return _p_loc;
+        _ploc.setX(this->_x - _rhs.getX());
+        _ploc.setY(this->_y - _rhs.getY());
+        _ploc.setZ(this->_z - _rhs.getZ());
+        return _ploc;
     }
 
     bool operator ==
-    (PLoc_const_reference _p_loc) const 
+    (PLoc_const_reference _rhs) const 
     {
-        return this->_x == _p_loc._x &&
-                this->_y == _p_loc._y &&
-                this->_z == _p_loc._z;
+        return this->_x == _rhs._x &&
+                this->_y == _rhs._y &&
+                this->_z == _rhs._z;
     }
 
     bool operator !=
-    (PLoc_const_reference _p_loc) const 
+    (PLoc_const_reference _rhs) const 
     {
-        return !(*this == _p_loc);
+        return !(*this == _rhs);
     }
 
     bool operator < 
@@ -208,27 +239,27 @@ public:
     
     // inner product
     _Tp operator *
-    (PLoc_const_reference _p_loc) const
+    (PLoc_const_reference _rhs) const
     {
-        return this->_x * _p_loc._x +
-                this->_y * _p_loc._y +
-                this->_z * _p_loc._z;
+        return this->_x * _rhs._x +
+                this->_y * _rhs._y +
+                this->_z * _rhs._z;
     }
 
     // point euclidean distance(p2p distance)
     _Tp operator ^
-    (PLoc_const_reference _p_loc) const
+    (PLoc_const_reference _rhs) const
     {
-        // return (this->_x - _p_loc._x) *
-        //         (this->_x - _p_loc._x) +
-        //         (this->_y - _p_loc._y) *
-        //         (this->_y - _p_loc._y) +
-        //         (this->_z - _p_loc._z) *
-        //         (this->_z - _p_loc._z);
+        // return (this->_x - _rhs._x) *
+        //         (this->_x - _rhs._x) +
+        //         (this->_y - _rhs._y) *
+        //         (this->_y - _rhs._y) +
+        //         (this->_z - _rhs._z) *
+        //         (this->_z - _rhs._z);
         return Sqrt<_Tp >
-                (Power<_Tp >(this->_x - _p_loc._x , 2) + 
-                    Power<_Tp >(this->_y - _p_loc._y , 2) + 
-                    Power<_Tp >(this->_z - _p_loc._z , 2));
+                (Power<_Tp >(this->_x - _rhs._x , 2) + 
+                    Power<_Tp >(this->_y - _rhs._y , 2) + 
+                    Power<_Tp >(this->_z - _rhs._z , 2));
     }
 
     std::string to_string() const
@@ -275,25 +306,25 @@ public:
     // template <typename _Tp_ >
     friend std::istream& 
     operator >>(std::istream& _is, 
-                PLoc_reference _p_loc)
+                PLoc_reference _rhs)
     {
-        INPUT(_is, _p_loc._x),
-        INPUT(_is, _p_loc._y),
-        INPUT(_is, _p_loc._z);
+        INPUT(_is, _rhs._x),
+        INPUT(_is, _rhs._y),
+        INPUT(_is, _rhs._z);
         return _is;
     }
 
     // template <typename _Tp_ >
     friend std::ostream& 
     operator <<(std::ostream& _os, 
-                PLoc_const_reference _p_loc)
+                PLoc_const_reference _rhs)
     {
         OUTPUT(_os, "("),
-        OUTPUT(_os, _p_loc._x),
+        OUTPUT(_os, _rhs._x),
         OUTPUT(_os, ", "),
-        OUTPUT(_os, _p_loc._y),
+        OUTPUT(_os, _rhs._y),
         OUTPUT(_os, ", "),
-        OUTPUT(_os, _p_loc._z),
+        OUTPUT(_os, _rhs._z),
         OUTPUT(_os, ")");
         return _os;
     }

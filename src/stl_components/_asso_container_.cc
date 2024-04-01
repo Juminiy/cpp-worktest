@@ -92,7 +92,7 @@ void BirthdayParadox(int const &_sides, const int &_times = 2)
                 << "counts ["  
                 << _i32_cnt 
                 << "]" 
-                << std::endl;
+                << __LN__;
 }
 
 void TestBirthDayParadox()
@@ -126,9 +126,9 @@ void TestUSet()
     
     std::cout << "point set size = " 
                 << pTS.size() 
-                << std::endl 
+                << __LN__ 
                 << "elem is " 
-                << std::endl;
+                << __LN__;
     ConsoleBeautyOutput<pointT>(pTS);
 }
 
@@ -168,9 +168,9 @@ void TestMapDiffer()
         _ssmp.insert(ss_pair("C++", "Great"));
         auto [_it, succ] = _ssmp.insert(ss_pair("C++", "Alful"));
         if (succ)
-            std::cout << "insert new " << _it->second << std::endl;
+            std::cout << "insert new " << _it->second << __LN__;
         else 
-            std::cout << "failed insert " << std::endl;
+            std::cout << "failed insert " << __LN__;
     }
 }
 
@@ -258,7 +258,7 @@ void CountKeyWordsOccurences()
                     << " occurs " 
                     << _pr.second 
                     << " times" 
-                    << std::endl;
+                    << __LN__;
 
 }
 
@@ -277,7 +277,7 @@ void TestMultiContainer()
 
     mus_i32.erase( 8 );
     _COLOR_START(_COLOR_RED);
-    std::cout << mus_i32.count( 8 ) << std::endl;
+    std::cout << mus_i32.count( 8 ) << __LN__;
     _COLOR_RECOVER;
 
 }

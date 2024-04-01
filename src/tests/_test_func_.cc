@@ -61,9 +61,9 @@ void TestOSS()
     // string _str_;
     // getline(cin, _str_);
     // PrintOSS(_str_);
-    std::cout << Type2String<int>(GetTypeValue<int>()) << std::endl;
-    std::cout << Type2String<double>(GetTypeValue<double>()) << std::endl;
-    std::cout << std::boolalpha << Type2String<bool>(GetTypeValue<bool>()) << std::endl;
+    std::cout << Type2String<int>(GetTypeValue<int>()) << __LN__;
+    std::cout << Type2String<double>(GetTypeValue<double>()) << __LN__;
+    std::cout << std::boolalpha << Type2String<bool>(GetTypeValue<bool>()) << __LN__;
 }
 
 // data from https://textlists.info/geography/countries-and-capitals-of-the-world/
@@ -94,7 +94,7 @@ int Capitals(int const &case_num)
             break;
         country = replaceAllWhiteSpace(country);
         std::cout << "Country: " << _RED(country) 
-                << "'s Capital: " << _RED(capitals[country]) << std::endl;
+                << "'s Capital: " << _RED(capitals[country]) << __LN__;
     }
     break;
         default:
@@ -215,7 +215,7 @@ void TestHasHexLetters_3_version_pat(int const &_round)
         std::cout << "bits(" << _rand_ << ") = " << _t_res_bits_ << ", " 
                 << "bitsv2(" << _rand_ << ") = " << _t_res_bits_2 << ", "
                 << "loop(" << _rand_ << ") = " << _t_res_loop_ << ", "
-                << "ss(" << _rand_ << ") = " << _t_res_ss_ << std::endl;
+                << "ss(" << _rand_ << ") = " << _t_res_ss_ << __LN__;
         if (_t_res_bits_ !=
             _t_res_loop_ ||
             _t_res_bits_2 != 
@@ -225,9 +225,11 @@ void TestHasHexLetters_3_version_pat(int const &_round)
             printf("un_eq _num_ = %x\n", _rand_), 
             ++_count_;
     }
-    std::cout << "not ok count = " << _count_ << ", total count = " << _round << std::endl;
+    std::cout << "not ok count = " << _count_ << ", total count = " << _round << __LN__;
     std::cout.precision(4);
-    std::cout << "not pass rate = "<< ((double)_count_ / (double)_round) * 100<< "%" << std::endl;
+    std::cout << "not pass rate = " 
+            << ( static_cast<double>(_count_) / static_cast<double>(_round) ) * 100 
+            << "%" << __LN__;
 }
 
 void DrawTriangle(int const& _n)

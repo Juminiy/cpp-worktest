@@ -67,6 +67,6 @@ void TestKenoGame()
 
     std::cout << "same count < " 
                 << _kgame.NumWinner(_vi)
-                << " >" << std::endl;
+                << " >" << __LN__;
     PRINTLN("game over");
 }

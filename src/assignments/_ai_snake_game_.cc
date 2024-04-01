@@ -164,7 +164,7 @@ void gameT::resp()
     std::cout << "You ate " 
         << numEaten 
         << " pieces of food" 
-        << std::endl;
+        << __LN__;
 
     if (numEaten == kMaxFood)
     {

@@ -58,7 +58,7 @@ void writeFile(std::string const &fileName,
                 << "<" << fileName << ">" 
                 << ", " 
                 << "mode" << "<" << mode << ">" 
-                << std::endl;
+                << __LN__;
         return; 
     }
 
@@ -67,11 +67,11 @@ void writeFile(std::string const &fileName,
     {
         std::cerr << "WriteError: fileName" 
                 << "<" << fileName << ">" 
-                << " was not opened" << std::endl;
+                << " was not opened" << __LN__;
         return ;
     }
     
-    outputFile << fileDesc << std::endl;
+    outputFile << fileDesc << __LN__;
 
     outputFile.close();
 }
@@ -104,7 +104,7 @@ void ReadForStdout(std::string const &fileName)
                     << f64 << " | "
                     << std::setfill(' ') 
                     << std::right << std::setw(1<<3)  
-                    << str5 << " ] " << std::endl;
+                    << str5 << " ] " << __LN__;
     }
 
     inputFile->close();
@@ -120,7 +120,7 @@ std::unique_ptr<std::fstream> readFile(std::string const &fileName)
     {
         std::cerr << "ReadError: fileName" 
                 << "<" << fileName << ">" 
-                << " was not opened" << std::endl;
+                << " was not opened" << __LN__;
         return nullptr;
     }
 
@@ -178,7 +178,7 @@ std::string &capital)
         std::cerr << "src" 
                 << "<" << src << ">" 
                 << " do not contain any '-'" 
-                << std::endl;
+                << __LN__;
         return ;
     }
 
@@ -212,7 +212,7 @@ void PrintWorldCapitals
                     << _RED(pr.first) 
                     << ", " 
                     << _RED(pr.second) 
-                    << ">" << std::endl;
+                    << ">" << __LN__;
         }
     }
 }
@@ -221,7 +221,7 @@ void PrintOSS(std::string const &_string_)
 {
     std::ostringstream oss;
     oss << "OSS: _string_<" << _string_ << ">" ;
-    std::cout << oss.str() << std::endl;
+    std::cout << oss.str() << __LN__;
 }
 
 void MultiTypesOSS(std::string const &_v)
@@ -233,7 +233,7 @@ void MultiTypesOSS(std::string const &_v)
             << 1 << ">, double<" 
             << 1.0 << ">, char<" 
             << 'c' << ">";
-    std::cout << oss.str() << std::endl;
+    std::cout << oss.str() << __LN__;
     oss.clear();
 
     std::unique_ptr<std::stringstream> oss_ptr(new std::stringstream);
@@ -254,7 +254,7 @@ void MultiTypesOSS(std::string const &_v)
             << ">, ast_str5<" << ast_str5 
             << ">, ast_str8<" << ast_str8 
             << ">, ast_ch1<" << ast_ch1 
-            << ">" << std::endl;
+            << ">" << __LN__;
 }
 
 std::string GetLine()
@@ -278,13 +278,13 @@ RetType GetTypeValue()
             char _rem;
             if (ss >> _rem)
                 std::cerr << "input remained: _rem< "
-                        << _rem << " >" << std::endl;
+                        << _rem << " >" << __LN__;
             else 
                 return _ret;
         } else
         {
             std::cerr << "input error: _str< "
-                    << ss.str() << " >" << std::endl;
+                    << ss.str() << " >" << __LN__;
         }
     }
 }

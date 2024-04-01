@@ -123,7 +123,7 @@ void TestVectorFunctor()
 void TestValArray()
 {
     std::valarray<int> vay{1, 2, 3, 4, 5};
-    std::cout << vay.sum() << std::endl;
+    std::cout << vay.sum() << __LN__;
 
     std::vector<int> vay_pup;
     vay_pup.push_back(1);
@@ -149,7 +149,7 @@ void TestVectorFunctor2()
                                         return _i32 == _i32_cmp;
                                     }) 
                 << " times."
-                << std::endl;
+                << __LN__;
 }
 
 
@@ -278,7 +278,7 @@ void TestAgainstVectorReverseWithNot()
                     << MAX_SZ_T << "*" 
                     << MAX_SZ_S << " cost " 
                     << TILLNOW(_s) 
-                    << " seconds" << std::endl;
+                    << " seconds" << __LN__;
         _COLOR_RECOVER;
         _v1.clear();
     }
@@ -295,7 +295,7 @@ void TestAgainstVectorReverseWithNot()
                     << "*" << MAX_SZ_S 
                     << " cost " 
                     << TILLNOW(_s) 
-                    << " seconds" << std::endl;
+                    << " seconds" << __LN__;
         _COLOR_RECOVER;
         _v2.clear();
     }
@@ -328,7 +328,7 @@ void TestVigenereEncrypt()
 {   
     // std:: cout 
     //         << VigenereEncrypt("sss", std::vector<int>()) 
-    //         << std::endl;
+    //         << __LN__;
     //  return ;
     std::string _en;
     std::vector<int> _sa;
@@ -353,7 +353,7 @@ void TestVigenereEncrypt()
             {
                 I32_CHARIN(cur_sai, argi);
             } else {
-                std::cerr << "err input" << std::endl;
+                std::cerr << "err input" << __LN__;
                 exit(130);
             }
         }
@@ -368,7 +368,7 @@ void TestVigenereEncrypt()
     std:: cout << "encrypted <" 
                     << _en << "> = <" 
                     << _res << ">" 
-                    << std::endl; 
+                    << __LN__; 
     _COLOR_RECOVER; 
 }
 

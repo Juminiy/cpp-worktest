@@ -485,13 +485,12 @@ opt_uint(char *val)
 }
 
 
-
-#if (__CC_VER__ == 8)
+#if (__CC_VER__ >= 4)
+        #undef __TYPE_OF__
+    #define __TYPE_OF__(__x__) __typeof__(__x__)
+#elif (__CC_VER__ == 8)
     #undef __TYPE_OF__
     #define __TYPE_OF__(__x__) typeof(__x__)
-#elif (__CC_VER__ == 4)
-    #undef __TYPE_OF__
-    #define __TYPE_OF__(__x__) __typeof__(__x__)
 #endif 
 
 

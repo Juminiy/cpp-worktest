@@ -409,6 +409,58 @@ void TestOp2()
     _COLOR_RECOVER;
 }
 
+void TestOp3()
+{
+    // auto i32_p3 = 
+    //     Alan::_Point_Loc<int >(3, 3, 3);
+    // auto f32_p0 = 
+    //     Alan::_Point_Loc<float >(4.0, 5.0, 6.0);
+    
+    // auto f32_p0cpy = f32_p0;
+    // auto f32_p0cpy2(f32_p0);
+
+    // PRINTLN(i32_p3);
+    // PRINTLN(i32_p3.getInstCnt());
+    // PRINTLN(f32_p0);
+    // PRINTLN(f32_p0cpy);
+    // PRINTLN(f32_p0cpy2);
+
+    // args
+    auto f64_p1(Alan::_Point_Loc(9.5, 10.5, 11.5));
+    // args
+    auto f64_p2 = Alan::_Point_Loc(1.2, 2.2, 3.3);
+    // PRINTLN(f64_p1);
+    // PRINTLN(f64_p2);
+
+    _COLOR_START(_COLOR_BLUE); 
+    auto f32p_vec = 
+        std::vector<decltype(f64_p1)>();
+    f32p_vec.reserve(1<<4);
+    
+    // copy 
+    // after reserve: copy 
+    // reference parameter : compile error 
+    // const_reference parameter : compile ok, run ok
+    f32p_vec.push_back(f64_p1);
+    // copy + copy + des
+    // after reserve: copy
+    // reference parameter : compile error 
+    // const_reference parameter : compile ok, run ok
+    f32p_vec.push_back(f64_p2);
+
+    // args + move + copy + copy + des + des + des
+    // after reserve: args + move + des
+    f32p_vec.push_back(decltype(f64_p1)(1.0, 2.3, 4.5));
+    // args 
+    // after reserve: args
+    f32p_vec.emplace_back(1.0, 2.3, 4.5);
+    _COLOR_RECOVER;
+
+    Alan::ConsoleBeautyOutput<decltype(f64_p1)>
+        (f32p_vec);
+    PRINTLN_DETAIL(f64_p1.getInstCnt());
+}
+
 void TestAll()
 {
     // Alan::TestBirthDayParadox();
@@ -457,5 +509,6 @@ void TestAll()
     // TestSTDAny();
     // TestTypeTrait();
     // TestOp0();
-    TestOp2();
+    // TestOp2();
+    TestOp3();
 }

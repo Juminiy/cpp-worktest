@@ -42,6 +42,9 @@ public:
 
     // _Point_Loc destructor
     ~_Point_Loc(){
+        #ifdef DEBUG_MODE
+            PRINTLN("destructor");
+        #endif 
         -- this->_inst_cnt;
     }
     // _Point_Loc constructor
@@ -51,6 +54,9 @@ public:
             _Tp __y__ = _Tp(), 
             _Tp __z__ = _Tp())
         : _x(__x__), _y(__y__), _z(__z__)     {
+            #ifdef DEBUG_MODE
+                PRINTLN("args constructor");
+            #endif 
             ++ this->_inst_cnt;
         }
     // conflict with above (0)
@@ -70,34 +76,77 @@ public:
 
     // (1)
     // const reference parameter, constructor
+    // do not use const_reference, or will conflict 
+    //                      with move constructor(2)
+    // call example:
+    // _val has a name, is lvalue
+    // auto _cpy0 = _val;
+    // auto _cpy1(_val);
+    // but fact that reference parameter occur compile error
+    // _Point_Loc(PLoc_reference _rhs)
+    //     : _x(_rhs._x), _y(_rhs._y), _z(_rhs._z) {
+    //         #ifdef DEBUG_MODE
+    //             PRINTLN("copy constructor");
+    //         #endif 
+    //         ++ this->_inst_cnt;
+    //     }
     _Point_Loc(PLoc_const_reference _rhs)
         : _x(_rhs._x), _y(_rhs._y), _z(_rhs._z) {
+            #ifdef DEBUG_MODE
+                PRINTLN("const copy constructor");
+            #endif 
             ++ this->_inst_cnt;
         }
     // (2)
     // rvalue reference parameter, constructor
-    _Point_Loc(PLoc_r_reference _rhs) 
-        : _x(_rhs._x), _y(_rhs._y), _z(_rhs._z) {
+    // call example:
+    // 1. move semantic and destructor
+    //  f32p_vec.push_back(decltype(f32_p1)(1.0, 2.3, 4.5));
+    // 2. inplace constructor and move semantic and destructor
+    //  f32p_vec.emplace_back(1.0, 2.3, 4.5); 
+    _Point_Loc(PLoc_r_reference _rhs)
+        : _x(_Tp()), _y(_Tp()), _z(_Tp()) {
+            #ifdef DEBUG_MODE
+                PRINTLN("move constructor");
+            #endif 
+            _swap(*this, _rhs);
             ++ this->_inst_cnt;
         }
     
     // operator assign
+    // value parameter, operator assign
+    // replace following two version
+    // call example:
+    // ???
+    // PLoc_reference operator =
+    // (PLoc _rhs)
+    // {
+    //     #ifdef DEBUG_MODE
+    //         PRINTLN("operator assign");
+    //     #endif 
+    //     _swap(*this, _rhs);
+    //     return *this;
+    // }
     // const reference parameter, operator assign
     PLoc_reference operator =
     (PLoc_const_reference _rhs)
-    {
-        this->_x = _rhs._x;
-        this->_y = _rhs._y;
-        this->_z = _rhs._z;
+    {   
+        if (this != &_rhs){
+            this->_x = _rhs._x;
+            this->_y = _rhs._y;
+            this->_z = _rhs._z;
+        }
         return *this;
     }
     // rvalue reference parameter, operator assign
     PLoc_reference operator =
     (PLoc_r_reference _rhs)
-    {
-        this->_x = _rhs._x;
-        this->_y = _rhs._y;
-        this->_z = _rhs._z;
+    {   
+        if (this != &_rhs){
+            this->_x = _rhs._x;
+            this->_y = _rhs._y;
+            this->_z = _rhs._z;
+        }
         return *this;
     }
 
@@ -291,6 +340,13 @@ private:
     static size_t _inst_cnt;
     _Tp _micro_sum() const {
         return _x + _y + _z;
+    }
+    static void _swap
+    (PLoc_reference _lhs, PLoc_reference _rhs)
+    noexcept {
+        std::swap(_lhs._x, _rhs._x);
+        std::swap(_lhs._y, _rhs._y);
+        std::swap(_lhs._z, _rhs._z);
     }
 
 

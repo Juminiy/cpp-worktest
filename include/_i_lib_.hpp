@@ -497,7 +497,7 @@ opt_uint(char *val)
 
 
 // Type determine and extension
-// use: 	__DEF_ALL__
+// use: 	__DEF_DCL__
 // detail:	typedef __meta_type__##__xx_xx__ __alias_type__;
 #define __DEF_ALL__(__alias_type__, __meta_type__) \
         typedef __meta_type__ __alias_type__ ; \

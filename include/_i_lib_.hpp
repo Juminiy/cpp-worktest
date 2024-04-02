@@ -486,7 +486,7 @@ opt_uint(char *val)
 
 
 #if (__CC_VER__ >= 4)
-        #undef __TYPE_OF__
+    #undef __TYPE_OF__
     #define __TYPE_OF__(__x__) __typeof__(__x__)
 #elif (__CC_VER__ == 8)
     #undef __TYPE_OF__
@@ -523,6 +523,24 @@ opt_uint(char *val)
         __DEF_CONST_PTR_V2__(__alias_type__); \
         __DEF_PTR_TO_CONST_V2__(__alias_type__); \
         __DEF_CONST_PTR_TO_CONST_V2__(__alias_type__)
+
+// template type _Tp define
+#define __DEF_TPL__(__tp__) \
+		using value_type = __tp__ ; \
+		using const_type = __CONST__(__tp__); \
+		using reference = __REF__(__tp__); \
+		using const_reference = __CONST_REF__(__tp__); \
+		using r_reference = __RREF__(__tp__); \
+		using pointer = __PTR__(__tp__); \
+		using const_pointer = __CONST_PTR__(__tp__); \
+		using pointer_to_const = __PTR_TO_CONST__(__tp__); \
+		using const_pointer_to_const = __CONST_PTR_TO_CONST__(__tp__); \
+		__DEF_SZX__
+
+#define __DEF_SZX__ \
+		typedef size_t		size_type; \
+      	typedef ptrdiff_t	difference_type
+
 
 #define __CONST__(__type__) \
         __type__ const
@@ -600,6 +618,18 @@ opt_uint(char *val)
     __TYPE_OF__(_x) __x = (_x);  \
     __TYPE_OF__(_y) __y = (_y);  \
     __x < __y ? __x : __y;  \
+})
+
+#define MAX_Tp_t(_x, _y) ({ \
+	decltype(_x) __x = (_x); \
+	decltype(_y) __y = (_y); \
+	__x > __y ? __x : __y; \
+})
+
+#define MIN_Tp_t(_x, _y) ({ \
+	decltype(_x) __x = (_x); \
+	decltype(_y) __y = (_y); \
+	__x < __y ? __x : __y; \
 })
 
 #define I32_POWER2(_i32_) (1 << _i32_)

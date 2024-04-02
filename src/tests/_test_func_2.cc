@@ -165,7 +165,7 @@ void TestPLoc()
     Alan::_Point_Loc<double > p1;
     Alan::_Point_Loc<double > p2;
     Alan::_Point_Loc<double > UNUSED p3;
-    // PRINTLN("console input double 3d point p1 and p2:");
+    PRINTLN("console input double 3d point p1 and p2:");
     // INPUT(std::cin , p1 >> p2);
     PRINTLN_DETAIL(p1[Alan::_Point_Loc<double >::_axis_x]);
     PRINTLN_DETAIL(p1[Alan::_Point_Loc<double >::_axis_y]);
@@ -182,12 +182,27 @@ void TestPLoc()
     PRINTLN_DETAIL((p1 -= p2));
     PRINTLN_DETAIL(p1.to_string());
     PRINTLN("------------------------------");
-    Alan::_Point_Loc<int32_t > i32_p0(12);
-    Alan::_Point_Loc<double_t > f64_p0(24.87);
+    Alan::_Point_Loc<int32_t > i32_p0(3, 5, 7);
+    Alan::_Point_Loc<double_t > f64_p0(11, 13, 17);
     // PRINTLN("console input i32 3d point p1 and f64 3d p2:");
     // INPUT(std::cin, i32_p0 >> f64_p0);
-    PRINTLN_DETAIL(i32_p0 + f64_p0);
-
+    // PRINTLN_DETAIL((i32_p0 + f64_p0         
+                    // )); // const value is legal
+                    // = Alan::_Point_Loc<double_t >(1.0, 2.0, 3.0) )); // non-const value is illegal
+    
+    // auto _max_p1_p2 = MAX_Tp_t(p1, p2);
+    // auto _min_p1_p2 = MIN_Tp_t(p1, p2);
+    // PRINTLN_DETAIL(_max_p1_p2);
+    // PRINTLN_DETAIL(_min_p1_p2);
+    _COLOR_START(_COLOR_BLUE);
+        PRINTLN_DETAIL(i32_p0);
+        PRINTLN_DETAIL(f64_p0);
+        PRINTLN_DETAIL(f64_p0 * 5);
+        PRINTLN_DETAIL(f64_p0 / 3);
+        PRINTLN_DETAIL(f64_p0 * 0);
+        PRINTLN_DETAIL(10.2 * f64_p0); 
+        // PRINTLN_DETAIL(i32_p0 / 0); // assert failed 
+    _COLOR_RECOVER;
 }
 
 void TestConstPointer()
@@ -494,8 +509,8 @@ void TestAll()
     // TestKenoGame();
     // TestXorshift32();
     // TestHashTable();
-    // TestPLoc();
-    // TestADV();
+    TestPLoc();
+    TestADV();
     // TestScopeAway();
     // TestCon2By();
     // TestSeqLB_UB();
@@ -510,5 +525,5 @@ void TestAll()
     // TestTypeTrait();
     // TestOp0();
     // TestOp2();
-    TestOp3();
+    // TestOp3();
 }

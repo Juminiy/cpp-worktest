@@ -32,21 +32,17 @@ USE_NAMESPACE_ALAN
 // 3. member function constraint
 // 4. ...
 
-
+#ifdef DEBUG_MODE
+#undef DEBUG_MODE
+#endif
 template <typename _Tp >
 class _Point_Loc
 {
 public:
     // _Point_Loc typedef Macro
+    __DEF_TPL__(_Tp);
     __DEF_ALL_V2__(PLoc, _Point_Loc);
 
-    // _Point_Loc destructor
-    ~_Point_Loc(){
-        #ifdef DEBUG_MODE
-            PRINTLN("destructor");
-        #endif 
-        -- this->_inst_cnt;
-    }
     // _Point_Loc constructor
     // (0)
     explicit _Point_Loc(
@@ -72,7 +68,14 @@ public:
     //         _y(std::move(__x)), 
     //         _z(std::move(__x))         {}
 
-
+    // _Point_Loc destructor
+    ~_Point_Loc(){
+        #ifdef DEBUG_MODE
+            PRINTLN("destructor");
+        #endif 
+        -- this->_inst_cnt;
+    }
+    
 
     // (1)
     // const reference parameter, constructor
@@ -166,66 +169,52 @@ public:
         this->_z -= _rhs._z;
         return *this;
     }
-
-
-    // operator overload
-    PLoc_const operator +
-    () const 
+    // scale by const_type
+    PLoc_reference operator *=
+    (const_type _scale)
     {
-        return PLoc(+this->_x, 
-                    +this->_y, 
-                    +this->_z);
+        this->_x *= _scale;
+        this->_y *= _scale;
+        this->_z *= _scale;
+        return *this;
     }
-    PLoc operator +
+    PLoc_reference operator /=
+    (const_type _scale)
+    {   
+        assert(_scale != _Tp());
+        this->_x /= _scale;
+        this->_y /= _scale;
+        this->_z /= _scale;
+        return *this;
+    }
+
+
+    // inner product
+    _Tp operator *
     (PLoc_const_reference _rhs) const
     {
-        auto _p_cp = PLoc(_x, _y, _z);
-        _p_cp._x += _rhs._x;
-        _p_cp._y += _rhs._y;
-        _p_cp._z += _rhs._z;
-        return _p_cp;
+        return this->_x * _rhs._x +
+                this->_y * _rhs._y +
+                this->_z * _rhs._z;
     }
-    // differ template version
-    template < typename __Tp__ >
-    auto operator + 
-    (const _Point_Loc<__Tp__ > & _rhs) const 
-    {
-        auto _ploc = 
-            _Point_Loc<__TP_PLUS_TRAITS__(_Tp, __Tp__) >();
-        _ploc.setX(this->_x + _rhs.getX());
-        _ploc.setY(this->_y + _rhs.getY());
-        _ploc.setZ(this->_z + _rhs.getZ());
-        return _ploc;
-    }
-    PLoc_const operator -
-    () const 
-    {
-        return PLoc(-this->_x, 
-                    -this->_y, 
-                    -this->_z);
-    }
-    PLoc operator -
+    // point euclidean distance(p2p distance)
+    _Tp operator ^
     (PLoc_const_reference _rhs) const
     {
-        auto _p_cp = PLoc(_x, _y, _z);
-        _p_cp._x -= _rhs._x;
-        _p_cp._y -= _rhs._y;
-        _p_cp._z -= _rhs._z;
-        return _p_cp;
-    }
-    // differ template version
-    template < typename __Tp__ >
-    auto operator -
-    (const _Point_Loc<__Tp__ > & _rhs) const 
-    {
-        auto _ploc = 
-            _Point_Loc<__TP_PLUS_TRAITS__(_Tp, __Tp__) >();
-        _ploc.setX(this->_x - _rhs.getX());
-        _ploc.setY(this->_y - _rhs.getY());
-        _ploc.setZ(this->_z - _rhs.getZ());
-        return _ploc;
+        // return (this->_x - _rhs._x) *
+        //         (this->_x - _rhs._x) +
+        //         (this->_y - _rhs._y) *
+        //         (this->_y - _rhs._y) +
+        //         (this->_z - _rhs._z) *
+        //         (this->_z - _rhs._z);
+        return Sqrt<_Tp >
+                (Power<_Tp >(this->_x - _rhs._x , 2) + 
+                    Power<_Tp >(this->_y - _rhs._y , 2) + 
+                    Power<_Tp >(this->_z - _rhs._z , 2));
     }
 
+
+    // equal operator 
     bool operator ==
     (PLoc_const_reference _rhs) const 
     {
@@ -286,31 +275,7 @@ public:
         }
     }
     
-    // inner product
-    _Tp operator *
-    (PLoc_const_reference _rhs) const
-    {
-        return this->_x * _rhs._x +
-                this->_y * _rhs._y +
-                this->_z * _rhs._z;
-    }
-
-    // point euclidean distance(p2p distance)
-    _Tp operator ^
-    (PLoc_const_reference _rhs) const
-    {
-        // return (this->_x - _rhs._x) *
-        //         (this->_x - _rhs._x) +
-        //         (this->_y - _rhs._y) *
-        //         (this->_y - _rhs._y) +
-        //         (this->_z - _rhs._z) *
-        //         (this->_z - _rhs._z);
-        return Sqrt<_Tp >
-                (Power<_Tp >(this->_x - _rhs._x , 2) + 
-                    Power<_Tp >(this->_y - _rhs._y , 2) + 
-                    Power<_Tp >(this->_z - _rhs._z , 2));
-    }
-
+    
     std::string to_string() const
     {
         auto _str = std::string();
@@ -384,6 +349,79 @@ public:
         OUTPUT(_os, ")");
         return _os;
     }
+    
+    // math operator overload
+    PLoc_const operator +
+    () const
+    {
+        return PLoc(+this->_x, 
+                    +this->_y, 
+                    +this->_z);
+    }
+    PLoc_const operator +
+    (PLoc_const_reference _rhs) const
+    {
+        auto _p_cp = *this;
+        _p_cp += _rhs;
+        return _p_cp;
+    }
+    // different templates version
+    template < typename __Tp__ >
+    auto 
+    operator +
+    (const _Point_Loc<__Tp__ > & _rhs) const 
+    -> const _Point_Loc<__TP_PLUS_TRAITS__(_Tp, __Tp__) >
+    {
+        auto _ploc = 
+            _Point_Loc<__TP_PLUS_TRAITS__(_Tp, __Tp__) >();
+        _ploc.setX(this->_x + _rhs.getX());
+        _ploc.setY(this->_y + _rhs.getY());
+        _ploc.setZ(this->_z + _rhs.getZ());
+        return _ploc;
+    }
+    PLoc_const operator -
+    () const 
+    {
+        return PLoc(-this->_x, 
+                    -this->_y, 
+                    -this->_z);
+    }
+    PLoc_const operator -
+    (PLoc_const_reference _rhs) const
+    {
+        auto _p_cp = *this;
+        _p_cp -= _rhs;
+        return _p_cp;
+    }
+    template < typename __Tp__ >
+    auto 
+    operator -
+    (const _Point_Loc<__Tp__ > & _rhs) const 
+    -> const _Point_Loc<__TP_PLUS_TRAITS__(_Tp, __Tp__) >
+    {
+        auto _ploc = 
+            _Point_Loc<__TP_PLUS_TRAITS__(_Tp, __Tp__) >();
+        _ploc.setX(this->_x - _rhs.getX());
+        _ploc.setY(this->_y - _rhs.getY());
+        _ploc.setZ(this->_z - _rhs.getZ());
+        return _ploc;
+    }
+
+    // scale point by const_type
+    PLoc_const operator *
+    (const_type _scale) const
+    {
+        auto _p_cp = *this;
+        _p_cp *= _scale;
+        return _p_cp;
+    }
+    PLoc_const operator /
+    (const_type _scale) const
+    {
+        auto _p_cp = *this;
+        _p_cp /= _scale;
+        return _p_cp;
+    }
 };
 
 template <typename _Tp>
@@ -394,6 +432,18 @@ template <typename _Tp>
 const size_t _Point_Loc<_Tp>::_axis_y(1);
 template <typename _Tp>
 const size_t _Point_Loc<_Tp>::_axis_z(2);
+
+
+
+template<typename _Tp >
+const _Point_Loc<_Tp >
+operator * 
+(const _Tp _scale, const _Point_Loc<_Tp > & _rhs)
+{
+    auto _p_loc = _rhs;
+    _p_loc *= _scale;
+    return _p_loc;
+}
 
 END_NAMESPACE_ALAN
 

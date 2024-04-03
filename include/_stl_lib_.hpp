@@ -39,7 +39,7 @@ struct _enable_if_cond { };
 
 template <typename _Tp >
 struct _enable_if_cond<true, _Tp >{
-	using _value_type = _Tp;
+	using _value_type = _Tp ;
 };
 
 

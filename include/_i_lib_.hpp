@@ -526,16 +526,16 @@ opt_uint(char *val)
 
 // template type _Tp define
 #define __DEF_TPL__(__tp__) \
-		using value_type = __tp__ ; \
-		using const_type = __CONST__(__tp__); \
-		using reference = __REF__(__tp__); \
-		using const_reference = __CONST_REF__(__tp__); \
-		using r_reference = __RREF__(__tp__); \
-		using pointer = __PTR__(__tp__); \
-		using const_pointer = __CONST_PTR__(__tp__); \
-		using pointer_to_const = __PTR_TO_CONST__(__tp__); \
-		using const_pointer_to_const = __CONST_PTR_TO_CONST__(__tp__); \
-		__DEF_SZX__
+	using value_type = __tp__ ; \
+	using const_type = __CONST__(__tp__); \
+	using reference = __REF__(__tp__); \
+	using const_reference = __CONST_REF__(__tp__); \
+	using r_reference = __RREF__(__tp__); \
+	using pointer = __PTR__(__tp__); \
+	using const_pointer = __CONST_PTR__(__tp__); \
+	using pointer_to_const = __PTR_TO_CONST__(__tp__); \
+	using const_pointer_to_const = __CONST_PTR_TO_CONST__(__tp__); \
+	__DEF_SZX__
 
 #define __DEF_SZX__ \
 		typedef size_t		size_type; \

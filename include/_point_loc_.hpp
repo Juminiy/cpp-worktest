@@ -187,6 +187,15 @@ public:
         this->_z /= _scale;
         return *this;
     }
+    PLoc_reference operator %=
+    (const_type _scale)
+    {
+        assert(_scale != _Tp());
+        this->_x %= _scale;
+        this->_y %= _scale;
+        this->_z %= _scale;
+        return *this;
+    }
 
 
     // inner product
@@ -212,51 +221,68 @@ public:
                     Power<_Tp >(this->_y - _rhs._y , 2) + 
                     Power<_Tp >(this->_z - _rhs._z , 2));
     }
-
-
-    // equal operator 
-    bool operator ==
-    (PLoc_const_reference _rhs) const 
+    
+    // increment/decrement operator
+    PLoc_reference operator ++
+    () const 
     {
-        return this->_x == _rhs._x &&
-                this->_y == _rhs._y &&
-                this->_z == _rhs._z;
+        // operate *this ...
+        return *this;
+    }
+    PLoc_const operator ++
+    (int) const 
+    {   
+        auto _p_loc = *this;
+        // operate *this ...
+        return _p_loc;
+    }
+    PLoc_reference operator --
+    () const 
+    {
+        // operate *this ...
+        return *this;
+    }
+    PLoc_const operator --
+    (int) const 
+    {   
+        auto _p_loc = *this;
+        // operate *this ...
+        return _p_loc;
     }
 
-    bool operator !=
-    (PLoc_const_reference _rhs) const 
+    // dereference
+    PLoc_reference operator *
+    () const
     {
-        return !(*this == _rhs);
+        return *this;
     }
 
-    bool operator < 
-    (PLoc_const_reference _rhs) const 
+    // member selection by -> 
+    PLoc_pointer operator ->
+    () const 
     {
-        return (this->_x < _rhs._x &&
-                this->_y < _rhs._y &&
-                this->_z < _rhs._z) 
-                || (this->_micro_sum() < 
-                    _rhs._micro_sum());
-    }
-    bool operator <= 
-    (PLoc_const_reference _rhs) const 
-    {
-        return *this < _rhs ||
-                *this == _rhs;
-    }
-    bool operator >
-    (PLoc_const_reference _rhs) const 
-    {
-        return !(*this < _rhs);
-    }
-    bool operator >=
-    (PLoc_const_reference _rhs) const 
-    {
-        return *this > _rhs ||
-                *this == _rhs;
+        return *this;
     }
 
-    _Tp operator []
+    // member selection by [axis]
+    reference operator [] 
+    (const size_t & _axis) 
+    {
+        assert(_axis >= _axis_x && 
+                _axis <= _axis_z);
+        // static_assert(_axis >= 0 && _axis <= 2);
+        switch (_axis)
+        {
+        case 0:
+            return this->_x;
+        case 1:
+            return this->_y;
+        case 2:
+        default:
+            return this->_z;
+        }
+    }
+    const_reference operator [] 
     (const size_t & _axis) const 
     {
         assert(_axis >= _axis_x && 
@@ -269,13 +295,63 @@ public:
         case 1:
             return this->_y;
         case 2:
-            return this->_z;
         default:
-            return _Tp();
+            return this->_z;
         }
     }
-    
-    
+
+
+    // comparation operator 
+    // when use STL oly define < is ok
+    // otherwise define all six comparation
+    // some case low efficiency, good idea 
+    // to overload operator == explicit
+    bool operator < 
+    (PLoc_const_reference _rhs) const 
+    {
+        return (this->_x < _rhs._x &&
+                this->_y < _rhs._y &&
+                this->_z < _rhs._z) 
+                || (this->_micro_sum() < 
+                    _rhs._micro_sum());
+    }
+    bool operator == 
+    (PLoc_const_reference _rhs) const 
+    {
+        return this->_x == _rhs._x &&
+                this->_y == _rhs._y && 
+                this->_z == _rhs._z;
+    }
+    bool operator <= 
+    (PLoc_const_reference _rhs) const 
+    {
+        return *this < _rhs ||
+                *this == _rhs;
+    }
+    bool operator != 
+    (PLoc_const_reference _rhs) const 
+    {
+        return !(*this == _rhs);
+    }
+    bool operator > 
+    (PLoc_const_reference _rhs) const 
+    {
+        return _rhs < *this;
+    }
+    bool operator >= 
+    (PLoc_const_reference _rhs) const 
+    {
+        return *this > _rhs ||
+                *this == _rhs;
+    }
+
+    // function call operator
+    void operator ()
+    () const 
+    {
+        // do something ....
+    }
+
     std::string to_string() const
     {
         auto _str = std::string();
@@ -289,12 +365,20 @@ public:
         return _str;
     }
 
-    _Tp getX() const { return this->_x; }
-    _Tp getY() const { return this->_y; }
-    _Tp getZ() const { return this->_z; }
-    void setX(_Tp && __x__) { this->_x = __MV_RREF__(__x__); }
-    void setY(_Tp && __y__) { this->_y = __MV_RREF__(__y__); }
-    void setZ(_Tp && __z__) { this->_z = __MV_RREF__(__z__); }
+    _Tp getX() const 
+    { return this->_x; }
+    _Tp getY() const 
+    { return this->_y; }
+    _Tp getZ() const 
+    { return this->_z; }
+
+    void setX(r_reference __x__) 
+    { this->_x = __MV_RREF__(__x__); }
+    void setY(r_reference __y__) 
+    { this->_y = __MV_RREF__(__y__); }
+    void setZ(r_reference __z__) 
+    { this->_z = __MV_RREF__(__z__); }
+
 
 private:
     _Tp _x, _y, _z;
@@ -315,7 +399,6 @@ private:
     }
 
 
-
 public:
     const static size_t _axis_x;
     const static size_t _axis_y;
@@ -326,7 +409,7 @@ public:
 
     // template <typename _Tp_ >
     friend std::istream& 
-    operator >>(std::istream& _is, 
+    operator >> (std::istream& _is, 
                 PLoc_reference _rhs)
     {
         INPUT(_is, _rhs._x),
@@ -337,7 +420,7 @@ public:
 
     // template <typename _Tp_ >
     friend std::ostream& 
-    operator <<(std::ostream& _os, 
+    operator << (std::ostream& _os, 
                 PLoc_const_reference _rhs)
     {
         OUTPUT(_os, "("),
@@ -422,6 +505,15 @@ public:
         _p_cp /= _scale;
         return _p_cp;
     }
+    PLoc_const operator %
+    (const_type _scale) const
+    {
+        auto _p_cp = *this;
+        _p_cp %= _scale;
+        return _p_cp;
+    }
+
+
 };
 
 template <typename _Tp>

@@ -202,6 +202,9 @@ void TestPLoc()
         PRINTLN_DETAIL(f64_p0 * 0);
         PRINTLN_DETAIL(10.2 * f64_p0); 
         // PRINTLN_DETAIL(i32_p0 / 0); // assert failed 
+        PRINTLN("Please input z axis of point f64_p0");
+        HANDINPUT(f64_p0[2]);
+        PRINTLN_DETAIL(f64_p0);
     _COLOR_RECOVER;
 }
 
@@ -476,6 +479,38 @@ void TestOp3()
     PRINTLN_DETAIL(f64_p1.getInstCnt());
 }
 
+void TestResourceManagement()
+{
+    auto i32_v = 
+        std::vector<int >();
+    auto cap_mp = 
+        std::multimap<int, int >();
+    PRINTLN("size start, size end");
+    for(int i = 0; i < (1<<16); ++i)
+        i32_v.push_back(i),
+        cap_mp.insert(std::make_pair(
+            i32_v.capacity(),
+            i32_v.size()
+        ));
+        // cap_mp[i32_v.capacity()]
+        //     = i32_v.size();
+    
+    // Setp by step debug on lldb
+    // gdb on windows is silly
+    int _qr_cap = 0;
+    while(HANDINPUT(_qr_cap)&& 
+            _qr_cap)
+    {
+        auto se_pr = 
+            cap_mp.equal_range(_qr_cap);
+        for(auto _it = se_pr.first;
+            _it != se_pr.second;
+            ++ _it)
+            PRINT(_it->second), PRINT(" ");
+        PRINTLN("");
+    }
+}
+
 void TestAll()
 {
     // Alan::TestBirthDayParadox();
@@ -509,8 +544,8 @@ void TestAll()
     // TestKenoGame();
     // TestXorshift32();
     // TestHashTable();
-    TestPLoc();
-    TestADV();
+    // TestPLoc();
+    // TestADV();
     // TestScopeAway();
     // TestCon2By();
     // TestSeqLB_UB();
@@ -526,4 +561,5 @@ void TestAll()
     // TestOp0();
     // TestOp2();
     // TestOp3();
+    TestResourceManagement();
 }

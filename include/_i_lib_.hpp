@@ -538,7 +538,7 @@ opt_uint(char *val)
 	__DEF_SZX__
 
 #define __DEF_SZX__ \
-		typedef size_t		size_type; \
+	typedef size_t		size_type; \
       	typedef ptrdiff_t	difference_type
 
 

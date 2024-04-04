@@ -2,10 +2,6 @@
 #ifndef _ALGO_HPP
 #define _ALGO_HPP
 
-#include "_i_lib_.hpp"
-
-USE_NAMESPACE_ALAN
-
 void TestAlgo();
 void TestIteratorAdapter();
 void TestAssoContainerAlgo();
@@ -15,7 +11,5 @@ void Test_Palindrome();
 void Test_Tp_AVG();
 void Test_LB_UB();
 void TestTask();
-
-END_NAMESPACE_ALAN
 
 #endif 

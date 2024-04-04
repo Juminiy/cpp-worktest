@@ -30,8 +30,7 @@
 
 #include <memory>
 
-
-USE_NAMESPACE_ALAN
+using namespace Alan;
 
 typedef std::unordered_map<int, std::string > um_i32_str;
 typedef um_i32_str::value_type _i32_str_pr ;
@@ -438,4 +437,3 @@ void TestMatchingPrefix()
 
 }
 
-END_NAMESPACE_ALAN

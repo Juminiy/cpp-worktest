@@ -2,6 +2,15 @@
 #ifndef _TEST_FUNC_HPP
 #define _TEST_FUNC_HPP
 
+#include "_ai_snake_game_.hpp"
+#include "_asso_container_.hpp"
+#include "_seq_container_.hpp"
+#include "_set_theory_.hpp"
+#include "_algo_.hpp"
+#include "_func_.hpp"
+#include "_keno_game_.hpp"
+#include "_level_db_.hpp"
+
 void TestReadWriteFile();
 
 void TestBoolAlpha();

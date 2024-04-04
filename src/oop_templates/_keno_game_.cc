@@ -2,7 +2,6 @@
 
 #include "../../include/_keno_game_.hpp"
 #include "../../include/_stream_.hpp"
-#include "../../include/_rand_lib_.hpp"
 
 #include <iterator>
 #include <iostream>

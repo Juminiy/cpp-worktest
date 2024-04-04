@@ -1,5 +1,4 @@
 #include "../../include/_i_lib_.hpp"
-
 #include "../../include/_set_theory_.hpp"
 
 #include <vector>
@@ -11,11 +10,9 @@
 #include <map>
 #include <unordered_map>
 
-USE_NAMESPACE_ALAN
-
 void TestSSet()
 {
-
+    using Alan::SSet;
     // why iterator constructor do not make any sense,
     // be sure to effect, but the private member _set_ disappear.
     auto _i32_s = SSet<int>(std::vector<int>{7, 77, 777, 7777, 77777});
@@ -50,6 +47,4 @@ void TestSSet()
     _COLOR_RECOVER;
 
 }
-
-END_NAMESPACE_ALAN
 

@@ -12,7 +12,7 @@
 #include <map>
 #include <unordered_map>
 
-USE_NAMESPACE_ALAN
+using namespace Alan;
 
 typedef int (*subFunc) (const int &, const int &);
 
@@ -64,5 +64,3 @@ void TestTask2()
     auto i32_vi = std::vector< int >{1, 2, 3, 4, 5, 5, 5, 6, 7};
     PRINTLN(std::to_string(_count_eq_ele(i32_vi.begin(), i32_vi.end(), 5)));
 }
-
-END_NAMESPACE_ALAN

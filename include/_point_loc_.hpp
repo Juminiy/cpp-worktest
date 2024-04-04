@@ -4,7 +4,6 @@
 
 #include "_i_lib_.hpp"
 #include "_stl_lib_.hpp"
-#include "_stl_lib_adv_.hpp"
 
 #include <utility>
 #include <memory>

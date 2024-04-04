@@ -2,8 +2,6 @@
 #include "../../include/_stl_lib_.hpp"
 
 #include "../../include/_ai_snake_game_.hpp"
-#include "../../include/_rand_lib_.hpp"
-
 
 
 #include <numeric>
@@ -30,7 +28,7 @@ void TestNormalRand()
         pse_num = ::rand() % (1<<8))
     {
         PRINTLN_DETAIL(pse_num);
-        GamePause(500000);
+        GamePause(1);
     }
 }
 
@@ -60,7 +58,7 @@ void TestXorshift32()
         if(!Alan::AssoFind<>(_s, _gen_by_xor))
             _s.insert(_gen_by_xor),
             PRINTLN_DETAIL(_gen_by_xor),
-            GamePause(500000);
+            GamePause(1);
         else
             break;
     PRINTLN_DETAIL("conflict after " 

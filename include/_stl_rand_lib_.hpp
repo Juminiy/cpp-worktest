@@ -2,8 +2,7 @@
 #ifndef _RAND_LIB_HPP
 #define _RAND_LIB_HPP
 
-#include <numeric>
-#include <random>
+#include "_i_lib_.hpp"
 
 #include <cstdlib>
 #include <cmath>
@@ -12,7 +11,7 @@
 
 #include <vector>
 #include <algorithm>
-
+#include <random>
 #include <numeric>
 #include <utility>
 #include <chrono>

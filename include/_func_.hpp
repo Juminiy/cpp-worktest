@@ -16,9 +16,9 @@ calBinOpt;
 typedef std::pair<std::string, calBinOpt> 
 calBinPair;
 
+END_NAMESPACE_ALAN
+
 void TestFunc();
 void TestTask2();
-
-END_NAMESPACE_ALAN
 
 #endif

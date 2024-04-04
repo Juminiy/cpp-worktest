@@ -31,8 +31,7 @@
 #include <chrono>
 #include <random>
 
-
-USE_NAMESPACE_ALAN
+using namespace Alan;
 
 void TestAlgo()
 {   
@@ -303,15 +302,15 @@ void Test_Palindrome()
     _COLOR_START(_COLOR_BLUE);
     PRINTLN("char palindrome");
     std:: cout << std::boolalpha
-                << Alan::Char_Palindrome(optarg) << __LN__;
+                << ::Char_Palindrome(optarg) << __LN__;
     _COLOR_RECOVER;
 
     _COLOR_START(_COLOR_GREEN);
     PRINTLN("word palindrome");
     std:: cout << std::boolalpha
-                << Alan::Word_Palindrome("wow THis is this wow ") << __LN__;
+                << ::Word_Palindrome("wow THis is this wow ") << __LN__;
     std:: cout << std::boolalpha
-                << Alan::Word_Palindrome("wow kaobei ss") << __LN__;
+                << ::Word_Palindrome("wow kaobei ss") << __LN__;
     _COLOR_RECOVER;
 }
 
@@ -486,4 +485,3 @@ void TestTask()
     ConsoleIterOutput<std::string > ( CriticsPick(_movies, 10) );
 }
 
-END_NAMESPACE_ALAN

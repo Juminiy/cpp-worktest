@@ -326,8 +326,8 @@ private:
     std::vector<container_type>     m_sets;
 };
 
-void TestSSet();
-
 END_NAMESPACE_ALAN
+
+void TestSSet();
 
 #endif 

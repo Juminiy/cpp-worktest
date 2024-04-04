@@ -1,8 +1,6 @@
 #include "../../include/_i_lib_.hpp"
 #include "../../include/_stl_lib_.hpp"
-#include "../../include/_stl_lib_adv_.hpp"
 #include "../../include/_point_loc_.hpp"
-#include "../../include/_rand_lib_.hpp"
 
 #include "../../include/_test_func_.hpp"
 
@@ -15,6 +13,7 @@
 
 #include <utility>
 #include <algorithm>
+#include <type_traits>
 
 #include <cassert>
 #include <any>
@@ -194,7 +193,7 @@ void TestPLoc()
     // auto _min_p1_p2 = MIN_Tp_t(p1, p2);
     // PRINTLN_DETAIL(_max_p1_p2);
     // PRINTLN_DETAIL(_min_p1_p2);
-    _COLOR_START(_COLOR_BLUE);
+    _COLOR_START(_COLOR_CYAN);
         PRINTLN_DETAIL(i32_p0);
         PRINTLN_DETAIL(f64_p0);
         PRINTLN_DETAIL(f64_p0 * 5);
@@ -202,9 +201,15 @@ void TestPLoc()
         PRINTLN_DETAIL(f64_p0 * 0);
         PRINTLN_DETAIL(10.2 * f64_p0); 
         // PRINTLN_DETAIL(i32_p0 / 0); // assert failed 
-        PRINTLN("Please input z axis of point f64_p0");
-        HANDINPUT(f64_p0[2]);
+        // PRINTLN("Please input z axis of point f64_p0");
+        // HANDINPUT(f64_p0[2]);
         PRINTLN_DETAIL(f64_p0);
+        PRINTLN(f64_p0.operator<(Alan::_Point_Loc<double>(1, 2, 3)));
+        PRINTLN_DETAIL(std::boolalpha << 
+             (Alan::_has_operator_less_overload<decltype(f64_p0)>::value));
+        class _my_cls_no_opt_less {};
+        PRINTLN_DETAIL(std::boolalpha << 
+             (Alan::_has_operator_less_overload<_my_cls_no_opt_less>::value));
     _COLOR_RECOVER;
 }
 
@@ -296,7 +301,7 @@ void TestSZof()
         sipiipddpusp_pair;
 
     sipiipddpusp_pair _bagabaga;
-
+    PRINTLN("please input: string,3int,2double,uint,string");
     HANDINPUT(_bagabaga);
     _COLOR_START(_COLOR_BLUE);
         PRINTLN_DETAIL(_bagabaga);
@@ -420,9 +425,9 @@ void TestOp2()
             // _i64_num = std::cin.get();
             // TODO:
             // how to realize a buffer safety unsigned long long ?
-            std::cin >> std::dec >> _i64_num;
-            std::cin.sync();
-            PRINTLN(_i64_num);
+            // std::cin >> std::dec >> _i64_num;
+            // std::cin.sync();
+            // PRINTLN(_i64_num);
         }while(_i64_num);
     _COLOR_RECOVER;
 }
@@ -485,7 +490,7 @@ void TestResourceManagement()
         std::vector<int >();
     auto cap_mp = 
         std::multimap<int, int >();
-    PRINTLN("size start, size end");
+    PRINTLN("size start, size end, or 0 to exit");
     for(int i = 0; i < (1<<16); ++i)
         i32_v.push_back(i),
         cap_mp.insert(std::make_pair(
@@ -511,55 +516,157 @@ void TestResourceManagement()
     }
 }
 
+void TestTypeTraits()
+{
+    // PRINTLN_DETAIL(std::boolalpha 
+    //     << (std::is_same_v<int, int >));
+    // PRINTLN_DETAIL(std::boolalpha 
+    //     << (std::is_same_v<int, double >));
+    // PRINTLN_DETAIL(std::boolalpha 
+    //     << (std::is_same_v<int, Alan::_Point_Loc<int > >));
+    // PRINTLN_DETAIL(std::boolalpha 
+    //     << (std::is_same_v<Alan::_Point_Loc<double >, 
+    //                         Alan::_Point_Loc<int > >));
+    // PRINTLN_DETAIL(std::boolalpha 
+    //     << (std::is_same_v<Alan::_Point_Loc<int >, 
+    //                         Alan::_Point_Loc<int > >));
+
+    using _i_want_meta_type = Alan::_Point_Loc<int >;
+
+    PRINTLN_DETAIL(std::boolalpha
+        << (std::is_same_v<_i_want_meta_type, 
+                            std::decay_t<__CONST__(_i_want_meta_type) > >)); //true
+
+    PRINTLN_DETAIL(std::boolalpha
+        << (std::is_same_v<_i_want_meta_type, 
+                            std::decay_t<__REF__(_i_want_meta_type) > >)); //true
+
+    PRINTLN_DETAIL(std::boolalpha
+        << (std::is_same_v<_i_want_meta_type, 
+                            std::decay_t<__CONST_REF__(_i_want_meta_type) > >)); //true
+
+    PRINTLN_DETAIL(std::boolalpha
+        << (std::is_same_v<_i_want_meta_type, 
+                            std::decay_t<__RREF__(_i_want_meta_type) > >)); //true                
+    
+    PRINTLN_DETAIL(std::boolalpha
+        << (std::is_same_v<_i_want_meta_type, 
+                            std::decay_t<__PTR__(_i_want_meta_type) > >)); //false
+    
+    PRINTLN_DETAIL(std::boolalpha
+        << (std::is_same_v<_i_want_meta_type , 
+                            std::decay_t<__CONST_PTR__(_i_want_meta_type)> >)); //false
+
+    PRINTLN_DETAIL(std::boolalpha
+        << (std::is_same_v<_i_want_meta_type , 
+                            std::decay_t<__PTR_TO_CONST__(_i_want_meta_type) > >)); //false
+    
+    PRINTLN_DETAIL(std::boolalpha
+        << (std::is_same_v<_i_want_meta_type , 
+                            std::decay_t<__CONST_PTR_TO_CONST__(_i_want_meta_type) > >)); //false
+
+}
+
+void TestFuncTraits()
+{
+    auto _fn = 
+        [](const int & _lhs,
+            const int &_rhs) 
+            -> int {
+            auto _val = _lhs + _rhs;
+            PRINTLN_DETAIL(_val);
+            return _val;
+        };
+    std::invoke(_fn, 1, 2);
+}
+
+void TestPartrialSpec()
+{
+    PRINTLN_DETAIL (std::boolalpha
+            << Alan::_has_operator_less_overload<int >::value);
+    
+    PRINTLN_DETAIL (std::boolalpha
+            << Alan::_has_operator_less_overload<Alan::_op_v0 >::value);
+
+    PRINTLN_DETAIL (std::boolalpha
+            << Alan::_has_operator_less_overload<Alan::_op_v1 >::value);
+    
+    PRINTLN_DETAIL (std::boolalpha
+            << Alan::_has_operator_less_overload<Alan::_op_v2 >::value);
+    
+    PRINTLN_DETAIL (std::boolalpha
+            << Alan::_has_operator_less_overload<Alan::_op_v3 >::value);
+}
+
+void TestParSpec2()
+{
+    auto _fn_ret_int = []() -> int { PRINTLN("invoke lambda ret int"); return 0; };
+    auto _fn_ret_void = []() -> void { PRINTLN("invoke lambda ret void"); return; };
+    // PRINTLN_DETAIL(std::boolalpha 
+    //     << (Alan::_fn_return_type_bool<decltype(_fn_ret_int)>::value));
+    // PRINTLN_DETAIL(std::boolalpha 
+    //     << (Alan::_fn_return_type_bool<decltype(_fn_ret_void)>::value));
+    Alan::_assume_func_return_type<decltype(_fn_ret_int), int >(_fn_ret_int);
+    Alan::_assume_func_return_type<decltype(_fn_ret_void)>(_fn_ret_void);
+}
+
 void TestAll()
 {
-    // Alan::TestBirthDayParadox();
-    // Alan::TestUMap();
-    // Alan::TestUSet();
-    // Alan::TestIterator();
-    // Alan::TestMapDiffer();
-    // Alan::CountKeyWordsOccurences();
-    // Alan::TestMultiContainer();
-    // TestVectorFunctor();
-    // TestVectorFunctor2();
-    // TestVectorFunc3();
-    // TestRingBuffer();
-    // Alan::TestSSet();
-    // Alan::TestRangeFind();
-    // Alan::TestMatchingPrefix();
-    // Alan::TestAlgo();
-    // Alan::TestIteratorAdapter();
-    // Alan::TestAssoContainerAlgo();
-    // Alan::TestRemoveAlgo();
-    // Alan::TestArbitraryAlgo();
-    // Alan::Test_Tp_AVG();
-    // Alan::Test_LB_UB();
-    // Alan::TestTask();
-    // Alan::TestFunc();
-    // Alan::TestTask2();
-    // TestNormalRand();
-    // TestRandRDMT19937();
-    // TestReadOnlyRBTree();
-    // TestRRef();
-    // TestKenoGame();
-    // TestXorshift32();
-    // TestHashTable();
-    // TestPLoc();
-    // TestADV();
-    // TestScopeAway();
-    // TestCon2By();
-    // TestSeqLB_UB();
-    // TestPLoc();
-    // TestConstPointer();
-    // TestConPlus();
-    // TestBitwiseChange();
-    // TestSZof();
-    // TestLevelDB();
-    // TestTuple();
-    // TestSTDAny();
-    // TestTypeTrait();
-    // TestOp0();
+    TestBirthDayParadox();
+    TestUMap();
+    TestUSet();
+    TestIterator();
+    TestMapDiffer();
+    CountKeyWordsOccurences();
+    TestMultiContainer();
+    TestVectorFunctor();
+    TestVectorFunctor2();
+    TestVectorFunc3();
+    TestRingBuffer();
+    TestSSet();
+    TestRangeFind();
+    TestMatchingPrefix();
+    TestAlgo();
+    TestIteratorAdapter();
+    TestAssoContainerAlgo();
+    TestRemoveAlgo();
+    TestArbitraryAlgo();
+    Test_Tp_AVG();
+    Test_LB_UB();
+    TestTask();
+    TestFunc();
+    TestTask2();
+    TestNormalRand();
+    TestRandRDMT19937();
+    TestReadOnlyRBTree();
+    TestRRef();
+    TestKenoGame();
+    TestXorshift32();
+    TestHashTable();
+    TestPLoc();
+    TestADV();
+    TestScopeAway();
+    TestCon2By();
+    TestSeqLB_UB();
+    TestPLoc();
+    TestConstPointer();
+    TestConPlus();
+    TestBitwiseChange();
+    TestSZof();
+    #ifdef _LDB_
+        TestLevelDB();
+    #endif 
+    TestTuple();
+    TestSTDAny();
+    TestTypeTrait();
+    TestOp0();
     // TestOp2();
-    // TestOp3();
+    TestOp3();
     TestResourceManagement();
+    TestTypeTraits();
+    TestFuncTraits();
+    TestPartrialSpec();
+    TestPLoc();
+    TestParSpec2();
 }
+

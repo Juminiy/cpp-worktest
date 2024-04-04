@@ -2,12 +2,12 @@
 1. GNU C99.
 2. Modern CXX11~CXX20.
 3. Makefile.
-   1. M1 (aarch64 Darwin MacOS clang15.0.0)
+   1. M1 (Darwin Chisato-MacBook-Pro.local 23.4.0 Darwin Kernel Version 23.4.0: Fri Mar 15 00:10:42 PDT 2024; root:xnu-10063.101.17~1/RELEASE_ARM64_T6000 arm64, Apple clang version 15.0.0 (clang-1500.3.9.4))
       ```bash
       time make -j8
-      # make -j8  9.05s user 0.91s system 623% cpu 1.598 total
+      # make -j8  10.06s user 1.21s system 567% cpu 1.985 total
       ```
-   2. Win64 (x86_64 Windows10, MINGW64_NT-10.0-19045 DESKTOP-QRS5IC2 3.4.10.x86_64 2024-03-24 15:09 UTC x86_64 Msys, clang version 11.0.0)
+   2. Win64 (MINGW64_NT-10.0-19045 DESKTOP-QRS5IC2 3.4.10.x86_64 2024-03-24 15:09 UTC x86_64 Msys, clang version 11.0.0)
       ```bash
       time make -j8
       # real    0m8.094s

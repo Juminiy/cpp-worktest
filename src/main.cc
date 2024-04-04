@@ -9,7 +9,6 @@
 #include "../include/_nfa_.hpp"
 #include "../include/_set_theory_.hpp"
 #include "../include/_algo_.hpp"
-#include "../include/_rand_lib_.hpp"
 #include "../include/_func_.hpp"
 #include "../include/_keno_game_.hpp"
 #include "../include/_level_db_.hpp"
@@ -57,7 +56,7 @@ int main(int argc, char *argv[], char *envp[])
         // TestVigenereEncrypt();
         // TestEmail();
         // TestNFA();
-        Alan::Test_Palindrome();
+        Test_Palindrome();
         break;
 
             case 'l':

@@ -317,9 +317,10 @@ public:
     bool operator == 
     (PLoc_const_reference _rhs) const 
     {
-        return this->_x == _rhs._x &&
+        return (this == &_rhs) || 
+                (this->_x == _rhs._x &&
                 this->_y == _rhs._y && 
-                this->_z == _rhs._z;
+                this->_z == _rhs._z);
     }
     bool operator <= 
     (PLoc_const_reference _rhs) const 

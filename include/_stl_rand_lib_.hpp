@@ -3,6 +3,7 @@
 #define _RAND_LIB_HPP
 
 #include "_i_lib_.hpp"
+#include "_stl_lib_.hpp"
 
 #include <cstdlib>
 #include <cmath>

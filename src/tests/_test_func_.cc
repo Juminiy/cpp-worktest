@@ -1,8 +1,8 @@
 #include "../../include/_i_lib_.hpp"
+#include "../../include/_stl_lib_.hpp"
 
 #include "../../include/_stream_.hpp"
 #include "../../include/_test_func_.hpp"
-#include "../../include/_stl_lib_.hpp"
 #include "../../include/_ai_snake_game_.hpp"
 
 #include <iostream>

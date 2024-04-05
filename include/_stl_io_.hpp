@@ -4,7 +4,6 @@
 
 #include "_i_lib_.hpp"
 #include "_stl_lib_.hpp"
-#include "_stl_asso_.hpp"
 
 #include <iostream>
 #include <ostream>

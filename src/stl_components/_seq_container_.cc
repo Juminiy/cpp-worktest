@@ -18,11 +18,11 @@
 #include <functional>
 
 // sequential container
-#include <vector>
-#include <deque>
 #include <array>
-#include <list>
+#include <deque>
 #include <forward_list>
+#include <list>
+#include <vector>
 #include <valarray>
 
 // sequential container adapter
@@ -374,6 +374,52 @@ void TestVigenereEncrypt()
 
 void TestForwardList()
 {
-    std::forward_list<int> i32_fl;
+    std::forward_list<int> UNUSED i32_fl;
     // i32_fl.
+}
+
+void TestConV2()
+{
+    using _val_type = int;
+    auto i32_arr = 
+        std::array<_val_type, 20>();
+    i32_arr[10] = 011;
+    PRINTLN_DETAIL(i32_arr[20]);
+    i32_arr[20] = 10;
+    PRINTLN_DETAIL(i32_arr[80]);
+    Alan::ConsoleBeautyOutput
+        <_val_type>
+        (i32_arr);
+    
+    auto i32_v = 
+        std::vector<_val_type>(10);
+    PRINTLN_DETAIL(i32_v[10]);
+    i32_v[10] = 10;
+    PRINTLN_DETAIL(i32_v[70]);
+    Alan::ConsoleBeautyOutput
+        <_val_type>
+        (i32_v);
+    i32_v.emplace_back(1);
+    i32_v.push_back(1);
+    i32_v.reserve(20);
+    PRINTLN_DETAIL(i32_v.capacity());
+}
+
+void TestCopySeq()
+{   
+    using _val_type = int;
+    _val_type i32_arr_ptr[10] = {10, 8, 7, 6, 5};
+    // _val_type *cp_ptr = nullptr; 
+    _val_type *cp_ptr = new _val_type[20];
+    Alan::_Seq_Deep_Copy_Pointer(i32_arr_ptr, &cp_ptr, 10);
+    cp_ptr[7] = 999;
+    PRINTLN("original ptr"); 
+    std::copy(i32_arr_ptr, i32_arr_ptr+10,
+                    std::ostream_iterator< _val_type >
+                    (std::cout, ", "));
+    PRINTLN("\ncopy ptr");
+    std::copy(cp_ptr, cp_ptr+10,
+                    std::ostream_iterator< _val_type >
+                    (std::cout, ", "));
+    
 }

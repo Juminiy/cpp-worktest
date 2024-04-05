@@ -3,7 +3,6 @@
 #define _SET_THEORY_HPP
 
 #include "_i_lib_.hpp"
-#include "_set_theory_.hpp"
 #include "_stl_lib_.hpp"
 
 #include <string>

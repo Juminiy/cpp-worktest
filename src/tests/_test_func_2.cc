@@ -14,6 +14,7 @@
 #include <utility>
 #include <algorithm>
 #include <type_traits>
+#include <memory>
 
 #include <cassert>
 #include <any>
@@ -171,6 +172,7 @@ void TestPLoc()
     PRINTLN_DETAIL(p1[Alan::_Point_Loc<double >::_axis_z]);
     // PRINTLN_DETAIL(p1[3]); // assert error 
     PRINTLN_DETAIL(p1);
+    PRINTLN_DETAIL((p1 == p1));
     PRINTLN_DETAIL((p1 == p2));
     PRINTLN_DETAIL((p1 != p2));
     PRINTLN_DETAIL((p1 < p2));
@@ -610,63 +612,150 @@ void TestParSpec2()
     Alan::_assume_func_return_type<decltype(_fn_ret_void)>(_fn_ret_void);
 }
 
+void TestCppCOrigin()
+{
+    int _i32_i = 1;
+
+    // arithmetic
+    PRINTLN_DETAIL((_i32_i += 10));
+    PRINTLN_DETAIL((_i32_i -= 10));
+    PRINTLN_DETAIL((_i32_i *= 10));
+    PRINTLN_DETAIL((_i32_i /= 10));
+    PRINTLN_DETAIL((_i32_i %= 10));
+
+    // bit opt
+    PRINTLN_DETAIL((_i32_i ^= 1));
+    PRINTLN_DETAIL((_i32_i &= 1));
+    PRINTLN_DETAIL((_i32_i |= 1));
+    PRINTLN_DETAIL((_i32_i <<= 1));
+    PRINTLN_DETAIL((_i32_i >>= 1));
+}
+
+void TestCppTid()
+{
+    __DEF_ALL_V2__(__type_id_h_, Alan::_Point_Loc<int >);
+    PRINTLN_DETAIL(Alan::__cpp_tid_<__type_id_h_>());
+    PRINTLN_DETAIL(Alan::__cpp_tid_<__type_id_h__const>());
+    PRINTLN_DETAIL(Alan::__cpp_tid_<__type_id_h__reference>());
+    PRINTLN_DETAIL(Alan::__cpp_tid_<__type_id_h__const_reference>());   
+    PRINTLN_DETAIL(Alan::__cpp_tid_<__type_id_h__r_reference>());
+    PRINTLN_DETAIL(Alan::__cpp_tid_<__type_id_h__pointer>());
+    PRINTLN_DETAIL(Alan::__cpp_tid_<__type_id_h__pointer_to_const>());
+    PRINTLN_DETAIL(Alan::__cpp_tid_<__type_id_h__const_pointer>());
+    PRINTLN_DETAIL(Alan::__cpp_tid_<__type_id_h__const_pointer_to_const>());
+
+    auto _u = 
+        std::map<int, std::vector<Alan::_Point_Loc<__type_id_h_ > > >();
+    PRINTLN_DETAIL(__V_TID_STR__(_u)); 
+    // Alan::__cpp_tid_<decltype(_u)>() = 
+    auto __u = 
+    std::__1::map<int, 
+                std::__1::vector<Alan::_Point_Loc<Alan::_Point_Loc<int>>, 
+                                std::__1::allocator<Alan::_Point_Loc<Alan::_Point_Loc<int>>>>, 
+                std::__1::less<int>, 
+                std::__1::allocator<std::__1::pair<int const, 
+                                                std::__1::vector<Alan::_Point_Loc<Alan::_Point_Loc<int>>, 
+                                                                std::__1::allocator<Alan::_Point_Loc<Alan::_Point_Loc<int>>>>>>>();
+    PRINTLN_DETAIL(std::boolalpha << 
+                   ( std::is_same_v<decltype(_u), decltype(__u)> ));
+}
+
+void TestSmart_Pointer()
+{   
+    // using _a_m_t = std::string;
+    auto _u = Alan::_Smart_ptr
+        (new std::string("original")); 
+    // bug obj1 if it is not free space allocate
+
+    auto _u_cp0 = _u;
+    auto _u_cp1 = _u;
+    PRINTLN_DETAIL(_u->c_str());
+    PRINTLN_DETAIL(_u_cp0->c_str());
+    PRINTLN_DETAIL(_u_cp1->c_str());
+
+    _u_cp1->append("_append_str");
+    PRINTLN_DETAIL(_u->c_str());
+    PRINTLN_DETAIL(_u_cp0->c_str());
+    PRINTLN_DETAIL(_u_cp1->c_str());
+
+}
+
+void TestMemory()
+{
+    auto m_ptr = 
+        std::shared_ptr<std::string>(new std::string("original"));
+    auto mptr_cp0 = m_ptr;
+    auto mptr_cp1 = mptr_cp0;
+    PRINTLN_DETAIL(m_ptr.use_count());
+    mptr_cp0->append("_append_str");
+    PRINTLN_DETAIL(mptr_cp1->c_str());
+    PRINTLN_DETAIL(m_ptr.unique());
+}
+
 void TestAll()
 {
-    TestBirthDayParadox();
-    TestUMap();
-    TestUSet();
-    TestIterator();
-    TestMapDiffer();
-    CountKeyWordsOccurences();
-    TestMultiContainer();
-    TestVectorFunctor();
-    TestVectorFunctor2();
-    TestVectorFunc3();
-    TestRingBuffer();
-    TestSSet();
-    TestRangeFind();
-    TestMatchingPrefix();
-    TestAlgo();
-    TestIteratorAdapter();
-    TestAssoContainerAlgo();
-    TestRemoveAlgo();
-    TestArbitraryAlgo();
-    Test_Tp_AVG();
-    Test_LB_UB();
-    TestTask();
-    TestFunc();
-    TestTask2();
-    TestNormalRand();
-    TestRandRDMT19937();
-    TestReadOnlyRBTree();
-    TestRRef();
-    TestKenoGame();
-    TestXorshift32();
-    TestHashTable();
-    TestPLoc();
-    TestADV();
-    TestScopeAway();
-    TestCon2By();
-    TestSeqLB_UB();
-    TestPLoc();
-    TestConstPointer();
-    TestConPlus();
-    TestBitwiseChange();
-    TestSZof();
-    #ifdef _LDB_
-        TestLevelDB();
-    #endif 
-    TestTuple();
-    TestSTDAny();
-    TestTypeTrait();
-    TestOp0();
-    // TestOp2();
-    TestOp3();
-    TestResourceManagement();
-    TestTypeTraits();
-    TestFuncTraits();
-    TestPartrialSpec();
-    TestPLoc();
-    TestParSpec2();
+    // TestBirthDayParadox();
+    // TestUMap();
+    // TestUSet();
+    // TestIterator();
+    // TestMapDiffer();
+    // CountKeyWordsOccurences();
+    // TestMultiContainer();
+    // TestVectorFunctor();
+    // TestVectorFunctor2();
+    // TestVectorFunc3();
+    // TestRingBuffer();
+    // TestSSet();
+    // TestRangeFind();
+    // TestMatchingPrefix();
+    // TestAlgo();
+    // TestIteratorAdapter();
+    // TestAssoContainerAlgo();
+    // TestRemoveAlgo();
+    // TestArbitraryAlgo();
+    // Test_Tp_AVG();
+    // Test_LB_UB();
+    // TestTask();
+    // TestFunc();
+    // TestTask2();
+    // TestNormalRand();
+    // TestRandRDMT19937();
+    // TestReadOnlyRBTree();
+    // TestRRef();
+    // TestKenoGame();
+    // TestXorshift32();
+    // TestHashTable();
+    // TestPLoc();
+    // TestADV();
+    // TestScopeAway();
+    // TestCon2By();
+    // TestSeqLB_UB();
+    // TestPLoc();
+    // TestConstPointer();
+    // TestConPlus();
+    // TestBitwiseChange();
+    // TestSZof();
+    // #ifdef _LDB_
+    //     TestLevelDB();
+    // #endif 
+    // TestTuple();
+    // TestSTDAny();
+    // TestTypeTrait();
+    // TestOp0();
+    // // TestOp2();
+    // TestOp3();
+    // TestResourceManagement();
+    // TestTypeTraits();
+    // TestFuncTraits();
+    // TestPartrialSpec();
+    // TestPLoc();
+    // TestParSpec2();
+
+    // TestConV2();
+    // TestCopySeq();
+    // TestCppCOrigin();
+    // TestCppTid();
+    TestSmart_Pointer();
+    // TestMemory();
 }
 

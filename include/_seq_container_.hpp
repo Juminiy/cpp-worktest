@@ -124,4 +124,7 @@ private:
 
 END_NAMESPACE_ALAN
 
+void TestConV2();
+
+void TestCopySeq();
 #endif 

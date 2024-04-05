@@ -140,7 +140,23 @@ void _Seq_Con_Sort(_Container &__container,
                 _comp);
 }
 
-
+// copy to if nullptr
+template < typename _Tp >
+void _Seq_Deep_Copy_Pointer(__PTR_TO_CONST__(_Tp) __src, 
+                            __PTR__(__PTR__(_Tp)) __dest,
+                            size_t __sz)
+{
+    if (__src == nullptr ||
+        __dest == nullptr ||
+        __sz == 0)
+        return;
+    // why assign/allocate fail in caller side?
+    if (*__dest == nullptr) 
+        // TODO: 
+        // use smart pointer 
+        *__dest = new _Tp[__sz];
+    std::copy(__src, __src+__sz, *__dest);
+}
 
 // Numeric
 

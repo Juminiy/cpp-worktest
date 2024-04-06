@@ -42,6 +42,8 @@ void _LDB_DEL
 (const std::string &_ldb_key,
 const std::string &_db_file_path = __TOSTR__(DEFAULT_DB));
 
+void _LDB_KEYS
+(const std::string &_db_file_path = __TOSTR__(DEFAULT_DB));
 
 
 // usage:

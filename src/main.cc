@@ -62,12 +62,18 @@ int main(int argc, char *argv[], char *envp[])
             case 'l':
             
             #if defined(LEVELDB_EXPORT)
-                leveldb_cmd();
+                leveldb_cmd(); 
                 // __LDB_CMD__
             #else 
                 _COLOR_START(_COLOR_RED);
-                    ERRLN("leveldb has not found in /usr/local");
-                    ERRLN("or change option 'leveldb_prefix' in Makefile");
+                    ERRLN("leveldb has not found in dir: /usr/local");
+                    _COLOR_START(_COLOR_PURPLE);
+                    ERRLN("some step to solve: ");
+                    ERRLN("1. disable this option in Makefile directly");
+                    ERRLN("2. enable this option in Makefile");
+                    ERRLN("(1). install leveldb from source code");
+                    ERRLN("(2). change option 'leveldb_prefix' in Makefile");
+                    ERRLN("(3). recompile with: make build && make clean && make -j8");
                 _COLOR_RECOVER;
             #endif 
         break;

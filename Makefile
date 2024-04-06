@@ -1,11 +1,11 @@
 export
 
-cxxc = g++
+cxxc = clang++
 cxx_args= -Wall -pedantic -O0 -std=c++20 -g
 c_args = -Wall -pedantic -O0 -std=gnu99 -g
 
 # comment -D_LDB_=1 when env not installed leveldb
-debug_mode_print = -DDEBUG_MODE=1 #-D_LDB_=1
+debug_mode_print = -DDEBUG_MODE=1 -D_LDB_=1
 debug_gdb = echo "gdb -q -tui main"
 debug_lldb = echo "lldb main" && echo "gui"
 
@@ -78,7 +78,7 @@ _sim:
 # 1. link all object files to generate exe file
 # comment $(il_ldb) when env not installed leveldb
 main: $(src_dir)/main.o $(build_dir)/*.o
-	$(cxxc) $(cxx_args) -o $@ $^ #$(il_ldb)
+	$(cxxc) $(cxx_args) -o $@ $^ $(il_ldb)
 
 # 2. link main object file with static linked library to generate exe file
 main-static: main.o libstatic.a

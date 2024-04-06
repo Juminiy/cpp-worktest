@@ -211,12 +211,12 @@ extern "C" {
 
 #define ERR(_ct_) \
         OUTPUT(std::cerr, _ct_)
-#define ERR_DETAIL(_ct_) \
-        ERR(_ct_) << __LN__
 #define ERRLN(_ct_) \
+        ERR(_ct_) << __LN__
+#define ERR_DETAIL(_ct_) \
         OUTPUT_DETAIL(std::cerr, _ct_)
 #define ERRLN_DETAIL(_ct_) \
-        ERRLN(_ct_) << __LN__
+        ERR_DETAIL(_ct_) << __LN__
 
 
 

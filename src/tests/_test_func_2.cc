@@ -648,16 +648,16 @@ void TestCppTid()
         std::map<int, std::vector<Alan::_Point_Loc<__type_id_h_ > > >();
     PRINTLN_DETAIL(__V_TID_STR__(_u)); 
     // Alan::__cpp_tid_<decltype(_u)>() = 
-    auto __u = 
-    std::__1::map<int, 
-                std::__1::vector<Alan::_Point_Loc<Alan::_Point_Loc<int>>, 
-                                std::__1::allocator<Alan::_Point_Loc<Alan::_Point_Loc<int>>>>, 
-                std::__1::less<int>, 
-                std::__1::allocator<std::__1::pair<int const, 
-                                                std::__1::vector<Alan::_Point_Loc<Alan::_Point_Loc<int>>, 
-                                                                std::__1::allocator<Alan::_Point_Loc<Alan::_Point_Loc<int>>>>>>>();
-    PRINTLN_DETAIL(std::boolalpha << 
-                   ( std::is_same_v<decltype(_u), decltype(__u)> ));
+    // auto __u = 
+    // std::__1::map<int, 
+    //             std::__1::vector<Alan::_Point_Loc<Alan::_Point_Loc<int>>, 
+    //                             std::__1::allocator<Alan::_Point_Loc<Alan::_Point_Loc<int>>>>, 
+    //             std::__1::less<int>, 
+    //             std::__1::allocator<std::__1::pair<int const, 
+    //                                             std::__1::vector<Alan::_Point_Loc<Alan::_Point_Loc<int>>, 
+    //                                                             std::__1::allocator<Alan::_Point_Loc<Alan::_Point_Loc<int>>>>>>>();
+    // PRINTLN_DETAIL(std::boolalpha << 
+    //                ( std::is_same_v<decltype(_u), decltype(__u)> ));
 }
 
 void TestSmart_Pointer()
@@ -690,6 +690,17 @@ void TestMemory()
     mptr_cp0->append("_append_str");
     PRINTLN_DETAIL(mptr_cp1->c_str());
     PRINTLN_DETAIL(m_ptr.unique());
+}
+
+void TestPrettyFunc()
+{
+    PRINTLN_DETAIL(__func__);
+    PRINTLN_DETAIL(__FUNCTION__);
+    #if __CC_VER__ >= 4
+        PRINTLN_DETAIL(__PRETTY_FUNCTION__);
+    #elif __CC_VER__ == 1
+        PRINTLN_DETAIL(__FUNCSIG__);
+    #endif
 }
 
 void TestAll()
@@ -755,7 +766,8 @@ void TestAll()
     // TestCopySeq();
     // TestCppCOrigin();
     // TestCppTid();
-    TestSmart_Pointer();
+    // TestSmart_Pointer();
     // TestMemory();
+    TestPrettyFunc();
 }
 

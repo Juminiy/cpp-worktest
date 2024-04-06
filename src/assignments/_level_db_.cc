@@ -1,9 +1,9 @@
 #include "../../include/_level_db_.hpp"
 
 // DEBUG_MODE
-#ifndef _LDB_
-#define _LDB_
-#endif 
+// #ifndef _LDB_
+// #define _LDB_
+// #endif 
 
 #ifdef _LDB_
 #include "leveldb/db.h"

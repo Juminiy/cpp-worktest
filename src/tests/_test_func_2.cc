@@ -739,6 +739,7 @@ void TestHandleException()
     try
     {   
         std::string _src;
+        PRINTLN("Please input a int32:");
         HANDINPUT(_src);
         ioInt32(_src);
         // ioInt32("vv");

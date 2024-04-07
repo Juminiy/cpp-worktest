@@ -696,11 +696,60 @@ void TestPrettyFunc()
 {
     PRINTLN_DETAIL(__func__);
     PRINTLN_DETAIL(__FUNCTION__);
-    #if __CC_VER__ >= 4
+    #if __CC_VER__ >= 2
         PRINTLN_DETAIL(__PRETTY_FUNCTION__);
-    #elif __CC_VER__ == 1
+    #elif __CC_VER__ == 1 
         PRINTLN_DETAIL(__FUNCSIG__);
     #endif
+}
+
+void TestClassOpCase()
+{
+    _a __a_val0(1);
+    _a __a_val1 = __a_val0;
+    PRINTLN_DETAIL(__a_val0);
+    PRINTLN_DETAIL(__a_val1);
+    // TODO: how to realize a singleton type 
+    // with private and delete constructor 
+    // link error 
+    // _Singleton_type::getInst();   
+}
+
+#include <stdexcept>
+
+void ioInt32(std::string const & _src){
+    int _var = 0;
+    char _left_over = 0;
+    std::stringstream _ss(_src);
+    _ss >> _var;
+    if(_ss.fail())
+        throw std::invalid_argument("input _src must be int");
+    _ss >> _left_over;
+    if(!_left_over ||
+        _left_over == '\n')
+        _COLOR_START(_COLOR_GREEN),
+            PRINTLN_DETAIL(_var),
+        _COLOR_RECOVER;
+    else 
+        throw std::invalid_argument("input _src is int but has additional vars");
+}
+
+void TestHandleException()
+{
+    try
+    {   
+        std::string _src;
+        HANDINPUT(_src);
+        ioInt32(_src);
+        // ioInt32("vv");
+        // ioInt32("22");
+    }
+    catch(std::invalid_argument const & _ia)
+    {
+        _COLOR_START(_COLOR_RED),
+            ERRLN(_ia.what());
+        _COLOR_RECOVER;
+    }
 }
 
 void TestAll()
@@ -768,6 +817,8 @@ void TestAll()
     // TestCppTid();
     // TestSmart_Pointer();
     // TestMemory();
-    TestPrettyFunc();
+    // TestPrettyFunc();
+    // TestClassOpCase();
+    TestHandleException();
 }
 

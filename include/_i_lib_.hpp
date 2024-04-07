@@ -604,7 +604,9 @@ opt_uint(char *val)
 #define __DEF_CONST_PTR_TO_CONST_V2__(__type__) \
         __DEF_DCL_V2__(__CONST_PTR_TO_CONST__(__type__), __type__, _const_pointer_to_const)
 
-
+#define __DISALLOW_COPYING(__def_type_) \
+        __def_type_(const __def_type_ &) = delete; \
+        __def_type_& operator = (const __def_type_ &) = delete
 
 
 // MATH UTILS DEFINE

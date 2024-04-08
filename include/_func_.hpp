@@ -20,5 +20,6 @@ END_NAMESPACE_ALAN
 
 void TestFunc();
 void TestTask2();
+void TestTask3();
 
 #endif

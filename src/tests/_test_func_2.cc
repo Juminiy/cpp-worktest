@@ -820,6 +820,7 @@ void TestAll()
     // TestMemory();
     // TestPrettyFunc();
     // TestClassOpCase();
-    TestHandleException();
+    // TestHandleException();
+    TestTask3();
 }
 

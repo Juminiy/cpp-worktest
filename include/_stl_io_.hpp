@@ -26,7 +26,6 @@
 
 __DEF_NS__(Alan)
 
-
 /// @bug make sense??? I can not be sure
 /// @brief overload std::tuple ostream
 /// @tparam ..._Tp 
@@ -49,14 +48,6 @@ std::ostream& operator << (std::ostream &__os,
     __os << "]";
     return __os;
 }
-
-// std::ostream& operator << (std::ostream & __os,
-//                             const std::any & _any_val)
-// {
-//     __os << _any_val;
-//     return __os;
-// }
-
 
 // TODO: 
 // how to define a pair name 
@@ -118,45 +109,6 @@ std::istream& operator >> (std::istream &__is,
 }
 
 
-// make no sense
-// template pair_pair recursive
-// template < typename _Tp1_1, typename _Tp1_2, 
-//             typename _Tp2_1, typename _Tp2_2 > 
-// std::ostream& operator << (std::ostream &__os,
-//                             const std::pair<
-//                                 std::pair<_Tp1_1, _Tp1_2 >, 
-//                                 std::pair<_Tp2_1, _Tp2_2 > > 
-//                                 &__tp_pair_4e)
-// {
-//     __os << "[" 
-//             << __tp_pair_4e.first
-//             << ", "
-//             << __tp_pair_4e.second
-//         << "]";
-//     return __os;
-// }
-
-// make no sense
-// partial specialization
-// compile error 
-// std::ostream& operator << (std::ostream &__os, 
-//                             const std::pair <
-//                                 std::pair<std::string, int >, 
-//                                 std::pair<int, std::string > > 
-//                                 &__tp_pair_4e_partial)
-// {
-//     __os << "["
-//             << __tp_pair_4e_partial.first.first
-//             << ", "
-//             << __tp_pair_4e_partial.first.second
-//             << "; "
-//             << __tp_pair_4e_partial.second.first
-//             << ", "
-//             << __tp_pair_4e_partial.second.second
-//         << "]";
-//     return __os;
-// }
-
 
 // std::Container<_Tp > I/O:
 
@@ -175,6 +127,17 @@ void SeqIterInput(_Seq_Container &__container,
                 std::back_inserter(__container));
 }
 
+template < typename _Seq_Container, 
+            typename _Istream >
+void SeqIterInput(_Seq_Container &__container,
+                    _Istream &__istream)
+{   
+    using __value_type_ = typename _Seq_Container::value_type;
+    std::copy(std::istream_iterator<__value_type_>(__istream),
+                std::istream_iterator<__value_type_>(),
+                std::back_inserter(__container));
+}
+
 // has not been tested
 // _Tp must oveload:                            operator >> 
 // _Seq_Container must have member function:    insert()
@@ -187,6 +150,17 @@ void AssoIterInput(_Asso_Container &__container,
 {
     std::copy(std::istream_iterator<_Tp>(__istream),
                 std::istream_iterator<_Tp>(),
+                std::inserter(__container));
+}
+
+template < typename _Asso_Container, 
+            typename _Istream >
+void AssoIterInput(_Asso_Container &__container,
+                    _Istream &__istream)
+{
+    using __value_type_ = typename _Asso_Container::value_type;
+    std::copy(std::istream_iterator<__value_type_>(__istream),
+                std::istream_iterator<__value_type_>(),
                 std::inserter(__container));
 }
 
@@ -239,7 +213,14 @@ private:
     __CNEW_LINE__; 
 
 
-
+/// @test fully passed
+/// @brief 
+/// @tparam _Tp 
+/// @tparam _Container 
+/// @tparam _Ostream 
+/// @param __container 
+/// @param __ostream 
+/// @param __delimiter 
 template <typename _Tp, 
             typename _Container, 
             typename _Ostream >
@@ -254,27 +235,73 @@ void IterOutput(const _Container &__container,
                 );
 }
 
+/// @test fully passed
+/// @brief 
+/// @tparam _Container 
+/// @tparam _Ostream 
+/// @param __container 
+/// @param __ostream 
+/// @param __delimiter 
+template < typename _Container, 
+            typename _Ostream >
+void IterOutput(const _Container &__container,
+                _Ostream &__ostream,
+                const char* __delimiter)
+{
+    using __value_type_ = typename _Container::value_type;
+    std::copy(__container.cbegin(),
+                __container.cend(),
+                std::ostream_iterator< __value_type_ >
+                    (__ostream, __delimiter)
+                );
+}
+
+/// @test fully passed
+/// @brief 
 // _Container must have const_iterator cbegin() and cend()
 // _Container must hold the type _Tp element
 // _Tp must overload operator << (ostream&)
+/// @tparam _Tp 
+/// @tparam _Container 
+/// @param __container 
+/// @param __delimiter 
 template <typename _Tp,
             typename _Container >
 void ConsoleIterOutput(const _Container &__container, 
                         const char* __delimiter = ", ")
 {
-    IterOutput<_Tp, _Container, std::ostream >
-                (__container, std::cout, __delimiter);
+    IterOutput(__container, std::cout, __delimiter);
     NEXT_LINE;
 }
 
+/// @test fully passed
+/// @brief 
+/// @tparam _Container 
+/// @param __container 
+/// @param __delimiter 
+template < typename _Container >
+void ConsoleIterOutput(const _Container &__container, 
+                        const char* __delimiter = ", ")
+{
+    IterOutput(__container, std::cout, __delimiter);
+    NEXT_LINE;
+}
+
+
+/// @test passed
+/// @brief 
 // Beauty Output 
 // size = 0 -> [] '\n'
 // size = 1 -> [ele0] '\n'
 // size = 2 -> [ele0, ele1, ele2] '\n'
+/// @tparam _Tp 
+/// @tparam _Container 
+/// @param __container 
+/// @param __delimiter 
 template <typename _Tp,
             typename _Container >
 void ConsoleBeautyOutput(const _Container &__container,
-                            const char* __delimiter = ", ")
+                        const char* __delimiter = ", ")
 {
     PRINT("[");
 
@@ -296,6 +323,38 @@ void ConsoleBeautyOutput(const _Container &__container,
 
     PRINTLN("]");
 }
+
+/// @test fully passed
+/// @brief 
+/// @tparam _Container 
+/// @param __container 
+/// @param __delimiter 
+template < typename _Container >
+void ConsoleBeautyOutput(const _Container &__container,
+                        const char* __delimiter = ", ")
+{
+    PRINT("[");
+
+    size_t _csz = __container.size();
+    if (_csz == 1)
+    {
+        PRINT(*__container.cbegin());
+    } else if (_csz > 1)
+    {
+        auto _it  = __container.begin();
+        auto _eit = __container.begin();
+        std::advance(_eit, _csz-1);
+
+        std::copy(_it, _eit,
+                std::ostream_iterator
+                < typename _Container::value_type >
+                    (std::cout, __delimiter));
+        PRINT(*_eit);
+    }
+
+    PRINTLN("]");
+}
+
 
 // don't skip any a white space or any '\n', '\t', '\r'
 template <typename _InputStream, typename _OutputStream >

@@ -113,7 +113,7 @@ void TestTask3()
 
     PRINTLN_DETAIL (std::count_if(
         _str_v.begin(), _str_v.end(),
-        _std_string_sz_less
+        _std_string_sz_less<>
     ));
 
     // auto _cmp_sz_0 = 

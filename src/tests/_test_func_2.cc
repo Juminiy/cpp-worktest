@@ -753,6 +753,43 @@ void TestHandleException()
     }
 }
 
+void TestGen1()
+{
+    using _con_type0 = std::vector<int >;
+    using _con_type1 = std::deque<int >;
+    using _con_type2 = std::list<int >;
+
+    auto i32_v0 = 
+        Alan::_Gen_Seq_Con
+        <_con_type0, 10>
+        (1<<2, 1<<10);
+    
+    Alan::ConsoleBeautyOutput(*i32_v0);
+    Alan::ConsoleIterOutput(*i32_v0);
+
+    auto i32_v1 = 
+        Alan::_Gen_Seq_Con
+        <_con_type1, 10>
+        (1<<2, 1<<10);
+    
+    Alan::ConsoleBeautyOutput(*i32_v1);
+    Alan::ConsoleIterOutput(*i32_v1);
+
+    auto i32_v2 = 
+        Alan::_Gen_Seq_Con
+        <_con_type2, 10>
+        (1<<2, 1<<10);
+    
+    Alan::ConsoleBeautyOutput(*i32_v2);
+    Alan::ConsoleIterOutput(*i32_v2);
+}
+
+void TestGen2()
+{
+    PRINTLN_DETAIL(Alan::_Gen_Num(1, 2));
+    // PRINTLN_DETAIL(Alan::_Gen_Num(1.5, 2.5));
+}
+
 void TestAll()
 {
     // TestBirthDayParadox();
@@ -822,6 +859,8 @@ void TestAll()
     // TestClassOpCase();
     // TestHandleException();
     // TestTask3();
-    TestTask4();
+    // TestTask4();
+    // TestGen1();
+    TestGen2();
 }
 

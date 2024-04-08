@@ -252,6 +252,8 @@ extern "C" {
 // need to do more error 
 // __DATE__, __TIME__, __FILE__, __LINE__
 // more easy to locate error
+// function is: __func__, __FUNCTION__, 
+// full signature is: __PRETTY_FUNCTION__
 #define LOG_ERR(_err_info_, ...) \
         PRINTLN_VA("error_info = %s" \
                     "Date = %s" \

@@ -7,19 +7,65 @@
 
 #include <functional>
 
-USE_NAMESPACE_ALAN
+__DEF_NS__(Alan)
 
-typedef 
-std::function<int (const int &, const int &)> 
-calBinOpt;
+__DEF_NS__(Demos)
 
-typedef std::pair<std::string, calBinOpt> 
-calBinPair;
+    typedef 
+    std::function<int (const int &, const int &)> 
+    calBinOpt;
 
-END_NAMESPACE_ALAN
+    typedef std::pair<std::string, calBinOpt> 
+    calBinPair;
+
+    typedef int (*subFunc) (const int &, const int &);
+
+    template <size_t _Sz = (1<<2)>
+    bool _std_string_sz_less
+    (std::string const & _str)
+    noexcept
+    {
+        return _str.size() < _Sz;
+    }
+
+    class _comp_str_sz 
+    {
+    public:
+        explicit _comp_str_sz
+        (const size_t __sz = (1<<2))
+            : _sz(__sz) { }
+        bool operator() 
+        (const std::string & _str) 
+        const noexcept 
+        {
+            return _str.size() < _sz;
+        }
+    private:
+        const size_t _sz;
+    };
+
+    typedef double (*_fn_d2d)(double); 
+
+    
+    // class _unray_fn0 
+    //     : public std::unary_function<std::string, bool >
+    // {
+    // public:
+    //     bool operator() 
+    //     (std::string const & _str)
+    //     noexcept const 
+    //     {
+    //         return false;
+    //     }
+    // };
+
+__END_NS__
+
+__END_NS__
 
 void TestFunc();
 void TestTask2();
 void TestTask3();
+void TestTask4();
 
 #endif

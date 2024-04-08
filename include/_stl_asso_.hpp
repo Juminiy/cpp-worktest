@@ -23,7 +23,7 @@
 #include <map>
 #include <unordered_map>
 
-USE_NAMESPACE_ALAN
+__DEF_NS__(Alan)
 
 // Associative Container:
 
@@ -235,6 +235,6 @@ class RWHashMap
 };
 
 
-END_NAMESPACE_ALAN
+__END_NS__
 
 #endif

@@ -18,7 +18,7 @@
         __TP_TID_STR__(decltype(__val__))
 
 // identify a type to C++ internal/underlying type
-USE_NAMESPACE_ALAN
+__DEF_NS__(Alan)
 
 // copy and change from 
 // https://github.com/parallel101/course/blob/2d30da61b442008c003f69225e6feca20a4ca7df/stlseries/stl_map/experiment/cppdemangle.h
@@ -52,6 +52,6 @@ static inline std::string __cpp_tid_() {
     return _dname;
 }
 
-END_NAMESPACE_ALAN
+__END_NS__
 
 #endif

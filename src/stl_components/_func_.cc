@@ -15,12 +15,11 @@
 #include <vadefs.h>
 #endif 
 
-using namespace Alan;
-
-typedef int (*subFunc) (const int &, const int &);
+__USE_NS__(Alan);
+__USE_NS__(Alan::Demos);
 
 int subFuncImpl (const int & _lhs, 
-                    const int & _rhs)
+                        const int & _rhs)
 {
     return _lhs - _rhs;
 }
@@ -67,32 +66,6 @@ void TestTask2()
     auto i32_vi = std::vector< int >{1, 2, 3, 4, 5, 5, 5, 6, 7};
     PRINTLN(std::to_string(_count_eq_ele(i32_vi.begin(), i32_vi.end(), 5)));
 }
-
-template <size_t _Sz = (1<<2)>
-bool _std_string_sz_less
-(std::string const & _str)
-noexcept
-{
-    return _str.size() < _Sz;
-}
-
-class _comp_str_sz 
-{
-public:
-    explicit _comp_str_sz
-    (const size_t __sz = (1<<2))
-        : _sz(__sz) { }
-    bool operator() 
-    (const std::string & _str) 
-    const noexcept 
-    {
-        return _str.size() < _sz;
-    }
-private:
-    const size_t _sz;
-};
-
-typedef double (*_fn_d2d)(double); 
 
 void _takein_fn(_fn_d2d _fn)
 {
@@ -166,6 +139,17 @@ void TestTask3()
     _takein_fn(_lambda_fn);
     _Takein_Fn(_lambda_fn, 10);
 
-    _sum_args_list(5, 2.5, 3.5, 4.5, 5.5, 7.8);
+    _sum_args_list(5, 2.5, 3.5, 4.5, 5.5, 7.8); 
+    // _takein_fn(std::ptr_fun(_lambda_fn));
+}
 
+void TestTask4()
+{   
+    auto i32_v = 
+        std::vector<std::string >
+        {"okok", "vivivi", "lklklklk"};
+    // Alan::_Seq_Con_Ins_Gen_Num(i32_v, 1<<4, 0, 1<<6);
+    std::transform(i32_v.begin(), i32_v.end(), 
+                    std::ostream_iterator<int >(std::cout, ", "),
+                    std::mem_fn(&std::string::length));
 }

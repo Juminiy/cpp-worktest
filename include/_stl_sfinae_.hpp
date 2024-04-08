@@ -28,7 +28,7 @@
 #define __INST_OF_TP__(__tp__) \
         std::declval<__tp__>()
 
-USE_NAMESPACE_ALAN
+__DEF_NS__(Alan)
 
 // meta function 
 // map self to self 
@@ -270,7 +270,7 @@ auto _t_plus_v2(_Tp_1 && __lhs,
             std::move(__rhs);
 }
 
-END_NAMESPACE_ALAN
+__END_NS__
 
 #endif
 

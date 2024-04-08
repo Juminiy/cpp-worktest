@@ -31,7 +31,7 @@
 #include <chrono>
 #include <random>
 
-using namespace Alan;
+__USE_NS__(Alan);
 
 void TestAlgo()
 {   

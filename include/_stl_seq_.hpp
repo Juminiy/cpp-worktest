@@ -23,7 +23,7 @@
 #include <map>
 #include <unordered_map>
 
-USE_NAMESPACE_ALAN
+__DEF_NS__(Alan)
 
 // Sequential Container:
 
@@ -219,7 +219,7 @@ _Tp _Avg(_Container &__container,
                             res_pair.second.second));
 }
 
-END_NAMESPACE_ALAN
+__END_NS__
 
 
 #endif

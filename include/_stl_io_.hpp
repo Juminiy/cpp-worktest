@@ -24,7 +24,7 @@
 #include <map>
 #include <unordered_map>
 
-USE_NAMESPACE_ALAN
+__DEF_NS__(Alan)
 
 
 /// @bug make sense??? I can not be sure
@@ -358,7 +358,7 @@ void ConsoleOutputAsso(const _Asso_Container & __container)
 // }
 
 
-END_NAMESPACE_ALAN
+__END_NS__
 
 
 #endif

@@ -19,7 +19,7 @@
 
 #include <cassert>
 
-USE_NAMESPACE_ALAN
+__DEF_NS__(Alan)
 
 // TODO:
 // 
@@ -537,7 +537,7 @@ operator *
     return _p_loc;
 }
 
-END_NAMESPACE_ALAN
+__END_NS__
 
 #endif
 

@@ -2,11 +2,16 @@
 #ifndef _I_LIB_HPP
 #define _I_LIB_HPP
 
-// Alan namespace
 #ifdef __cplusplus
 extern "C" {
-#define USE_NAMESPACE_ALAN namespace Alan{
-#define END_NAMESPACE_ALAN }
+
+#define __DEF_NS__(__ns__) \
+        namespace __ns__ {
+#define __END_NS__ }
+
+#define __USE_NS__(__ns__) \
+        using namespace __ns__
+
 #endif 
 #ifdef __cplusplus
 }

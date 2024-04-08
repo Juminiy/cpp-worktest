@@ -30,7 +30,7 @@
 
 #include <memory>
 
-using namespace Alan;
+__USE_NS__(Alan);
 
 typedef std::unordered_map<int, std::string > um_i32_str;
 typedef um_i32_str::value_type _i32_str_pr ;

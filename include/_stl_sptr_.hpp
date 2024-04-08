@@ -4,7 +4,7 @@
 
 #include "_i_lib_.hpp"
 
-USE_NAMESPACE_ALAN
+__DEF_NS__(Alan)
 
 template < typename _Tp >
 class _Smart_ptr  
@@ -145,7 +145,7 @@ private:
 
 };
 
-END_NAMESPACE_ALAN
+__END_NS__
 
 
 #endif

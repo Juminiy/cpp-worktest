@@ -18,7 +18,7 @@
 #include <functional>
 #include <cstddef>
 
-using namespace std::literals;
+__USE_NS__(std::literals);
 
 std::string testLocalLayout();
 void testLocalCppTypeLayout();
@@ -342,7 +342,7 @@ void TestRRef()
 // tested failure
 void TestTuple()
 {   
-    using namespace Alan;
+    __USE_NS__(Alan);
     std::tuple<long long, long long, double, double > 
         f256(0xff, 0x11, 1.25f, 1.25f);
 

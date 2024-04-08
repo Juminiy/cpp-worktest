@@ -28,7 +28,7 @@
 #include <algorithm>
 #include <functional>
 
-USE_NAMESPACE_ALAN
+__DEF_NS__(Alan)
 
 // Single Set : Atom Operation
 // _Tp must overload the operator == when default container 
@@ -325,7 +325,7 @@ private:
     std::vector<container_type>     m_sets;
 };
 
-END_NAMESPACE_ALAN
+__END_NS__
 
 void TestSSet();
 

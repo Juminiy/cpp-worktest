@@ -30,7 +30,7 @@ void TestADV()
 {
 
     PRINTLN_DETAIL(Alan::_t_plus(1, 2.5));
-    using namespace std::literals;
+    __USE_NS__(std::literals);
     PRINTLN_DETAIL(Alan::_t_plus("to"s, "wa"s));
     PRINTLN_DETAIL(Alan::_t_plus(Alan::_Point_Loc<int >(0xff, 0x88, 0x11), 
                                 Alan::_Point_Loc<int >(1, 2, 3)));
@@ -271,8 +271,8 @@ void TestSZof()
         // PRINTLN_DETAIL(sizeof(Alan::_Point_Loc<double >::_max_bound));
     _COLOR_RECOVER;
     // // make no sense 
-    // // using namespace std::literals;
-    using namespace Alan;
+    // // __USE_NS__(std::literals);
+    __USE_NS__(Alan);
 
     // PRINTLN_DETAIL(std::make_pair 
     //                     (std::make_pair("key", 1), 
@@ -327,7 +327,7 @@ void TestOp0()
 {
     auto i32_mp = std::map<int, int>();
     i32_mp[0];
-    using namespace Alan;
+    __USE_NS__(Alan);
     Alan::ConsoleOutputAsso
         <decltype(i32_mp)>
         (i32_mp);
@@ -821,6 +821,7 @@ void TestAll()
     // TestPrettyFunc();
     // TestClassOpCase();
     // TestHandleException();
-    TestTask3();
+    // TestTask3();
+    TestTask4();
 }
 

@@ -44,7 +44,7 @@ static std::string inline genString(int const &_len)
     return _dest;
 }
 
-USE_NAMESPACE_ALAN
+__DEF_NS__(Alan)
 
 template <typename _Tp, 
             typename _Container = std::deque<_Tp> >
@@ -122,7 +122,7 @@ private:
     
 };
 
-END_NAMESPACE_ALAN
+__END_NS__
 
 void TestConV2();
 

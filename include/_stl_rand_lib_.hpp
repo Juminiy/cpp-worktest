@@ -17,7 +17,7 @@
 #include <utility>
 #include <chrono>
 
-USE_NAMESPACE_ALAN
+__DEF_NS__(Alan)
 // TODO: 
 // generate random data for Batch Test
 // 1. random number < integer, float >: 
@@ -142,6 +142,15 @@ void _Seq_Con_Ins_Gen_Num
 //                     __gen_count, __RD_LAMBDA__);
 // }
 
+// TODO: 
+// 1. directly generate and return a std::unique_ptr<container_type<_Tp > >
+
+// 2. generate random std::string
+
+// 3. generate random container_type<std::string >
+
+// 4. mix 1 with 3
+
 
 
 // design interface for std::mt19937
@@ -201,7 +210,7 @@ public:
 // our _rand_lib_ must call the class gen_data() to insert into class container 
 // 
 
-END_NAMESPACE_ALAN
+__END_NS__
 
 void TestNormalRand();
 void TestRandRDMT19937();

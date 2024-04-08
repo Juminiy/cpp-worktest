@@ -25,7 +25,7 @@
 
 #include <cmath>
 
-USE_NAMESPACE_ALAN
+__DEF_NS__(Alan)
 
 template <typename _Tp_1,
             typename _Tp_2 >
@@ -100,6 +100,6 @@ private:
     size_t sz;
 };
 
-END_NAMESPACE_ALAN
+__END_NS__
 
 #endif 

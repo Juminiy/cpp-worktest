@@ -662,21 +662,23 @@ void TestCppTid()
 
 void TestSmart_Pointer()
 {   
-    // using _a_m_t = std::string;
-    auto _u = Alan::_Smart_ptr
-        (new std::string("original")); 
-    // bug obj1 if it is not free space allocate
+    // // Alan::Demos::_Smart_ptr test failed
+    // // using _a_m_t = std::string;
+    // auto _u = Alan::Demos::_Smart_ptr
+    //     (new std::string("original")); 
+    // // bug obj1 if it is not free space allocate
 
-    auto _u_cp0 = _u;
-    auto _u_cp1 = _u;
-    PRINTLN_DETAIL(_u->c_str());
-    PRINTLN_DETAIL(_u_cp0->c_str());
-    PRINTLN_DETAIL(_u_cp1->c_str());
+    // auto _u_cp0 = _u;
+    // auto _u_cp1 = _u;
 
-    _u_cp1->append("_append_str");
-    PRINTLN_DETAIL(_u->c_str());
-    PRINTLN_DETAIL(_u_cp0->c_str());
-    PRINTLN_DETAIL(_u_cp1->c_str());
+    // PRINTLN_DETAIL(_u->c_str());
+    // PRINTLN_DETAIL(_u_cp0->c_str());
+    // PRINTLN_DETAIL(_u_cp1->c_str());
+
+    // _u_cp1->append("_append_str");
+    // PRINTLN_DETAIL(_u->c_str());
+    // PRINTLN_DETAIL(_u_cp0->c_str());
+    // PRINTLN_DETAIL(_u_cp1->c_str());
 
 }
 
@@ -726,7 +728,7 @@ void ioInt32(std::string const & _src){
         throw std::invalid_argument("input _src must be int");
     _ss >> _left_over;
     if(!_left_over ||
-        _left_over == '\n')
+        Alan::_is_bs(_left_over))
         _COLOR_START(_COLOR_GREEN),
             PRINTLN_DETAIL(_var),
         _COLOR_RECOVER;
@@ -786,8 +788,264 @@ void TestGen1()
 
 void TestGen2()
 {
-    PRINTLN_DETAIL(Alan::_Gen_Num(1, 2));
-    // PRINTLN_DETAIL(Alan::_Gen_Num(1.5, 2.5));
+    PRINTLN_DETAIL(Alan::_Gen_INum(1, 2));
+    PRINTLN_DETAIL(Alan::_Gen_RNum(1.5, 2.5));
+}
+
+void TestSpecType0()
+{
+    auto _type_str = 
+        Alan::__cpp_tid_<size_t >();
+    PRINTLN_DETAIL(_type_str);
+    PRINTLN_DETAIL(Alan::_sfind_any(_type_str, 2, "double", "float"));
+    PRINTLN_DETAIL(Alan::_sfind_any(_type_str, 3, "int", "long", "unsigned"));
+    auto _bstemp_ = 
+        std::string(Alan::CONST::__bs__);
+    PRINTLN_DETAIL(std::all_of(_bstemp_.begin(), _bstemp_.end(), Alan::_is_bs));
+}
+
+void TestGen3()
+{   
+    auto _base_charT_s = std::string();
+    _base_charT_s += Alan::CONST::_lowal;
+    _base_charT_s += Alan::CONST::_uppal;
+    _base_charT_s += Alan::CONST::_digit;
+    const char* const _base_charT_s_cstr= _base_charT_s.c_str();
+
+    auto _ch_v0 = 
+        Alan::_Gen_Char_Con(_base_charT_s_cstr, 1<<3);
+    auto _ch_v1 = 
+        Alan::_Gen_Char_Con(_base_charT_s_cstr, 1<<3);
+    auto _ch_v2 = 
+        Alan::_Gen_Char_Con(_base_charT_s_cstr, 1<<3);
+    auto _ch_v3 = 
+        Alan::_Gen_Char_Con(_base_charT_s_cstr, 1<<3);
+    PRINTLN_DETAIL(*_ch_v0);
+    PRINTLN_DETAIL(*_ch_v1);
+    PRINTLN_DETAIL(*_ch_v2);
+    PRINTLN_DETAIL(*_ch_v3);
+
+    using _con_type0 UNUSED = std::vector<std::string >;
+    using _con_type1 UNUSED = std::deque<std::string >;
+    using _con_type2 UNUSED = std::list<std::string >;
+    const int _con_size0 = 1<<5;
+    const int _ele_size0 = 1<<2;
+    const int _ele_size1 = 1<<4;
+    auto _str_con_v0 = Alan::_Gen_Seq_Str_Con
+                        < _con_size0, _con_type1 >
+                        (_base_charT_s_cstr, _ele_size0, _ele_size1);
+    auto _minmax_elpair = std::minmax_element(_str_con_v0->begin(), _str_con_v0->end(), 
+                                            [](const std::string & _lhs, const std::string & _rhs) 
+                                                -> bool {
+                                                return _lhs.size() < _rhs.size();
+                                            });
+    PRINTLN("min = " 
+                    << _minmax_elpair.first->size()
+                    << ", max = "
+                    << _minmax_elpair.second->size());
+    // Alan::ConsoleBeautyOutput(*_str_con_v0);
+}
+
+#include <cstdint>
+#include <cstddef>
+void TestGenInteger()
+{   
+    // signed integer
+    {
+        auto i32_con = 
+        Alan::_Gen_Seq_Con<std::vector<short>, 16>(INT16_MIN, INT16_MAX);
+        _COLOR_START(_COLOR_BLUE);
+            Alan::ConsoleBeautyOutput(*i32_con);
+        _COLOR_END;
+    }
+
+    {
+        auto i32_con = 
+        Alan::_Gen_Seq_Con<std::deque<int>, 16>(INT32_MIN, INT32_MAX);
+        _COLOR_START(_COLOR_YELLOW);
+            Alan::ConsoleBeautyOutput(*i32_con);
+        _COLOR_END;
+    }
+
+    {
+        auto i32_con = 
+        Alan::_Gen_Seq_Con<std::list<long>, 16>(INT32_MIN, INT32_MAX);
+        _COLOR_START(_COLOR_CYAN);
+            Alan::ConsoleBeautyOutput(*i32_con);
+        _COLOR_END;
+    }
+
+    {
+        auto i32_con = 
+        Alan::_Gen_Seq_Con<std::vector<long long>, 16>(INT64_MIN, INT64_MAX);
+        _COLOR_START(_COLOR_GREEN);
+            Alan::ConsoleBeautyOutput(*i32_con);
+        _COLOR_END;
+    }
+
+    // unsigned integer
+    {
+        auto i32_con = 
+        Alan::_Gen_Seq_Con<std::vector<unsigned short>, 16>(0, UINT16_MAX);
+        _COLOR_START(_COLOR_BLUE);
+            Alan::ConsoleBeautyOutput(*i32_con);
+        _COLOR_END;
+    }
+
+    {
+        auto i32_con = 
+        Alan::_Gen_Seq_Con<std::deque<unsigned int>, 16>(0, UINT32_MAX);
+        _COLOR_START(_COLOR_YELLOW);
+            Alan::ConsoleBeautyOutput(*i32_con);
+        _COLOR_END;
+    }
+
+    {
+        auto i32_con = 
+        Alan::_Gen_Seq_Con<std::list<unsigned long>, 16>(0, UINT32_MAX);
+        _COLOR_START(_COLOR_CYAN);
+            Alan::ConsoleBeautyOutput(*i32_con);
+        _COLOR_END;
+    }
+
+    {
+        auto i32_con = 
+        Alan::_Gen_Seq_Con<std::vector<unsigned long long>, 16>(0, UINT32_MAX);
+        _COLOR_START(_COLOR_GREEN);
+            Alan::ConsoleBeautyOutput(*i32_con);
+        _COLOR_END;
+    }
+}
+
+#include <cfloat>
+void TestGenFloat32Float64()
+{   
+    // vector
+    {
+        auto f32_con = 
+            Alan::_Gen_Seq_Con<std::vector<float>, float, 16>(-1, 0);
+        _COLOR_START(_COLOR_BLUE);
+            Alan::ConsoleBeautyOutput(*f32_con);
+        _COLOR_END;
+    }
+
+    {
+        auto f32_con = 
+            Alan::_Gen_Seq_Con<std::vector<double>, double, 16>(0, 1);
+        _COLOR_START(_COLOR_YELLOW);
+            Alan::ConsoleBeautyOutput(*f32_con);
+        _COLOR_END;
+    }
+
+    {
+        auto f32_con = 
+            Alan::_Gen_Seq_Con<std::vector<long double>, long double, 16>(-1, 1);
+        _COLOR_START(_COLOR_CYAN);
+            Alan::ConsoleBeautyOutput(*f32_con);
+        _COLOR_END;
+    }
+
+    // deque
+    {
+        auto f32_con = 
+            Alan::_Gen_Seq_Con<std::deque<float>, float, 16>(-1, 0);
+        _COLOR_START(_COLOR_BLUE);
+            Alan::ConsoleBeautyOutput(*f32_con);
+        _COLOR_END;
+    }
+
+    {
+        auto f32_con = 
+            Alan::_Gen_Seq_Con<std::deque<double>, double, 16>(0, 1);
+        _COLOR_START(_COLOR_YELLOW);
+            Alan::ConsoleBeautyOutput(*f32_con);
+        _COLOR_END;
+    }
+
+    {
+        auto f32_con = 
+            Alan::_Gen_Seq_Con<std::deque<long double>, long double, 16>(-1, 1);
+        _COLOR_START(_COLOR_CYAN);
+            Alan::ConsoleBeautyOutput(*f32_con);
+        _COLOR_END;
+    }
+
+    // list
+    {
+        auto f32_con = 
+            Alan::_Gen_Seq_Con<std::list<float>, float, 16>(-1, 0);
+        _COLOR_START(_COLOR_BLUE);
+            Alan::ConsoleBeautyOutput(*f32_con);
+        _COLOR_END;
+    }
+
+    {
+        auto f32_con = 
+            Alan::_Gen_Seq_Con<std::list<double>, double, 16>(0, 1);
+        _COLOR_START(_COLOR_YELLOW);
+            Alan::ConsoleBeautyOutput(*f32_con);
+        _COLOR_END;
+    }
+
+    {
+        auto f32_con = 
+            Alan::_Gen_Seq_Con<std::list<long double>, long double, 16>(-1, 1);
+        _COLOR_START(_COLOR_CYAN);
+            Alan::ConsoleBeautyOutput(*f32_con);
+        _COLOR_END;
+    }
+}
+
+void TestGenStrv0()
+{   
+    auto _base_charT_s = std::string();
+    _base_charT_s += Alan::CONST::_lowal;
+    _base_charT_s += Alan::CONST::_uppal;
+    _base_charT_s += Alan::CONST::_digit;
+    const char* const _base_charT_s_cstr= _base_charT_s.c_str();
+    const int _sz_rg1 = 4;
+    const int _sz_rg2 = 8;
+    {
+        auto str_con = 
+            Alan::_Gen_Seq_Str_Con
+                <std::vector<std::string>, 8>
+                (_base_charT_s_cstr, _sz_rg1, _sz_rg2);
+        _COLOR_START(_COLOR_CYAN);
+            Alan::ConsoleBeautyOutput(*str_con);
+        _COLOR_END;
+    }
+
+    {
+        auto str_con = 
+            Alan::_Gen_Seq_Str_Con
+                <8, std::deque<std::string>>
+                (_base_charT_s_cstr, _sz_rg1, _sz_rg2);
+        _COLOR_START(_COLOR_GREEN);
+            Alan::ConsoleBeautyOutput(*str_con);
+        _COLOR_END;
+    }
+
+    {
+        auto str_con = 
+            Alan::_Gen_Seq_Str_Con
+                <8, std::list<std::string>>
+                (_base_charT_s_cstr, _sz_rg1, _sz_rg2);
+        _COLOR_START(_COLOR_YELLOW);
+            Alan::ConsoleBeautyOutput(*str_con);
+        _COLOR_END;
+    }
+}
+
+#include <locale>
+#include <codecvt>
+void TestUnicodev0()
+{   
+    // runtime error in msys2
+    // std::locale::global(std::locale(""));
+
+    // make no sense in msys2
+    OUTPUTLN_DETAIL(std::wcout, L'\u4E01');
+
 }
 
 void TestAll()
@@ -861,6 +1119,13 @@ void TestAll()
     // TestTask3();
     // TestTask4();
     // TestGen1();
-    TestGen2();
-}
+    // TestGen2();
+    // TestSpecType0();
+    // TestGen3();
+    // TestUnicodev0();
 
+    // TestGenInteger();
+    // TestGenFloat32Float64();
+    // TestGenStrv0();
+    TestAllV3();
+}

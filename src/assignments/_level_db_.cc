@@ -1,4 +1,5 @@
 #include "../../include/_level_db_.hpp"
+#include "../../include/_stl_str_lib_.hpp"
 
 // DEBUG_MODE
 // #ifndef _LDB_
@@ -53,10 +54,7 @@ const std::string &_db_file_path)
     auto _ldb_key_ok =
         _ldb_key.size() && 
         !std::all_of(_ldb_key.begin(), _ldb_key.end(),
-                    [](const char &_ch)->bool 
-                    { return _ch == ' '|| 
-                            _ch == '\n' ||
-                            _ch == '\t'; });
+                    Alan::_is_bs);
     leveldb::Status _lstat;
     if (_ldb_key_ok)
         _lstat = 

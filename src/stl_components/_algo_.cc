@@ -33,6 +33,7 @@
 
 __USE_NS__(Alan);
 
+// may occur stackdump when runtime!!!
 void TestAlgo()
 {   
     PSEUDORANDOM_DECL;

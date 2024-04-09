@@ -46,6 +46,8 @@ static std::string inline genString(int const &_len)
 
 __DEF_NS__(Alan)
 
+__DEF_NS__(Demos)
+
 template <typename _Tp, 
             typename _Container = std::deque<_Tp> >
 class 
@@ -121,6 +123,8 @@ private:
     container_type ring;
     
 };
+
+__END_NS__
 
 __END_NS__
 

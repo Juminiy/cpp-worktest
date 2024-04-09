@@ -177,8 +177,8 @@ extern "C" {
         PRINT("\033[0;3" \
         __TOSTR__(_cl_) \
         "m")
-#define _COLOR_RECOVER \
-        PRINT("\033[0m")
+#define _COLOR_END PRINT("\033[0m")
+#define _COLOR_RECOVER _COLOR_END
 
 
 

@@ -215,7 +215,7 @@ void TestVectorFunc3()
 void TestRingBuffer()
 {
     _COLOR_START(_COLOR_BLUE);
-    Alan::RingBuffer<int> _ring(std::vector<int>{1,2,3,4,5,6,7,8,9,10});
+    Alan::Demos::RingBuffer<int> _ring(std::vector<int>{1,2,3,4,5,6,7,8,9,10});
     _ring.print();
     PRINTLN("something changed");
     // _ring++;
@@ -307,7 +307,7 @@ std::string VigenereEncrypt(std::string const & _en,
     std::string _encrypted;
     _encrypted.reserve(_en.size());
     int char_CT = 256;
-    Alan::RingBuffer<int> _salt(_sa);
+    Alan::Demos::RingBuffer<int> _salt(_sa);
     for(auto &_ch : _en)
     {
         _encrypted.push_back((_salt.readAtCursor() + _ch) % char_CT);

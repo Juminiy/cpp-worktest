@@ -6,6 +6,8 @@
 
 __DEF_NS__(Alan)
 
+__DEF_NS__(Demos)
+
 template < typename _Tp >
 class _Smart_ptr  
 {
@@ -147,5 +149,6 @@ private:
 
 __END_NS__
 
+__END_NS__
 
 #endif

@@ -61,6 +61,8 @@ void TestSTDAny();
 
 void TestAll();
 
+void TestAllV3();
+
 class _a {
 public:
     explicit _a(int const & __el) : _el(__el) {}

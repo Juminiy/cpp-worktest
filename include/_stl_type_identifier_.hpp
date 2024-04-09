@@ -7,7 +7,7 @@
 #include <typeinfo>
 #include <type_traits>
 #include <string>
-#if __CC_VER__ >= 4 && __has_include(<cxxabi.h>)
+#if __CC_VER__ >= 2 && __has_include(<cxxabi.h>)
 #include <cxxabi.h>
 #include <cstdlib>
 #endif
@@ -23,7 +23,7 @@ __DEF_NS__(Alan)
 // copy and change from 
 // https://github.com/parallel101/course/blob/2d30da61b442008c003f69225e6feca20a4ca7df/stlseries/stl_map/experiment/cppdemangle.h
 static inline std::string __cpp_tid_(const char *__name) {
-#if __CC_VER__ >= 4 && __has_include(<cxxabi.h>)
+#if __CC_VER__ >= 2 && __has_include(<cxxabi.h>)
     int _status;
     char *_ptr_nname = abi::__cxa_demangle(__name, 0, 0, &_status);
     std::string _dname = _ptr_nname ? _ptr_nname : __name;

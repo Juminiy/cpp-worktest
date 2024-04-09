@@ -175,10 +175,7 @@ void TestMapDiffer()
 
 static bool inline is_space(char const & _ch)
 {
-    return _ch == ' ' || 
-            _ch == '\r' || 
-            _ch == '\t' || 
-            _ch == '\n';
+    return Alan::_is_bs(_ch);
 }
 
 UNUSED

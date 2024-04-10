@@ -91,6 +91,7 @@ _Num_Tp _Gen_RNum
     return _Uid_Gen_Dev(_Rand_Gen);
 }
 
+//                               TODO:
 /// @brief default gen int-like, next try to gen int-like, float-like
 /// @tparam _Num_Tp 
 /// @param __range_1 
@@ -171,6 +172,8 @@ void _Iter_Gen_Num
     _Iter_Gen_INum(__first, __last, __range_1, __range_2);
 }
 
+const size_t _con_default_tsz = 1 << 3;
+const size_t _con_default_lsz = 1 << 10;
 
 // PreAlloced sequential container scoped value
 template <typename _Num_Tp, 
@@ -208,7 +211,7 @@ void _Seq_Con_Ins_Gen_Num
 // in default range __range_1, __range_2 
 // 1. directly generate and return a std::unique_ptr<container_type<_Tp > >
 template < typename _Seq_Container, 
-            size_t _sz = (1<<3)>
+            size_t _sz = _con_default_tsz >
 std::unique_ptr<_Seq_Container>
 _Gen_Seq_Con
 (typename _Seq_Container::value_type __range_1, 
@@ -224,7 +227,7 @@ typename _Seq_Container::value_type __range_2)
 
 template < typename _Seq_Container, 
             typename _Num_Tp,
-            size_t _sz = (1<<3) >
+            size_t _sz = _con_default_tsz >
 std::unique_ptr<_Seq_Container>
 _Gen_Seq_Con
 (typename _Seq_Container::value_type __range_1, 
@@ -238,12 +241,20 @@ typename _Seq_Container::value_type __range_2)
     return _seq_con_ptr;
 }
 
-// 2. generate random std::string
+const char * const _default_base_chars = "abcdefghijklmnopqrstuvwxyz";
+
+/// @brief 
+/// @tparam _Char_Container 
+/// @param __base_chars_ 
+/// @param __sz 
+/// @return 
 template < typename _Char_Container = std::string >
 std::unique_ptr<_Char_Container>
 _Gen_Char_Con
-(__CONST_PTR_TO_CONST__(typename _Char_Container::value_type) __base_chars_, size_t __sz)
-{
+(__CONST_PTR_TO_CONST__(typename _Char_Container::value_type) __base_chars_ = _default_base_chars, 
+    size_t __sz = _con_default_tsz)
+{   
+    assert(::strlen(__base_chars_));
     auto _char_con_ptr = 
         std::unique_ptr<_Char_Container>
         (new _Char_Container());
@@ -251,9 +262,30 @@ _Gen_Char_Con
 
     // TODO:
     // optimize with std::generate
-    __RD_I_NUM__(size_t, 0, ::strlen(__base_chars_));
+    __RD_I_NUM__(size_t, 0, ::strlen(__base_chars_)-1);
     for(size_t _i = 0; _i < __sz; ++_i)
         _char_con_ptr->operator+=(__base_chars_[_Uid_Gen_Dev(_Rand_Gen)]);
+    
+    // resize(__sz); + std::transform();
+    return _char_con_ptr;
+}
+
+template < typename _Char_Container = std::string >
+std::unique_ptr<_Char_Container>
+_Gen_Char_Con
+(const _Char_Container & __base_con_, size_t __sz)
+{
+    assert(__base_con_.size());
+    auto _char_con_ptr = 
+        std::unique_ptr<_Char_Container>
+        (new _Char_Container());
+    _char_con_ptr->reserve(__sz);
+
+    // TODO:
+    // optimize with std::generate
+    __RD_I_NUM__(size_t, 0, __base_con_.size()-1);
+    for(size_t _i = 0; _i < __sz; ++_i)
+        _char_con_ptr->operator+=(__base_con_[_Uid_Gen_Dev(_Rand_Gen)]);
     
     // resize(__sz); + std::transform();
     return _char_con_ptr;
@@ -288,6 +320,33 @@ size_t _str_sz_rg1, size_t _str_sz_rg2)
     return _seq_str_con_ptr;
 }
 
+template< typename _Seq_Str_Container, 
+            size_t _sz  = (1<<3) >
+std::unique_ptr<_Seq_Str_Container>
+_Gen_Seq_Str_Con
+(const typename _Seq_Str_Container::value_type & __base_con_, 
+size_t _str_sz_rg1, size_t _str_sz_rg2)
+{   
+    using _ele_str_type = typename _Seq_Str_Container::value_type;
+    auto _seq_str_con_ptr = 
+        std::unique_ptr<_Seq_Str_Container>
+        (new _Seq_Str_Container());
+    _seq_str_con_ptr->reserve(_sz);
+
+    __RD_I_NUM__(size_t, _str_sz_rg1, _str_sz_rg2);
+    for(size_t _i = 0; _i < _sz; ++_i)
+    {   
+        // TODO:
+        // optimize with std::generate
+        auto _char_con_ptr = 
+            _Gen_Char_Con<_ele_str_type>(__base_con_, _Uid_Gen_Dev(_Rand_Gen)); 
+                                                        // ignore the case: size = 0
+        _seq_str_con_ptr->push_back(std::move(*_char_con_ptr.release()));
+    }
+
+    return _seq_str_con_ptr;
+}
+
 // partial specializtion
 // std::list<str_type>
 // std::deque<str_type>
@@ -314,6 +373,33 @@ size_t _str_sz_rg1, size_t _str_sz_rg2)
 
     return _seq_str_con_ptr;
 }
+
+// overload
+template< size_t _sz,
+            typename _Seq_Str_Container >
+std::unique_ptr<_Seq_Str_Container>
+_Gen_Seq_Str_Con
+(const typename _Seq_Str_Container::value_type & __base_con_, 
+size_t _str_sz_rg1, size_t _str_sz_rg2)
+{   
+    using _ele_str_type = typename _Seq_Str_Container::value_type;
+    auto _seq_str_con_ptr = 
+        std::unique_ptr<_Seq_Str_Container>
+        (new _Seq_Str_Container());
+
+    __RD_I_NUM__(size_t, _str_sz_rg1, _str_sz_rg2);
+    for(size_t _i = 0; _i < _sz; ++_i)
+    {
+        auto _char_con_ptr = 
+            _Gen_Char_Con<_ele_str_type>(__base_con_, _Uid_Gen_Dev(_Rand_Gen)); 
+                                                        // ignore the case: size = 0
+        _seq_str_con_ptr->push_back(std::move(*_char_con_ptr.release()));
+    }
+
+    return _seq_str_con_ptr;
+}
+
+
 
 // TODO: the most ideal state, compiled time reflection, random it by constructor
 // TODO: 

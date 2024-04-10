@@ -755,41 +755,39 @@ void TestHandleException()
     }
 }
 
+// scale the num
 void TestGen1()
 {
     using _con_type0 = std::vector<int >;
     using _con_type1 = std::deque<int >;
     using _con_type2 = std::list<int >;
+    int _num_rg1 = 1 << 4;
+    int _num_rg2 = 1 << 16;
+    // const size_t _sz_about = 
+    //     Alan::_Gen_INum(static_cast<size_t>(_num_rg1), 
+    //                     static_cast<size_t>(_num_rg2));
 
     auto i32_v0 = 
-        Alan::_Gen_Seq_Con
-        <_con_type0, 10>
-        (1<<2, 1<<10);
-    
+        Alan::_Gen_Seq_Con<_con_type0, 1<<10 >(_num_rg1, _num_rg2);
     Alan::ConsoleBeautyOutput(*i32_v0);
-    Alan::ConsoleIterOutput(*i32_v0);
+    // Alan::ConsoleIterOutput(*i32_v0);
 
     auto i32_v1 = 
-        Alan::_Gen_Seq_Con
-        <_con_type1, 10>
-        (1<<2, 1<<10);
-    
+        Alan::_Gen_Seq_Con<_con_type1, 1<<10 >(_num_rg1, _num_rg2);
     Alan::ConsoleBeautyOutput(*i32_v1);
-    Alan::ConsoleIterOutput(*i32_v1);
+    // Alan::ConsoleIterOutput(*i32_v1);
 
     auto i32_v2 = 
-        Alan::_Gen_Seq_Con
-        <_con_type2, 10>
-        (1<<2, 1<<10);
-    
+        Alan::_Gen_Seq_Con<_con_type2, 1<<10 >(_num_rg1, _num_rg2);
     Alan::ConsoleBeautyOutput(*i32_v2);
-    Alan::ConsoleIterOutput(*i32_v2);
+    // Alan::ConsoleIterOutput(*i32_v2);
 }
 
 void TestGen2()
 {
     PRINTLN_DETAIL(Alan::_Gen_INum(1, 2));
     PRINTLN_DETAIL(Alan::_Gen_RNum(1.5, 2.5));
+    PRINTLN_DETAIL(*Alan::_Gen_Char_Con<std::string>());
 }
 
 void TestSpecType0()
@@ -800,26 +798,24 @@ void TestSpecType0()
     PRINTLN_DETAIL(Alan::_sfind_any(_type_str, 2, "double", "float"));
     PRINTLN_DETAIL(Alan::_sfind_any(_type_str, 3, "int", "long", "unsigned"));
     auto _bstemp_ = 
-        std::string(Alan::CONST::__bs__);
+        Alan::CONST::_base_blank_space_();
     PRINTLN_DETAIL(std::all_of(_bstemp_.begin(), _bstemp_.end(), Alan::_is_bs));
 }
 
 void TestGen3()
-{   
-    auto _base_charT_s = std::string();
-    _base_charT_s += Alan::CONST::_lowal;
-    _base_charT_s += Alan::CONST::_uppal;
-    _base_charT_s += Alan::CONST::_digit;
-    const char* const _base_charT_s_cstr= _base_charT_s.c_str();
+{
+    auto _base_charT_s_cstr = 
+        Alan::CONST::_base_alpha_num_();
+    size_t char_sz_single = 1 << 9;
 
     auto _ch_v0 = 
-        Alan::_Gen_Char_Con(_base_charT_s_cstr, 1<<3);
+        Alan::_Gen_Char_Con(_base_charT_s_cstr, char_sz_single);
     auto _ch_v1 = 
-        Alan::_Gen_Char_Con(_base_charT_s_cstr, 1<<3);
+        Alan::_Gen_Char_Con(_base_charT_s_cstr, char_sz_single);
     auto _ch_v2 = 
-        Alan::_Gen_Char_Con(_base_charT_s_cstr, 1<<3);
+        Alan::_Gen_Char_Con(_base_charT_s_cstr, char_sz_single);
     auto _ch_v3 = 
-        Alan::_Gen_Char_Con(_base_charT_s_cstr, 1<<3);
+        Alan::_Gen_Char_Con(_base_charT_s_cstr, char_sz_single);
     PRINTLN_DETAIL(*_ch_v0);
     PRINTLN_DETAIL(*_ch_v1);
     PRINTLN_DETAIL(*_ch_v2);
@@ -828,9 +824,10 @@ void TestGen3()
     using _con_type0 UNUSED = std::vector<std::string >;
     using _con_type1 UNUSED = std::deque<std::string >;
     using _con_type2 UNUSED = std::list<std::string >;
-    const int _con_size0 = 1<<5;
-    const int _ele_size0 = 1<<2;
-    const int _ele_size1 = 1<<4;
+
+    const int _con_size0 = 1<<12;
+    const int _ele_size0 = 1<<3;
+    const int _ele_size1 = 1<<9;
     auto _str_con_v0 = Alan::_Gen_Seq_Str_Con
                         < _con_size0, _con_type1 >
                         (_base_charT_s_cstr, _ele_size0, _ele_size1);
@@ -998,11 +995,8 @@ void TestGenFloat32Float64()
 
 void TestGenStrv0()
 {   
-    auto _base_charT_s = std::string();
-    _base_charT_s += Alan::CONST::_lowal;
-    _base_charT_s += Alan::CONST::_uppal;
-    _base_charT_s += Alan::CONST::_digit;
-    const char* const _base_charT_s_cstr= _base_charT_s.c_str();
+    auto _base_charT_s_cstr = 
+        Alan::CONST::_base_alpha_num_();
     const int _sz_rg1 = 4;
     const int _sz_rg2 = 8;
     {
@@ -1046,6 +1040,23 @@ void TestUnicodev0()
     // make no sense in msys2
     OUTPUTLN_DETAIL(std::wcout, L'\u4E01');
 
+}
+
+void TestGenBound()
+{
+    // Alan::ConsoleBeautyOutput(Alan::_Gen_Seq_Str_Con(Alan::CONST::, ));
+    Alan::ConsoleBeautyOutput(*Alan::_Gen_Seq_Con<std::vector<int > >(1,5));
+}
+
+void TestGenerateFullv1()
+{
+    TestGen1();
+    TestGen2();
+    TestGen3();
+    TestGenInteger();
+    TestGenFloat32Float64();
+    TestGenStrv0();
+    TestGenBound();
 }
 
 void TestAll()
@@ -1118,14 +1129,9 @@ void TestAll()
     // TestHandleException();
     // TestTask3();
     // TestTask4();
-    // TestGen1();
-    // TestGen2();
     // TestSpecType0();
-    // TestGen3();
     // TestUnicodev0();
 
-    // TestGenInteger();
-    // TestGenFloat32Float64();
-    // TestGenStrv0();
+    // TestGenerateFullv1();
     TestAllV3();
 }

@@ -6,6 +6,8 @@
 #include "_stl_lib_.hpp"
 
 #include <string>
+#include <memory>
+
 #include <cstdarg>
 #include <cstring>
 #include <cctype>
@@ -28,7 +30,7 @@ _sfind(const _Str_Tp_1 & __src, const _Str_Tp_2 & __dest)
 // variable __dest
 GEN_FUNC_COPY bool 
 _sfind_any
-(const std::string &__src, const size_t &__sz, ...)
+(const std::string &__src, const size_t __sz, ...)
 {
     ::va_list _val;
     va_start(_val, __sz);
@@ -42,7 +44,7 @@ _sfind_any
 
 GEN_FUNC_COPY bool 
 _sfind_all
-(const std::string &__src, const size_t &__sz, ...)
+(const std::string &__src, const size_t __sz, ...)
 {
     ::va_list _val;
     va_start(_val, __sz);
@@ -71,58 +73,62 @@ __CONST_PTR_TO_CONST__(char) _uppal = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";         // s
 __CONST_PTR_TO_CONST__(char) _sign_ = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"; // size = 32
 __CONST_PTR_TO_CONST__(char) __bs__ = "\t\f\v\n\r ";                        // size = 6
 
+#define CONST_CHARS_RET_TYPE \
+        std::string
+        // __CONST_PTR_TO_CONST__(char) 
+
 GEN_FUNC_COPY
-__CONST_PTR_TO_CONST__(char)
+CONST_CHARS_RET_TYPE
 _base_num_()
 {
-    return std::string(_digit).c_str();
+    return std::string(_digit);
 }
 
 GEN_FUNC_COPY
-__CONST_PTR_TO_CONST__(char) 
+CONST_CHARS_RET_TYPE
 _base_alpha_()
 {
-    auto _bs_al = std::string();
-    _bs_al += _lowal;
-    _bs_al += _uppal;
-    return _bs_al.c_str();
+    auto _temp_str = std::string();
+    _temp_str += _lowal;
+    _temp_str += _uppal;
+    return _temp_str;
 }
 
 GEN_FUNC_COPY
-__CONST_PTR_TO_CONST__(char)
+CONST_CHARS_RET_TYPE
 _base_alpha_num_()
 {
-    auto _bs_al = std::string();
-    _bs_al += _lowal;
-    _bs_al += _uppal;
-    _bs_al += _digit;
-    return _bs_al.c_str();
+    auto _temp_str = std::string();
+    _temp_str += _lowal;
+    _temp_str += _uppal;
+    _temp_str += _digit;
+    return _temp_str;
 }
 
 GEN_FUNC_COPY
-__CONST_PTR_TO_CONST__(char)
+CONST_CHARS_RET_TYPE
 _base_legal_ident_()
 {
-    auto _bs_al = std::string("_");
-    _bs_al += _lowal;
-    _bs_al += _uppal;
-    _bs_al += _digit;
-    return _bs_al.c_str();
+    auto _temp_str = std::string("_");
+    _temp_str += _lowal;
+    _temp_str += _uppal;
+    _temp_str += _digit;
+    return _temp_str;
 }
 
 
 GEN_FUNC_COPY
-__CONST_PTR_TO_CONST__(char)
+CONST_CHARS_RET_TYPE
 _base_blank_space_()
 {
-    return std::string(__bs__).c_str();
+    return std::string(__bs__);
 }
 
 GEN_FUNC_COPY
-__CONST_PTR_TO_CONST__(char) 
+CONST_CHARS_RET_TYPE 
 _base_sign_()
 {
-    return std::string(_sign_).c_str();
+    return std::string(_sign_);
 }
 
 __END_NS__

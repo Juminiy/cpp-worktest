@@ -18,6 +18,7 @@
 #include <chrono>
 #include <any>
 #include <tuple>
+#include <type_traits>
 
 #include <string>
 #include <set>
@@ -49,11 +50,6 @@ auto __rm_tuple_first_helper(const _Tuple & __tp_tuple,
     return std::make_tuple(std::get<_indices + 1>(__tp_tuple)...);
 }
 
-template<typename T, typename... Ts>
-auto remove_first(const std::tuple<T, Ts...>& t) {
-    return remove_first_helper(t, std::index_sequence_for<Ts...>());
-}
-
 template <typename _Tp, typename... _Tps >
 auto __rm_tuple_first(const std::tuple<_Tp, _Tps...> & __tp_tuple)
 {
@@ -66,8 +62,20 @@ void __os_tuple_helper(std::ostream & __os,
                     const _Tuple & __tp_tuple, 
                     std::index_sequence<_indices...>)
 {
-    (..., (__os << std::get<_indices>(__tp_tuple) << " "));
+    (..., (__os << ", " << std::get<_indices>(__tp_tuple)));
 }
+
+template<typename _Tp, typename... _Tps >
+struct _rm_tuple_first_types;
+
+template<typename _Tp, typename... _Tps>
+struct _rm_tuple_first_types<std::tuple<_Tp, _Tps... > > 
+{
+    using types = std::tuple<_Tps...>;
+};
+
+template<typename _Tuple>
+using _rm_tuple_first_types_v = typename _rm_tuple_first_types<_Tuple>::types;
 
 /// @brief overload std::tuple ostream
 /// @tparam ..._Tp 
@@ -79,10 +87,12 @@ std::ostream& operator << (std::ostream &__os,
                             const std::tuple<_Elements...> &__tp_tuple)
 {   
     __os << "[";
-        // no delimeter because of fold expression
-        __os_tuple_helper(__os, __tp_tuple, 
-            std::index_sequence_for<_Elements...>()
-        );
+    // TODO: 
+    // seperate first from another 
+    // __os << std::get<0>(__tp_tuple);
+    // auto _rm_first = __rm_tuple_first(__tp_tuple);
+    __os_tuple_helper(__os, __tp_tuple, 
+        std::index_sequence_for<_Elements...>());
     __os << "]";
 
     return __os;

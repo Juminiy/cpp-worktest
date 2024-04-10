@@ -19,14 +19,14 @@ __DEF_NS__(Alan)
 /// @return 
 template <typename _Str_Tp_1 = std::string,
             typename _Str_Tp_2 = char *>
-static inline bool 
+GEN_FUNC_COPY bool 
 _sfind(const _Str_Tp_1 & __src, const _Str_Tp_2 & __dest)
 {
     return __src.find(__dest) != _Str_Tp_1::npos;
 }
 
 // variable __dest
-static inline bool 
+GEN_FUNC_COPY bool 
 _sfind_any
 (const std::string &__src, const size_t &__sz, ...)
 {
@@ -40,7 +40,7 @@ _sfind_any
     return false;
 }
 
-static inline bool 
+GEN_FUNC_COPY bool 
 _sfind_all
 (const std::string &__src, const size_t &__sz, ...)
 {
@@ -54,7 +54,7 @@ _sfind_all
     return true;
 }
 
-static inline bool
+GEN_FUNC_COPY bool
 _is_bs(char _ch)
 {
     return ::isblank(_ch) ||
@@ -62,13 +62,69 @@ _is_bs(char _ch)
 }
 
 __DEF_NS__(CONST)
+
 // reference from: https://cplusplus.com/reference/cctype/
 // only ASCII Code
-const char * const _digit = "0129384756";
-const char * const _lowal = "abcdefghijklmnopqrstuvwxyz";
-const char * const _uppal = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const char * const _sign_ = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
-const char * const __bs__ = "\t\f\v\n\r ";
+__CONST_PTR_TO_CONST__(char) _digit = "0129384756";                         // size = 10
+__CONST_PTR_TO_CONST__(char) _lowal = "abcdefghijklmnopqrstuvwxyz";         // size = 26
+__CONST_PTR_TO_CONST__(char) _uppal = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";         // size = 26
+__CONST_PTR_TO_CONST__(char) _sign_ = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"; // size = 32
+__CONST_PTR_TO_CONST__(char) __bs__ = "\t\f\v\n\r ";                        // size = 6
+
+GEN_FUNC_COPY
+__CONST_PTR_TO_CONST__(char)
+_base_num_()
+{
+    return std::string(_digit).c_str();
+}
+
+GEN_FUNC_COPY
+__CONST_PTR_TO_CONST__(char) 
+_base_alpha_()
+{
+    auto _bs_al = std::string();
+    _bs_al += _lowal;
+    _bs_al += _uppal;
+    return _bs_al.c_str();
+}
+
+GEN_FUNC_COPY
+__CONST_PTR_TO_CONST__(char)
+_base_alpha_num_()
+{
+    auto _bs_al = std::string();
+    _bs_al += _lowal;
+    _bs_al += _uppal;
+    _bs_al += _digit;
+    return _bs_al.c_str();
+}
+
+GEN_FUNC_COPY
+__CONST_PTR_TO_CONST__(char)
+_base_legal_ident_()
+{
+    auto _bs_al = std::string("_");
+    _bs_al += _lowal;
+    _bs_al += _uppal;
+    _bs_al += _digit;
+    return _bs_al.c_str();
+}
+
+
+GEN_FUNC_COPY
+__CONST_PTR_TO_CONST__(char)
+_base_blank_space_()
+{
+    return std::string(__bs__).c_str();
+}
+
+GEN_FUNC_COPY
+__CONST_PTR_TO_CONST__(char) 
+_base_sign_()
+{
+    return std::string(_sign_).c_str();
+}
+
 __END_NS__
 
 

@@ -1,0 +1,117 @@
+(内存相关)符号
+alignas
+alignof
+asm
+delete
+new
+sizeof
+
+逻辑运算
+and &&
+
+位运算
+and_eq &=
+bitand &
+bitor |
+compl ~
+not !
+not_eq !=
+or ||
+or_eq |=
+xor ^
+xor_eq ^=
+
+类型相关
+内置类型
+bool
+char
+char8_t
+char16_t
+char32_t
+double
+enum
+float
+int
+long
+long long
+register (已废弃)
+short
+signed
+unsigned
+void
+volatile
+wchar_t
+
+内置值
+false
+nullptr
+true
+
+类类型
+class
+final
+private
+protected
+public
+struct
+this
+union
+virtual
+
+(类型,函数)修饰符
+auto
+const
+constexpr
+decltype
+dynamic_cast
+explicit
+export (已废弃)
+extern
+friend
+inline
+mutable
+namespace
+noexcept
+operator
+reinterpret_cast
+static
+static_assert
+static_cast
+template
+typedef
+typeid
+typename
+using
+
+控制相关
+break
+case
+catch
+continue
+default
+do
+else
+for
+goto
+if
+return
+switch
+throw
+try
+while
+
+新增关键字
+atomic_cancel (不是标准)
+atomic_commit (不是标准)
+atomic_noexcept (不是标准)
+concept
+consteval
+constinit
+co_await
+co_return
+co_yield
+import
+module
+reflexpr
+requires
+thread_local

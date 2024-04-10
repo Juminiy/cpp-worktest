@@ -33,15 +33,12 @@ void TestAgainstVectorReverseWithNot();
 
 void TestVigenereEncrypt();
 
-static std::string inline genString(int const &_len)
-{
-    PSEUDORANDOM_DECL;
-    std::string _dest;
-    _dest.reserve(_len);
-    for(int i=0;i<_len; ++i)
-        _dest += _letter_xx[rand()%_letter_len];
-
-    return _dest;
+GEN_FUNC_COPY
+std::string genString(int const &_len)
+{   
+    return *Alan::_Gen_Char_Con(
+        Alan::CONST::_base_alpha_num_(), _len
+    );
 }
 
 __DEF_NS__(Alan)

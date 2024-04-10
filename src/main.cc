@@ -30,7 +30,7 @@ int main(int argc, char *argv[], char *envp[])
     while( (case_num = 
             getopt_long(argc, 
                         argv, 
-                        short_opts.c_str(), 
+                        short_opts, 
                         long_opts, 
                         NULL)
             ) >= 0)
@@ -90,8 +90,8 @@ int main(int argc, char *argv[], char *envp[])
 
 
 
-CONSTRUCT
-static void inline call_main()
+CONSTRUCT GEN_FUNC_COPY
+void call_main()
 {   
     char *print_des = (char*)(malloc(37));
     snprintf(print_des, 
@@ -102,8 +102,8 @@ static void inline call_main()
     PRINT(_WHITE(print_des));
 }
 
-DESTRUCT
-static void inline exit_main()
+DESTRUCT GEN_FUNC_COPY
+void exit_main()
 {   
     char *print_des = (char*)(malloc(34));
     snprintf(print_des, 

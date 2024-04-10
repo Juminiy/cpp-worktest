@@ -27,12 +27,14 @@
 #include <algorithm>
 #include <functional>
 
+__USE_NS__(Alan::Demos);
+
 DFA::DFA()
 {
 
 }
 
-bool is_num_state(const std::string &_state)
+bool Alan::Demos::is_num_state(const std::string &_state)
 {
     return find_if_not(_state.cbegin(),
                         _state.cend(),
@@ -57,7 +59,7 @@ bool is_email_trans(const std::string & _transition)
 
 bool is_email_state(const std::string & _state)
 {
-    return is_num_state(_state);
+    return Alan::Demos::is_num_state(_state);
 }
 
 DFA::DFA(const std::string &_file_name)

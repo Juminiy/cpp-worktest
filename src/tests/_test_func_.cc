@@ -294,13 +294,13 @@ void TestReadOnlyRBTree()
 
 
     auto str_p32_map =
-        std::map<std::string, pointT>();
-    str_p32_map["m10"s] = pointT(0, -1);
-    str_p32_map["m11"s] = pointT(1, 0);
-    str_p32_map["m12"s] = pointT(0, 1);
-    str_p32_map["m13"s] = pointT(-1, 0);
+        std::map<std::string, Alan::Demos::pointT>();
+    str_p32_map["m10"s] = Alan::Demos::pointT(0, -1);
+    str_p32_map["m11"s] = Alan::Demos::pointT(1, 0);
+    str_p32_map["m12"s] = Alan::Demos::pointT(0, 1);
+    str_p32_map["m13"s] = Alan::Demos::pointT(-1, 0);
     auto sp_map = 
-        Alan::ReadOnlyRBTree<std::string, pointT >(
+        Alan::ReadOnlyRBTree<std::string, Alan::Demos::pointT >(
             str_p32_map
         );
     
@@ -353,17 +353,17 @@ void TestTuple()
 void TestHashTable()
 {   
     auto pHash = 
-        [](const pointT & _p)
+        [](const Alan::Demos::pointT & _p)
         -> std::size_t
         {
             return 0;
         };
-    typedef std::function<std::size_t(const pointT &) > 
+    typedef std::function<std::size_t(const Alan::Demos::pointT &) > 
         pHashFunc ;
     auto _pS = 
-        std::unordered_set<pointT, pHashFunc >(1<<4, pHash);
+        std::unordered_set<Alan::Demos::pointT, pHashFunc >(1<<4, pHash);
     for(int i = 0;i < 1 << 5; ++i)
         _pS.emplace((i>>1)-1, (i<<1) + 1);
 
-    Alan::ConsoleIterOutput<pointT >(_pS);
+    Alan::ConsoleIterOutput<Alan::Demos::pointT >(_pS);
 }

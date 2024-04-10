@@ -39,8 +39,8 @@
         GameFileNamePrefix+baseName+GameFileNameSuffix 
 
 
-
-static void inline GamePause(unsigned int micro_secs)
+GEN_FUNC_COPY
+void GamePause(unsigned int micro_secs)
 {   
     #if (__CC_VER__ == 8 || \
             __CC_VER__ ==4)
@@ -52,7 +52,8 @@ static void inline GamePause(unsigned int micro_secs)
     #endif
 }
 
-static void inline GameClearConsole()
+GEN_FUNC_COPY
+void GameClearConsole()
 {
     #if (__CC_VER__ > 1)
         system("clear");
@@ -69,9 +70,13 @@ static void inline GameClearConsole()
 // GameDirect[4][2] = 
 // {{1,0},{0,1},{-1,0},{0,-1}};
 
+__DEF_NS__(Alan)
 
-typedef struct pointT
+__DEF_NS__(Demos)
+
+class pointT
 {
+public:
     int row, col;
     
     pointT(): row(0), col(0) {}
@@ -84,13 +89,29 @@ typedef struct pointT
     void walk(int, int);
     void print();
 
-} pointT;
+    friend 
+    std::ostream& operator << 
+    (std::ostream& _os, pointT const & _p)
+    {
+        _os << "[" 
+            << _p.row 
+            << ", "
+            << _p.col 
+            << "]";
+        return _os;
+    }
 
-std::ostream& operator << 
-(std::ostream&, pointT const &);
 
-std::istream& operator >> 
-(std::istream&, pointT &);
+    friend 
+    std::istream& operator >> 
+    (std::istream& _is, pointT & _p)
+    {
+        _is >> _p.row >> _p.col;
+        return _is;
+    }
+};
+
+
 
 typedef struct gameT 
 {
@@ -119,6 +140,10 @@ typedef struct gameT
     void paus();
     void simu();
 } gameT;
+
+__END_NS__
+
+__END_NS__
 
 void TestAISnakeGame();
 

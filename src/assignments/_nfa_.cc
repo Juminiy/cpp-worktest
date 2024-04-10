@@ -22,6 +22,8 @@
 #include <vector>
 #include <utility>
 
+__USE_NS__(Alan::Demos);
+
 NFA::NFA()
 {
 

@@ -122,9 +122,10 @@ extern "C" {
 
 
 // c/cxx lib
+// libstdc++11
 
 
-
+// Macro evaluate expression
 #define __STRFY__(__expr_x__) #__expr_x__
 #define __TOSTR__(__expr_x__) __STRFY__(__expr_x__)
 #define __PORTABLE__ \
@@ -132,7 +133,7 @@ extern "C" {
 
 
 
-// ATTRI
+// GCC Macro attribute
 #define UNUSED __attribute__((unused))
 #define NORETURN __attribute__((noreturn))
 #define CONSTRUCT __attribute__((constructor))
@@ -150,12 +151,14 @@ extern "C" {
 #define _COLOR_CYAN     6
 #define _COLOR_WHITE    7
 
-//not effect
+// color words
+#define _COLOR_HEAD "\033[0;3"
+#define _COLOR_TAIL "\033[0m"
 #define _COLOR_CL(_cl_, _ct_) \
-        ("\033[0;3" \
+        (_COLOR_HEAD \
         __TOSTR__(_cl_)"m" + \
         std::string(_ct_) + \
-        "\033[0m")
+        _COLOR_TAIL)
 #define _BLACK(_ct_) \
         _COLOR_CL(_COLOR_BLACK, _ct_)
 #define _RED(_ct_) \
@@ -174,10 +177,9 @@ extern "C" {
         _COLOR_CL(_COLOR_WHITE, _ct_)
 
 #define _COLOR_START(_cl_) \
-        PRINT("\033[0;3" \
-        __TOSTR__(_cl_) \
-        "m")
-#define _COLOR_END PRINT("\033[0m")
+        PRINT(_COLOR_HEAD \
+        __TOSTR__(_cl_)"m")
+#define _COLOR_END PRINT(_COLOR_TAIL)
 #define _COLOR_RECOVER _COLOR_END
 
 
@@ -240,14 +242,16 @@ extern "C" {
 #define TILLNOW(_start_time_) \
         ((static_cast<float>(clock() - _start_time_))/CLOCKS_PER_SEC)
 #define TIME_BASED_SEED \
-        std::chrono:: \
-        system_clock \
+        std::chrono::system_clock \
         ::now().time_since_epoch() \
         .count()
 
 #define DECL_VAR(_type) _type var_##_type
 #define DECL_FUN(_type, _func, _arg) \
         _type fun_##_func##_type(_arg)
+
+#define GEN_FUNC_COPY \
+        static inline
 
 // need to do more error 
 // __DATE__, __TIME__, __FILE__, __LINE__
@@ -275,38 +279,23 @@ extern "C" {
 
 
 // getopt
-// TODO: 
-// 1. support for multiple levels
+// 1. support for multiple levels(subopt)
 // 2. support for multiple args
-#include <iostream>
-#include <string>
 
-#include <stdio.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cctype>
+#include <cstdlib>
+#include <cerrno>
 #include <getopt.h>
 
-// const std::string short_opts = "h?cwpgot:yd:m:n:v0123456789";
-const std::string 
-short_opts = "vgna:l:";
-static const struct option long_opts[] = {
-    // {"help", no_argument, NULL, 'h'},
-    // {"helps", no_argument, NULL, '?'},
-    // {"capitals", no_argument, NULL, 'c'},
-    // {"wchar", no_argument, NULL, 'w'},
-    // {"print", no_argument, NULL, 'p'},
-    // {"get", no_argument, NULL, 'g'},
-    // {"oss-test", no_argument, NULL, 'o'},
-    // {"stl-test", required_argument, NULL, 't'},
-    // {"snake-game", no_argument, NULL, 'y'},
-    // {"draw-triangle", required_argument, NULL, 'd'},
-    // {"version", no_argument, NULL, 'v'},
-    // {"read-write-file-test", no_argument, NULL, '0'},
-    // {"boolalpha-test", no_argument, NULL, '1'},
-    // {"read-lines-test", no_argument, NULL, '2'},
-    // {"cin-ate-n-test", no_argument, NULL, '3'},
-    // {"get-uint64-test", no_argument, NULL, '4'},
-    // {"get-int64-test", no_argument, NULL, '5'},
-    // {"multiple-type-oss", no_argument, NULL, '6'},
+#include <iostream>
+
+// version 2.0 pretty is available and now used
+
+char const * const short_opts = "vgna:l:";
+
+const struct option long_opts[] = 
+{
     {"version", no_argument, NULL, 'v' },
     {"game", no_argument, NULL, 'g' },
     {"no_arguments", no_argument, NULL, 'n' },
@@ -314,24 +303,9 @@ static const struct option long_opts[] = {
     {"level_db", required_argument, NULL, 'l' },//local_data_base(leveldb)
     {NULL, 0, NULL, 0}
 };
-static inline void OptUsage() 
-{
-    printf("Usage:\n");
-    printf("\tOption [-h] [-?] [--help] [--helps]\n");
-    printf("\tOption [-c] [--capitals]\n");
-    printf("\t\tOption [-w] [--wchar]\n");
-    printf("\t\tOption [-p] [--print]\n");
-    printf("\t\tOption [-g] [--get]\n");
-    printf("\tOption [-o] [--oss-test]\n");
-    printf("\tOption [-0] [--read-write-file-test]\n");
-    printf("\tOption [-1] [--boolalpha-test]\n");
-    printf("\tOption [-2] [--read-lines-test]\n");
-    printf("\tOption [-3] [--cin-ate-n-test]\n");
-    printf("\tOption [-4] [--get-uint64-test]\n");
-    printf("\tOption [-5] [--get-int64-test]\n");
-    printf("\tOption [-6] [--multiple-type-oss]\n");
-}
-static inline void OptUsageV2()
+
+GEN_FUNC_COPY
+void OptUsageV2()
 {
     PRINTLN("Usage:");
     PRINTLN("Option [-v] | [--version]");
@@ -340,7 +314,66 @@ static inline void OptUsageV2()
     PRINTLN("Option [-a] | [--arguments](...args)");
     PRINTLN("Option [-l] | [--level_db] (...args)");
 }
-// void _main_v1(int argc, char *argv[], char *envp[]){
+
+UNUSED GEN_FUNC_COPY
+unsigned int opt_uint(char *val)
+{
+  char *end;
+  errno = 0;
+  unsigned long int x = ::strtoul(val, &end, 10);
+  if (errno || end == val || (end && *end) )
+    printf("Invalid numeric parameter: %s\n", val);
+  if ((unsigned long int)(unsigned int) x != x)
+    printf("Numeric parameter out of range: %s\n", val);
+  return x;
+}
+
+// version 1.0 has been deprecated
+
+// const std::string short_opts = "h?cwpgot:yd:m:n:v0123456789";
+
+// static const struct option long_opts[] = {
+//     {"help", no_argument, NULL, 'h'},
+//     {"helps", no_argument, NULL, '?'},
+//     {"capitals", no_argument, NULL, 'c'},
+//     {"wchar", no_argument, NULL, 'w'},
+//     {"print", no_argument, NULL, 'p'},
+//     {"get", no_argument, NULL, 'g'},
+//     {"oss-test", no_argument, NULL, 'o'},
+//     {"stl-test", required_argument, NULL, 't'},
+//     {"snake-game", no_argument, NULL, 'y'},
+//     {"draw-triangle", required_argument, NULL, 'd'},
+//     {"version", no_argument, NULL, 'v'},
+//     {"read-write-file-test", no_argument, NULL, '0'},
+//     {"boolalpha-test", no_argument, NULL, '1'},
+//     {"read-lines-test", no_argument, NULL, '2'},
+//     {"cin-ate-n-test", no_argument, NULL, '3'},
+//     {"get-uint64-test", no_argument, NULL, '4'},
+//     {"get-int64-test", no_argument, NULL, '5'},
+//     {"multiple-type-oss", no_argument, NULL, '6'},
+//     {NULL, 0, NULL, 0}
+// };
+
+// GEN_FUNC_COPY
+// void OptUsage() 
+// {
+//     printf("Usage:\n");
+//     printf("\tOption [-h] [-?] [--help] [--helps]\n");
+//     printf("\tOption [-c] [--capitals]\n");
+//     printf("\t\tOption [-w] [--wchar]\n");
+//     printf("\t\tOption [-p] [--print]\n");
+//     printf("\t\tOption [-g] [--get]\n");
+//     printf("\tOption [-o] [--oss-test]\n");
+//     printf("\tOption [-0] [--read-write-file-test]\n");
+//     printf("\tOption [-1] [--boolalpha-test]\n");
+//     printf("\tOption [-2] [--read-lines-test]\n");
+//     printf("\tOption [-3] [--cin-ate-n-test]\n");
+//     printf("\tOption [-4] [--get-uint64-test]\n");
+//     printf("\tOption [-5] [--get-int64-test]\n");
+//     printf("\tOption [-6] [--multiple-type-oss]\n");
+// }
+
+// void _main_v1_0(int argc, char *argv[], char *envp[]){
 //     int case_num, prev_case_num;
 //     int err_code = 0;
 //     int test_round = 0;
@@ -477,19 +510,6 @@ static inline void OptUsageV2()
 //     }
 // }
 
-UNUSED
-static unsigned int
-opt_uint(char *val)
-{
-  char *end;
-  errno = 0;
-  unsigned long int x = strtoul(val, &end, 10);
-  if (errno || end == val || (end && *end) )
-    printf("Invalid numeric parameter: %s\n", val);
-  if ((unsigned long int)(unsigned int) x != x)
-    printf("Numeric parameter out of range: %s\n", val);
-  return x;
-}
 
 
 #if (__CC_VER__ >= 4)
@@ -688,7 +708,8 @@ typedef signed long long _si_64;
     while (isdigit(_ch))    \
         I32_CHARIN(_res, _ch), _ch = getchar()
  
-static inline _ui_64 u64_qread()
+GEN_FUNC_COPY
+_ui_64 u64_qread()
 {
     char ch = getchar();
     _ui_64 res = 0;
@@ -697,7 +718,8 @@ static inline _ui_64 u64_qread()
     return res;
 }
 
-static inline _si_64 i64_qread()
+GEN_FUNC_COPY
+_si_64 i64_qread()
 {
     char ch = getchar();
     bool neg = false;
@@ -711,13 +733,7 @@ static inline _si_64 i64_qread()
     return neg ? ~res+1 : res;
 }
 
-// random string generate
-const std::string 
-_letter_xx = "qweasdzxcrfvtgbyhnuiojklmp"
-            "QWERTYUIOPLKJHGFDSAZXCVBNM"
-            "0987612345`-=[];',./~!@#$"
-            "%+_)(*&^{}|<>?:";
-const int _letter_len = 92;
+
 
 #define INPUT_ERROR 0xff
 #define ARGUS_ERROR 0xf1

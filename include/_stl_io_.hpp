@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <chrono>
 #include <any>
+#include <tuple>
 
 #include <string>
 #include <set>
@@ -24,43 +25,70 @@
 #include <map>
 #include <unordered_map>
 
-__DEF_NS__(Alan)
-
-/// @bug make sense??? I can not be sure
-/// @brief overload std::tuple ostream
-/// @tparam ..._Tp 
-/// @param __os 
-/// @param __tp_tuple 
-/// @return 
-template <typename ..._Tp>
-std::ostream& operator << (std::ostream &__os,
-                            const std::tuple<_Tp...> &__tp_tuple)
-{   
-    size_t _tps_sz = 
-        std::tuple_size<decltype(__tp_tuple)>::value;
-    __os << "[" 
-            << std::get<0>(__tp_tuple);
-    for(size_t _tp_i = 1;
-        _tp_i < _tps_sz;
-        ++_tp_i)
-        __os << ", "
-                << std::get<_tp_i>(__tp_tuple);
-    __os << "]";
-    return __os;
-}
-
 // TODO: 
 // how to define a pair name 
 // for example: 
 // 1. _i32_str_pair -> std::pair<int, std::string >
 // 2. _i64_ch_pair -> std::pair<long long, char >
 // 3. _i32_ptr_wch_pair -> std::pair<int*, wchar_t > 
-#define __TYPEDEF_STD_PAIR__(__Tp1__, __Tp2__) \
-        typedef std::pair<__Tp1__, __Tp2__> __Tp1__ __Tp2__ pair
+#define __DEF_PAIR__(__Tp1__, __Tp2__) \
+        typedef std::pair<__Tp1__, __Tp2__> __Tp1__ ##_ ##__Tp2__ ##_ ##pair
 
 typedef std::pair<std::string, std::string > ss_pair;
 typedef std::pair<std::string, int> si_pair;
 typedef std::pair<int, std::string> is_pair;
+
+__DEF_NS__(Alan)
+
+#if __cplusplus >= 201703L
+
+template <typename _Tuple, size_t... _indices>
+auto __rm_tuple_first_helper(const _Tuple & __tp_tuple, 
+                            std::index_sequence<_indices...>)
+{
+    return std::make_tuple(std::get<_indices + 1>(__tp_tuple)...);
+}
+
+template<typename T, typename... Ts>
+auto remove_first(const std::tuple<T, Ts...>& t) {
+    return remove_first_helper(t, std::index_sequence_for<Ts...>());
+}
+
+template <typename _Tp, typename... _Tps >
+auto __rm_tuple_first(const std::tuple<_Tp, _Tps...> & __tp_tuple)
+{
+    return __rm_tuple_first_helper(__tp_tuple, std::index_sequence_for<_Tps...>());
+}
+
+// fold expression for tuple helper
+template <typename _Tuple, size_t... _indices>
+void __os_tuple_helper(std::ostream & __os, 
+                    const _Tuple & __tp_tuple, 
+                    std::index_sequence<_indices...>)
+{
+    (..., (__os << std::get<_indices>(__tp_tuple) << " "));
+}
+
+/// @brief overload std::tuple ostream
+/// @tparam ..._Tp 
+/// @param __os 
+/// @param __tp_tuple 
+/// @return 
+template <typename... _Elements>
+std::ostream& operator << (std::ostream &__os,
+                            const std::tuple<_Elements...> &__tp_tuple)
+{   
+    __os << "[";
+        // no delimeter because of fold expression
+        __os_tuple_helper(__os, __tp_tuple, 
+            std::index_sequence_for<_Elements...>()
+        );
+    __os << "]";
+
+    return __os;
+}
+
+#endif
 
 
 /// @brief overload std::pair ostream
@@ -72,8 +100,7 @@ typedef std::pair<int, std::string> is_pair;
 template <typename _Tp1, 
             typename _Tp2 >
 std::ostream& operator << (std::ostream &__os, 
-                            const std::pair<_Tp1, _Tp2 > 
-                            &__tp_pair)
+                            const std::pair<_Tp1, _Tp2 > &__tp_pair)
 {
     __os << "[" 
             << __tp_pair.first 
@@ -86,8 +113,7 @@ std::ostream& operator << (std::ostream &__os,
 template <typename _Tp1, 
             typename _Tp2 >
 std::ostream& operator << (std::ostream &__os, 
-                            std::pair<_Tp1, _Tp2 > 
-                            && __tp_pair)
+                            std::pair<_Tp1, _Tp2 > && __tp_pair)
 {
     __os << "[" 
             << __tp_pair.first 
@@ -100,8 +126,7 @@ std::ostream& operator << (std::ostream &__os,
 template <typename _Tp1, 
             typename _Tp2 >
 std::istream& operator >> (std::istream &__is, 
-                            std::pair<_Tp1, _Tp2 > 
-                            &__tp_pair)
+                            std::pair<_Tp1, _Tp2 > &__tp_pair)
 {
     __is >> __tp_pair.first;
     __is >> __tp_pair.second;
@@ -228,11 +253,10 @@ void IterOutput(const _Container &__container,
                 _Ostream &__ostream,
                 const char* __delimiter)
 {
-    std::copy(__container.cbegin(),
-                __container.cend(),
+    std::copy(__container.cbegin(), __container.cend(),
                 std::ostream_iterator< _Tp >
                     (__ostream, __delimiter)
-                );
+            );
 }
 
 /// @test fully passed
@@ -249,8 +273,7 @@ void IterOutput(const _Container &__container,
                 const char* __delimiter)
 {
     using __value_type_ = typename _Container::value_type;
-    std::copy(__container.cbegin(),
-                __container.cend(),
+    std::copy(__container.cbegin(), __container.cend(),
                 std::ostream_iterator< __value_type_ >
                     (__ostream, __delimiter)
                 );
@@ -386,36 +409,6 @@ void ConsoleOutputAsso(const _Asso_Container & __container)
     ConsoleIterOutputIterPairRange<_iterator_pair_type >(
         Asso_Range_all<_container_type, _iterator_type >(__container));
 }
-
-// following 4 overload is illegal
-// std::ostream& operator<< 
-// (std::ostream &_os, const char * const _cc_str)
-// {
-//     _os << std::string(_cc_str);
-//     return _os;
-// }
-
-// std::ostream& operator<< 
-// (std::ostream &_os, const char * _cc_str)
-// {
-//     _os << _cc_str ;
-//     return _os;
-// }
-
-// std::ostream& operator<< 
-// (std::ostream &_os, char * const _cc_str)
-// {
-//     _os << _cc_str ;
-//     return _os;
-// }
-
-// std::ostream& operator<< 
-// (std::ostream &_os, char * _cc_str)
-// {
-//     _os << _cc_str ;
-//     return _os;
-// }
-
 
 __END_NS__
 

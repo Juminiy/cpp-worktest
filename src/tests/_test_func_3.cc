@@ -11,6 +11,7 @@
 #include <vector>
 #include <deque>
 #include <map>
+#include <string>
 
 #include <utility>
 #include <algorithm>
@@ -51,7 +52,7 @@ void TestFn01()
     PRINTLN_DETAIL(std::count_if(_str_con->begin(), _str_con->end(), 
                                 Alan::Demos::_comp_str_sz(5))
                 );
-    #if __CC_VER__ == 2
+    #if __cplusplus < 201103L
     PRINTLN_DETAIL(std::count_if(_str_con->begin(), _str_con->end(), 
                                 std::bind2nd(std::ptr_fun(_str_sz_less_than), 5))
                 );
@@ -79,10 +80,30 @@ void TestSharedPtr()
 
 }
 
+void TestMigrate()
+{
+    _COLOR_START(_COLOR_BLUE);
+        PRINTLN("migrate ok0");
+        PRINTLN(_CYAN("migrate ok1"));
+    _COLOR_END;
+
+    __USE_NS__(Alan);
+
+    __DEF_PAIR__(int, int);
+    int_int_pair iip_ = 
+        std::make_pair(0xff, 0x11);
+    PRINTLN_DETAIL(iip_);
+
+    auto _iiit = 
+        std::make_tuple(1, 2, 3, 4);
+    PRINTLN_DETAIL(_iiit);  
+}
+
 void TestAllV3()
 {
     // TestFn01();
     // TestSharedPtr();
-    TestPolym0();
+    // TestPolym0();
+    TestMigrate();
 }
 

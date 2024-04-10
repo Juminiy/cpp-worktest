@@ -74,7 +74,8 @@ __DEF_NS__(Alan)
 
 // gen single value
 template <typename _Num_Tp >
-static inline _Num_Tp _Gen_INum
+GEN_FUNC_COPY
+_Num_Tp _Gen_INum
 (_Num_Tp const &__range_1, _Num_Tp const &__range_2)
 {
     __RD_I_NUM__(_Num_Tp, __range_1, __range_2);
@@ -82,7 +83,8 @@ static inline _Num_Tp _Gen_INum
 }
 
 template <typename _Num_Tp >
-static inline _Num_Tp _Gen_RNum
+GEN_FUNC_COPY
+_Num_Tp _Gen_RNum
 (_Num_Tp const &__range_1, _Num_Tp const &__range_2)
 {
     __RD_R_NUM__(_Num_Tp, __range_1, __range_2);
@@ -95,14 +97,15 @@ static inline _Num_Tp _Gen_RNum
 /// @param __range_2 
 /// @return 
 template <typename _Num_Tp >
-static inline _Num_Tp _Gen_Num
+GEN_FUNC_COPY
+_Num_Tp _Gen_Num
 (_Num_Tp const &__range_1, _Num_Tp const &__range_2)
 {
     return _Gen_INum(__range_1, __range_2);
 }
 
 // template <typename _Num_Tp >
-// static inline _Num_Tp _Gen_Num
+// GEN_FUNC_COPY _Num_Tp _Gen_Num
 // (_Num_Tp const &__range_1, _Num_Tp const &__range_2)
 // {   
 //     const std::string _num_tp_str 
@@ -131,7 +134,7 @@ static inline _Num_Tp _Gen_Num
 // Iterator scoped value
 template <typename _Num_Tp, 
             typename _ForwardIterator >
-inline
+GEN_FUNC_COPY
 void _Iter_Gen_INum
 (_ForwardIterator __first, _ForwardIterator __last, 
     _Num_Tp const &__range_1, _Num_Tp const &__range_2)
@@ -142,7 +145,7 @@ void _Iter_Gen_INum
 
 template <typename _Num_Tp, 
             typename _ForwardIterator >
-inline
+GEN_FUNC_COPY
 void _Iter_Gen_RNum
 (_ForwardIterator __first, _ForwardIterator __last, 
     _Num_Tp const &__range_1, _Num_Tp const &__range_2)
@@ -160,7 +163,7 @@ void _Iter_Gen_RNum
 /// @param __range_2 
 template <typename _Num_Tp, 
             typename _ForwardIterator >
-inline
+GEN_FUNC_COPY
 void _Iter_Gen_Num
 (_ForwardIterator __first, _ForwardIterator __last, 
     _Num_Tp const &__range_1, _Num_Tp const &__range_2)
@@ -172,7 +175,7 @@ void _Iter_Gen_Num
 // PreAlloced sequential container scoped value
 template <typename _Num_Tp, 
             typename _Container >
-inline
+GEN_FUNC_COPY
 void _Seq_Con_Fil_Gen_Num
 (_Container &__container, 
     _Num_Tp const &__range_1, _Num_Tp const &__range_2)
@@ -188,7 +191,7 @@ void _Seq_Con_Fil_Gen_Num
 // has changed in 2024.3.23
 template <typename _Num_Tp, 
             typename _Container >
-inline
+GEN_FUNC_COPY
 // #if (__CC_VER__ >= 4)
 // _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR_SINCE_CXX20
 // #endif
@@ -246,6 +249,8 @@ _Gen_Char_Con
         (new _Char_Container());
     _char_con_ptr->reserve(__sz);
 
+    // TODO:
+    // optimize with std::generate
     __RD_I_NUM__(size_t, 0, ::strlen(__base_chars_));
     for(size_t _i = 0; _i < __sz; ++_i)
         _char_con_ptr->operator+=(__base_chars_[_Uid_Gen_Dev(_Rand_Gen)]);
@@ -271,7 +276,9 @@ size_t _str_sz_rg1, size_t _str_sz_rg2)
 
     __RD_I_NUM__(size_t, _str_sz_rg1, _str_sz_rg2);
     for(size_t _i = 0; _i < _sz; ++_i)
-    {
+    {   
+        // TODO:
+        // optimize with std::generate
         auto _char_con_ptr = 
             _Gen_Char_Con<_ele_str_type>(__base_chars_, _Uid_Gen_Dev(_Rand_Gen)); 
                                                         // ignore the case: size = 0
@@ -319,7 +326,7 @@ size_t _str_sz_rg1, size_t _str_sz_rg2)
 // template <typename _Tp, 
 //             typename _Container,
 //             typename _Meta_Tp ... >
-// inline
+// GEN_FUNC_COPY
 // // #if (__CC_VER__ >= 4)
 // // _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR_SINCE_CXX20
 // // #endif
@@ -358,12 +365,12 @@ public:
         return _xv = _t;
     }
 
-    static constexpr 
+    GEN_FUNC_COPY constexpr 
     uint32_t 
     min() noexcept 
     { return 0x1; }
 
-    static constexpr 
+    GEN_FUNC_COPY constexpr 
     uint32_t 
     max() noexcept 
     { return UINT32_MAX; }

@@ -66,7 +66,7 @@ template <typename _Tp >
 //     _Tp >
 _Tp Sqrt(const _Tp & _num)
 {
-    return sqrt(double(_num));
+    return sqrt(static_cast<double>(_num));
 }
 
 template <typename _Tp_1,
@@ -74,7 +74,7 @@ template <typename _Tp_1,
 _Tp_1 Power(const _Tp_1 & _num,
             const _Tp_2 & _pow)
 {
-    return pow(double(_num), _pow);
+    return pow(static_cast<double>(_num), _pow);
 }
 
 

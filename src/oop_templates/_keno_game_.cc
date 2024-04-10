@@ -6,6 +6,8 @@
 #include <iterator>
 #include <iostream>
 
+__USE_NS__(Alan::Demos);
+
 void TestFMRadio()
 {
     PRINTLN("FMRadio");

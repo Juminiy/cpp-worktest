@@ -86,7 +86,7 @@ void BirthdayParadox(int const &_sides, const int &_times = 2)
                 << _times 
                 << "] times, "
                 << "expects ["
-                << (pow(float(_sides), float(1.0/_times))) 
+                << (pow(static_cast<float>(_sides), static_cast<float>(1.0/_times))) 
                 << "], "
                 << "counts ["  
                 << _i32_cnt 
@@ -119,16 +119,16 @@ void TestBirthDayParadox()
 void TestUSet()
 {   
     PSEUDORANDOM_DECL;
-    std::set<pointT> pTS;
+    std::set<Alan::Demos::pointT> pTS;
     for( int i = 0; i < 1<<10; ++i)
-        pTS.insert(pointT(rand()% (1<<8) , rand()% (1<<16)));
+        pTS.insert(Alan::Demos::pointT(rand()% (1<<8) , rand()% (1<<16)));
     
     std::cout << "point set size = " 
                 << pTS.size() 
                 << __LN__ 
                 << "elem is " 
                 << __LN__;
-    ConsoleBeautyOutput<pointT>(pTS);
+    ConsoleBeautyOutput(pTS);
 }
 
 
@@ -173,13 +173,14 @@ void TestMapDiffer()
     }
 }
 
-static bool inline is_space(char const & _ch)
+GEN_FUNC_COPY bool 
+is_space(char const & _ch)
 {
     return Alan::_is_bs(_ch);
 }
 
-UNUSED
-static bool inline is_delimiter(std::string const & _delimiter)
+UNUSED GEN_FUNC_COPY
+bool is_delimiter(std::string const & _delimiter)
 {
     return _delimiter == "," ||
             _delimiter == ";";

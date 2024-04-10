@@ -384,13 +384,15 @@ private:
     _Tp _x, _y, _z;
     // when initial _min_bound and _max_bound 
     // _Tp must int_type, real_type
-    const static _Tp _min_bound;
-    const static _Tp _max_bound;
+    static const _Tp _min_bound;
+    static const _Tp _max_bound;
     static size_t _inst_cnt;
     _Tp _micro_sum() const {
         return _x + _y + _z;
     }
-    static void _swap
+    
+    GEN_FUNC_COPY
+    void _swap
     (PLoc_reference _lhs, PLoc_reference _rhs)
     noexcept {
         std::swap(_lhs._x, _rhs._x);
@@ -400,10 +402,12 @@ private:
 
 
 public:
-    const static size_t _axis_x;
-    const static size_t _axis_y;
-    const static size_t _axis_z;
-    static inline size_t getInstCnt(){
+    static const size_t _axis_x;
+    static const size_t _axis_y;
+    static const size_t _axis_z;
+
+    GEN_FUNC_COPY
+    size_t getInstCnt(){
         return _inst_cnt;
     }
 

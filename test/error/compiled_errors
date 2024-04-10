@@ -1,3 +1,4 @@
+// errors[0]
 _stl_lib_.hpp: 
 In instantiation of ‘std::pair<_Tp, std::pair<_Asso_Iter, _Asso_Iter> > 
 _Sum(const _Container&, _Tp, _Tp, _Tp) 
@@ -21,7 +22,7 @@ _stl_lib_.hpp:213:61: error: conversion from
       |                                         ~~~~~~~~~~~~~
 make: *** [Makefile:39: _algo_.o] Error 1
 
-// new error 
+// errors[1]
 ../../include/_stl_seq_.hpp: 
 In instantiation of ‘std::pair<_Seq_Iter, _Seq_Iter> 
 Alan::SeqRange_v0(const _Seq_Ordered_Container&, const _Tp&, const _Tp&) 
@@ -35,4 +36,4 @@ std::lower_bound<__gnu_cxx::__normal_iterator<const int*, vector<int> >, int>
 ((& __container)->std::vector<int>::begin(), (& __container)->std::vector<int>::end(), (* & _max_element)))
 ’ from ‘pair<__normal_iterator<const int*,[...]>,__normal_iterator<const int*,[...]>>’ to ‘pair<__normal_iterator<int*,[...]>,__normal_iterator<int*,[...]>>’
 
-// the same, to cancel the type identifier const keyword 
+// errors[0], errors[1] is the same compile error, cancel the type identifier const keyword is ok!

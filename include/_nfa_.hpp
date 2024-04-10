@@ -9,6 +9,10 @@
 #include <vector>
 #include <utility>
 
+__DEF_NS__(Alan)
+
+__DEF_NS__(Demos)
+
 class NFA
 {
 public:
@@ -32,6 +36,10 @@ public:
     bool (*is_state) (const std::string &);
 
 };
+
+__END_NS__
+
+__END_NS__
 
 void TestNFA();
 

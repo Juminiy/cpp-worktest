@@ -15,6 +15,8 @@
 
 #include <pthread.h>
 
+__USE_NS__(Alan::Demos);
+
 void TestAISnakeGame()
 {
     gameT gmt = gameT();
@@ -234,20 +236,4 @@ void pointT::print()
                 << ", "
                 << col 
                 << "]";
-}
-
-std::ostream& operator << (std::ostream& _os, pointT const &_p)
-{
-    _os << "[" 
-        << _p.row 
-        << ", "
-        << _p.col 
-        << "]";
-    return _os;
-}
-
-std::istream& operator >> (std::istream& _is, pointT &_p)
-{ 
-    _is >> _p.row >> _p.col;
-    return _is;
 }

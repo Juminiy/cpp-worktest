@@ -16,6 +16,10 @@ void TestFMRadio();
 #define KenoRange1 0
 #define KenoRange2 80
 
+__DEF_NS__(Alan)
+
+__DEF_NS__(Demos)
+
 class KenoGame
 {
 public:
@@ -33,6 +37,10 @@ private:
     std::set<int > user_guessed;
     size_t         user_max_chs;
 };
+
+__END_NS__
+
+__END_NS__
 
 void TestKenoGame();
 

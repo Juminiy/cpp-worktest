@@ -228,19 +228,14 @@ void TestRemoveAlgo()
 
 void TestArbitraryAlgo()
 {
-    std::string _s;
-    _s.resize(1<<5);
-    std::string char_sets(_letter_xx.substr(0, 52));
-    std::generate(_s.begin(), _s.end(),
-                    [char_sets]()-> char 
-                    {
-                        return char_sets[rand()%52];
-                    });
-    ConsoleIterOutput<char >(_s, ", ");
+    auto _s = *Alan::_Gen_Char_Con(Alan::CONST::_uppal, 1<<6);
+
+    ConsoleIterOutput(_s);
 
     std::transform(_s.begin(), _s.end(), 
                     _s.begin(), ::tolower);
-    ConsoleIterOutput<char >(_s, ", ");
+    
+    ConsoleIterOutput(_s);
 }
 
 // 1. remove not alpha

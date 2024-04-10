@@ -13,6 +13,10 @@
 #include <utility>
 #include <functional>
 
+__DEF_NS__(Alan)
+
+__DEF_NS__(Demos)
+
 class AutoMata
 {
 public:
@@ -41,6 +45,10 @@ public:
     bool (*is_state) (const std::string &);
 
 };
+
+__END_NS__
+
+__END_NS__
 
 bool ValidateEmail(std::string const &);
 void TestEmail();

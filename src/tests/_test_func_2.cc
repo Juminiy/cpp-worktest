@@ -707,8 +707,9 @@ void TestPrettyFunc()
 
 void TestClassOpCase()
 {
-    _a __a_val0(1);
-    _a __a_val1 = __a_val0;
+    Alan::Demos::_a __a_val0(1);
+    Alan::Demos::_a __a_val1;
+    __a_val1 = __a_val0;
     PRINTLN_DETAIL(__a_val0);
     PRINTLN_DETAIL(__a_val1);
     // TODO: how to realize a singleton type 

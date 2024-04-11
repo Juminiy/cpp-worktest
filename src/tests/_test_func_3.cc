@@ -99,11 +99,31 @@ void TestMigrate()
     PRINTLN_DETAIL(_iiit);  
 }
 
+// TODO:
+// need to debug in MacOS
+std::vector<Alan::Demos::_a > 
+ret_a_vec(size_t const _sz = 4)
+{   
+    auto _a_vec = 
+        std::vector<Alan::Demos::_a>(); 
+    _a_vec.reserve(_sz);
+    for(size_t _i = 0; _i < _sz; ++_i)
+        _a_vec.emplace_back(_i);
+    return _a_vec;
+}
+
+void TestVectorRet()
+{
+    Alan::ConsoleBeautyOutput(ret_a_vec(10));
+}
+
+// #include <bits/stdc++.h>
 void TestAllV3()
 {
     // TestFn01();
     // TestSharedPtr();
     // TestPolym0();
-    TestMigrate();
+    // TestMigrate();
+    TestVectorRet();
 }
 

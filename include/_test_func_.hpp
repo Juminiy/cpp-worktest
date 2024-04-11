@@ -2,6 +2,9 @@
 #ifndef _TEST_FUNC_HPP
 #define _TEST_FUNC_HPP
 
+#include "_i_lib_.hpp"
+#include "_stl_lib_.hpp"
+
 #include "_ai_snake_game_.hpp"
 #include "_asso_container_.hpp"
 #include "_seq_container_.hpp"
@@ -63,32 +66,79 @@ void TestAll();
 
 void TestAllV3();
 
+
+__DEF_NS__(Alan)
+
+__DEF_NS__(Demos)
+
+
+#ifndef DEBUG_MODE
+#define DEBUG_MODE
+#endif
 class _a {
 public:
-    explicit _a(int const & __el) : _el(__el) {}
+    explicit _a(int const & __el = 0) : _el(__el) {}
+    _a(_a const & _a_val){
+        #ifdef DEBUG_MODE
+            PRINTLN("copy constructor");
+        #endif 
+        this->_el = _a_val._el;
+    }
+    _a(_a && _a_val){
+        #ifdef DEBUG_MODE
+            PRINTLN("move constructor");
+        #endif 
+        this->_el = std::move(_a_val._el);
+    }
+
     _a& operator = (_a const & _a_val) {
-        if (this != &_a_val){
+        #ifdef DEBUG_MODE
+            PRINTLN("copy assgin");
+        #endif 
+        if (this != &_a_val) [[likely]] {
             this->_el = _a_val._el;
         }
         return *this;
     }
-    // to check what is happening???
-    _a(_a const & _a_val) {
-        *this = _a_val;
+    _a& operator = (_a && _a_val) {
+        #ifdef DEBUG_MODE
+            PRINTLN("move assign");
+        #endif 
+        if (this != &_a_val) [[likely]] {
+            this->_el = std::move(_a_val._el);
+        }
+        return *this;
     }
-    ~_a() {}
+    ~_a() {
+        #ifdef DEBUG_MODE
+            PRINTLN("destructor");
+        #endif 
+    }
+
+    // _a& operator = (_a const & _a_val) {
+    //     if (this != &_a_val){
+    //         this->_el = _a_val._el;
+    //     }
+    //     return *this;
+    // }
+    // // to check what is happening???
+    // _a(_a const & _a_val) {
+    //     *this = _a_val;
+    // }
+    
     friend std::ostream& 
     operator << (std::ostream& __os, 
-                _a const _a_val)
+                _a const & _a_val)
     {
-        __os << "[" 
+        __os << "(" 
             << _a_val._el 
-            << "]";
+            << ")";
         return __os;
     } 
 private:
     int _el;
 };
+
 
 class _Singleton_type 
 {
@@ -107,4 +157,10 @@ public:
 };
 
 // _Singleton_type::_instance = _Singleton_type();
+
+__END_NS__
+
+__END_NS__
+
+
 #endif 

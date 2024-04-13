@@ -205,7 +205,7 @@ public:
     {
         va_list _val;
         va_start(_val, _sz);
-        for(int _i = 0; _i < _sz; ++_i)
+        for(size_t _i = 0; _i < _sz; ++_i)
             this->_docs.emplace(va_arg(_val, const char *));
         va_end(_val);
     }

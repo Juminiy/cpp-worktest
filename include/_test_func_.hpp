@@ -13,6 +13,12 @@
 #include "_func_.hpp"
 #include "_keno_game_.hpp"
 #include "_level_db_.hpp"
+#include "_sim_printer_.hpp"
+
+#include <queue>
+#include <vector>
+#include <unistd.h>
+#include <cstdarg>
 
 void TestReadWriteFile();
 
@@ -157,6 +163,216 @@ public:
 };
 
 // _Singleton_type::_instance = _Singleton_type();
+
+
+template <typename _Tp, typename... _Args>
+class _Tuple 
+{
+    // explicit _Tuple(const _Tp & _tval, _Args... & _args) 
+    // noexcept
+    // {
+
+    // }
+
+    // _Tp operator() (_Args... _args)
+    // const 
+    // {
+    //     // return __fn.execute();
+    // }
+
+
+};
+
+
+class _BatchPrinter :
+    public Alan::Demos0::_Printer
+{
+public:
+    void enqueueDocument(const std::string _doc)
+    {
+        this->_docs.emplace(_doc);
+    }
+    void printAllDocuments()
+    {
+        while(!this->_docs.empty())
+        {
+            this->printDocument(this->_docs.front());
+            TSLEEP(0.5);
+            this->_docs.pop();
+        }
+    }
+    void batchEnqueueDocument(size_t _sz, ...)
+    {
+        va_list _val;
+        va_start(_val, _sz);
+        for(int _i = 0; _i < _sz; ++_i)
+            this->_docs.emplace(va_arg(_val, const char *));
+        va_end(_val);
+    }
+    void eventLoop(size_t _t)
+    {
+        while(_t --)
+        {
+            // enqueueDocument(*Alan::_Gen_Char_Con());
+            batchEnqueueDocument(_t, 
+                Alan::_Gen_Char_Con()->c_str(),
+                Alan::_Gen_Char_Con()->c_str(),
+                Alan::_Gen_Char_Con()->c_str(),
+                Alan::_Gen_Char_Con()->c_str(),
+                Alan::_Gen_Char_Con()->c_str()
+            );
+            printAllDocuments();
+        }
+    }
+private:
+    std::queue<std::string > _docs;
+};
+
+void FillingPrint(const Alan::Demos0::_Printer &);
+
+
+
+
+template <typename _Tp>
+using __grid_ = std::vector<std::vector<_Tp > > ;
+struct __pixelT_ 
+{
+    __pixelT_(uint8_t _r = 0x0, uint8_t _g = 0x0, uint8_t _b = 0x0)
+        : __r_(_r), __g_(_g), __b_(_b) { }
+    uint8_t __r_;
+    uint8_t __g_;
+    uint8_t __b_;
+};
+
+
+class _Document 
+{
+public:
+    using grid_type = __grid_<__pixelT_>;
+    virtual grid_type convertToPixelArray() const = 0;
+    virtual int getPriority() const = 0;
+    virtual char* getName() const = 0;
+};
+
+
+class _TextDocument
+    : public _Document
+{
+public:
+    _TextDocument(const char * _name = "text_doc_default_name",
+                    int _prio = 0) 
+        : __name_(::strdup(_name)), __prio_(_prio) {}
+
+    virtual grid_type convertToPixelArray()
+    const override
+    {
+        return __grid_<__pixelT_>();
+    }
+
+    virtual int getPriority() 
+    const override
+    {
+        return this->__prio_;
+    }
+
+    virtual char* getName() 
+    const override
+    {
+        return this->__name_;
+    }
+
+    void setText(const std::string &);
+    void setFont(const std::string &);
+    void setSize(size_t);
+private:
+    char* __name_;
+    int   __prio_;
+};
+
+class _RBX
+{
+public:
+    explicit _RBX(const __pixelT_ & _s0 = __pixelT_(0xff, 0xff, 0xff), 
+                const __pixelT_ & _s1 = __pixelT_(0x77, 0x77, 0x77))
+        : __s0_(std::move(_s0)), __s1_(std::move(_s1)) { }
+    
+    virtual ~_RBX() {
+        PRINTLN("_RBX destructor");
+    }
+
+    virtual void _fn() 
+    const noexcept
+    {
+        PRINTLN("_RBX");
+    }
+
+    void _fnx()
+    {
+        PRINTLN("nooverride");
+    }
+protected:
+    __pixelT_ __r0_;
+    __pixelT_ __r1_;
+private:
+    __pixelT_ UNUSED __s0_;
+    __pixelT_ UNUSED __s1_;
+};
+
+class _mRBX
+    : public _RBX
+{
+public:
+    ~_mRBX() {
+        PRINTLN("_mRBX destructor");
+    }
+    explicit _mRBX(const __pixelT_ & _dup = __pixelT_(0x33, 0x33, 0x33)) 
+        : _RBX(), __d0_(_dup), __d1_(_dup) { }
+
+    virtual void _fn() 
+    const noexcept override
+    {
+        PRINTLN("_mRBX");
+    }
+
+    void doD()
+    {
+        this->__r0_.__r_ = 0x01;
+        this->__r0_.__g_ = 0x10;
+        this->__r0_.__b_ = 0xff;
+    }
+private:
+    __pixelT_ UNUSED __d0_;
+    __pixelT_ UNUSED __d1_;
+};
+
+class _mtRBX
+    : public _mRBX
+{
+public:
+    ~_mtRBX(){
+        PRINTLN("_mtRBX destructor");
+    }
+
+    void domD()
+    {
+        this->__r0_.__r_ = 0x33;
+    }
+};
+
+class _nRBX
+    : public _RBX
+{
+public:
+    ~_nRBX(){
+        PRINTLN("_nRBX destructor");
+    }
+
+    // do not recommend
+    // void _fnx()
+    // {
+    //     PRINTLN("override");
+    // }
+};
 
 __END_NS__
 

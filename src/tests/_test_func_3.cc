@@ -4,6 +4,7 @@
 
 #include "../../include/_test_func_.hpp"
 #include "../../include/_polym_.hpp"
+#include "../../include/_sim_printer_.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -99,8 +100,7 @@ void TestMigrate()
     PRINTLN_DETAIL(_iiit);  
 }
 
-// TODO:
-// need to debug in MacOS
+
 std::vector<Alan::Demos::_a > 
 ret_a_vec(size_t const _sz = 4)
 {   
@@ -108,13 +108,65 @@ ret_a_vec(size_t const _sz = 4)
         std::vector<Alan::Demos::_a>(); 
     _a_vec.reserve(_sz);
     for(size_t _i = 0; _i < _sz; ++_i)
+        // _a_vec.push_back(Alan::Demos::_a(_i));
         _a_vec.emplace_back(_i);
     return _a_vec;
 }
 
 void TestVectorRet()
 {
-    Alan::ConsoleBeautyOutput(ret_a_vec(10));
+    auto _temp_con = ret_a_vec(10);
+    Alan::ConsoleBeautyOutput(_temp_con);
+}
+
+// __USE_NS__(Alan::Demos);
+void Alan::Demos::FillingPrint(const Alan::Demos0::_Printer & _printer)
+{
+    _printer.printDocument("Colmz");
+}
+
+void TestSimPrinter()
+{
+    auto _printer = Alan::Demos0::_Printer();
+    _printer.setColor("3");
+    _printer.printDocument("LYY Alan YYDS");
+
+    PRINTLN("-------------------------------");
+    auto _bp = Alan::Demos::_BatchPrinter();
+    // Alan::Demos::FillingPrint(_bp);
+    _bp.eventLoop(10); 
+
+    Alan::Demos::_Document * my_doc = 
+        new Alan::Demos::_TextDocument;
+    _printer.setColor("5");
+    _printer.printDocument(my_doc->getName()); 
+}
+
+void TestConstructSptr()
+{
+    __DEF_UP_VAR__(i32, int, 10);
+    __DEF_SP_VAR__(f64p, Alan::_Point_Loc<double>, 3.4, 4.5, 2.3);
+
+    PRINTLN_DETAIL(*i32);
+    PRINTLN_DETAIL(*f64p);
+
+    Alan::Demos::_RBX * _rbx0 = new Alan::Demos::_RBX;
+    _rbx0->_fn();
+    Alan::Demos::_RBX * _rbx1 = new Alan::Demos::_mRBX;
+    _rbx1->_fn();
+    Alan::Demos::_RBX * _rbx2 = new Alan::Demos::_nRBX; 
+    _rbx2->_fn();
+    // _rbx2->_fnx();
+
+    Alan::Demos::_RBX * _rbx3 = new Alan::Demos::_mtRBX; 
+    _rbx3->_fn();
+
+    delete _rbx0, 
+    delete _rbx1,
+    delete _rbx2,
+    delete _rbx3;
+
+    // PRINTLN_DETAIL(Alan::__cpp_tid_<int>()); 
 }
 
 // #include <bits/stdc++.h>
@@ -124,6 +176,8 @@ void TestAllV3()
     // TestSharedPtr();
     // TestPolym0();
     // TestMigrate();
-    TestVectorRet();
+    // TestVectorRet();
+    // TestSimPrinter();
+    TestConstructSptr();
 }
 

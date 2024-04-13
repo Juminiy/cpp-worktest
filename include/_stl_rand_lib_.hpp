@@ -217,6 +217,8 @@ _Gen_Seq_Con
 (typename _Seq_Container::value_type __range_1, 
 typename _Seq_Container::value_type __range_2)
 {
+    // optimize std::smart_ptr<_Tp>(new _Tp())
+    //     with std::make_smart_ptr_type<_Tp>(_Tp constructor()); // inplace construct
     auto _seq_con_ptr =
         std::unique_ptr<_Seq_Container>
         (new _Seq_Container(_sz));

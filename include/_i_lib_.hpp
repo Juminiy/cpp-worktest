@@ -159,6 +159,12 @@ extern "C" {
         __TOSTR__(_cl_)"m" + \
         std::string(_ct_) + \
         _COLOR_TAIL)
+#define _COLOR_CL_VAR(_cl_, _ct_) \
+        (_COLOR_HEAD + \
+        std::string(_cl_) + \
+        "m" + \
+        std::string(_ct_) + \
+        _COLOR_TAIL)
 #define _BLACK(_ct_) \
         _COLOR_CL(_COLOR_BLACK, _ct_)
 #define _RED(_ct_) \
@@ -245,6 +251,8 @@ extern "C" {
         std::chrono::system_clock \
         ::now().time_since_epoch() \
         .count()
+
+#define TSLEEP(__sec_) usleep(__sec_ * 1000000)
 
 #define DECL_VAR(_type) _type var_##_type
 #define DECL_FUN(_type, _func, _arg) \
@@ -537,7 +545,6 @@ unsigned int opt_uint(char *val)
         __DEF_CONST_PTR_TO_CONST__(__alias_type__)
 
 // after C++11 Standard
-// TODO: substitution with (using = syntax)
 // use :	__DEF_DCL_V2__
 // detail:	using __alias_type__ = __meta_type__##__xx_xx__;
 #define __DEF_ALL_V2__(__alias_type__, __meta_type__) \
@@ -635,6 +642,16 @@ unsigned int opt_uint(char *val)
         __def_type_(const __def_type_ &) = delete; \
         __def_type_& operator = (const __def_type_ &) = delete
 
+// construct to smart pointer by args...
+#define __UPTR__(__type__, ...) std::make_unique<__type__>(__VA_ARGS__)
+#define __SPTR__(__type__, ...) std::make_shared<__type__>(__VA_ARGS__)
+// need to complete weak
+#define __WPTR__(__type__, ...)
+
+#define __DEF_UP_VAR__(__idt__, __type__, ...) \
+        auto __idt__ = __UPTR__(__type__, __VA_ARGS__) 
+#define __DEF_SP_VAR__(__idt__, __type__, ...) \
+        auto __idt__ = __SPTR__(__type__, __VA_ARGS__)
 
 // MATH UTILS DEFINE
 #define MAX_Tt(_x, _y) ({ \

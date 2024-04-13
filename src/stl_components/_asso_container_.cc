@@ -46,7 +46,6 @@ void TestUMap()
     std::unordered_map<int, std::string > umis ;
     
     umis.insert(_i32_str_pr(1, "w"));
-    // TODO: overload std::pair<_Tp1, _Tp2 >
     // ConsoleIterOutput<_i32_str_pr >(umis);
 
     std::map<int, std::string> mis;

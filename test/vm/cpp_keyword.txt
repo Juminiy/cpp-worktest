@@ -58,7 +58,7 @@ this
 union
 virtual
 
-(类型,函数)修饰符
+(类型,函数,域)修饰符
 auto
 const
 constexpr

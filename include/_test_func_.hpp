@@ -235,10 +235,29 @@ void FillingPrint(const Alan::Demos0::_Printer &);
 
 template <typename _Tp>
 using __grid_ = std::vector<std::vector<_Tp > > ;
+
 struct __pixelT_ 
 {
+    // typedef struct __pixelT_ __pixel_T;
     __pixelT_(uint8_t _r = 0x0, uint8_t _g = 0x0, uint8_t _b = 0x0)
         : __r_(_r), __g_(_g), __b_(_b) { }
+
+    __pixelT_(const __pixelT_ & __pT){
+        this->__r_ = __pT.__r_;
+        this->__g_ = __pT.__g_;
+        this->__b_ = __pT.__b_;
+    }
+
+    __pixelT_& operator = (const __pixelT_ & __pT){
+        if (this != &__pT) [[likely]]
+        {
+            this->__r_ = __pT.__r_;
+            this->__g_ = __pT.__g_;
+            this->__b_ = __pT.__b_;
+        }
+        return *this;
+    }
+
     uint8_t __r_;
     uint8_t __g_;
     uint8_t __b_;
@@ -294,8 +313,28 @@ class _RBX
 public:
     explicit _RBX(const __pixelT_ & _s0 = __pixelT_(0xff, 0xff, 0xff), 
                 const __pixelT_ & _s1 = __pixelT_(0x77, 0x77, 0x77))
-        : __s0_(std::move(_s0)), __s1_(std::move(_s1)) { }
+        : __s0_(std::move(_s0)), __s1_(std::move(_s1)) { 
+            _fn();
+        }
     
+    _RBX(const _RBX & _rbx){
+        this->__r0_ = std::move(_rbx.__r0_);
+        this->__r1_ = std::move(_rbx.__r1_);
+        this->__s0_ = std::move(_rbx.__s0_);
+        this->__s1_ = std::move(_rbx.__s1_);
+    }
+
+    _RBX& operator = (const _RBX & _rbx){
+        if (this != &_rbx) [[likely]]
+        {
+            this->__r0_ = std::move(_rbx.__r0_);
+            this->__r1_ = std::move(_rbx.__r1_);
+            this->__s0_ = std::move(_rbx.__s0_);
+            this->__s1_ = std::move(_rbx.__s1_);
+        }
+        return *this;
+    }
+
     virtual ~_RBX() {
         PRINTLN("_RBX destructor");
     }
@@ -316,10 +355,31 @@ protected:
 private:
     __pixelT_ UNUSED __s0_;
     __pixelT_ UNUSED __s1_;
+    void inc_s0(){
+        __s0_.__r_ += 0x01;
+        __s0_.__g_ += 0x01;
+        __s0_.__b_ += 0x01;
+    }
+};
+
+class _uncopyable
+{
+public:
+    void show(){
+        PRINTLN("__uncopyable__");
+    }
+// if a derived class is uncopyable, 
+// it show private derived from _uncopyable
+// protected:
+//     _uncopyable() { }
+//     ~_uncopyable() { }
+// private:
+//     _uncopyable(const _uncopyable &);
+//     _uncopyable& operator = (const _uncopyable &);
 };
 
 class _mRBX
-    : public _RBX
+    : public _RBX, private _uncopyable
 {
 public:
     ~_mRBX() {
@@ -327,6 +387,22 @@ public:
     }
     explicit _mRBX(const __pixelT_ & _dup = __pixelT_(0x33, 0x33, 0x33)) 
         : _RBX(), __d0_(_dup), __d1_(_dup) { }
+
+    _mRBX(const _mRBX & __mrbx) 
+        : _RBX(__mrbx) {
+        this->__d0_ = std::move(__mrbx.__d0_);
+        this->__d1_ = std::move(__mrbx.__d1_);
+    }
+
+    _mRBX& operator = (const _mRBX & __mrbx){
+        if (this != &__mrbx) [[likely]]
+        {
+            _RBX::operator = (__mrbx);
+            this->__d0_ = std::move(__mrbx.__d0_);
+            this->__d1_ = std::move(__mrbx.__d1_);
+        }
+        return *this;
+    }
 
     virtual void _fn() 
     const noexcept override
@@ -339,7 +415,9 @@ public:
         this->__r0_.__r_ = 0x01;
         this->__r0_.__g_ = 0x10;
         this->__r0_.__b_ = 0xff;
+        show();
     }
+
 private:
     __pixelT_ UNUSED __d0_;
     __pixelT_ UNUSED __d1_;

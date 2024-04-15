@@ -5,6 +5,7 @@
 #include "../../include/_test_func_.hpp"
 #include "../../include/_polym_.hpp"
 #include "../../include/_sim_printer_.hpp"
+#include "../../include/_intn_.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -25,6 +26,8 @@
 #include <cstdint>
 #include <cstddef>
 #include <cfloat>
+
+// #include <linalg>
 
 // func_ptr do not use const & parameter 
 bool _str_sz_less_than
@@ -166,8 +169,33 @@ void TestConstructSptr()
     delete _rbx2,
     delete _rbx3;
 
-    // PRINTLN_DETAIL(Alan::__cpp_tid_<int>()); 
+    // PRINTLN_DETAIL(Alan::__cpp_tid_<int>());  
 }
+
+void TestIntN()
+{
+    Alan::_intn in("444");
+    PRINTLN_DETAIL(in);
+}
+
+void TestVTable()
+{
+    Alan::Demos::_RBX * _rbx0 = new Alan::Demos::_mRBX;
+    _rbx0->_fnx();
+
+    auto mobj1 = 
+        Alan::Demos::_mRBX(Alan::Demos::__pixelT_(0x22, 0x22, 0x22));
+    auto mobj2 = mobj1;
+
+    mobj1._fnx();
+    mobj2._fnx();  
+    // mobj1.inc_s0();
+    // mobj1.showI();
+    mobj1.doD();
+
+}
+
+
 
 // #include <bits/stdc++.h>
 void TestAllV3()
@@ -178,6 +206,8 @@ void TestAllV3()
     // TestMigrate();
     // TestVectorRet();
     // TestSimPrinter();
-    TestConstructSptr();
+    // TestConstructSptr();
+    // TestIntN();
+    TestVTable();
 }
 

@@ -639,8 +639,9 @@ unsigned int opt_uint(char *val)
         __DEF_DCL_V2__(__CONST_PTR_TO_CONST__(__type__), __type__, _const_pointer_to_const)
 
 #define __DISALLOW_COPYING(__def_type_) \
-        __def_type_(const __def_type_ &) = delete; \
-        __def_type_& operator = (const __def_type_ &) = delete
+        private: \
+        __def_type_(const __def_type_ &); \
+        __def_type_& operator = (const __def_type_ &)
 
 // construct to smart pointer by args...
 #define __UPTR__(__type__, ...) std::make_unique<__type__>(__VA_ARGS__)

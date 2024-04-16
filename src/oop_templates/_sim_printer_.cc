@@ -13,7 +13,7 @@ __USE_NS__(Alan::Demos0);
 
 void _Printer::setFont(const std::string & fontName, size_t _sz)
 {
-    this->__font_nm = ::strdup(fontName.c_str());
+    this->__font_nm = __tstrdup_(fontName.c_str());
     this->__font_sz = _sz;
 }
 

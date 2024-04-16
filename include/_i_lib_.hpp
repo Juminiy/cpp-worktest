@@ -252,7 +252,7 @@ extern "C" {
         ::now().time_since_epoch() \
         .count()
 
-#define TSLEEP(__sec_) usleep(__sec_ * 1000000)
+#define TSLEEP(__sec_) usleep(__sec_ * 1000000);
 
 #define DECL_VAR(_type) _type var_##_type
 #define DECL_FUN(_type, _func, _arg) \
@@ -260,6 +260,39 @@ extern "C" {
 
 #define GEN_FUNC_COPY \
         static inline
+
+#if (__CC_VER__ > 1)
+    #include <unistd.h>
+#elif (__CC_VER__ == 1)
+    #include <windows.h>
+#endif
+#include <cstring>
+#include <cstdlib>
+
+GEN_FUNC_COPY
+void __tsleep_(int __sec_)
+{
+    #if __CC_VER__ >= 4
+        usleep(__sec_ * 1000000);
+    #elif __CC_VER__ == 2
+        sleep(__sec_);
+    #endif 
+}
+
+GEN_FUNC_COPY
+char * __tstrdup_(const char * __str_)
+{
+    #if __CC_VER__ >= 4
+        return ::strdup(__str_);
+    #elif __CC_VER__ == 2
+        char *_dest = static_cast<char *>(malloc(::strlen(__str_) + 1));
+        if(!_dest)
+            return nullptr;
+        ::strcpy(_dest, __str_);
+        return _dest;
+    #endif 
+}
+
 
 // need to do more error 
 // __DATE__, __TIME__, __FILE__, __LINE__

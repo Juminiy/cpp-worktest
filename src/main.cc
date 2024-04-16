@@ -17,8 +17,12 @@
 #include <leveldb/export.h>
 #endif
 
-#include <getopt.h>
-#include <unistd.h>
+#if (__CC_VER__ > 1)
+    #include <getopt.h>
+    #include <unistd.h>
+#elif (__CC_VER__ == 1)
+    #include <windows.h>
+#endif
 #include <cstdlib>
 
 

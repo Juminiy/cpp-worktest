@@ -17,7 +17,11 @@
 
 #include <queue>
 #include <vector>
-#include <unistd.h>
+#if (__CC_VER__ > 1)
+    #include <unistd.h>
+#elif (__CC_VER__ == 1)
+    #include <windows.h>
+#endif
 #include <cstdarg>
 
 void TestReadWriteFile();
@@ -197,7 +201,7 @@ public:
         while(!this->_docs.empty())
         {
             this->printDocument(this->_docs.front());
-            TSLEEP(0.5);
+            __tsleep_(0.5);
             this->_docs.pop();
         }
     }
@@ -280,7 +284,7 @@ class _TextDocument
 public:
     _TextDocument(const char * _name = "text_doc_default_name",
                     int _prio = 0) 
-        : __name_(::strdup(_name)), __prio_(_prio) {}
+        : __name_(__tstrdup_(_name)), __prio_(_prio) {}
 
     virtual grid_type convertToPixelArray()
     const override

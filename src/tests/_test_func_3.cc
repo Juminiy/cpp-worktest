@@ -6,6 +6,7 @@
 #include "../../include/_polym_.hpp"
 #include "../../include/_sim_printer_.hpp"
 #include "../../include/_intn_.hpp"
+#include "../../include/_simd_.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -208,6 +209,7 @@ void TestAllV3()
     // TestSimPrinter();
     // TestConstructSptr();
     // TestIntN();
-    TestVTable();
+    // TestVTable();
+    Testvec256();
 }
 

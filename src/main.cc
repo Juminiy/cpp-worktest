@@ -1,16 +1,7 @@
 #include "../include/_i_lib_.hpp"
 
-#include "../include/_stream_.hpp"
 #include "../include/_test_func_.hpp"
-#include "../include/_seq_container_.hpp"
 #include "../include/_ai_snake_game_.hpp"
-#include "../include/_asso_container_.hpp"
-#include "../include/_dfa_.hpp"
-#include "../include/_nfa_.hpp"
-#include "../include/_set_theory_.hpp"
-#include "../include/_algo_.hpp"
-#include "../include/_func_.hpp"
-#include "../include/_keno_game_.hpp"
 #include "../include/_level_db_.hpp"
 
 #ifdef _LDB_

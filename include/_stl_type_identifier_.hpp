@@ -17,6 +17,9 @@
 #define __V_TID_STR__(__val__) \
         __TP_TID_STR__(decltype(__val__))
 
+#define __RAW_TP__(__tp__) \
+        typeid(std::remove_cv_t<std::remove_reference_t<__tp__>>)
+
 // identify a type to C++ internal/underlying type
 __DEF_NS__(Alan)
 

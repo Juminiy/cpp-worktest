@@ -4,4 +4,6 @@
 
 void TestLA();
 
+void Testvec256();
+
 #endif

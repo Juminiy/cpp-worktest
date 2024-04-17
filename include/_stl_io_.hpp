@@ -388,6 +388,35 @@ void ConsoleBeautyOutput(const _Container &__container,
     PRINTLN("]");
 }
 
+/// @brief 
+/// @tparam _Tp 
+/// @param __container 
+/// @param _sz 
+/// @param __delimiter 
+template < typename _Tp >
+void ConsoleBeautyOutput(const _Tp * __container,
+                        size_t _sz,
+                        const char* __delimiter = ", ")
+{
+    PRINT("[");
+    
+    if (_sz == 1)
+    {
+        PRINT(*__container);
+    } else if (_sz > 1)
+    {
+        auto _it = __container;
+        auto _eit = __container + _sz - 1;
+        
+        std::copy(_it, _eit, 
+                std::ostream_iterator
+                < _Tp >
+                (std::cout, __delimiter));
+        PRINT(*_eit);
+    }
+
+    PRINTLN("]");
+}
 
 // don't skip any a white space or any '\n', '\t', '\r'
 template <typename _InputStream, typename _OutputStream >

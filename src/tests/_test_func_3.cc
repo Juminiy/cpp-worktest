@@ -196,7 +196,11 @@ void TestVTable()
 
 }
 
-
+void TestMoveForward()
+{
+    const std::string _s("xxx");
+    PRINTLN_DETAIL(Alan::__cpp_tid_<decltype(std::move(_s))>());
+}
 
 // #include <bits/stdc++.h>
 void TestAllV3()
@@ -210,6 +214,7 @@ void TestAllV3()
     // TestConstructSptr();
     // TestIntN();
     // TestVTable();
-    Testvec256();
+    // Testvec256();
+    TestMoveForward();
 }
 

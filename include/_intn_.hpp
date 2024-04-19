@@ -47,7 +47,7 @@ public:
             __u64_ = 0;
         }
     
-    explicit _intn(const std::string & _numv2) 
+    explicit _intn(std::string & _numv2) 
     noexcept
         : __bit_(), __base_()
     {

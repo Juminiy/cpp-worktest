@@ -258,6 +258,7 @@ _t_plus(const _Container_1<_Tp_1 > & __container_1,
 
 
 // partial specialization _t_plus
+// universal reference
 template <typename _Tp_1, typename _Tp_2,
         typename = typename 
         _enable_if_cond<_is_same_type<_Tp_1, _Tp_2 >::_value >::_value_type >

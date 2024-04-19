@@ -36,6 +36,15 @@ __cpp_tid_(const char *__name)
 #else
     std::string _dname = __name;
 #endif
+    #undef DEBUG_MODE
+    #ifdef DEBUG_MODE
+        _COLOR_START(_COLOR_BLUE);
+            __CNEW_LINE__;
+            PRINTLN_DETAIL( __PRETTY_FUNCTION__ );
+            PRINTLN_DETAIL( _dname );
+            __CNEW_LINE__;
+        _COLOR_END;
+    #endif 
     return _dname;
 }
 

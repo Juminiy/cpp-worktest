@@ -198,8 +198,22 @@ void TestVTable()
 
 void TestMoveForward()
 {
-    const std::string _s("xxx");
+    std::string _s("xxx");
+    PRINTLN_DETAIL(Alan::__cpp_tid_<decltype(_s)>());
     PRINTLN_DETAIL(Alan::__cpp_tid_<decltype(std::move(_s))>());
+
+    PRINTLN_DETAIL(Alan::__cpp_tid_<decltype(std::forward<std::string >(_s))>);
+    PRINTLN_DETAIL(Alan::__cpp_tid_<decltype(std::forward<std::string &>(_s))>);
+    PRINTLN_DETAIL(Alan::__cpp_tid_<decltype(std::forward<std::string &&>(_s))>);
+    #ifdef DEBUG_MODE
+        PRINTLN_DETAIL("uncancelled DEBUG_MODE");
+    #endif
+
+}
+
+void TestPolyPtr()
+{
+    
 }
 
 // #include <bits/stdc++.h>

@@ -47,6 +47,7 @@ auto _t_plus(const _Tp_1 & __lhs,
 
 // compiler will default choose
 // more efficiency
+// universal reference
 template <typename _Tp_1,
             typename _Tp_2 >
 auto _t_plus(_Tp_1 && __lhs, 

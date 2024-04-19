@@ -321,14 +321,14 @@ public:
             _fn();
         }
     
-    _RBX(const _RBX & _rbx){
+    _RBX(_RBX & _rbx){
         this->__r0_ = std::move(_rbx.__r0_);
         this->__r1_ = std::move(_rbx.__r1_);
         this->__s0_ = std::move(_rbx.__s0_);
         this->__s1_ = std::move(_rbx.__s1_);
     }
 
-    _RBX& operator = (const _RBX & _rbx){
+    _RBX& operator = (_RBX & _rbx){
         if (this != &_rbx) [[likely]]
         {
             this->__r0_ = std::move(_rbx.__r0_);
@@ -392,13 +392,13 @@ public:
     explicit _mRBX(const __pixelT_ & _dup = __pixelT_(0x33, 0x33, 0x33)) 
         : _RBX(), __d0_(_dup), __d1_(_dup) { }
 
-    _mRBX(const _mRBX & __mrbx) 
+    _mRBX(_mRBX & __mrbx) 
         : _RBX(__mrbx) {
         this->__d0_ = std::move(__mrbx.__d0_);
         this->__d1_ = std::move(__mrbx.__d1_);
     }
 
-    _mRBX& operator = (const _mRBX & __mrbx){
+    _mRBX& operator = (_mRBX & __mrbx){
         if (this != &__mrbx) [[likely]]
         {
             _RBX::operator = (__mrbx);

@@ -616,8 +616,12 @@ unsigned int opt_uint(char *val)
 #define __CONST_REF__(__type__) \
         __type__ const &
 
+// __type__ is a int, double, char, class, it is rvalue reference
 #define __RREF__(__type__) \
         __type__ &&
+// __tp__ is a typename _Tp, it is a universal reference
+#define __UREF__(__tp__) \
+        __tp__ &&
 #define __MV_RREF__(__rref__) \
         std::move(__rref__)
 

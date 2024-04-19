@@ -62,6 +62,8 @@ public:
     
     // _Tp value r_reference???
     // invalid with above (2)
+    // 2024.04.19 _Tp &&: universal reference 
+    //                      not rvalue reference
     // _Point_Loc(_Tp &&__x, _Tp &&__y, _Tp &&__z)
     //     : _x(std::move(__x)),
     //         _y(std::move(__x)), 

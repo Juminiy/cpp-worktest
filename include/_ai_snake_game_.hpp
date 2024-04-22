@@ -70,9 +70,7 @@ void GameClearConsole()
 // GameDirect[4][2] = 
 // {{1,0},{0,1},{-1,0},{0,-1}};
 
-__DEF_NS__(Alan)
-
-__DEF_NS__(Demos)
+__DEF_NS__(Alan::Demos)
 
 class pointT
 {
@@ -143,8 +141,10 @@ typedef struct gameT
 
 __END_NS__
 
-__END_NS__
+__DEF_NS__(Alan::Demos::Test::Func)
 
 void TestAISnakeGame();
+
+__END_NS__
 
 #endif 

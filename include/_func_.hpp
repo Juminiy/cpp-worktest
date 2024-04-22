@@ -7,9 +7,7 @@
 
 #include <functional>
 
-__DEF_NS__(Alan)
-
-__DEF_NS__(Demos)
+__DEF_NS__(Alan::Demos)
 
     typedef 
     std::function<int (const int &, const int &)> 
@@ -61,11 +59,14 @@ __DEF_NS__(Demos)
 
 __END_NS__
 
-__END_NS__
+
+__DEF_NS__(Alan::Demos::Test::Func)
 
 void TestFunc();
 void TestTask2();
 void TestTask3();
 void TestTask4();
+
+__END_NS__
 
 #endif

@@ -33,6 +33,8 @@
 
 __USE_NS__(Alan);
 
+__DEF_NS__(Alan::Demos::Test::Func)
+
 // may occur stackdump when runtime!!!
 void TestAlgo()
 {   
@@ -194,7 +196,6 @@ void TestAssoContainerAlgo()
 
 }
 
-
 void TestRemoveAlgo()
 {       
     PSEUDORANDOM_DECL;
@@ -289,7 +290,6 @@ bool Word_Palindrome(const std::string &_par)
                         str_v.rbegin());
 }
 
-
 // example: 
 // 1. <_Tp = std::string > = AccbccA
 // 2. <_Tp = std::string > = This is this
@@ -298,18 +298,17 @@ void Test_Palindrome()
     _COLOR_START(_COLOR_BLUE);
     PRINTLN("char palindrome");
     std:: cout << std::boolalpha
-                << ::Char_Palindrome(optarg) << __LN__;
+                << Char_Palindrome(optarg) << __LN__;
     _COLOR_RECOVER;
 
     _COLOR_START(_COLOR_GREEN);
     PRINTLN("word palindrome");
     std:: cout << std::boolalpha
-                << ::Word_Palindrome("wow THis is this wow ") << __LN__;
+                << Word_Palindrome("wow THis is this wow ") << __LN__;
     std:: cout << std::boolalpha
-                << ::Word_Palindrome("wow kaobei ss") << __LN__;
+                << Word_Palindrome("wow kaobei ss") << __LN__;
     _COLOR_RECOVER;
 }
-
 
 void Test_Tp_AVG()
 {       
@@ -378,8 +377,6 @@ void Test_LB_UB()
     //     _is_it++;
     // }
 }
-
-
 
 void TestTask()
 {
@@ -481,3 +478,4 @@ void TestTask()
     ConsoleIterOutput<std::string > ( CriticsPick(_movies, 10) );
 }
 
+__END_NS__

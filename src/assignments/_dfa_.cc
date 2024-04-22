@@ -4,8 +4,6 @@
 #include "../../include/_dfa_.hpp"
 #include "../../include/_stream_.hpp"
 
-
-
 #include <cassert>
 #include <cctype>
 #include <cstdlib>
@@ -143,6 +141,9 @@ bool DFA::simu(std::string const & _input)
     return Alan::AssoFind<>(accps, _state);
 }
 
+
+__DEF_NS__(Alan::Demos::Test::Func)
+
 // Test Pass
 bool ValidateEmail(std::string const & _email)
 {
@@ -172,3 +173,4 @@ void TestEmail()
     _COLOR_RECOVER;
 }
 
+__END_NS__

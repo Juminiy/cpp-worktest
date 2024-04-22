@@ -461,4 +461,11 @@ __END_NS__
 __END_NS__
 
 
+__DEF_NS__(Alan::Demos::Test::Func)
+
+void TestBitCastZeroExt2SignExt();
+
+__END_NS__
+
+
 #endif 

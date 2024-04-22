@@ -1,0 +1,28 @@
+{
+    "rpcAction": "sendGalaxyForensicEvent",
+    "galaxySessionId": "e35298bd-a787-45e5-8056-141ac35a1edd",
+    "data": [
+        {
+            "application": "SQL_CONSOLE",
+            "timestamp": 1713757310772,
+            "userId": "Google_110732747633960017799",
+            "namespace": "app",
+            "component": "window",
+            "interaction": "trigger",
+            "orgId": "c719a910-d2fd-49b7-b34f-1674b10a6e5e",
+            "event": "blur",
+            "message": "blur",
+            "properties": {
+                "properties": {
+                    "application": "SQL_CONSOLE",
+                    "page": "https://console.clickhouse.cloud/services/01f14098-9bbd-4e73-8117-d134cba4198f/database/default/table/movies_test",
+                    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                    "service": {
+                        "id": "01f14098-9bbd-4e73-8117-d134cba4198f"
+                    },
+                    "orgId": "c719a910-d2fd-49b7-b34f-1674b10a6e5e"
+                }
+            }
+        }
+    ]
+}

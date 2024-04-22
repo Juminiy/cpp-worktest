@@ -17,7 +17,7 @@
 
 __USE_NS__(Alan::Demos);
 
-void TestAISnakeGame()
+void Alan::Demos::Test::Func::TestAISnakeGame()
 {
     gameT gmt = gameT();
     gmt.init();
@@ -237,3 +237,6 @@ void pointT::print()
                 << col 
                 << "]";
 }
+// TODO:
+// 1. make a tradeoff between class-inner and class-outer decl friend functions
+// 2. make a test of class-outer define functions

@@ -4,14 +4,19 @@
 
 #ifdef __cplusplus
 extern "C" {
-
+// 1. can define namespace in header and source file
+//	header: .h .hpp (.c[may be a joke])
+//	source: .cc .cpp .tcc
 #define __DEF_NS__(__ns__) \
         namespace __ns__ {
 #define __END_NS__ }
 
+// 2. can use namespace only in source file
+// 	source: .cc .cpp .tcc
 #define __USE_NS__(__ns__) \
         using namespace __ns__
 
+// 3. define Macro not include in their scopes
 #endif 
 #ifdef __cplusplus
 }
@@ -181,6 +186,8 @@ extern "C" {
         _COLOR_CL(_COLOR_CYAN, _ct_)
 #define _WHITE(_ct_) \
         _COLOR_CL(_COLOR_WHITE, _ct_)
+#define __CT_OF_CL_(_cl_, _ct_) \
+        _COLOR_CL(_cl_, std::to_string(_ct_))
 
 #define _COLOR_START(_cl_) \
         PRINT(_COLOR_HEAD \
@@ -221,6 +228,22 @@ extern "C" {
         PRINT_DETAIL(_ct_) << __LN__
 #define __CNEW_LINE__ \
         __ONEW_LINE__(std::cout)
+
+// TODO:
+//      1. show color while show string
+//      2. must use last << _id, ignore front all
+//      3. use opensource library fmt..., etc
+#define OUTPUT_DETAIL_CL(__os__, __cl__, __ct__) \
+        __os__ << #__ct__ << " = " << __cl__(__ct__)
+#define OUTPUTLN_DETAIL_CL(__os__, __cl__, __ct__) \
+        OUTPUT_DETAIL_CL(__os__, __cl__, __ct__) << __LN__
+#define PRINT_DETAIL_CL(__cl__, __ct__) \
+        OUTPUT_DETAIL_CL(std::cout, __cl__, __ct__)
+#define PRINTLN_DETAIL_CL(__cl__, __ct__) \
+        PRINT_DETAIL_CL(__cl__, __ct__) << __LN__
+
+#define OUTPUT_USE2(__os__, _attr0, _attr1) \
+        __os__._attr0, __os__._attr1;
 
 #define ERR(_ct_) \
         OUTPUT(std::cerr, _ct_)

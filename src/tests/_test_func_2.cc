@@ -1061,7 +1061,8 @@ void TestGenerateFullv1()
 }
 
 void TestAll()
-{
+{   
+    __USE_NS__(Alan::Demos::Test::Func);
     // TestBirthDayParadox();
     // TestUMap();
     // TestUSet();
@@ -1076,7 +1077,7 @@ void TestAll()
     // TestSSet();
     // TestRangeFind();
     // TestMatchingPrefix();
-    // TestAlgo();
+    TestAlgo();
     // TestIteratorAdapter();
     // TestAssoContainerAlgo();
     // TestRemoveAlgo();

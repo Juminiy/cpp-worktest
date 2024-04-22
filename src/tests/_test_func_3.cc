@@ -229,6 +229,7 @@ void TestAllV3()
     // TestIntN();
     // TestVTable();
     // Testvec256();
-    TestMoveForward();
+    // TestMoveForward();
+    Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt();
 }
 

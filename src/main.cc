@@ -22,6 +22,7 @@ int main(int argc, char *argv[], char *envp[])
 {
     int case_num = 0;
 
+    __USE_NS__(Alan::Demos::Test::Func);
     while( (case_num = 
             getopt_long(argc, 
                         argv, 

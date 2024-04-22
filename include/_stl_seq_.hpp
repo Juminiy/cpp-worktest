@@ -219,6 +219,66 @@ _Tp _Avg(_Container &__container,
                             res_pair.second.second));
 }
 
+template <typename _Tp>
+GEN_FUNC_COPY
+void appendSeq(std::vector<_Tp> & __dest, 
+                const std::vector<_Tp> & __src)
+{
+    if(__src.empty())
+        return ;
+    __dest.reserve(__dest.size() + __src.size());
+    __dest.insert(__dest.end(), __src.begin(), __src.end());
+}
+
+template <typename _Tp>
+GEN_FUNC_COPY
+void appendSeq(std::vector<_Tp> & __dest, 
+                std::vector<_Tp> && __src)
+{
+    if(__src.empty())
+        return ;
+    if(__dest.empty())
+    { 
+        __dest.swap(__src);
+        return ; 
+    }
+    __dest.reserve(__dest.size() + __src.size());
+    __dest.insert(__dest.end(), 
+        std::make_move_iterator(__src.begin()), 
+        std::make_move_iterator(__src.end()));
+    __src.clear();
+}
+
+template <typename _Seq_Container>
+GEN_FUNC_COPY
+void appendSeq(_Seq_Container & __dest, 
+                const _Seq_Container & __src)
+{
+    if(__src.empty())
+        return ;
+    // __dest.reserve(__dest.size() + __src.size());
+    __dest.insert(__dest.end(), __src.begin(), __src.end());
+}
+
+template <typename _Seq_Container>
+GEN_FUNC_COPY
+void appendSeq(_Seq_Container & __dest, 
+                _Seq_Container && __src)
+{
+    if(__src.empty())
+        return ;
+    if(__dest.empty())
+    { 
+        __dest.swap(__src);
+        return ; 
+    }
+    // __dest.reserve(__dest.size() + __src.size());
+    __dest.insert(__dest.end(), 
+        std::make_move_iterator(__src.begin()), 
+        std::make_move_iterator(__src.end()));
+    __src.clear();
+}
+
 __END_NS__
 
 

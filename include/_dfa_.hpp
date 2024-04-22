@@ -3,19 +3,16 @@
 #define _DFA_HPP
 
 #include <string>
-
 #include <map>
 #include <unordered_map>
-
 #include <set>
 #include <unordered_set>
-
 #include <utility>
 #include <functional>
 
-__DEF_NS__(Alan)
+#include "_i_lib_.hpp"
 
-__DEF_NS__(Demos)
+__DEF_NS__(Alan::Demos)
 
 class AutoMata
 {
@@ -48,11 +45,13 @@ public:
 
 __END_NS__
 
-__END_NS__
+
+__DEF_NS__(Alan::Demos::Test::Func)
 
 bool ValidateEmail(std::string const &);
 void TestEmail();
 
+__END_NS__
 
 
 #endif 

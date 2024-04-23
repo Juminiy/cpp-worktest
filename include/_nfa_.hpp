@@ -9,9 +9,7 @@
 #include <vector>
 #include <utility>
 
-__DEF_NS__(Alan)
-
-__DEF_NS__(Demos)
+__DEF_NS__(Alan::Demos)
 
 class NFA
 {
@@ -39,8 +37,10 @@ public:
 
 __END_NS__
 
-__END_NS__
+__DEF_NS__(Alan::Demos::Test::Func)
 
 void TestNFA();
+
+__END_NS__
 
 #endif 

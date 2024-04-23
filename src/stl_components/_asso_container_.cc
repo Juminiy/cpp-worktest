@@ -30,10 +30,25 @@
 
 #include <memory>
 
-__USE_NS__(Alan);
-
 typedef std::unordered_map<int, std::string > um_i32_str;
 typedef um_i32_str::value_type _i32_str_pr ;
+
+typedef std::map<std::string, std::string > _SS_Map;
+typedef std::map<std::string, std::string > & _SS_Map_reference;
+typedef const std::map<std::string, std::string > & _SS_Map_const_reference;
+
+typedef std::multimap<std::string, std::string> _SS_MMap;
+typedef std::multimap<std::string, std::string> & _SS_MMap_reference;
+typedef const std::multimap<std::string, std::string> & _SS_MMap_const_reference;
+
+
+typedef std::map<std::string, int > _SI_Map;
+typedef std::map<std::string, int > & _SI_Map_referecne;
+typedef const std::map<std::string, int > & _SI_Map_const_reference;
+
+__USE_NS__(Alan);
+__USE_NS__(Alan::Demos);
+__DEF_NS__(Alan::Demos::Test::Func)
 
 void TestUMap()
 {   
@@ -129,7 +144,6 @@ void TestUSet()
                 << __LN__;
     ConsoleBeautyOutput(pTS);
 }
-
 
 void TestIterator()
 {
@@ -323,19 +337,6 @@ void TestRangeFind()
     }
 }
 
-typedef std::map<std::string, std::string > _SS_Map;
-typedef std::map<std::string, std::string > & _SS_Map_reference;
-typedef const std::map<std::string, std::string > & _SS_Map_const_reference;
-
-typedef std::multimap<std::string, std::string> _SS_MMap;
-typedef std::multimap<std::string, std::string> & _SS_MMap_reference;
-typedef const std::multimap<std::string, std::string> & _SS_MMap_const_reference;
-
-
-typedef std::map<std::string, int > _SI_Map;
-typedef std::map<std::string, int > & _SI_Map_referecne;
-typedef const std::map<std::string, int > & _SI_Map_const_reference;
-
 _SI_Map_referecne
 _NumberDuplicateEntries(_SS_Map_const_reference _ss_map)
 {   
@@ -434,3 +435,4 @@ void TestMatchingPrefix()
 
 }
 
+__END_NS__

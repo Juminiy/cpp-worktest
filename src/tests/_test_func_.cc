@@ -19,6 +19,7 @@
 #include <cstddef>
 
 __USE_NS__(std::literals);
+__DEF_NS__(Alan::Demos::Test::Func)
 
 std::string testLocalLayout();
 void testLocalCppTypeLayout();
@@ -327,7 +328,6 @@ void TestReadOnlyRBTree()
 
 }
 
-
 void TestRRef()
 {
     auto i32_v = 
@@ -367,3 +367,5 @@ void TestHashTable()
 
     Alan::ConsoleIterOutput<Alan::Demos::pointT >(_pS);
 }
+
+__END_NS__

@@ -4,9 +4,7 @@
 #include "_i_lib_.hpp"
 #include "_stl_lib_.hpp"
 
-__DEF_NS__(Alan)
-
-__DEF_NS__(Demos)
+__DEF_NS__(Alan::Demos)
 
 class Base 
 {
@@ -34,8 +32,10 @@ public:
 
 __END_NS__
 
-__END_NS__
+__DEF_NS__(Alan::Demos::Test::Func)
 
 void TestPolym0();
+
+__END_NS__
 
 #endif 

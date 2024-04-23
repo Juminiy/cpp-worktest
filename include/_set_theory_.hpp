@@ -327,6 +327,11 @@ private:
 
 __END_NS__
 
+__DEF_NS__(Alan::Demos::Test::Func)
+
 void TestSSet();
+
+__END_NS__
+
 
 #endif 

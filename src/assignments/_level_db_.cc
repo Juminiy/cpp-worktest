@@ -1,3 +1,4 @@
+#include "../../include/_i_lib_.hpp"
 #include "../../include/_level_db_.hpp"
 #include "../../include/_stl_str_lib_.hpp"
 
@@ -11,6 +12,8 @@
 #endif
 
 #if defined(LEVELDB_EXPORT)
+
+__DEF_NS__(Alan::LDB)
 
 void _LDB_GET
 (const std::string &_ldb_key, 
@@ -202,5 +205,7 @@ void leveldb_cmd()
         break;
     }
 }
+
+__END_NS__
 
 #endif 

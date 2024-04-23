@@ -12,6 +12,8 @@
 
 #include <cassert>
 
+__DEF_NS__(Alan::Demos::Test::Func)
+
 void TestLevelDB()
 {
     leveldb::DB *l_db;
@@ -53,5 +55,7 @@ void TestLevelDB()
 
     delete l_db;
 }
+
+__END_NS__
 
 #endif  

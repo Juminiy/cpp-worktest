@@ -29,7 +29,8 @@
 #include <stack>
 #include <queue>
 
-
+__USE_NS__(Alan::Demos);
+__DEF_NS__(Alan::Demos::Test::Func)
 
 void TestConstAndPointer()
 {   
@@ -152,7 +153,6 @@ void TestVectorFunctor2()
                 << __LN__;
 }
 
-
 void TestVectorFunc3()
 {   
     // 4 4 
@@ -225,7 +225,6 @@ void TestRingBuffer()
     _ring.print();
     _COLOR_RECOVER;
 }
-
 
 // example:
 // optarg <_Tp = std::string > = 8,4 
@@ -423,3 +422,5 @@ void TestCopySeq()
                     (std::cout, ", "));
     
 }
+
+__END_NS__

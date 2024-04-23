@@ -22,7 +22,7 @@
 #include <vector>
 #include <utility>
 
-__USE_NS__(Alan::Demos);
+__DEF_NS__(Alan::Demos)
 
 NFA::NFA()
 {
@@ -198,6 +198,12 @@ bool NFA::simu(const std::string &_input)
     return false; 
 }
 
+__END_NS__
+
+
+__USE_NS__(Alan::Demos);
+__DEF_NS__(Alan::Demos::Test::Func)
+
 // example:
 // optarg <_Tp = int > = 10 
 void TestNFA()
@@ -231,3 +237,5 @@ void TestNFA()
                     << std::boolalpha 
                     << _it.second << __LN__;
 }
+
+__END_NS__

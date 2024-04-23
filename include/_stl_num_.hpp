@@ -78,6 +78,9 @@ _Tp_1 Power(const _Tp_1 & _num,
     return pow(static_cast<double>(_num), _pow);
 }
 
+__END_NS__
+
+__DEF_NS__(Alan::Demos)
 
 template <typename _Tp>
 class _parr

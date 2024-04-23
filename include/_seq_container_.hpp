@@ -13,26 +13,6 @@
 #include <iterator>
 #include <functional>
 
-void TestConstAndPointer();
-
-void TestAutoBind();
-
-void TestVector();
-
-void TestVectorFunctor();
-
-void TestValArray();
-
-void TestVectorFunctor2();
-
-void TestVectorFunc3();
-
-void TestRingBuffer();
-
-void TestAgainstVectorReverseWithNot();
-
-void TestVigenereEncrypt();
-
 GEN_FUNC_COPY
 std::string genString(int const &_len)
 {   
@@ -41,9 +21,7 @@ std::string genString(int const &_len)
     );
 }
 
-__DEF_NS__(Alan)
-
-__DEF_NS__(Demos)
+__DEF_NS__(Alan::Demos)
 
 template <typename _Tp, 
             typename _Container = std::deque<_Tp> >
@@ -123,9 +101,33 @@ private:
 
 __END_NS__
 
-__END_NS__
+
+__DEF_NS__(Alan::Demos::Test::Func)
+
+void TestConstAndPointer();
+
+void TestAutoBind();
+
+void TestVector();
+
+void TestVectorFunctor();
+
+void TestValArray();
+
+void TestVectorFunctor2();
+
+void TestVectorFunc3();
+
+void TestRingBuffer();
+
+void TestAgainstVectorReverseWithNot();
+
+void TestVigenereEncrypt();
 
 void TestConV2();
 
 void TestCopySeq();
+
+__END_NS__
+
 #endif 

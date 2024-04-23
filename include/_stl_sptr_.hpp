@@ -4,9 +4,7 @@
 
 #include "_i_lib_.hpp"
 
-__DEF_NS__(Alan)
-
-__DEF_NS__(Demos)
+__DEF_NS__(Alan::Demos)
 
 template < typename _Tp >
 class _Smart_ptr  
@@ -149,6 +147,5 @@ private:
 
 __END_NS__
 
-__END_NS__
 
 #endif

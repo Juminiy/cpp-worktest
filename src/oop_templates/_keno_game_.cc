@@ -1,3 +1,4 @@
+#include "../../include/_i_lib_.hpp"
 #include "../../include/_stl_lib_.hpp"
 
 #include "../../include/_keno_game_.hpp"
@@ -6,12 +7,7 @@
 #include <iterator>
 #include <iostream>
 
-__USE_NS__(Alan::Demos);
-
-void TestFMRadio()
-{
-    PRINTLN("FMRadio");
-}
+__DEF_NS__(Alan::Demos)
 
 void KenoGame::AddNumber(int const &_val){
     this->user_guessed.insert(_val);
@@ -31,6 +27,16 @@ size_t KenoGame::NumWinner(std::vector<int > const &_chsd){
         if(Alan::AssoFind<>(this->user_guessed, _val))
             ++ _cnt;
     return _cnt;
+}
+
+__END_NS__
+
+__USE_NS__(Alan::Demos);
+__DEF_NS__(Alan::Demos::Test::Func)
+
+void TestFMRadio()
+{
+    PRINTLN("FMRadio");
 }
 
 // need console input 
@@ -71,3 +77,5 @@ void TestKenoGame()
                 << " >" << __LN__;
     PRINTLN("game over");
 }
+
+__END_NS__

@@ -27,7 +27,28 @@
 
 #define DEFAULT_DB /tmp/chisato_db
 
+#define __LDB_CMD__ \
+        ldb_opts = optarg; \
+    while(*ldb_opts) \
+    { \
+        switch (getsubopt(&ldb_opts, ldb_case, &ldb_vals)) \
+        { \
+        case GET: \
+            _LDB_GET(std::string(ldb_vals)); \
+            break; \
+        case PUT: \
+            _LDB_PUT(std::string(ldb_vals), \
+                    std::string(ldb_vals)); \
+            break; \
+        case DEL: \
+            _LDB_DEL(std::string(ldb_vals)); \
+            break; \
+        default: \
+            break; \
+        } \
+    }
 
+__DEF_NS__(Alan::LDB)
 
 void _LDB_GET
 (const std::string &_ldb_key, 
@@ -52,25 +73,18 @@ void _LDB_KEYS
 // ./main -l del key='key'
 void leveldb_cmd();
 
-#define __LDB_CMD__ \
-        ldb_opts = optarg; \
-    while(*ldb_opts) \
-    { \
-        switch (getsubopt(&ldb_opts, ldb_case, &ldb_vals)) \
-        { \
-        case GET: \
-            _LDB_GET(std::string(ldb_vals)); \
-            break; \
-        case PUT: \
-            _LDB_PUT(std::string(ldb_vals), \
-                    std::string(ldb_vals)); \
-            break; \
-        case DEL: \
-            _LDB_DEL(std::string(ldb_vals)); \
-            break; \
-        default: \
-            break; \
-        } \
-    }
+#define LDB_ERR_DETAIL \
+        _COLOR_START(_COLOR_RED); \
+            ERRLN("leveldb has not found in dir: /usr/local"); \
+            _COLOR_START(_COLOR_PURPLE); \
+            ERRLN("some step to solve: "); \
+            ERRLN("1. disable this option in Makefile directly"); \
+            ERRLN("2. enable this option in Makefile"); \
+            ERRLN("(1). install leveldb from source code"); \
+            ERRLN("(2). change option 'leveldb_prefix' in Makefile"); \
+            ERRLN("(3). recompile with: make build && make clean && make -j8"); \
+        _COLOR_RECOVER
+
+__END_NS__
 
 #endif

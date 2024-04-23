@@ -9,7 +9,7 @@
 // (1). can not modify the source file
 // (2). can not modify the Alan::Demos0::_Printer impl
 
-__USE_NS__(Alan::Demos0);
+__DEF_NS__(Alan::Demos0)
 
 void _Printer::setFont(const std::string & fontName, size_t _sz)
 {
@@ -29,3 +29,5 @@ void _Printer::printDocument(const std::string & _document) const
 {
     PRINTLN(_COLOR_CL_VAR(std::to_string(this->__color__), _document));
 }
+
+__END_NS__

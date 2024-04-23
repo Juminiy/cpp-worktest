@@ -25,14 +25,14 @@
 #include <algorithm>
 #include <functional>
 
-__USE_NS__(Alan::Demos);
+__DEF_NS__(Alan::Demos);
 
 DFA::DFA()
 {
 
 }
 
-bool Alan::Demos::is_num_state(const std::string &_state)
+bool is_num_state(const std::string &_state)
 {
     return find_if_not(_state.cbegin(),
                         _state.cend(),
@@ -141,7 +141,10 @@ bool DFA::simu(std::string const & _input)
     return Alan::AssoFind<>(accps, _state);
 }
 
+__END_NS__
 
+
+__USE_NS__(Alan::Demos);
 __DEF_NS__(Alan::Demos::Test::Func)
 
 // Test Pass

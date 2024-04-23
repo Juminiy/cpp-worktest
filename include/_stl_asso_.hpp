@@ -234,7 +234,6 @@ class RWHashMap
 
 };
 
-
 __END_NS__
 
 #endif

@@ -15,14 +15,7 @@
 
 #include <pthread.h>
 
-__USE_NS__(Alan::Demos);
-
-void Alan::Demos::Test::Func::TestAISnakeGame()
-{
-    gameT gmt = gameT();
-    gmt.init();
-    gmt.simu();
-}
+__DEF_NS__(Alan::Demos)
 
 // random left or right 
 void gameT::ndir()
@@ -237,6 +230,18 @@ void pointT::print()
                 << col 
                 << "]";
 }
+
+__END_NS__
+
 // TODO:
 // 1. make a tradeoff between class-inner and class-outer decl friend functions
 // 2. make a test of class-outer define functions
+
+__USE_NS__(Alan::Demos);
+
+void Alan::Demos::Test::Func::TestAISnakeGame()
+{
+    gameT gmt = gameT();
+    gmt.init();
+    gmt.simu();
+}

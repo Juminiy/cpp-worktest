@@ -15,13 +15,22 @@
 #include <algorithm>
 #include <type_traits>
 #include <memory>
+#include <any>
 
 #include <cassert>
-#include <any>
+#include <cstdint>
+#include <cstddef>
+#include <cfloat>
+#include <locale>
+#include <codecvt>
+#include <stdexcept>
 #include <cstdint>
 #include <cstddef>
 #include <cfloat>
 
+__USE_NS__(Alan);
+__USE_NS__(Alan::Demos);
+__DEF_NS__(Alan::Demos::Test::Func)
 
 // example:
 // 1 2 3
@@ -254,7 +263,7 @@ void TestConPlus()
 
 void TestBitwiseChange()
 {
-    Alan::_parr<int > pArr0(10);
+    Alan::Demos::_parr<int > pArr0(10);
     auto pArr0_data = pArr0.data();
     pArr0_data[3] = 5;
     for(size_t _i=0; _i < 10; ++_i)
@@ -718,8 +727,6 @@ void TestClassOpCase()
     // _Singleton_type::getInst();   
 }
 
-#include <stdexcept>
-
 void ioInt32(std::string const & _src){
     int _var = 0;
     char _left_over = 0;
@@ -844,8 +851,6 @@ void TestGen3()
     // Alan::ConsoleBeautyOutput(*_str_con_v0);
 }
 
-#include <cstdint>
-#include <cstddef>
 void TestGenInteger()
 {   
     // signed integer
@@ -915,7 +920,6 @@ void TestGenInteger()
     }
 }
 
-#include <cfloat>
 void TestGenFloat32Float64()
 {   
     // vector
@@ -1031,8 +1035,6 @@ void TestGenStrv0()
     }
 }
 
-#include <locale>
-#include <codecvt>
 void TestUnicodev0()
 {   
     // runtime error in msys2
@@ -1046,7 +1048,7 @@ void TestUnicodev0()
 void TestGenBound()
 {
     // Alan::ConsoleBeautyOutput(Alan::_Gen_Seq_Str_Con(Alan::CONST::, ));
-    Alan::ConsoleBeautyOutput(*Alan::_Gen_Seq_Con<std::vector<int > >(1,5));
+    ConsoleBeautyOutput(*_Gen_Seq_Con<std::vector<int > >(1,5));
 }
 
 void TestGenerateFullv1()
@@ -1062,7 +1064,6 @@ void TestGenerateFullv1()
 
 void TestAll()
 {   
-    __USE_NS__(Alan::Demos::Test::Func);
     // TestBirthDayParadox();
     // TestUMap();
     // TestUSet();
@@ -1077,7 +1078,7 @@ void TestAll()
     // TestSSet();
     // TestRangeFind();
     // TestMatchingPrefix();
-    TestAlgo();
+    // TestAlgo();
     // TestIteratorAdapter();
     // TestAssoContainerAlgo();
     // TestRemoveAlgo();
@@ -1137,3 +1138,5 @@ void TestAll()
     // TestGenerateFullv1();
     TestAllV3();
 }
+
+__END_NS__

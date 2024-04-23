@@ -7,9 +7,7 @@
 
 #include <string>
 
-__DEF_NS__(Alan)
-
-__DEF_NS__(Demos0)
+__DEF_NS__(Alan::Demos0)
 
 // only to print document synchronized
 class _Printer 
@@ -26,8 +24,5 @@ private:
 };
 
 __END_NS__
-
-__END_NS__
-
 
 #endif 

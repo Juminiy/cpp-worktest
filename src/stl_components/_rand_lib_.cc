@@ -19,6 +19,7 @@
 #include <utility>
 #include <chrono>
 
+__DEF_NS__(Alan::Demos::Test::Func)
 
 void TestNormalRand()
 {
@@ -65,3 +66,5 @@ void TestXorshift32()
                     << _s.size()
                     << " times");
 }
+
+__END_NS__

@@ -32,7 +32,6 @@
 #include <random>
 
 __USE_NS__(Alan);
-
 __DEF_NS__(Alan::Demos::Test::Func)
 
 // may occur stackdump when runtime!!!

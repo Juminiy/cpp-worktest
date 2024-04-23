@@ -10,6 +10,8 @@
 #include <map>
 #include <unordered_map>
 
+__DEF_NS__(Alan::Demos::Test::Func)
+
 void TestSSet()
 {
     using Alan::SSet;
@@ -48,3 +50,4 @@ void TestSSet()
 
 }
 
+__END_NS__

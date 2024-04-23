@@ -23,6 +23,7 @@ int main(int argc, char *argv[], char *envp[])
     int case_num = 0;
 
     __USE_NS__(Alan::Demos::Test::Func);
+    __USE_NS__(Alan::LDB);
     while( (case_num = 
             getopt_long(argc, 
                         argv, 
@@ -48,37 +49,22 @@ int main(int argc, char *argv[], char *envp[])
         break;
 
             case 'a':
-        // TestAgainstVectorReverseWithNot();
-        // TestVigenereEncrypt();
-        // TestEmail();
-        // TestNFA();
-        Test_Palindrome();
+        TestAllHasArgv();
         break;
 
             case 'l':
-            
-            #if defined(LEVELDB_EXPORT)
-                leveldb_cmd(); 
-                // __LDB_CMD__
-            #else 
-                _COLOR_START(_COLOR_RED);
-                    ERRLN("leveldb has not found in dir: /usr/local");
-                    _COLOR_START(_COLOR_PURPLE);
-                    ERRLN("some step to solve: ");
-                    ERRLN("1. disable this option in Makefile directly");
-                    ERRLN("2. enable this option in Makefile");
-                    ERRLN("(1). install leveldb from source code");
-                    ERRLN("(2). change option 'leveldb_prefix' in Makefile");
-                    ERRLN("(3). recompile with: make build && make clean && make -j8");
-                _COLOR_RECOVER;
-            #endif 
+        #if defined(LEVELDB_EXPORT)
+            leveldb_cmd(); 
+            // __LDB_CMD__
+        #else 
+            LDB_ERR_DETAIL;
+        #endif 
         break;
 
             default:
         OptUsageV2();
         exit(ARGUS_ERROR);
         break;
-
         }
 
     return 0;

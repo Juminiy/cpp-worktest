@@ -14,9 +14,12 @@
 #include "_keno_game_.hpp"
 #include "_level_db_.hpp"
 #include "_sim_printer_.hpp"
+#include "_nfa_.hpp"
+#include "_dfa_.hpp"
 
 #include <queue>
 #include <vector>
+
 #if (__CC_VER__ > 1)
     #include <unistd.h>
 #elif (__CC_VER__ == 1)
@@ -24,63 +27,7 @@
 #endif
 #include <cstdarg>
 
-void TestReadWriteFile();
-
-void TestBoolAlpha();
-
-void TestReadLines();
-
-void TestCinAteN();
-
-void TestOSS();
-
-int Capitals(int const &);
-
-void TestHasHexLetters_3_version_pat(int const &);
-
-void DrawTriangle(int const&);
-
-void TestInRange(int const &);
-
-void TestInRangeV2(int const &);
-
-void TestReadOnlyRBTree();
-
-void TestRRef();
-
-void TestHashTable();
-
-void TestADV();
-
-void TestCon2By();
-
-void TestSeqLB_UB();
-
-void TestPLoc();
-
-void TestConstPointer();
-
-void TestConPlus();
-
-void TestBitwiseChange();
-
-void TestSZof();
-
-void TestLevelDB();
-
-void TestTuple();
-
-void TestSTDAny();
-
-void TestAll();
-
-void TestAllV3();
-
-
-__DEF_NS__(Alan)
-
-__DEF_NS__(Demos)
-
+__DEF_NS__(Alan::Demos)
 
 #ifndef DEBUG_MODE
 #define DEBUG_MODE
@@ -168,7 +115,6 @@ public:
 
 // _Singleton_type::_instance = _Singleton_type();
 
-
 template <typename _Tp, typename... _Args>
 class _Tuple 
 {
@@ -233,9 +179,6 @@ private:
 };
 
 void FillingPrint(const Alan::Demos0::_Printer &);
-
-
-
 
 template <typename _Tp>
 using __grid_ = std::vector<std::vector<_Tp > > ;
@@ -458,10 +401,62 @@ public:
 
 __END_NS__
 
-__END_NS__
-
 
 __DEF_NS__(Alan::Demos::Test::Func)
+
+void TestReadWriteFile();
+
+void TestBoolAlpha();
+
+void TestReadLines();
+
+void TestCinAteN();
+
+void TestOSS();
+
+int Capitals(int const &);
+
+void TestHasHexLetters_3_version_pat(int const &);
+
+void DrawTriangle(int const&);
+
+void TestInRange(int const &);
+
+void TestInRangeV2(int const &);
+
+void TestReadOnlyRBTree();
+
+void TestRRef();
+
+void TestHashTable();
+
+void TestADV();
+
+void TestCon2By();
+
+void TestSeqLB_UB();
+
+void TestPLoc();
+
+void TestConstPointer();
+
+void TestConPlus();
+
+void TestBitwiseChange();
+
+void TestSZof();
+
+void TestLevelDB();
+
+void TestTuple();
+
+void TestSTDAny();
+
+void TestAll();
+
+void TestAllV3();
+
+void TestAllHasArgv();
 
 void TestBitCastZeroExt2SignExt();
 

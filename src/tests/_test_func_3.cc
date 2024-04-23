@@ -30,6 +30,10 @@
 
 // #include <linalg>
 
+__USE_NS__(Alan);
+__USE_NS__(Alan::Demos);
+__DEF_NS__(Alan::Demos::Test::Func)
+
 // func_ptr do not use const & parameter 
 bool _str_sz_less_than
 (std::string _str, size_t _sz) 
@@ -104,7 +108,6 @@ void TestMigrate()
     PRINTLN_DETAIL(_iiit);  
 }
 
-
 std::vector<Alan::Demos::_a > 
 ret_a_vec(size_t const _sz = 4)
 {   
@@ -124,7 +127,7 @@ void TestVectorRet()
 }
 
 // __USE_NS__(Alan::Demos);
-void Alan::Demos::FillingPrint(const Alan::Demos0::_Printer & _printer)
+void FillingPrint(const Alan::Demos0::_Printer & _printer)
 {
     _printer.printDocument("Colmz");
 }
@@ -216,7 +219,6 @@ void TestPolyPtr()
     
 }
 
-// #include <bits/stdc++.h>
 void TestAllV3()
 {
     // TestFn01();
@@ -230,6 +232,16 @@ void TestAllV3()
     // TestVTable();
     // Testvec256();
     // TestMoveForward();
-    Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt();
+    // Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt();
 }
 
+void TestAllHasArgv()
+{
+    TestAgainstVectorReverseWithNot();
+    TestVigenereEncrypt();
+    TestEmail();
+    TestNFA();
+    Test_Palindrome();
+}
+
+__END_NS__

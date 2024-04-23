@@ -1,6 +1,9 @@
+#include "../../include/_i_lib_.hpp"
 #include "../../include/_polym_.hpp"
 
 #include <memory>
+
+__DEF_NS__(Alan::Demos::Test::Func)
 
 void TestPolym0()
 {
@@ -12,3 +15,5 @@ void TestPolym0()
     
     _derived0_ptr->print();
 }
+
+__END_NS__

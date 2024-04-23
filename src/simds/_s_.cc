@@ -8,6 +8,8 @@
  
 #include <cstdlib>
 
+__DEF_NS__(Alan::Demos::Test::Func)
+
 void TestLA()
 {
 
@@ -30,5 +32,7 @@ void Testvec256()
     free(_src1);
     free(_src0);
 }
+
+__END_NS__
 
 #endif

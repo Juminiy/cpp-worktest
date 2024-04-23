@@ -18,6 +18,8 @@
 __USE_NS__(Alan);
 __USE_NS__(Alan::Demos);
 
+__DEF_NS__(Alan::Demos::Test::Func)
+
 int subFuncImpl (const int & _lhs, 
                         const int & _rhs)
 {
@@ -153,3 +155,5 @@ void TestTask4()
                     std::ostream_iterator<int >(std::cout, ", "),
                     std::mem_fn(&std::string::length));
 }
+
+__END_NS__

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <iomanip>
 
-// __USE_NS__(Alan::Demos::Func)
+// __USE_NS__(Alan::Demos::Func);
 
 void Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt()
 {

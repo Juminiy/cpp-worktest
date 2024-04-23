@@ -8,7 +8,6 @@
 #include <vector>
 #include <set>
 
-void TestFMRadio();
 
 #define KenoCount1 4
 #define KenoCount2 8
@@ -16,9 +15,7 @@ void TestFMRadio();
 #define KenoRange1 0
 #define KenoRange2 80
 
-__DEF_NS__(Alan)
-
-__DEF_NS__(Demos)
+__DEF_NS__(Alan::Demos)
 
 class KenoGame
 {
@@ -40,8 +37,11 @@ private:
 
 __END_NS__
 
-__END_NS__
+__DEF_NS__(Alan::Demos::Test::Func)
 
+void TestFMRadio();
 void TestKenoGame();
+
+__END_NS__
 
 #endif 

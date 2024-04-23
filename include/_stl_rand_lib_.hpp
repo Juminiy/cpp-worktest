@@ -217,11 +217,11 @@ _Gen_Seq_Con
 (typename _Seq_Container::value_type __range_1, 
 typename _Seq_Container::value_type __range_2)
 {
-    // optimize std::smart_ptr<_Tp>(new _Tp())
-    //     with std::make_smart_ptr_type<_Tp>(_Tp constructor()); // inplace construct
+    // auto _seq_con_ptr =
+    //     std::unique_ptr<_Seq_Container>
+    //     (new _Seq_Container(_sz));
     auto _seq_con_ptr =
-        std::unique_ptr<_Seq_Container>
-        (new _Seq_Container(_sz));
+        std::make_unique<_Seq_Container>(_sz);
     _Iter_Gen_Num(_seq_con_ptr->begin(), _seq_con_ptr->end(),
                     __range_1, __range_2);
     return _seq_con_ptr;
@@ -235,9 +235,11 @@ _Gen_Seq_Con
 (typename _Seq_Container::value_type __range_1, 
 typename _Seq_Container::value_type __range_2)
 {
+    // auto _seq_con_ptr =
+    //     std::unique_ptr<_Seq_Container>
+    //     (new _Seq_Container(_sz));
     auto _seq_con_ptr =
-        std::unique_ptr<_Seq_Container>
-        (new _Seq_Container(_sz));
+        std::make_unique<_Seq_Container>(_sz);
     _Iter_Gen_RNum(_seq_con_ptr->begin(), _seq_con_ptr->end(),
                     __range_1, __range_2);
     return _seq_con_ptr;
@@ -257,9 +259,11 @@ _Gen_Char_Con
     size_t __sz = _con_default_tsz)
 {   
     assert(::strlen(__base_chars_));
+    // auto _char_con_ptr = 
+    //     std::unique_ptr<_Char_Container>
+    //     (new _Char_Container());
     auto _char_con_ptr = 
-        std::unique_ptr<_Char_Container>
-        (new _Char_Container());
+        std::make_unique<_Char_Container>();
     _char_con_ptr->reserve(__sz);
 
     // TODO:
@@ -278,9 +282,11 @@ _Gen_Char_Con
 (const _Char_Container & __base_con_, size_t __sz)
 {
     assert(__base_con_.size());
+    // auto _char_con_ptr = 
+    //     std::unique_ptr<_Char_Container>
+    //     (new _Char_Container());
     auto _char_con_ptr = 
-        std::unique_ptr<_Char_Container>
-        (new _Char_Container());
+        std::make_unique<_Char_Container>();
     _char_con_ptr->reserve(__sz);
 
     // TODO:
@@ -303,9 +309,11 @@ _Gen_Seq_Str_Con
 size_t _str_sz_rg1, size_t _str_sz_rg2)
 {   
     using _ele_str_type = typename _Seq_Str_Container::value_type;
+    // auto _seq_str_con_ptr = 
+    //     std::unique_ptr<_Seq_Str_Container>
+    //     (new _Seq_Str_Container());
     auto _seq_str_con_ptr = 
-        std::unique_ptr<_Seq_Str_Container>
-        (new _Seq_Str_Container());
+        std::make_unique<_Seq_Str_Container>();
     _seq_str_con_ptr->reserve(_sz);
 
     __RD_I_NUM__(size_t, _str_sz_rg1, _str_sz_rg2);
@@ -330,9 +338,11 @@ _Gen_Seq_Str_Con
 size_t _str_sz_rg1, size_t _str_sz_rg2)
 {   
     using _ele_str_type = typename _Seq_Str_Container::value_type;
+    // auto _seq_str_con_ptr = 
+    //     std::unique_ptr<_Seq_Str_Container>
+    //     (new _Seq_Str_Container());
     auto _seq_str_con_ptr = 
-        std::unique_ptr<_Seq_Str_Container>
-        (new _Seq_Str_Container());
+        std::make_unique<_Seq_Str_Container>();
     _seq_str_con_ptr->reserve(_sz);
 
     __RD_I_NUM__(size_t, _str_sz_rg1, _str_sz_rg2);
@@ -360,9 +370,11 @@ _Gen_Seq_Str_Con
 size_t _str_sz_rg1, size_t _str_sz_rg2)
 {   
     using _ele_str_type = typename _Seq_Str_Container::value_type;
+    // auto _seq_str_con_ptr = 
+    //     std::unique_ptr<_Seq_Str_Container>
+    //     (new _Seq_Str_Container());
     auto _seq_str_con_ptr = 
-        std::unique_ptr<_Seq_Str_Container>
-        (new _Seq_Str_Container());
+        std::make_unique<_Seq_Str_Container>();
 
     __RD_I_NUM__(size_t, _str_sz_rg1, _str_sz_rg2);
     for(size_t _i = 0; _i < _sz; ++_i)
@@ -385,9 +397,11 @@ _Gen_Seq_Str_Con
 size_t _str_sz_rg1, size_t _str_sz_rg2)
 {   
     using _ele_str_type = typename _Seq_Str_Container::value_type;
+    // auto _seq_str_con_ptr = 
+    //     std::unique_ptr<_Seq_Str_Container>
+    //     (new _Seq_Str_Container());
     auto _seq_str_con_ptr = 
-        std::unique_ptr<_Seq_Str_Container>
-        (new _Seq_Str_Container());
+        std::make_unique<_Seq_Str_Container>();
 
     __RD_I_NUM__(size_t, _str_sz_rg1, _str_sz_rg2);
     for(size_t _i = 0; _i < _sz; ++_i)

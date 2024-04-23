@@ -216,7 +216,41 @@ void TestMoveForward()
 
 void TestPolyPtr()
 {
-    
+    {
+        auto _v1 = _Gen_Seq_Con<std::vector<int > >(1, 1<<10);
+        auto _v2 = _Gen_Seq_Con<std::vector<int > >(1, 1<<10);
+        ConsoleBeautyOutput(*_v1),
+        ConsoleBeautyOutput(*_v2);
+        appendSeq(*_v1, std::move(*_v2));
+        appendSeq(*_v1, *_v2);
+        ConsoleBeautyOutput(*_v1);
+        ConsoleBeautyOutput(*_v2);
+    }
+
+    {
+        auto _v1 = _Gen_Seq_Con<std::deque<int > >(1, 1<<10);
+        auto _v2 = _Gen_Seq_Con<std::deque<int > >(1, 1<<10);
+        ConsoleBeautyOutput(*_v1),
+        ConsoleBeautyOutput(*_v2);
+        appendSeq(*_v1, std::move(*_v2));
+        appendSeq(*_v1, *_v2);
+        ConsoleBeautyOutput(*_v1);
+        ConsoleBeautyOutput(*_v2);
+    }
+}
+
+void TestFnInvokeTime()
+{
+    auto _fn_dur UNUSED = 
+        [] (auto && _fn, auto&&... _param_pack)
+            -> auto
+        {   
+            // TODO: time duration
+            std::forward<decltype(_fn)>(_fn)
+                (std::forward<decltype(_param_pack)>(_param_pack)...);
+            // cal
+            return ;
+        };
 }
 
 void TestAllV3()
@@ -233,6 +267,7 @@ void TestAllV3()
     // Testvec256();
     // TestMoveForward();
     // Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt();
+    TestPolyPtr();
 }
 
 void TestAllHasArgv()

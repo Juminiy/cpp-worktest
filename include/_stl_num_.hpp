@@ -89,6 +89,7 @@ public:
     _parr(__CONST_REF__(_Tp) _sz)
     {
         this->sz = _sz;
+                    // only for Test
         this->elems = new _Tp[_sz];
     }   
     __PTR__(_Tp) data()

@@ -16,20 +16,14 @@
 #endif
 #include <cstdlib>
 
-
-
 int main(int argc, char *argv[], char *envp[])
 {
-    int case_num = 0;
-
-    __USE_NS__(Alan::Demos::Test::Func);
     __USE_NS__(Alan::LDB);
+    __USE_NS__(Alan::Demos::Test::Func);
+
+    int case_num = 0;
     while( (case_num = 
-            getopt_long(argc, 
-                        argv, 
-                        short_opts, 
-                        long_opts, 
-                        NULL)
+                getopt_long(argc, argv, short_opts, long_opts, NULL)
             ) >= 0)
         switch (case_num)
         {
@@ -69,8 +63,6 @@ int main(int argc, char *argv[], char *envp[])
 
     return 0;
 }
-
-
 
 CONSTRUCT GEN_FUNC_COPY
 void call_main()

@@ -131,6 +131,7 @@ public:
 
     ReadOnlyRBTree(){
         this->_container_ptr = 
+            // TODO: use make smart pointer 
             new _Asso_Container;
     }
 

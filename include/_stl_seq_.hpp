@@ -154,6 +154,7 @@ void _Seq_Deep_Copy_Pointer(__PTR_TO_CONST__(_Tp) __src,
     if (*__dest == nullptr) 
         // TODO: 
         // use smart pointer 
+        // ? how to convert raw to smart
         *__dest = new _Tp[__sz];
     std::copy(__src, __src+__sz, *__dest);
 }

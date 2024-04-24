@@ -280,6 +280,14 @@ void appendSeq(_Seq_Container & __dest,
     __src.clear();
 }
 
+/// sequential container
+template < typename _Container >
+GEN_FUNC_COPY
+void PatienceSort(_Container & __container)
+{
+    
+}
+
 __END_NS__
 
 

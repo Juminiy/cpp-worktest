@@ -463,4 +463,10 @@ void TestBitCastZeroExt2SignExt();
 __END_NS__
 
 
+__DEF_NS__(Alan::Demos::Test::LeetCode)
+
+void TestUBus();
+
+__END_NS__
+
 #endif 

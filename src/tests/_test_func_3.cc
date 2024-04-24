@@ -32,6 +32,7 @@
 
 __USE_NS__(Alan);
 __USE_NS__(Alan::Demos);
+__USE_NS__(Alan::Demos::Test::LeetCode);
 __DEF_NS__(Alan::Demos::Test::Func)
 
 // func_ptr do not use const & parameter 
@@ -267,7 +268,8 @@ void TestAllV3()
     // Testvec256();
     // TestMoveForward();
     // Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt();
-    TestPolyPtr();
+    // TestPolyPtr();
+    TestUBus();
 }
 
 void TestAllHasArgv()

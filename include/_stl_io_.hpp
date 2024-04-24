@@ -449,6 +449,57 @@ void ConsoleOutputAsso(const _Asso_Container & __container)
         Asso_Range_all<_container_type, _iterator_type >(__container));
 }
 
+
+template < typename _Container >
+void ConsoleBeautyOutputEmbedded1(const _Container &__container,
+                                    const char* __delimiter = ", ")
+{
+    PRINT("[");
+
+    size_t _csz = __container.size();
+    if (_csz == 1)
+    {
+        PRINT(*__container.cbegin());
+    } else if (_csz > 1)
+    {
+        auto _it  = __container.begin();
+        auto _eit = __container.begin();
+        std::advance(_eit, _csz-1);
+
+        std::copy(_it, _eit,
+                std::ostream_iterator
+                < typename _Container::value_type >
+                    (std::cout, __delimiter));
+        PRINT(*_eit);
+    }
+
+    PRINT("]");
+}
+
+template< typename _Container_Con >
+void ConsoleBeautyOutputEmbedded2(const _Container_Con &__container_con,
+                                    const char* __delimiter = ", ")
+{
+    PRINT("[");
+
+    size_t _csz = __container_con.size();
+    if (_csz == 1)
+    {
+        ConsoleBeautyOutputEmbedded1(*__container_con.cbegin());
+    } else if (_csz > 1)
+    {
+        auto _it  = __container_con.begin();
+        auto _eit = __container_con.begin();
+        std::advance(_eit, _csz-1);
+        for(; _it != _eit; ++_it)
+            ConsoleBeautyOutputEmbedded1(*_it, __delimiter),
+            PRINT(", ");
+        ConsoleBeautyOutputEmbedded1(*_eit);
+    }
+
+    PRINTLN("]");
+}
+
 __END_NS__
 
 

@@ -16,6 +16,9 @@ extern "C" {
 #define __USE_NS__(__ns__) \
         using namespace __ns__
 
+#define __USE__(__idt__) \
+        using __idt__
+
 // 3. define Macro not include in their scopes
 #endif 
 #ifdef __cplusplus
@@ -283,6 +286,9 @@ extern "C" {
 
 #define GEN_FUNC_COPY \
         static inline
+
+#define __LOOP_GLB__(__cond__) \
+        for(; __cond__ ;)
 
 #if (__CC_VER__ > 1)
     #include <unistd.h>

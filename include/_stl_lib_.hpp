@@ -14,5 +14,6 @@
 #include "_stl_type_identifier_.hpp"
 #include "_stl_sptr_.hpp"
 #include "_stl_str_lib_.hpp"
+#include "_i_sort_.hpp"
 
 #endif

@@ -254,6 +254,15 @@ void TestFnInvokeTime()
         };
 }
 
+void TestISort()
+{
+    auto seq_ptr = 
+        _Gen_Seq_Con<std::vector<int>, (1<<10) >(1, 1<<15);
+    // ConsoleBeautyOutput(*seq_ptr);
+    Alan::Sort::InsertionSort(*seq_ptr);
+    // ConsoleBeautyOutput(*seq_ptr);
+}
+
 void TestAllV3()
 {
     // TestFn01();
@@ -269,7 +278,8 @@ void TestAllV3()
     // TestMoveForward();
     // Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt();
     // TestPolyPtr();
-    TestUBus();
+    // TestUBus();
+    TestISort();
 }
 
 void TestAllHasArgv()

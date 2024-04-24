@@ -299,10 +299,10 @@ extern "C" {
 #include <cstdlib>
 
 GEN_FUNC_COPY
-void __tsleep_(int __sec_)
+void __tsleep_(double __sec_)
 {
     #if __CC_VER__ >= 4
-        usleep(__sec_ * 1000000);
+        usleep(static_cast<int>(__sec_ * 1000000));
     #elif __CC_VER__ == 2
         sleep(__sec_);
     #endif 

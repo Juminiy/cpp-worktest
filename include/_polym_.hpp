@@ -1,3 +1,4 @@
+#pragma once
 #ifndef _POLYM_HPP
 #define _POLYM_HPP
 

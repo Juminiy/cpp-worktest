@@ -33,6 +33,7 @@
 __USE_NS__(Alan);
 __USE_NS__(Alan::Demos);
 __USE_NS__(Alan::Demos::Test::LeetCode);
+__USE_NS__(Alan::Demos::Test::Luogu);
 __DEF_NS__(Alan::Demos::Test::Func)
 
 // func_ptr do not use const & parameter 
@@ -262,8 +263,18 @@ void TestISort()
     // Alan::Sort::InsertionSort(*seq_ptr);
     // ConsoleBeautyOutput(*seq_ptr);
 
-    Alan::Sort::MergeSort(*seq_ptr);  
+    Alan::Sort::MergeSort(*seq_ptr); 
+
     ConsoleBeautyOutput(*seq_ptr); 
+}
+
+void TestRunCPU()
+
+{
+    PRINTLN_DETAIL(Alan::__loops_per_sec_(1));
+    PRINTLN_DETAIL(Alan::__loops_per_sec_(2));
+    PRINTLN_DETAIL(Alan::__loops_per_sec_(3));
+
 }
 
 void TestAllV3()
@@ -281,8 +292,10 @@ void TestAllV3()
     // TestMoveForward();
     // Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt();
     // TestPolyPtr();
-    // TestUBus();
-    TestISort();
+    TestUBus();
+    // TestISort();
+    // Alan_Driver();
+    // TestRunCPU();
 }
 
 void TestAllHasArgv()

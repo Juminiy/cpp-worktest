@@ -469,4 +469,11 @@ void TestUBus();
 
 __END_NS__
 
+
+__DEF_NS__(Alan::Demos::Test::Luogu)
+
+void Alan_Driver();
+
+__END_NS__
+
 #endif 

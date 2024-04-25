@@ -187,7 +187,146 @@ void TestLC354Local()
     PRINTLN(maxEnvelopes(v4));
 }
 
+int minDistance(std::string w1, std::string w2) {
+    
+    return -1;
+}
 
+void TestLC72Local()
+{
+    // 输入：word1 = "horse", word2 = "ros"
+    // 输出：3
+// horse -> rorse (将 'h' 替换为 'r')
+// rorse -> rose (删除 'r')
+// rose -> ros (删除 'e')
+
+    // 输入：word1 = "intention", word2 = "execution"
+    // 输出：5
+// intention -> inention (删除 't')
+// inention -> enention (将 'i' 替换为 'e')
+// enention -> exention (将 'n' 替换为 'x')
+// exention -> exection (将 'n' 替换为 'c')
+// exection -> execution (插入 'u')
+}
+
+// 2 1 3 
+// 7 6 5
+// 13 13 14
+int minFallingPathSum(vector<vector<int>>& matrix) {
+    size_t _szn = matrix.size(), _szm = matrix[0].size();
+    int val = 0x7fffffff;
+    for(size_t _i = 0; _i < _szn; ++_i)
+    {
+        for(size_t _j = 0; _j < _szm; ++_j)
+        {   
+            if (_i)
+            {
+                auto _n0 = _j > 0 ? matrix[_i-1][_j-1] : int(0x7fffffff);
+                auto _n1 = matrix[_i-1][_j];
+                auto _n2 = _j < _szm-1 ? matrix[_i-1][_j+1] : int(0x7fffffff);
+                matrix[_i][_j] += std::min({_n0, _n1, _n2});
+            }
+            
+            if(_i == _szn - 1)
+                val = std::min(val, matrix[_i][_j]);
+        }
+    }
+    return val;
+}
+
+void TestLC931Local()
+{   
+    using vv_type = vector<vector<int>>;
+    auto v1 = vv_type{{2,1,3},{6,5,4},{7,8,9}};
+    //[[2,1,3],[6,5,4],[7,8,9]]
+    PRINTLN_DETAIL(minFallingPathSum(v1));
+    auto v2 = vv_type{{-19,57},{-40,-5}};
+    // [[-19,57],[-40,-5]
+    PRINTLN_DETAIL(minFallingPathSum(v2));
+
+    // [48]
+    auto v3 = vv_type{{48}};
+    PRINTLN_DETAIL(minFallingPathSum(v3));
+}
+
+/*
+  b a b g b a g
+b 0 0 0 0 0 0 0
+a 
+b
+g
+b
+a
+g
+*/
+int numDistinct(string s, string t) {
+
+
+    
+    // rbacccrbac
+    // rbac
+// 1.  rbac
+// 2.  rba c
+// 3.  rba  c
+// 4.  rba      c
+// 5.  rb      ac
+// 6.  r      bac
+// 7.        rbac
+
+    // rabbbit
+    // rabbit
+    // rabb it
+    // rab bit
+    // ra bbit
+
+    // babgbag 
+    // bag
+    // 
+    // ba g
+    // ba    g
+    // b    ag
+    //   b  ag
+    //     bag
+    // i in (0,n) -> dp[:i]<presub[t]> * dp[i:]<postsub[t]>
+    // idea1 以t的下标i分界, t[:i]在s的j之前有几个 * t[i:]在s的j之后有几个 会重复
+    // idea2 以t的下标i分界, t[:i]固定, 找t[i:]在s的个数, g未出现过 ag肯定不出现 
+    
+    // rabcuuvxzssuruxx
+    // rus
+    // r   u    s
+    // r   u     s
+    // r    u   s
+    // r    u    s
+    // r          u   0
+    // r            u 0
+    //             ru 0
+    // 从实际的用例 构造出抽象的形式
+    // 1. 状态转移
+    // 2. 边界
+    // 3. 结果集
+
+    size_t _szs = s.size(), _szt = t.size();
+    if(_szt > _szs)
+        return 0;
+    // subq[i][j][0] // t[:i] -> 
+    // subq[i][j][1] // t[i:] -> 
+    using u64_t = unsigned long long;
+    u64_t subq[_szt+1][_szs+1][2];
+    u64_t tot = 0;
+    auto _mod = static_cast<u64_t>(1e9+7);
+    for(size_t _i = 0; _i < _szt; ++ _i)
+    {
+        for(size_t _j = 0; _j < _szs; ++ _j)
+        {
+            if(s[_j] == t[_j]){
+                subq[_i][_j][0] = subq[_i][_j][0];
+                subq[_i][_j][1] = subq[_i][_j][1];
+            }
+            tot += (subq[_i][_j][0] * (subq[_i][_szt-1][1] - subq[_i][_j][1])) % _mod;
+        }
+    }
+    return tot;
+}
 
 void TestUBus()
 {
@@ -195,7 +334,9 @@ void TestUBus()
     // _fn_v.push_back(TestLC357Local);
     // _fn_v.push_back(TestLC322Local);
     // _fn_v.push_back(TestLC300Local);
-    _fn_v.push_back(TestLC354Local);
+    // _fn_v.push_back(TestLC354Local);
+    // _fn_v.push_back(TestLC72Local);
+    _fn_v.push_back(TestLC931Local);
     // async run
     __LOOP_GLB__(!_fn_v.empty())
     {

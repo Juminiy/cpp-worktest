@@ -65,9 +65,46 @@ void MergeSort(_Container & __container)
                     __helper_con.begin());
 }
 
+template < typename _Iter >
+GEN_FUNC_COPY
+void QuickSortHelper(_Iter __first, _Iter __last)
+{
+    if(__last - __first == 1)
+        return;
+    _Iter _fp = __first;
+    _Iter _lp = __last;
+    size_t __sz = __last - __first;
+    auto _pivot = *(__first + (__sz >> 1));
+    while (_fp < _lp)
+    {
+        while (_pivot < *_lp) -- _lp;
+        while (_pivot > *_fp) ++ _fp;
+        if (_fp < _lp)
+            std::swap(_fp, _lp),
+            ++ _fp, -- _lp;
+    }
+    if(_fp < __last)
+        QuickSortHelper(_fp, __last);
+    if (__first < _lp)
+        QuickSortHelper(__first, _lp);
+}
 
+template < typename _Container >
+GEN_FUNC_COPY
+void QuickSort(_Container & __container)
+{
+    QuickSortHelper(__container.begin(), __container.end());
+}
 
+// TODO:
 // sequential merge sort
+
+// template < typename _Container >
+// GEN_FUNC_COPY
+// void HeapSort(_Container & __container)
+// {
+
+// }
 
 __END_NS__
 

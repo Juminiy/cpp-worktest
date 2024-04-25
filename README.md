@@ -7,6 +7,12 @@
       time make -j8
       # make -j8  10.06s user 1.21s system 567% cpu 1.985 total
       ```
+      ```bash
+      # CPU loops per second
+      Alan::__loops_per_sec_(1) = 24434032
+      Alan::__loops_per_sec_(2) = 49660779
+      Alan::__loops_per_sec_(3) = 74456481
+      ```
    2. Win64 (MINGW64_NT-10.0-19045 DESKTOP-QRS5IC2 3.4.10.x86_64 2024-03-24 15:09 UTC x86_64 Msys, clang version 11.0.0)
       ```bash
       time make -j8
@@ -20,4 +26,10 @@
       # real    0m9.438s
       # user    0m30.923s
       # sys     0m2.909s
+      ```
+      ```bash
+      # CPU loops per second
+      Alan::__loops_per_sec_(1) = 18292420
+      Alan::__loops_per_sec_(2) = 36579376
+      Alan::__loops_per_sec_(3) = 52902849
       ```

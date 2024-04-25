@@ -258,14 +258,25 @@ void TestFnInvokeTime()
 void TestISort()
 {
     auto seq_ptr = 
-        _Gen_Seq_Con<std::vector<int>, (1<<3) >(1, 1<<6);
+        Alan::__unique_2_shared_(_Gen_Seq_Con<std::vector<int>, (1<<3) >(1, 1<<8));
+    
     ConsoleBeautyOutput(*seq_ptr);
     // Alan::Sort::InsertionSort(*seq_ptr);
     // ConsoleBeautyOutput(*seq_ptr);
+    using con_type = std::remove_reference_t<decltype(*seq_ptr)>;
+    using iter_type = con_type::iterator;
 
-    Alan::Sort::MergeSort(*seq_ptr); 
-
+    // auto seq1 = *seq_ptr;
+    Alan::Sort::QuickSort(*seq_ptr);
     ConsoleBeautyOutput(*seq_ptr); 
+    // auto seq2 = con_type(seq1);
+    // auto seq3 = con_type(seq1);
+    // PRINTLN_DETAIL(Alan::__time_count_(std::sort<iter_type>, seq1.begin(), seq1.end()));
+
+    // PRINTLN_DETAIL(Alan::__time_count_(Alan::Sort::MergeSort<con_type>, seq2));
+
+    
+    // ConsoleBeautyOutput(*seq_ptr);   
 }
 
 void TestRunCPU()
@@ -293,9 +304,9 @@ void TestAllV3()
     // Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt();
     // TestPolyPtr();
     // TestUBus();
-    // TestISort();
+    TestISort();
     // Alan_Driver();
-    TestRunCPU();
+    // TestRunCPU();
 }
 
 void TestAllHasArgv()

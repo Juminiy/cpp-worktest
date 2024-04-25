@@ -25,6 +25,21 @@ __loops_per_sec_(uint32_t __secs_)
     return _loops;
 }
 
+/// return milliseconds -> ms
+GEN_FUNC_COPY
+long long  
+__time_count_(auto && __function_, auto &&... __param_pack_)
+{
+    using namespace std::chrono;
+    auto _start = high_resolution_clock::now();
+    auto _end = _start;
+    std::forward<decltype(__function_)>(__function_)
+        (std::forward<decltype(__param_pack_)>(__param_pack_)...);
+    _end = high_resolution_clock::now();
+    return duration_cast<milliseconds>(_end - _start).count();
+}
+
+
 
 __END_NS__
 

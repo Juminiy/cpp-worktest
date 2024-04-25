@@ -147,5 +147,35 @@ private:
 
 __END_NS__
 
+__DEF_NS__(Alan)
+
+template < typename _Tp >
+GEN_FUNC_COPY
+std::shared_ptr< _Tp >
+__unique_2_shared_
+(std::unique_ptr<_Tp> & __uptr_)
+{
+    if(__uptr_) 
+    {
+        auto _raw_ptr = __uptr_.release();
+        return std::shared_ptr<decltype(_raw_ptr)>(_raw_ptr);
+    }
+    else 
+        return nullptr;
+}
+
+
+template < typename _Tp >
+GEN_FUNC_COPY
+std::shared_ptr< _Tp >
+__unique_2_shared_
+(std::unique_ptr<_Tp> && __uptr_)
+{
+    return __uptr_ ? 
+        std::shared_ptr<_Tp>(__uptr_.release()) :
+        nullptr;
+}
+
+__END_NS__
 
 #endif

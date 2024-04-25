@@ -48,22 +48,47 @@ void MergeHeap2Seq(std::vector<int> & __dest,
     }
 }
 
-void InstatncePaSort(std::vector<int > & __container)
+void MergeSeq2SeqByIter(std::vector<int > & __dest,
+    std::vector<std::vector<int > >::const_iterator __first,
+    std::vector<std::vector<int > >::const_iterator __last)
 {
-    // using pq_type = decltype(__src1);
-    // // 1. vector of pq
-    // auto vpq = std::vector<pq_type>();
     
-    // // vpq.reserve(static_cast<int>(std::log2(static_cast<double>(__container.size()))));
-    // // auto _push_to_vpq =
-    // //     [] () 
-    // //         -> 
-    // for(auto &_elem : __container)
-    // {
-    //     // if vpq is empty or not find any fit 
-    //     // then push a new_vector into vpq
-    //     // if ()
-    // }
+}
+
+void MergeSeq2Seq(std::vector<int > & __dest, 
+    const std::vector<std::vector<int > > & __src)
+{
+    auto _mid = __src.size();
+
+}
+
+void InstatancePatienceSort(std::vector<int > & __container)
+{
+    // using pq_type = std::priority_queue<int>;
+    using vi_type = std::vector<int >;
+    // 1. vector of pq
+    auto vpq = std::vector<vi_type>();
+    
+    // vpq.reserve(static_cast<int>(std::log2(static_cast<double>(__container.size()))));
+    auto _push_to_vpq =
+        [&vpq] (int _elem) 
+            -> bool 
+        {
+            for(auto &_pqi : vpq)
+            {
+
+            }
+            return false;
+        };
+    for(auto &_elem : __container)
+    {
+        // if vpq is empty or not find any fit 
+        // then push a new_pq into vpq
+        // if ()
+        // {
+
+        // }
+    }
 
     // 2. pq of pq
     // using pqpq_type = std::priority_queue<pq_type>;

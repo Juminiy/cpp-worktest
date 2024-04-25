@@ -257,10 +257,13 @@ void TestFnInvokeTime()
 void TestISort()
 {
     auto seq_ptr = 
-        _Gen_Seq_Con<std::vector<int>, (1<<10) >(1, 1<<15);
+        _Gen_Seq_Con<std::vector<int>, (1<<3) >(1, 1<<6);
+    ConsoleBeautyOutput(*seq_ptr);
+    // Alan::Sort::InsertionSort(*seq_ptr);
     // ConsoleBeautyOutput(*seq_ptr);
-    Alan::Sort::InsertionSort(*seq_ptr);
-    // ConsoleBeautyOutput(*seq_ptr);
+
+    Alan::Sort::MergeSort(*seq_ptr);  
+    ConsoleBeautyOutput(*seq_ptr); 
 }
 
 void TestAllV3()

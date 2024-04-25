@@ -292,10 +292,10 @@ void TestAllV3()
     // TestMoveForward();
     // Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt();
     // TestPolyPtr();
-    TestUBus();
+    // TestUBus();
     // TestISort();
     // Alan_Driver();
-    // TestRunCPU();
+    TestRunCPU();
 }
 
 void TestAllHasArgv()

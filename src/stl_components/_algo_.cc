@@ -51,8 +51,8 @@ void TestAlgo()
     std::sort(i32_v.begin(),
                 i32_v.end(),
                 []
-                (const int &__lhs__, 
-                    const int & __rhs__) 
+                (int __lhs__, 
+                    int __rhs__) 
                     -> bool {
                     return __lhs__ > __rhs__;
                 });
@@ -215,7 +215,7 @@ void TestRemoveAlgo()
 
 
     i32_v.erase(std::remove_if(i32_v.begin(), i32_v.end(), 
-                                [](const int &_i32) -> bool 
+                                [](int _i32) -> bool 
                                 {
                                     return !(_i32 & (_i32 -1));
                                 }), 
@@ -343,8 +343,8 @@ void Test_LB_UB()
 
     const size_t max_num_width = 
         std::to_string(*std::max_element(i32_v.begin(), i32_v.end(),
-                            [](const int &_lhs, 
-                                const int &_rhs) -> bool {
+                            [](int _lhs, 
+                                int _rhs) -> bool {
                                 return std::to_string(_lhs).size() < 
                                         std::to_string(_rhs).size();
                             })).size();
@@ -440,7 +440,7 @@ void TestTask()
 
     auto CriticsPick = 
         [](const std::map< std::string, double > &_movies,
-            const int &_top_n)
+            int _top_n)
         -> std::set< std::string > 
         {   
             auto _re_ms = std::multimap< double, std::string, std::greater<double > > ();

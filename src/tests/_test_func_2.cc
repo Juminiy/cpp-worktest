@@ -581,8 +581,8 @@ void TestTypeTraits()
 void TestFuncTraits()
 {
     auto _fn = 
-        [](const int & _lhs,
-            const int &_rhs) 
+        [](int _lhs,
+            int _rhs) 
             -> int {
             auto _val = _lhs + _rhs;
             PRINTLN_DETAIL(_val);

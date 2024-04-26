@@ -27,6 +27,7 @@
 #include <cstdint>
 #include <cstddef>
 #include <cfloat>
+#include <cstdlib>
 
 // #include <linalg>
 
@@ -34,6 +35,7 @@ __USE_NS__(Alan);
 __USE_NS__(Alan::Demos);
 __USE_NS__(Alan::Demos::Test::LeetCode);
 __USE_NS__(Alan::Demos::Test::Luogu);
+__USE_NS__(Alan::Demos::Test::SelfList);
 __DEF_NS__(Alan::Demos::Test::Func)
 
 // func_ptr do not use const & parameter 
@@ -111,7 +113,7 @@ void TestMigrate()
 }
 
 std::vector<Alan::Demos::_a > 
-ret_a_vec(size_t const _sz = 4)
+ret_a_vec(size_t _sz = 4)
 {   
     auto _a_vec = 
         std::vector<Alan::Demos::_a>(); 
@@ -255,27 +257,29 @@ void TestFnInvokeTime()
         };
 }
 
+// 2^27B = 128MB
+// 2^32B = 4GB
+// 2^30B = 1GB
 void TestISort()
 {
     auto seq_ptr = 
-        Alan::__unique_2_shared_(_Gen_Seq_Con<std::vector<int>, (1<<3) >(1, 1<<8));
+        Alan::__unique_2_shared_(_Gen_Seq_Con<std::vector<int>, (1<<6) >(1<<2, 1<<8));
     
-    ConsoleBeautyOutput(*seq_ptr);
-    // Alan::Sort::InsertionSort(*seq_ptr);
     // ConsoleBeautyOutput(*seq_ptr);
+    // ConsoleBeautyOutput(*seq_ptr);
+
     using con_type = std::remove_reference_t<decltype(*seq_ptr)>;
     using iter_type = con_type::iterator;
 
     // auto seq1 = *seq_ptr;
-    Alan::Sort::QuickSort(*seq_ptr);
-    ConsoleBeautyOutput(*seq_ptr); 
     // auto seq2 = con_type(seq1);
     // auto seq3 = con_type(seq1);
-    // PRINTLN_DETAIL(Alan::__time_count_(std::sort<iter_type>, seq1.begin(), seq1.end()));
 
-    // PRINTLN_DETAIL(Alan::__time_count_(Alan::Sort::MergeSort<con_type>, seq2));
+    PRINTLN_DETAIL(Alan::__time_count_(std::sort<iter_type>, seq_ptr->begin(), seq_ptr->end()));
+    // PRINTLN_DETAIL(Alan::__time_count_(Alan::Sort::QuickSort<con_type>, seq2));
+    // PRINTLN_DETAIL(Alan::__time_count_(Alan::Sort::MergeSort<con_type>, seq3));
+    // PRINTLN_DETAIL(Alan::__time_count_(::qsort, seq_ptr->begin(), seq_ptr->size(), sizeof(con_type::value_type),std::less<int>()));
 
-    
     // ConsoleBeautyOutput(*seq_ptr);   
 }
 
@@ -304,9 +308,10 @@ void TestAllV3()
     // Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt();
     // TestPolyPtr();
     // TestUBus();
-    TestISort();
+    // TestISort();
     // Alan_Driver();
     // TestRunCPU();
+    TestPostOrderTrav();
 }
 
 void TestAllHasArgv()

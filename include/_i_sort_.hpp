@@ -6,6 +6,7 @@
 #include "_stl_lib_.hpp"
 
 #include <algorithm>
+#include <utility>
 __DEF_NS__(Alan::Sort)
 
 template < typename _Container >
@@ -71,6 +72,7 @@ void QuickSortHelper(_Iter __first, _Iter __last)
 {
     if(__last - __first == 1)
         return;
+    
     _Iter _fp = __first;
     _Iter _lp = __last;
     size_t __sz = __last - __first;
@@ -80,8 +82,8 @@ void QuickSortHelper(_Iter __first, _Iter __last)
         while (_pivot < *_lp) -- _lp;
         while (_pivot > *_fp) ++ _fp;
         if (_fp < _lp)
-            std::swap(_fp, _lp),
-            ++ _fp, -- _lp;
+            std::swap(*_fp, *_lp),
+            -- _lp, ++ _fp;
     }
     if(_fp < __last)
         QuickSortHelper(_fp, __last);

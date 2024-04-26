@@ -120,7 +120,7 @@ SeqRange_v3(_Seq_Ordered_Container &__container,
 /// @param __dup_time 
 template < typename _Container >
 void _Seq_Con_Dup(_Container &__container, 
-                    const size_t &__dup_time)
+                    size_t __dup_time)
 {
     for(size_t _dup_t = 0;
         _dup_t < __dup_time;

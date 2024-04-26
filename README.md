@@ -20,6 +20,12 @@
       # user    0m42.116s
       # sys     0m8.360s
       ```
+      ```bash
+      # CPU loops per second
+      Alan::__loops_per_sec_(1) = 14481591
+      Alan::__loops_per_sec_(2) = 28735669
+      Alan::__loops_per_sec_(3) = 44418881
+      ```
    3. Server (Linux VM-0-16-ubuntu 5.15.0-72-generic #79-Ubuntu SMP Wed Apr 19 08:22:18 UTC 2023     x86_64 x86_64 x86_64 GNU/Linux, Ubuntu clang version 14.0.0-1ubuntu1.1)
       ```bash
       time make -j8

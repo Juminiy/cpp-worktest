@@ -78,7 +78,7 @@ void TestUMap()
 
 }
 
-void BirthdayParadox(int const &_sides, const int &_times = 2)
+void BirthdayParadox(int const &_sides, int _times = 2)
 {
     PSEUDORANDOM_DECL;
     std::unordered_multiset<int> i32s;

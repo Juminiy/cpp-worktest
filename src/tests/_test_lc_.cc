@@ -290,7 +290,7 @@ int numDistinct(string s, string t) {
     // i in (0,n) -> dp[:i]<presub[t]> * dp[i:]<postsub[t]>
     // idea1 以t的下标i分界, t[:i]在s的j之前有几个 * t[i:]在s的j之后有几个 会重复
     // idea2 以t的下标i分界, t[:i]固定, 找t[i:]在s的个数, g未出现过 ag肯定不出现 
-    
+    // 错误的, 只能累加
     // rabcuuvxzssuruxx
     // rus
     // r   u    s
@@ -318,11 +318,15 @@ int numDistinct(string s, string t) {
     {
         for(size_t _j = 0; _j < _szs; ++ _j)
         {
-            if(s[_j] == t[_j]){
-                subq[_i][_j][0] = subq[_i][_j][0];
-                subq[_i][_j][1] = subq[_i][_j][1];
+            if(s[_j] == t[_i]){
+                if(_j)
+                subq[_i][_j][0] += subq[_i][_j-1][0],
+                subq[_i][_j][1] += subq[_i][_j-1][1];
+                else 
+                subq[_i][_j][0] = 1,
+                subq[_i][_j][1] = 1;
             }
-            tot += (subq[_i][_j][0] * (subq[_i][_szt-1][1] - subq[_i][_j][1])) % _mod;
+            tot += ((subq[_i][_j][0] * (subq[_i][_szt-1][1] - subq[_i][_j][1])) % _mod);
         }
     }
     return tot;

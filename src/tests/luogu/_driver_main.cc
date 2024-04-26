@@ -1,77 +1,55 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <iterator>
+#include <cstdio>
 
-template < typename _Seq_Container, 
-            typename _Istream >
-void SeqIterInput(_Seq_Container &__container,
-                    _Istream &__istream)
-{   
-    using __value_type_ = typename _Seq_Container::value_type;
-    std::copy(std::istream_iterator<__value_type_>(__istream),
-                std::istream_iterator<__value_type_>(),
-                std::back_inserter(__container));
-}
+#define __TYPE_OF__(__x__) __typeof__(__x__)
 
-template < typename _Container, 
-            typename _Ostream >
-void IterOutput(const _Container &__container,
-                _Ostream &__ostream,
-                const char* __delimiter)
+#define MAX_Tt(_x, _y) ({ \
+    __TYPE_OF__(_x) __x = (_x);  \
+    __TYPE_OF__(_y) __y = (_y);  \
+    __x > __y ? __x : __y;  \
+})
+
+#define MIN_Tt(_x, _y) ({ \
+    __TYPE_OF__(_x) __x = (_x);  \
+    __TYPE_OF__(_y) __y = (_y);  \
+    __x < __y ? __x : __y;  \
+})
+
+typedef struct vt
+    {
+        int v, t;
+        vt(int _v = 0, int _t = 0) : v(_v), t(_t) { }
+    } vt;
+
+vt vti[150]; 
+int val[150] = {0};   
+
+/* 
+70 3
+71 100 val[70] = 0;
+69 1   val[70] = val[1]+1 = 1
+1 2    val[70] = val[69]+2 = 2
+*/
+int p1048()
 {
-    using __value_type_ = typename _Container::value_type;
-    std::copy(__container.cbegin(), __container.cend(),
-                std::ostream_iterator< __value_type_ >
-                    (__ostream, __delimiter)
-                );
-}
-
-template < typename _Iter >
-void MergeSortHelper(_Iter __dest_first, _Iter __dest_last, 
-                    _Iter __src_first)
-{
-    if(__dest_last - __dest_first == 1)
-        return;
+    int M, T;
     
-    size_t __sz = __dest_last - __dest_first;
-    auto __dest_mid = __dest_first + (__sz >> 1);
-
-    MergeSortHelper(__dest_first, __dest_mid, 
-                    __src_first);
-    MergeSortHelper(__dest_mid, __dest_last, 
-                    __src_first + (__sz >> 1));
-
-    std::merge(__dest_first, __dest_mid, 
-                __dest_mid, __dest_last, 
-                __src_first);
+    scanf("%d%d", &T, &M);
+    for(int i = 0; i < M; i++)
+        scanf("%d%d", &vti[i].t, &vti[i].v);
     
-    std::copy(__src_first, __src_first+__sz, 
-                __dest_first);
-}
-
-template < typename _Container >
-void MergeSort(_Container & __container)
-{
-    auto __helper_con = _Container(__container.size());
-    MergeSortHelper(__container.begin(), __container.end(), 
-                    __helper_con.begin());
-}
-
-// input
-void Alan_Driver()
-{   
-    size_t _n;
-    std::cin >> _n;
-    auto i32v = std::vector<int>();
-    i32v.reserve(_n);
-    SeqIterInput(i32v, std::cin);
-    MergeSort(i32v);
-    IterOutput(i32v, std::cout, " ");
+    for(int m = 0; m < M; m++) 
+    {
+    for(int t = T; t >= vti[m].t; t--) 
+        {
+        val[t] = MAX_Tt(val[t-vti[m].t] + vti[m].v, val[t]);
+        }
+    }
+    printf("%d\n", val[T]);
+    return 0;
 }
 
 int main()
-{
-Alan_Driver();
+{ 
+p1048(); 
 return 0;
 }

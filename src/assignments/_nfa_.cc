@@ -209,7 +209,7 @@ __DEF_NS__(Alan::Demos::Test::Func)
 void TestNFA()
 {
     PSEUDORANDOM_DECL;
-    auto _gen_01_bits = [](const int &_bits) 
+    auto _gen_01_bits = [](int _bits) 
                             -> std::string{
         std::string _s;
         _s.reserve(_bits);

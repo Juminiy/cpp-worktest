@@ -76,7 +76,7 @@ __DEF_NS__(Alan)
 template <typename _Num_Tp >
 GEN_FUNC_COPY
 _Num_Tp _Gen_INum
-(_Num_Tp const &__range_1, _Num_Tp const &__range_2)
+(_Num_Tp __range_1, _Num_Tp __range_2)
 {
     __RD_I_NUM__(_Num_Tp, __range_1, __range_2);
     return _Uid_Gen_Dev(_Rand_Gen);
@@ -85,7 +85,7 @@ _Num_Tp _Gen_INum
 template <typename _Num_Tp >
 GEN_FUNC_COPY
 _Num_Tp _Gen_RNum
-(_Num_Tp const &__range_1, _Num_Tp const &__range_2)
+(_Num_Tp __range_1, _Num_Tp __range_2)
 {
     __RD_R_NUM__(_Num_Tp, __range_1, __range_2);
     return _Uid_Gen_Dev(_Rand_Gen);
@@ -100,7 +100,7 @@ _Num_Tp _Gen_RNum
 template <typename _Num_Tp >
 GEN_FUNC_COPY
 _Num_Tp _Gen_Num
-(_Num_Tp const &__range_1, _Num_Tp const &__range_2)
+(_Num_Tp __range_1, _Num_Tp __range_2)
 {
     return _Gen_INum(__range_1, __range_2);
 }
@@ -138,7 +138,7 @@ template <typename _Num_Tp,
 GEN_FUNC_COPY
 void _Iter_Gen_INum
 (_ForwardIterator __first, _ForwardIterator __last, 
-    _Num_Tp const &__range_1, _Num_Tp const &__range_2)
+    _Num_Tp __range_1, _Num_Tp __range_2)
 {
     __RD_I_NUM__(_Num_Tp, __range_1, __range_2);
     std::generate(__first, __last, __RD_I_LAM__(_Num_Tp));
@@ -149,7 +149,7 @@ template <typename _Num_Tp,
 GEN_FUNC_COPY
 void _Iter_Gen_RNum
 (_ForwardIterator __first, _ForwardIterator __last, 
-    _Num_Tp const &__range_1, _Num_Tp const &__range_2)
+    _Num_Tp __range_1, _Num_Tp __range_2)
 {
     __RD_R_NUM__(_Num_Tp, __range_1, __range_2);
     std::generate(__first, __last, __RD_I_LAM__(_Num_Tp));
@@ -167,7 +167,7 @@ template <typename _Num_Tp,
 GEN_FUNC_COPY
 void _Iter_Gen_Num
 (_ForwardIterator __first, _ForwardIterator __last, 
-    _Num_Tp const &__range_1, _Num_Tp const &__range_2)
+    _Num_Tp __range_1, _Num_Tp __range_2)
 {
     _Iter_Gen_INum(__first, __last, __range_1, __range_2);
 }
@@ -181,7 +181,7 @@ template <typename _Num_Tp,
 GEN_FUNC_COPY
 void _Seq_Con_Fil_Gen_Num
 (_Container &__container, 
-    _Num_Tp const &__range_1, _Num_Tp const &__range_2)
+    _Num_Tp __range_1, _Num_Tp __range_2)
 {
     _Iter_Gen_Num(__container.begin(), __container.end(), 
                 __range_1, __range_2);
@@ -199,8 +199,8 @@ GEN_FUNC_COPY
 // _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR_SINCE_CXX20
 // #endif
 void _Seq_Con_Ins_Gen_Num
-(_Container &__container, size_t const &__gen_count,
-    _Num_Tp const &__range_1, _Num_Tp const &__range_2)
+(_Container &__container, size_t __gen_count,
+    _Num_Tp __range_1, _Num_Tp __range_2)
 {
     __RD_I_NUM__(_Num_Tp, __range_1, __range_2);
     __container.reserve(__gen_count);
@@ -433,7 +433,7 @@ size_t _str_sz_rg1, size_t _str_sz_rg2)
 // // _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR_SINCE_CXX20
 // // #endif
 // void _Seq_Con_Ins_Gen_Arbitrary
-// (_Container &__container, size_t const &__gen_count)
+// (_Container &__container, size_t __gen_count)
 // {
 //     __RD_I_NUM__(_Num_Tp, __range_1, __range_2);
 //     std::generate_n(std::back_inserter(__container), 

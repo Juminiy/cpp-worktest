@@ -156,4 +156,27 @@ void TestTask4()
                     std::mem_fn(&std::string::length));
 }
 
+void TestLambda2()
+{
+    size_t __pm = 0, __pl = 1;
+    auto _fn_1 = 
+        // capture list
+        // if do not assgin captured var explicitly
+        // & -> auto captures all, can read/ write, means for &
+        
+        // var captured, auto deduced captured type
+        // [&__pm, __pl] // -> explicit deduced, & ref captured, var const ref captured
+        // there can mixed
+        [=, &__pm] // = -> auto caputres all, can only read, means for const & 
+        (size_t __lhs, size_t __rhs) 
+            -> bool 
+        {
+            __pm = __pl + 8;
+            return __lhs < __rhs;
+        };
+    
+    PRINTLN_DETAIL(_fn_1(1, 2));
+
+}
+
 __END_NS__

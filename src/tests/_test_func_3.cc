@@ -11,6 +11,7 @@
 #include <iostream>
 #include <iomanip>
 
+#include <queue>
 #include <vector>
 #include <deque>
 #include <map>
@@ -292,6 +293,19 @@ void TestRunCPU()
 
 }
 
+void TestPQ()
+{
+    auto pq = std::priority_queue<int, std::vector<int >, std::greater<int> >();
+    pq.push(1000);
+    pq.push(1);
+    pq.push(10);
+    pq.push(20);
+    pq.push(100);
+
+    PRINTLN_DETAIL(pq.top());
+    pq.pop();
+}
+
 void TestAllV3()
 {
     // TestFn01();
@@ -311,7 +325,12 @@ void TestAllV3()
     // TestISort();
     // Alan_Driver();
     // TestRunCPU();
-    TestPostOrderTrav();
+    // TestPostOrderTrav();
+    // TestPQ();
+    
+    // TODO: need to test for problems
+    // MaxActivityCounts();
+    TestLambda2();
 }
 
 void TestAllHasArgv()

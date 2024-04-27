@@ -9,7 +9,7 @@ debug_mode_print = -DDEBUG_MODE=1 #-D_LDB_=1
 debug_gdb = echo "gdb -q -tui main"
 debug_lldb = echo "lldb main" && echo "gui"
 
-avx_args = -mavx
+avx_args = #-mavx #not in arm 
 
 # global lib: leveldb snappy 
 leveldb_prefix= /usr/local

@@ -522,6 +522,9 @@ __DEF_NS__(Alan::Demos::Test::Func)
 
 void TestPostOrderTrav();
 
+size_t MaxActivityCounts
+(std::vector<std::vector <int> > &);
+
 __END_NS__
 
 #endif 

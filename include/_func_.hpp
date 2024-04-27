@@ -67,6 +67,8 @@ void TestTask2();
 void TestTask3();
 void TestTask4();
 
+void TestLambda2();
+
 __END_NS__
 
 #endif

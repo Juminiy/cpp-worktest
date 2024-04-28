@@ -1,7 +1,6 @@
+#include "../../include/_i_lib_.hpp"
 #include "../../include/_ai_snake_game_.hpp"
 #include "../../include/_stream_.hpp"
-
-
 
 #include <fstream>
 #include <algorithm>
@@ -15,6 +14,7 @@
 
 #include <pthread.h>
 
+__USE_NS__(Alan::Demos::Test::Func);
 __DEF_NS__(Alan::Demos)
 
 // random left or right 
@@ -138,7 +138,6 @@ void gameT::mapl()
 
 }
 
-
 void gameT::aipl()
 {   
     _mov();
@@ -189,7 +188,6 @@ void gameT::simu()
     resp();
 }
 
-
 void pointT::walk(int _dx, int _dy)
 {
     row += _dx;
@@ -238,10 +236,14 @@ __END_NS__
 // 2. make a test of class-outer define functions
 
 __USE_NS__(Alan::Demos);
+__DEF_NS__(Alan::Demos::Test::Func)
 
-void Alan::Demos::Test::Func::TestAISnakeGame()
+void 
+TestAISnakeGame()
 {
     gameT gmt = gameT();
     gmt.init();
     gmt.simu();
 }
+
+__END_NS__

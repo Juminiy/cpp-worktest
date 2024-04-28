@@ -6,8 +6,6 @@
 #include "../../include/_asso_container_.hpp"
 #include "../../include/_ai_snake_game_.hpp"
 
-
-
 #include <ctime>
 #include <cmath>
 #include <cassert>
@@ -29,22 +27,6 @@
 #include <unordered_set>
 
 #include <memory>
-
-typedef std::unordered_map<int, std::string > um_i32_str;
-typedef um_i32_str::value_type _i32_str_pr ;
-
-typedef std::map<std::string, std::string > _SS_Map;
-typedef std::map<std::string, std::string > & _SS_Map_reference;
-typedef const std::map<std::string, std::string > & _SS_Map_const_reference;
-
-typedef std::multimap<std::string, std::string> _SS_MMap;
-typedef std::multimap<std::string, std::string> & _SS_MMap_reference;
-typedef const std::multimap<std::string, std::string> & _SS_MMap_const_reference;
-
-
-typedef std::map<std::string, int > _SI_Map;
-typedef std::map<std::string, int > & _SI_Map_referecne;
-typedef const std::map<std::string, int > & _SI_Map_const_reference;
 
 __USE_NS__(Alan);
 __USE_NS__(Alan::Demos);

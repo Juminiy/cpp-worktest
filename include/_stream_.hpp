@@ -9,7 +9,6 @@
 #include <map>
 #include <memory>
 
-
 #define StaticFilePrefix "test/static-file/"
 #define ConFilePath(_file_name_) StaticFilePrefix#_file_name_
 #define PatFilePath(_file_name_) StaticFilePrefix + std::string(_file_name_)
@@ -19,6 +18,8 @@
     assert(inputFilePtr); \
     auto inputFile = inputFilePtr.get(); \
     assert(inputFile && inputFile->is_open()); \
+
+__DEF_NS__(Alan::Demos::Test::Func)
 
 enum writeMode{
     readOnly,
@@ -53,5 +54,7 @@ bool HasHexLetters_ss_functor_version(long long const &);
 
 std::string GetLine();
 std::unique_ptr<std::fstream> readFile(std::string const &);
+
+__END_NS__
 
 #endif 

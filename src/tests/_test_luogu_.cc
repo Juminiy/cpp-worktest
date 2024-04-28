@@ -18,7 +18,7 @@ void Alan_Driver()
     Alan::SeqIterInput(i32v, std::cin); // *nix Ctrl+D; Windows Ctrl+Z
     Alan::Sort::MergeSort(i32v);
     Alan::IterOutput(i32v, std::cout, " ");
-
+    
 }
 
 __END_NS__

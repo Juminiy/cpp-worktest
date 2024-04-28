@@ -59,8 +59,6 @@ auto _t_plus(_Tp_1 && __lhs,
             std::move(__rhs);
 }
 
-
-
 template <typename _Tp >
 // std::enable_if_t< 
 //     _infer_num_type<_Tp>::value, 
@@ -78,9 +76,20 @@ _Tp_1 Power(const _Tp_1 & _num,
     return pow(static_cast<double>(_num), _pow);
 }
 
-// TODO: logn int version
+template <typename __int_tp_>
+__int_tp_ Log2Up(__int_tp_ _num)
+{
+    return static_cast<__int_tp_>(::ceil(::log(static_cast<double>(_num))));
+}
+
+template <typename __int_tp_>
+__int_tp_ Log2Dn(__int_tp_ _num)
+{
+    return static_cast<__int_tp_>(::floor(::log(static_cast<double>(_num))));
+}
 
 __END_NS__
+
 
 __DEF_NS__(Alan::Demos)
 

@@ -25,6 +25,8 @@
 #include <algorithm>
 #include <functional>
 
+
+__USE_NS__(Alan::Demos::Test::Func);
 __DEF_NS__(Alan::Demos);
 
 DFA::DFA()

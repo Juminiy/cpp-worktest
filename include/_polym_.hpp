@@ -33,6 +33,7 @@ public:
 
 __END_NS__
 
+
 __DEF_NS__(Alan::Demos::Test::Func)
 
 void TestPolym0();

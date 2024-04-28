@@ -2,6 +2,8 @@
 #ifndef _DFA_HPP
 #define _DFA_HPP
 
+#include "_i_lib_.hpp"
+
 #include <string>
 #include <map>
 #include <unordered_map>
@@ -10,7 +12,6 @@
 #include <utility>
 #include <functional>
 
-#include "_i_lib_.hpp"
 
 __DEF_NS__(Alan::Demos)
 

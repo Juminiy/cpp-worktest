@@ -4,22 +4,19 @@
 
 #include "_i_lib_.hpp"
 
+#include <cstdarg>
+
 #include <vector>
 #include <string>
 #include <deque>
 #include <fstream>
 #include <map>
 
-#include <cstdarg>
-
-
 #if (__CC_VER__ > 1)
     #include <unistd.h>
 #elif (__CC_VER__ == 1)
     #include <windows.h>
 #endif
-
-
 
 #define kMaxFood 1<<3
 #define kMinFood 5
@@ -29,7 +26,6 @@
 #define kSnakeTile '*'
 #define kSleepTime 1
 
-
 #define GameTip(_tip_) PRINT(_tip_)
 #define GameTips(_tip_, ...) PRINTLN_VA(_tip_, ...)
 
@@ -38,6 +34,15 @@
 #define GenFileName(baseName) \
         GameFileNamePrefix+baseName+GameFileNameSuffix 
 
+// 1,0 -> 0,1 / 0,-1
+// 0,1 -> 1,0 / -1,0
+// -1,0 -> 0,1 / 0,-1
+// 0,-1 -> 1,0 / -1,0
+// static int 
+// GameDirect[4][2] = 
+// {{1,0},{0,1},{-1,0},{0,-1}};
+
+__DEF_NS__(Alan::Demos)
 
 GEN_FUNC_COPY
 void GamePause(unsigned int micro_secs)
@@ -61,16 +66,6 @@ void GameClearConsole()
         system("CLS");
     #endif
 }
-
-// 1,0 -> 0,1 / 0,-1
-// 0,1 -> 1,0 / -1,0
-// -1,0 -> 0,1 / 0,-1
-// 0,-1 -> 1,0 / -1,0
-// static int 
-// GameDirect[4][2] = 
-// {{1,0},{0,1},{-1,0},{0,-1}};
-
-__DEF_NS__(Alan::Demos)
 
 class pointT
 {
@@ -108,8 +103,6 @@ public:
         return _is;
     }
 };
-
-
 
 typedef struct gameT 
 {

@@ -12,7 +12,6 @@
 #include <cstdint>
 #include <cstddef>
 
-
 #if __CC_VER__ == 2
 #include <ext/numeric>
 #endif 
@@ -530,8 +529,6 @@ template <typename _Tp>
 const size_t _Point_Loc<_Tp>::_axis_y(1);
 template <typename _Tp>
 const size_t _Point_Loc<_Tp>::_axis_z(2);
-
-
 
 template<typename _Tp >
 const _Point_Loc<_Tp >

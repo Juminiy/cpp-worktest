@@ -7,6 +7,7 @@
 #include "../../include/_sim_printer_.hpp"
 #include "../../include/_intn_.hpp"
 #include "../../include/_simd_.hpp"
+#include "../../include/_self_list_.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -36,7 +37,7 @@ __USE_NS__(Alan);
 __USE_NS__(Alan::Demos);
 __USE_NS__(Alan::Demos::Test::LeetCode);
 __USE_NS__(Alan::Demos::Test::Luogu);
-__USE_NS__(Alan::Demos::Test::SelfList);
+__USE_NS__(Alan::SelfList);
 __DEF_NS__(Alan::Demos::Test::Func)
 
 // func_ptr do not use const & parameter 
@@ -308,28 +309,27 @@ void TestPQ()
 
 void TestAllV3()
 {
-    // TestFn01();
-    // TestSharedPtr();
-    // TestPolym0();
-    // TestMigrate();
-    // TestVectorRet();
-    // TestSimPrinter();
-    // TestConstructSptr();
-    // TestIntN();
-    // TestVTable();
-    // Testvec256();
-    // TestMoveForward();
-    // Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt();
-    // TestPolyPtr();
-    // TestUBus();
-    // TestISort();
-    // Alan_Driver();
-    // TestRunCPU();
-    // TestPostOrderTrav();
-    // TestPQ();
+    TestFn01();
+    TestSharedPtr();
+    TestPolym0();
+    TestMigrate();
+    TestVectorRet();
+    TestSimPrinter();
+    TestConstructSptr();
+    TestIntN();
+    TestVTable();
+    Testvec256();
+    TestMoveForward();
+    Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt();
+    TestPolyPtr();
+    TestUBus();
+    TestISort();
+    Alan_Driver();
+    TestRunCPU();
+    TestPostOrderTrav();
+    TestPQ();
     
-    // TODO: need to test for problems
-    // MaxActivityCounts();
+    /* TODO: need to test for problems */
     TestLambda2();
 }
 

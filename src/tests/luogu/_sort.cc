@@ -59,7 +59,7 @@ void MergeSort(_Container & __container)
 }
 
 // input
-void SortDriver()
+int main()
 {   
     size_t _n;
     std::cin >> _n;
@@ -68,4 +68,5 @@ void SortDriver()
     SeqIterInput(i32v, std::cin);
     MergeSort(i32v);
     IterOutput(i32v, std::cout, " ");
+    return 0;
 }

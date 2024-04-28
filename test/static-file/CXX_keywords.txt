@@ -1,4 +1,4 @@
-(内存相关)符号
+(内存相关)
 alignas
 alignof
 asm

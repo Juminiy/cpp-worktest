@@ -17,7 +17,6 @@ void _Printer::setFont(const std::string & fontName, size_t _sz)
     this->__font_sz = _sz;
 }
 
-
 void _Printer::setColor(const std::string & _color)
 {
     auto _col_i = std::stoi(_color);

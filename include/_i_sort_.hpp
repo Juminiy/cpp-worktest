@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <utility>
+
 __DEF_NS__(Alan::Sort)
 
 template < typename _Container >
@@ -101,12 +102,12 @@ void QuickSort(_Container & __container)
 // TODO:
 // sequential merge sort
 
-// template < typename _Container >
-// GEN_FUNC_COPY
-// void HeapSort(_Container & __container)
-// {
+template < typename _Container >
+GEN_FUNC_COPY
+void HeapSort(_Container & __container)
+{
 
-// }
+}
 
 __END_NS__
 

@@ -29,6 +29,7 @@ int val[150] = {0};
 69 1   val[70] = val[1]+1 = 1
 1 2    val[70] = val[69]+2 = 2
 */
+// not ok!
 int p1048()
 {
     int M, T;

@@ -19,6 +19,7 @@
 
 #include <queue>
 #include <vector>
+#include <deque>
 
 #if (__CC_VER__ > 1)
     #include <unistd.h>
@@ -96,8 +97,7 @@ private:
     int _el;
 };
 
-
-class _Singleton_type 
+class _Singleton_type
 {
 private:
     __DEF_ALL_V2__(_st, _Singleton_type);
@@ -112,7 +112,6 @@ public:
         return _instance;
     }
 };
-
 // _Singleton_type::_instance = _Singleton_type();
 
 template <typename _Tp, typename... _Args>
@@ -132,7 +131,6 @@ class _Tuple
 
 
 };
-
 
 class _BatchPrinter :
     public Alan::Demos0::_Printer
@@ -210,7 +208,6 @@ struct __pixelT_
     uint8_t __b_;
 };
 
-
 class _Document 
 {
 public:
@@ -219,7 +216,6 @@ public:
     virtual int getPriority() const = 0;
     virtual char* getName() const = 0;
 };
-
 
 class _TextDocument
     : public _Document
@@ -473,47 +469,6 @@ __END_NS__
 __DEF_NS__(Alan::Demos::Test::Luogu)
 
 void Alan_Driver();
-
-__END_NS__
-
-
-__DEF_NS__(Alan::Demos::Test::SelfList)
-
-template < typename _Tp >
-class __tree_node_{
-public:
-
-    __DEF_ALL_V2__(__tn, __tree_node_);
-
-    _Tp __val_;
-    struct __tree_node_ * __left_;
-    struct __tree_node_ * __right_;
-    bool __vis_;
-    struct __tree_node_ * __parent_;
-    bool __color_;
-
-    __tree_node_(_Tp __pval = _Tp(), 
-            __tn_pointer __pleft = nullptr, __tn_pointer __pright = nullptr)
-        : __val_(__pval),  __left_(__pleft), __right_(__pright),
-            __vis_(false), __parent_(nullptr), __color_(false)
-        { }
-};
-
-template < typename _Tp >
-void __postorder_traverse
-(__tree_node_<_Tp> * , std::vector<_Tp > & );
-
-template < typename _Tp >
-void __preorder_traverse
-(__tree_node_<_Tp> * , std::vector<_Tp > & );
-
-template < typename _Tp >
-void __midorder_traverse
-(__tree_node_<_Tp> * , std::vector<_Tp > & );
-
-template < typename _Tp >
-void __bfs_traverse
-(__tree_node_<_Tp> * , std::vector<_Tp > & );
 
 __END_NS__
 

@@ -199,8 +199,6 @@ void AssoIterInput(_Asso_Container &__container,
                 std::inserter(__container));
 }
 
-
-
 typedef std::ios_base& (*_AlignFunc) (std::ios_base&);
 
 // inspired by and extended by

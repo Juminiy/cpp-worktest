@@ -161,7 +161,6 @@ int maxEnvelopes(vector<vector<int>>& envelopes) {
     return _sstk_m_fn(_comp_less);
 }
 
-
 void TestLC354Local()
 {
     // [[5,4],[6,4],[6,7],[2,3]]
@@ -305,31 +304,32 @@ int numDistinct(string s, string t) {
     // 2. 边界
     // 3. 结果集
 
-    size_t _szs = s.size(), _szt = t.size();
-    if(_szt > _szs)
-        return 0;
-    // subq[i][j][0] // t[:i] -> 
-    // subq[i][j][1] // t[i:] -> 
-    using u64_t = unsigned long long;
-    u64_t subq[_szt+1][_szs+1][2];
-    u64_t tot = 0;
-    auto _mod = static_cast<u64_t>(1e9+7);
-    for(size_t _i = 0; _i < _szt; ++ _i)
-    {
-        for(size_t _j = 0; _j < _szs; ++ _j)
-        {
-            if(s[_j] == t[_i]){
-                if(_j)
-                subq[_i][_j][0] += subq[_i][_j-1][0],
-                subq[_i][_j][1] += subq[_i][_j-1][1];
-                else 
-                subq[_i][_j][0] = 1,
-                subq[_i][_j][1] = 1;
-            }
-            tot += ((subq[_i][_j][0] * (subq[_i][_szt-1][1] - subq[_i][_j][1])) % _mod);
-        }
-    }
-    return tot;
+    // size_t _szs = s.size(), _szt = t.size();
+    // if(_szt > _szs)
+    //     return 0;
+    // // subq[i][j][0] // t[:i] -> 
+    // // subq[i][j][1] // t[i:] -> 
+    // using u64_t = unsigned long long;
+    // u64_t subq[_szt+1][_szs+1][2];
+    // u64_t tot = 0;
+    // auto _mod = static_cast<u64_t>(1e9+7);
+    // for(size_t _i = 0; _i < _szt; ++ _i)
+    // {
+    //     for(size_t _j = 0; _j < _szs; ++ _j)
+    //     {
+    //         if(s[_j] == t[_i]){
+    //             if(_j)
+    //             subq[_i][_j][0] += subq[_i][_j-1][0],
+    //             subq[_i][_j][1] += subq[_i][_j-1][1];
+    //             else 
+    //             subq[_i][_j][0] = 1,
+    //             subq[_i][_j][1] = 1;
+    //         }
+    //         tot += ((subq[_i][_j][0] * (subq[_i][_szt-1][1] - subq[_i][_j][1])) % _mod);
+    //     }
+    // }
+    // return tot;
+    return 0;
 }
 
 void TestUBus()

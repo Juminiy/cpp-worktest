@@ -13,15 +13,15 @@
 #include <iterator>
 #include <functional>
 
+__DEF_NS__(Alan::Demos)
+
 GEN_FUNC_COPY
-std::string genString(int const &_len)
+std::string genString(int _len)
 {   
     return *Alan::_Gen_Char_Con(
         Alan::CONST::_base_alpha_num_(), _len
     );
 }
-
-__DEF_NS__(Alan::Demos)
 
 template <typename _Tp, 
             typename _Container = std::deque<_Tp> >

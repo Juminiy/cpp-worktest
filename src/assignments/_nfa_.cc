@@ -4,8 +4,7 @@
 #include "../../include/_nfa_.hpp"
 #include "../../include/_stream_.hpp"
 #include "../../include/_dfa_.hpp"
-
-
+#include "../../include/_self_list_.hpp"
 
 #include <cstdlib>
 #include <cstring>
@@ -22,6 +21,7 @@
 #include <vector>
 #include <utility>
 
+__USE_NS__(Alan::Demos::Test::Func);
 __DEF_NS__(Alan::Demos)
 
 NFA::NFA()

@@ -286,9 +286,17 @@ extern "C" {
 
 #define GEN_FUNC_COPY \
         static inline
+#define __VAR_GLB__ \
+        static
 
 #define __LOOP_GLB__(__cond__) \
         for(; __cond__ ;)
+#define __LOOP_IF__(__cond__) \
+        while(__cond__) {
+#define __FI_POOL__ }
+#define __LOOP_NIF__(__cond__) \
+        while(!__cond__) {
+#define __FIN_POOL__ }
 
 #if (__CC_VER__ > 1)
     #include <unistd.h>
@@ -356,7 +364,12 @@ char * __tstrdup_(const char * __str_)
 #include <cctype>
 #include <cstdlib>
 #include <cerrno>
-#include <getopt.h>
+#if (__CC_VER__ > 1)
+    #include <getopt.h>
+    #include <unistd.h>
+#elif (__CC_VER__ == 1)
+    #include <windows.h>
+#endif
 
 #include <iostream>
 

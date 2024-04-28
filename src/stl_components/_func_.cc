@@ -86,7 +86,6 @@ void _Takein_Fn(_UnrayFunction _fn, _Args... _args)
     PRINTLN_DETAIL(_fn(_args...));
 }
 
-
 /// @brief variable parameter use ::va_list 
 /// @param _sz 
 /// @param  

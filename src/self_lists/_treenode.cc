@@ -1,12 +1,12 @@
 #include "../../include/_i_lib_.hpp"
 #include "../../include/_stl_lib_.hpp"
-#include "../../include/_test_func_.hpp"
+#include "../../include/_self_list_.hpp"
 
 #include <vector>
 #include <stack>
 #include <queue>
 
-__DEF_NS__(Alan::Demos::Test::SelfList)
+__DEF_NS__(Alan::SelfList)
 
 template < typename _Tp >
 void __postorder_traverse
@@ -116,7 +116,7 @@ __END_NS__
 
 __DEF_NS__(Alan::Demos::Test::Func)
 
-__USE_NS__(Alan::Demos::Test::SelfList);
+__USE_NS__(Alan::SelfList);
 
 template < typename _Tp >
 __tree_node_< _Tp >* __make_demo_tree()

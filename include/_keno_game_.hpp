@@ -8,7 +8,6 @@
 #include <vector>
 #include <set>
 
-
 #define KenoCount1 4
 #define KenoCount2 8
 #define KenoCountMax 20

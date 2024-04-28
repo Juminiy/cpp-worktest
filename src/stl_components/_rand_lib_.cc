@@ -3,7 +3,6 @@
 
 #include "../../include/_ai_snake_game_.hpp"
 
-
 #include <numeric>
 #include <random>
 
@@ -19,6 +18,7 @@
 #include <utility>
 #include <chrono>
 
+__USE_NS__(Alan::Demos);
 __DEF_NS__(Alan::Demos::Test::Func)
 
 void TestNormalRand()

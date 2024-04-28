@@ -201,7 +201,6 @@ std::string testLocalLayout()
     
 }
 
-
 void TestHasHexLetters_3_version_pat(int const &_round)
 {
     int _round_ = _round;

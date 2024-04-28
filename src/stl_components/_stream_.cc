@@ -1,8 +1,5 @@
 #include "../../include/_i_lib_.hpp"
-
 #include "../../include/_stream_.hpp"
-
-
 
 #include <cassert>
 #include <cctype>
@@ -15,6 +12,8 @@
 #include <algorithm>
 #include <functional>
 #include <iterator>
+
+__DEF_NS__(Alan::Demos::Test::Func)
 
 std::unique_ptr<std::fstream> readFile(std::string const &);
 
@@ -305,8 +304,6 @@ template std::string Type2String(int const &);
 template std::string Type2String(double const &);
 template std::string Type2String(bool const &);
 
-
-
 // ch = 0000 0000
 
 // comp is 
@@ -383,4 +380,6 @@ bool HasHexLetters_ss_functor_version(long long const &_i64)
                         return ((ch & 0xf0) >> 4) >= 0x0a || 
                                 (ch & 0x0f) >= 0x0a;
                     });
-}   
+}
+
+__END_NS__

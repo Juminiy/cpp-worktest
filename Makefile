@@ -2,8 +2,16 @@ export
 
 # compile options
 cxxc = g++
-cxx_args= -Wall -pedantic -O0 -std=c++20 -g
+cxx_args= -Wall -pedantic -O0 $(ignore_warn) -std=c++20 -g
 c_args = -Wall -pedantic -O0 -std=gnu99 -g
+
+# TODO:
+# if else judge compiler and os in makefile
+
+# ignore some warnings
+ignore_warn += -Wno-unused-command-line-argument
+ignore_warn += -Wno-mismatched-tags
+ignore_warn += -Wno-unused-local-typedef
 
 # compie options - args
 # comment -D_LDB_=1 when env not installed leveldb
@@ -123,7 +131,8 @@ objs: $(patsubst %.cc,%.o,$(wildcard *.cc))
 	$(CC) -c $(c_args) $(debug_mode) -o $@ $<
 
 # compile args not in arm
-avx_args = -mavx
+# if else judge CPU info
+avx_args = # -mavx
 
 # compile when global lib: leveldb snappy are installed
 leveldb_prefix= /usr/local

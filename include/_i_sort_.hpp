@@ -66,7 +66,8 @@ void MergeSort(_Container & __container)
     MergeSortHelper(__container.begin(), __container.end(), 
                     __helper_con.begin());
 }
-
+// TODO:
+// maybe wrong
 template < typename _Iter >
 GEN_FUNC_COPY
 void QuickSortHelper(_Iter __first, _Iter __last)

@@ -318,7 +318,9 @@ void TestAllV3()
     TestConstructSptr();
     TestIntN();
     TestVTable();
-    Testvec256();
+    #if __OS_VER__ != 2
+        Testvec256();
+    #endif
     TestMoveForward();
     Alan::Demos::Test::Func::TestBitCastZeroExt2SignExt();
     TestPolyPtr();

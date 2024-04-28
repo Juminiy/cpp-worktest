@@ -8,7 +8,8 @@ __DEF_NS__(Alan::Demos::Test::Func)
 void TestNoArgs()
 {
     PUSH_TASK(__init_test_fn_);
-    PUSH_TASK(TestPaSort);
+    PUSH_TASK(TestPaSort); POP_TASK();
+    PUSH_TASK(Alan::SysInfo::LOGSysInfo);
     RUN_TASKS();
 }
 

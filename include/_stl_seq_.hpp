@@ -288,6 +288,74 @@ void PatienceSort(_Container & __container)
     
 }
 
+
+
+template < typename _Container1, typename _Container2 >
+GEN_FUNC_COPY
+std::pair<std::set<typename _Container1::value_type>,
+            std::set<typename _Container2::value_type> >
+ShowDiff
+(const _Container1 & __container1,
+const _Container2 & __container2)
+{
+    using _set_type = 
+        std::set<typename _Container1::value_type>;
+    auto _set1 = _set_type();
+    auto _set2 = _set_type();
+
+    for(auto __elem : __container1)
+    {
+        _set1.insert(__elem);
+    }
+
+    for(auto __elem : __container2)
+    {
+        _set2.insert(__elem);
+    }
+
+    auto _set1_diff_set2 = _set_type();
+    auto _set2_diff_set1 = _set_type();
+
+    std::set_difference(
+        _set1.begin(), _set1.end(), 
+        _set2.begin(), _set2.end(),
+        std::inserter(_set1_diff_set2, _set1_diff_set2.end())
+    );
+    std::set_difference(
+        _set2.begin(), _set2.end(),
+        _set1.begin(), _set1.end(),
+        std::inserter(_set2_diff_set1, _set2_diff_set1.end())
+    );
+
+    return std::make_pair(
+        _set1_diff_set2,
+        _set2_diff_set1
+    );
+}
+
+template < typename _Container >
+std::vector<size_t> 
+FindUnOrdered( const _Container & __container )
+{
+    if(__container.size() <= 1)
+        return std::vector<size_t>();
+    auto __pivot = __container[0];
+    auto __index = std::vector<size_t>();
+    __index.reserve(__container.size() >> 2);
+    for(size_t _idx = 0; _idx < __container.size(); ++ _idx)
+    {
+        auto __elem = __container[_idx];
+        if( __elem < __pivot)
+        {
+            __index.push_back(_idx);
+        }
+        __pivot = std::move(__elem);
+    }
+
+    return __index;
+}
+
+
 __END_NS__
 
 

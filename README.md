@@ -6,6 +6,9 @@
       ```bash
       time make -j8
       # make -j8  10.06s user 1.21s system 567% cpu 1.985 total
+      # 2024.4.28
+      # make -j10  21.30s user 2.19s system 799% cpu 2.938 total
+      # make main  0.63s user 0.10s system 91% cpu 0.795 total
       ```
       ```bash
       # CPU loops per second

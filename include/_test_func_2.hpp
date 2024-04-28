@@ -23,6 +23,7 @@ void TestNoArgs();
 void TestVaArgs();
 
 #define PUSH_TASK(__fn_) __test_fn_queue_.push_back(__fn_)
+#define POP_TASK() __test_fn_queue_.pop_back()
 #define RUN_TASKS() \
         while(!__test_fn_queue_.empty()) \
         { \

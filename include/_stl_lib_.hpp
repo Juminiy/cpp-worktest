@@ -17,5 +17,6 @@
 #include "_i_sort_.hpp"
 #include "_i_time_.hpp"
 #include "_stl_type_decl_.hpp"
+#include "_sys_info_.hpp"
 
 #endif

@@ -5,6 +5,9 @@
 #include <queue>
 #include <vector>
 #include <functional>
+#include <fstream>
+
+#include <cassert>
 
 __USE_NS__(Alan::SelfList::Inst);
 
@@ -151,28 +154,84 @@ std::vector<std::vector<int> > & _mem)
     {
         auto t0 = lcsmemdfs(s.substr(0, szs-1), t.substr(0, szt), _mem);
         auto t1 = lcsmemdfs(s.substr(0, szs), t.substr(0, szt-1), _mem);
-        if (szs >= 1)
-            _mem[szs-1][szt] = t0;
-        if (szt >= 1)
-            _mem[szs][szt-1] = t1;
+        if (szs >= 2)
+            _mem[szs-2][szt-1] = t0;
+        if (szt >= 2)
+            _mem[szs-1][szt-2] = t1;
         return std::max(t0, t1);
     }
 
 }
 
-int longestCommonSubsequence(std::string text1, std::string text2) {
-    // return lcsdfs(text1, text2);
+// int longestCommonSubsequence(std::string text1, std::string text2) {
+//     // return lcsdfs(text1, text2);
+//     auto vvi = std::vector<std::vector<int>>
+//         (text1.size(), std::vector<int>(text2.size(), 0));
+//     return lcsmemdfs(text1, text2, vvi);
+// }
+
+int longestCommonSubsequencev1(std::string text1, std::string text2) {
+    return lcsdfs(text1, text2);
+}
+
+int longestCommonSubsequencev2(std::string text1, std::string text2) {
     auto vvi = std::vector<std::vector<int>>
         (text1.size(), std::vector<int>(text2.size(), 0));
     return lcsmemdfs(text1, text2, vvi);
 }
 
+int longestCommonSubsequence
+(std::string text1, std::string text2) {
+    auto vvi = std::vector<std::vector<int>>
+        (text1.size(), std::vector<int>(text2.size(), 0));
+    for(size_t i = 0; i < vvi.size(); ++i)
+    {
+        for(size_t j = 0; j < vvi[i].size(); ++j)
+        {
+        if(text1[i] == text2[j]){
+            vvi[i][j] = (i && j) ? vvi[i-1][j-1] + 1 : 1;
+        } else{
+            vvi[i][j] = std::max(
+                i ? vvi[i-1][j] : 0, 
+                j ? vvi[i][j-1] : 0
+            );
+        } 
+
+        }
+    }
+    return vvi[text1.size()-1][text2.size()-1];
+}
+
 void TestLC1143()
 {
-    PRINTLN_DETAIL(longestCommonSubsequence(
-        "DDADBBABDCEAECEAD",
-        "EDCEDDCEECBDDDEBE"
-    ));
+    auto ofs = std::fstream("test/static-file/lc1143_example.txt");
+    auto _s1 = std::string();
+    auto _s2 = std::string();
+    ofs >> _s1 >> _s2;
+    if (ofs.fail())
+    {
+        _COLOR_START(_COLOR_RED);
+        ERRLN("file stream error");
+        _COLOR_RECOVER;
+        assert(0);
+    } else 
+    {
+        _COLOR_START(_COLOR_CYAN);
+        PRINTLN("read string data from file");
+        _COLOR_RECOVER;
+    }
+    // PRINTLN_DETAIL(Alan::__time_count_(
+    //     longestCommonSubsequencev1, 
+    //     _s1,
+    //     _s2));
+    PRINTLN_DETAIL(Alan::__time_count_(
+        longestCommonSubsequencev2, 
+        _s1,
+        _s2));
+    PRINTLN_DETAIL(Alan::__time_count_(
+        longestCommonSubsequence, 
+        _s1,
+        _s2));
 }
 
 __END_NS__

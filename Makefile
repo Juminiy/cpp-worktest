@@ -1,28 +1,20 @@
 export
 
 # compile options
-cxxc = g++
-cxx_args= -Wall -pedantic -O0 $(ignore_warn) -std=c++20 -g
-c_args = -Wall -pedantic -O0 -std=gnu99 -g
-
-# TODO:
-# if else judge compiler and os in makefile
-
-# ignore some warnings
-ignore_warn += -Wno-unused-command-line-argument
-ignore_warn += -Wno-mismatched-tags
-ignore_warn += -Wno-unused-local-typedef
+cxxc 	 = g++
+cxx_args = -Wall -pedantic -O0 -std=c++20
+c_args 	 = -Wall -pedantic -O0 -std=gnu99
 
 # compie options - args
-# comment -D_LDB_=1 when env not installed leveldb
-debug_mode = -DDEBUG_MODE=1 #-D_LDB_=1
+debug_mode = -g -DDEBUG_MODE=1
 # debug_gdb = echo "gdb -q -tui main"
 # debug_lldb = echo "lldb main" && echo "gui"
+cxx_args += $(debug_mode)
 
 # target command
-build_dir = build
+build_dir 	= build
 install_dir = bin
-src_dir = src
+src_dir 	= src
 include_dir = include
 
 _exe = $(install_dir)/main
@@ -35,6 +27,7 @@ build_only: _ass _oop _stl _tes _sim _sel
 	cp $(_obj_list) $(build_dir)
 
 build: $(build_only)
+	rm -rf $(build_dir) && mkdir -p $(build_dir)
 	mv $(_obj_list) $(build_dir)
 
 install: main
@@ -46,8 +39,7 @@ uninstall: $(_exe)
 
 # 1. link all object files to generate exe file
 main: $(src_dir)/main.o $(build_dir)/*.o
-	$(cxxc) $(cxx_args) -o $@ $^ #$(il_ldb)
-# comment $(il_ldb) when env not installed leveldb
+	$(cxxc) $(cxx_args) -o $@ $^ $(leveldb_args)
 
 # 2. link main object file with static linked library to generate exe file
 main-static: main.o libstatic.a
@@ -77,13 +69,50 @@ clear: clean
 
 .PHONY: build_only build install uninstall clean clear #all
 
+# arch, os, cc
+_ARCH = $(shell uname -m)
+_OS   = $(shell uname -s)
+_CC   = $(shell $(cxxc) --version | head -n 1)
+
+_OSVER := $(_OS)
+ifeq ($(findstring NT,$(_OS)),NT)
+_OSVER = WinNT
+endif
+
+_CCVER := $(cxxc)
+ifeq ($(findstring clang,$(_CC)),clang)
+_CCVER = clang
+endif
+ifeq ($(findstring gcc,$(_CC)),gcc)
+_CCVER = gcc
+endif
+
+cxx_args += -D_ARCH=$(_ARCH)
+cxx_args += -D_OSVER=$(_OSVER)
+cxx_args += -D_CCVER=$(_CCVER)
+
+# info env
+$(info cpu_arch: $(_ARCH) os_cat: $(_OSVER) cc_ver: $(_CCVER))
+
+# ignore some warnings
+ignore_warns :=
+ifeq ($(findstring clang,$(_CCVER)),clang)
+ignore_warns += -Wno-unused-command-line-argument
+ignore_warns += -Wno-mismatched-tags
+ignore_warns += -Wno-unused-local-typedef
+endif
+ifeq ($(findstring g++,$(_CCVER)),g++)
+ignore_warns += -Wno-unused-local-typedef
+endif
+cxx_args += $(ignore_warns)
+
 # target *.o dirs
-_ass_dir= $(src_dir)/assignments
-_oop_dir= $(src_dir)/oop_templates
-_stl_dir= $(src_dir)/stl_components
-_tes_dir= $(src_dir)/tests
-_sim_dir= $(src_dir)/simds
-_sel_dir= $(src_dir)/self_lists
+_ass_dir = $(src_dir)/assignments
+_oop_dir = $(src_dir)/oop_templates
+_stl_dir = $(src_dir)/stl_components
+_tes_dir = $(src_dir)/tests
+_sim_dir = $(src_dir)/simds
+_sel_dir = $(src_dir)/self_lists
 
 _obj_list += $(_ass_dir)/*.o
 _obj_list += $(_oop_dir)/*.o
@@ -122,21 +151,47 @@ objs: $(patsubst %.cc,%.o,$(wildcard *.cc))
 
 # compile by pattern matching in local dir
 %.o: %.cpp
-	$(cxxc) -c $(cxx_args) $(debug_mode) -o $@ $<
+	$(cxxc) -c $(cxx_args) -o $@ $<
 
 %.o: %.cc
-	$(cxxc) -c $(cxx_args) $(debug_mode) -o $@ $<
+	$(cxxc) -c $(cxx_args) -o $@ $<
 
 %.o: %.c
-	$(CC) -c $(c_args) $(debug_mode) -o $@ $<
+	$(CC) -c $(c_args) -o $@ $<
 
 # compile args not in arm
-# if else judge CPU info
+ifeq ($(_ARCH),x86_64)
+avx_args = -mavx
+else
 avx_args = # -mavx
+$(info cpu_arch $(_ARCH) donot support avx)
+endif
 
 # compile when global lib: leveldb snappy are installed
-leveldb_prefix= /usr/local
-include_leveldb= -I$(leveldb_prefix)/include/leveldb
-link_leveldb= -L$(leveldb_prefix)/lib -lleveldb
-link_snappy= -L$(leveldb_prefix)/lib -lsnappy -lpthread
-il_ldb= $(include_leveldb) $(link_leveldb) $(link_snappy)
+leveldb_prefix		= /usr/local
+leveldb_include_dir = $(leveldb_prefix)/include/leveldb
+leveldb_lib_dir		= $(leveldb_prefix)/lib
+include_leveldb		= -I$(leveldb_include_dir)
+link_leveldb		= -L$(leveldb_lib_dir) -lleveldb
+link_snappy			= -L$(leveldb_prefix)/lib -lsnappy -lpthread
+leveldb_args		=
+# if include_dir, if libleveldb.a, if libsnappy.a
+ifneq ($(wildcard $(leveldb_include_dir)),)
+leveldb_args 		+= $(include_leveldb)
+endif
+ifneq ($(wildcard $(leveldb_lib_dir)/libleveldb.a),)
+leveldb_args 		+= $(link_leveldb)
+endif
+ifneq ($(wildcard $(leveldb_lib_dir)/libsnappy.a),)
+leveldb_args 		+= $(link_snappy)
+endif
+ifneq ($(leveldb_args),)
+cxx_args += -D_LDB_=1
+else
+$(info leveldb was not installed)
+cxx_args += -D_LDB_=0
+endif
+
+# heat fast build & run
+heat: 
+	cd src/tests/heat_module && MAKE && ./main

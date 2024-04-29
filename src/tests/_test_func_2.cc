@@ -1105,7 +1105,7 @@ void TestAll()
     TestConPlus();
     TestBitwiseChange();
     TestSZof();
-    #ifdef _LDB_
+    #if _LDB_ != 0
         TestLevelDB();
     #endif 
     TestTuple();

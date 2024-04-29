@@ -1,6 +1,10 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
+
+#include <chrono>
+#include <iomanip>
 
 #include "../include/_i_lib_.hpp"
 
@@ -11,7 +15,7 @@
     #include <windows.h>
 #endif
 
-#ifdef _LDB_
+#if _LDB_ != 0
 #include <leveldb/export.h>
 #endif
 
@@ -34,7 +38,7 @@ int main(int argc, char *argv[], char *envp[])
         {
             // env info
             case 'v':
-        printf("compiler: %s\n", __VERSION__);
+        printf("Compile Time: %s %s\n", __DATE__, __TIME__);
         // TODO: logmore
         break;
 
@@ -74,27 +78,14 @@ int main(int argc, char *argv[], char *envp[])
 
 CONSTRUCT GEN_FUNC_COPY
 void call_main()
-{   
-    char *print_des = (char*)(malloc(37));
-    snprintf(print_des, 
-                39, 
-                "Hi, Worktest, Compile time: %s\n\n", 
-                __TIME__);
-
-    PRINT(_WHITE(print_des));
+{
+    __log_time_now__(__now_time_t_);
+    PRINTLN("Call Time: " << __now_time_t_);
 }
 
 DESTRUCT GEN_FUNC_COPY
 void exit_main()
 {   
-    char *print_des = (char*)(malloc(34));
-    snprintf(print_des, 
-                37, 
-                "\niH, Worktest, Exit time: %s\n", 
-                __TIME__);
-    // bug report: compile time also, 
-    // wiil build a global variable to add 
-    //          or other way to solve 
-
-    PRINT(_WHITE(print_des));
+    __log_time_now__(__now_time_t_);
+    PRINTLN("Exit Time: " << __now_time_t_);
 }

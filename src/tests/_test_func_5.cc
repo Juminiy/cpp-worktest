@@ -2,14 +2,17 @@
 #include "../../include/_stl_lib_.hpp"
 
 #include "../../include/_test_func_2.hpp"
+#include "../../include/_self_list_.hpp"
 
 __DEF_NS__(Alan::Demos::Test::Func)
 
 void TestNoArgs()
 {
     PUSH_TASK(__init_test_fn_);
-    PUSH_TASK(TestPaSort); POP_TASK();
+    PUSH_TASK(TestPaSort);  POP_TASK();
     PUSH_TASK(Alan::SysInfo::LOGSysInfo);
+    PUSH_TASK(Alan::SelfList::Inst::TestLC23); POP_TASK();
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC1143);
     RUN_TASKS();
 }
 

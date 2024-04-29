@@ -41,3 +41,29 @@ void __bfs_traverse
 (__tree_node_<_Tp> * , std::vector<_Tp > & );
 
 __END_NS__
+
+__DEF_NS__(Alan::SelfList::Inst)
+
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+
+    bool constexpr 
+        operator < (const ListNode & __rhs)
+        const noexcept;
+};
+
+ListNode* mergeKLists(std::vector<ListNode*>& lists);
+
+void TestLC23();
+
+__END_NS__
+
+__DEF_NS__(Alan::SelfList::Inst::Test)
+
+void TestLC1143();
+
+__END_NS__

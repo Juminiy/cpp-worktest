@@ -4,7 +4,7 @@
 
 #include "../../include/_level_db_.hpp"
 
-#ifdef _LDB_
+#if _LDB_ != 0
 #include "leveldb/db.h"
 #endif
 

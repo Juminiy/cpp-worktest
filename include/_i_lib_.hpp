@@ -277,6 +277,18 @@ extern "C" {
         std::chrono::system_clock \
         ::now().time_since_epoch() \
         .count()
+#define __time_begin__ \
+        __USE_NS__(std::chrono); \
+        auto _start UNUSED = high_resolution_clock::now(); \
+        auto _end UNUSED = _start;
+#define __time_dur__ \
+        _end = high_resolution_clock::now(); \
+        duration_cast<milliseconds>(_end - _start).count();
+#define __log_time_now__(__var__) \
+        __USE_NS__(std::chrono); \
+        auto _now = system_clock::now(); \
+        auto _now_timet = system_clock::to_time_t(_now); \
+        auto __var__ = std::put_time(std::localtime(&_now_timet), "%Y-%m-%d %H:%M:%S");
 
 #define TSLEEP(__sec_) usleep(__sec_ * 1000000);
 
@@ -604,7 +616,6 @@ unsigned int opt_uint(char *val)
 #endif 
 
 
-
 // Type determine and extension
 // use: 	__DEF_DCL__
 // detail:	typedef __meta_type__##__xx_xx__ __alias_type__;
@@ -633,24 +644,18 @@ unsigned int opt_uint(char *val)
         __DEF_PTR_TO_CONST_V2__(__alias_type__); \
         __DEF_CONST_PTR_TO_CONST_V2__(__alias_type__)
 
-// template type _Tp define
-#define __DEF_TPL__(__tp__) \
-	using value_type = __tp__ ; \
-	using const_type = __CONST__(__tp__); \
-	using reference = __REF__(__tp__); \
-	using const_reference = __CONST_REF__(__tp__); \
-	using r_reference = __RREF__(__tp__); \
-	using pointer = __PTR__(__tp__); \
-	using const_pointer = __CONST_PTR__(__tp__); \
-	using pointer_to_const = __PTR_TO_CONST__(__tp__); \
-	using const_pointer_to_const = __CONST_PTR_TO_CONST__(__tp__); \
-	__DEF_SZX__
+#define __DEF_SHORT__(__alias_type__, __meta_type__) \
+        using __alias_type__ = __meta_type__ ; \
+        __DEF_CONST_V3__(__alias_type__); \
+        __DEF_REF_V3__(__alias_type__); \
+        __DEF_CREF_V3__(__alias_type__); \
+        __DEF_RREF_V3__(__alias_type__); \
+        __DEF_PTR_V3__(__alias_type__); \
+        __DEF_CONST_PTR_V3__(__alias_type__); \
+        __DEF_PTR_TO_CONST_V3__(__alias_type__); \
+        __DEF_CONST_PTR_TO_CONST_V3__(__alias_type__)
 
-#define __DEF_SZX__ \
-	typedef size_t		size_type; \
-      	typedef ptrdiff_t	difference_type
-
-
+// common typedecl
 #define __CONST__(__type__) \
         __type__ const
 #define __REF__(__type__) \
@@ -676,10 +681,26 @@ unsigned int opt_uint(char *val)
 #define __CONST_PTR_TO_CONST__(__type__) \
         __type__ const * const
 
+// template type _Tp define
+#define __DEF_TPL__(__tp__) \
+	using value_type = __tp__ ; \
+	using const_type = __CONST__(__tp__); \
+	using reference = __REF__(__tp__); \
+	using const_reference = __CONST_REF__(__tp__); \
+	using r_reference = __RREF__(__tp__); \
+	using pointer = __PTR__(__tp__); \
+	using const_pointer = __CONST_PTR__(__tp__); \
+	using pointer_to_const = __PTR_TO_CONST__(__tp__); \
+	using const_pointer_to_const = __CONST_PTR_TO_CONST__(__tp__); \
+	__DEF_SZX__
+
+#define __DEF_SZX__ \
+	typedef size_t		size_type; \
+      	typedef ptrdiff_t	difference_type
+
+// v1
 #define __DEF_DCL__(__wrap_type__, __meta_type__, __decl__) \
         typedef __wrap_type__ __meta_type__ ## __decl__
-#define __DEF_DCL_V2__(__wrap_type__, __meta_type__, __decl__) \
-        using __meta_type__ ## __decl__ = __wrap_type__
 
 #define __DEF_CONST__(__type__) \
         __DEF_DCL__(__CONST__(__type__), __type__, _const)
@@ -689,7 +710,6 @@ unsigned int opt_uint(char *val)
         __DEF_DCL__(__CONST_REF__(__type__), __type__, _const_reference)
 #define __DEF_RREF__(__type__) \
         __DEF_DCL__(__RREF__(__type__), __type__, _r_reference)
-
 #define __DEF_PTR__(__type__) \
         __DEF_DCL__(__PTR__(__type__), __type__, _pointer)
 #define __DEF_CONST_PTR__(__type__) \
@@ -699,6 +719,10 @@ unsigned int opt_uint(char *val)
 #define __DEF_CONST_PTR_TO_CONST__(__type__) \
         __DEF_DCL__(__CONST_PTR_TO_CONST__(__type__), __type__, _const_pointer_to_const)
 
+// v2
+#define __DEF_DCL_V2__(__wrap_type__, __meta_type__, __decl__) \
+        using __meta_type__ ## __decl__ = __wrap_type__
+
 #define __DEF_CONST_V2__(__type__) \
         __DEF_DCL_V2__(__CONST__(__type__), __type__, _const)
 #define __DEF_REF_V2__(__type__) \
@@ -707,7 +731,6 @@ unsigned int opt_uint(char *val)
         __DEF_DCL_V2__(__CONST_REF__(__type__), __type__, _const_reference)
 #define __DEF_RREF_V2__(__type__) \
         __DEF_DCL_V2__(__RREF__(__type__), __type__, _r_reference)
-
 #define __DEF_PTR_V2__(__type__) \
         __DEF_DCL_V2__(__PTR__(__type__), __type__, _pointer)
 #define __DEF_CONST_PTR_V2__(__type__) \
@@ -716,6 +739,28 @@ unsigned int opt_uint(char *val)
         __DEF_DCL_V2__(__PTR_TO_CONST__(__type__), __type__, _pointer_to_const)
 #define __DEF_CONST_PTR_TO_CONST_V2__(__type__) \
         __DEF_DCL_V2__(__CONST_PTR_TO_CONST__(__type__), __type__, _const_pointer_to_const)
+
+// v3
+#define __DEF_DCL_V3__(__wrap_type__, __meta_type__, __decl__) \
+        using __meta_type__ ## __decl__ = __wrap_type__
+
+#define __DEF_CONST_V3__(__type__) \
+        __DEF_DCL_V2__(__CONST__(__type__), __type__, c)
+#define __DEF_REF_V3__(__type__) \
+        __DEF_DCL_V2__(__REF__(__type__), __type__, r)
+#define __DEF_CREF_V3__(__type__) \
+        __DEF_DCL_V2__(__CONST_REF__(__type__), __type__, cr)
+#define __DEF_RREF_V3__(__type__) \
+        __DEF_DCL_V2__(__RREF__(__type__), __type__, rr)
+#define __DEF_PTR_V3__(__type__) \
+        __DEF_DCL_V2__(__PTR__(__type__), __type__, p)
+#define __DEF_CONST_PTR_V3__(__type__) \
+        __DEF_DCL_V2__(__CONST_PTR__(__type__), __type__, cp)
+#define __DEF_PTR_TO_CONST_V3__(__type__) \
+        __DEF_DCL_V2__(__PTR_TO_CONST__(__type__), __type__, pc)
+#define __DEF_CONST_PTR_TO_CONST_V3__(__type__) \
+        __DEF_DCL_V2__(__CONST_PTR_TO_CONST__(__type__), __type__, cpc)
+
 
 #define __DISALLOW_COPYING(__def_type_) \
         private: \

@@ -66,3 +66,56 @@ __DEF_NS__(Alan::TypeDecl)
         using __ ##__emb_alias__ ##__ori_alias__ ##cr ##_= const __ ##__emb_alias__ ##__ori_alias__ ##_ &
 
 __END_NS__
+
+// std::less partial specialization from <type> to <type pointer>
+// need __type has define operator <  
+#define __less_ps_type_pointer(__type__) \
+		using __type_clean__ = std::remove_cv_t<std::remove_reference_t<__type__>>; \
+		__DEF_SHORT__(__tp, __type_clean__); \
+		namespace std{ \
+			template <> \
+			struct less<__tpp> { \
+				bool constexpr \
+					operator()(__tpp __lhs, __tpp __rhs) \
+					const noexcept { \
+						return __lhs != nullptr && \
+								__rhs != nullptr && \
+								*__lhs < *__rhs; \
+					} \
+				/* \
+				bool constexpr \
+					operator()(__tpcp __lhs, __tpcp __rhs) \
+					const noexcept { \
+						return __lhs != nullptr && \
+								__rhs != nullptr && \
+								*__lhs < *__rhs; \
+					} \
+				bool constexpr \
+					operator()(__tppc __lhs, __tppc __rhs) \
+					const noexcept { \
+						return __lhs != nullptr && \
+								__rhs != nullptr && \
+								*__lhs < *__rhs; \
+					} \
+				bool constexpr \
+					operator()(__tpcpc __lhs, __tpcpc __rhs) \
+					const noexcept { \
+						return __lhs != nullptr && \
+								__rhs != nullptr && \
+								*__lhs < *__rhs; \
+					} \
+				*/ \
+			}; \
+		}
+
+// instance
+// __DEF_NS__(std)
+// 	template<>
+//     struct less<ListNode*> {
+//         bool operator()(ListNode* __lhs, ListNode* __rhs) const {
+//             return __lhs != nullptr && 
+//                     __rhs != nullptr && 
+//                     __lhs->val > __rhs->val;
+//         }
+//     };
+// __END_NS__

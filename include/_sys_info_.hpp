@@ -13,7 +13,9 @@ __DEF_NS__(Alan::SysInfo)
 GEN_FUNC_COPY
 void LOGSysInfo()
 {
-    PRINTLN_DETAIL(getpagesize());
+    #if _OSVER != WinNT
+        PRINTLN_DETAIL(getpagesize());
+    #endif
 }
 
 __END_NS__

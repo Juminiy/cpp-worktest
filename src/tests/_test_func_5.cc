@@ -17,7 +17,10 @@ void TestNoArgs()
     PUSH_TASK(Alan::SelfList::Inst::Test::TestLC19); POP_TASK();
     PUSH_TASK(Alan::SelfList::Inst::Test::TestLC206); POP_TASK();
     PUSH_TASK(Alan::SelfList::Inst::Test::TestSwapLN); POP_TASK();
-    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC24); 
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC24); POP_TASK();
+    PUSH_TASK(Alan::SelfList::Test::TestPostOrderTravV3);
+    PUSH_TASK(Alan::SelfList::Test::TestPostOrderTravV2);
+    PUSH_TASK(Alan::SelfList::Test::TestPostOrderTrav);
     
     RUN_TASKS();
 }

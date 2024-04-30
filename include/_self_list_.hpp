@@ -2,6 +2,7 @@
 #include "_i_lib_.hpp"
 #include "_stl_lib_.hpp"
 
+#include <stack>
 __DEF_NS__(Alan::SelfList)
 
 template < typename _Tp >
@@ -22,11 +23,21 @@ public:
         : __val_(__pval),  __left_(__pleft), __right_(__pright),
             __vis_(false), __parent_(nullptr), __color_(false)
         { }
+        // TODO: COMPILE ERROR
+    // using _tnstk_type = std::stack<__tree_node_<_Tp> *>;
 };
 
 template < typename _Tp >
 void __postorder_traverse
 (__tree_node_<_Tp> * , std::vector<_Tp > & );
+
+template < typename _Tp >
+void __postorder_traverse_v2
+(__tree_node_<_Tp> *, std::vector<_Tp> &);
+
+template < typename _Tp >
+void __postorder_traverse_v3
+(__tree_node_<_Tp> * , std::vector<_Tp> & );
 
 template < typename _Tp >
 void __preorder_traverse
@@ -39,6 +50,14 @@ void __midorder_traverse
 template < typename _Tp >
 void __bfs_traverse
 (__tree_node_<_Tp> * , std::vector<_Tp > & );
+
+__END_NS__
+
+__DEF_NS__(Alan::SelfList::Test)
+
+void TestPostOrderTrav();
+void TestPostOrderTravV2();
+void TestPostOrderTravV3();
 
 __END_NS__
 

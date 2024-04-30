@@ -328,7 +328,6 @@ void TestAllV3()
     TestISort();
     Alan_Driver();
     TestRunCPU();
-    TestPostOrderTrav();
     TestPQ();
     
     /* TODO: need to test for problems */

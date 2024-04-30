@@ -60,7 +60,7 @@ rmv:
 	# $(_mk_build_dir) 
 	$(_mv_build_dir)
 
-clean: $(rmv)
+clean: rmv
 	rm -rf $(install_dir)
 	rm -rf $(build_dir)
 	rm -f main $(src_dir)/*.o

@@ -9,55 +9,7 @@
 
 #include <cassert>
 
-__USE_NS__(Alan::SelfList::Inst);
-
-bool constexpr 
-ListNode::operator < (const ListNode & __rhs)
-    const noexcept
-{
-    return this->val > __rhs.val;
-}
-
-__less_ps_type_pointer(ListNode);
-
 __DEF_NS__(Alan::SelfList::Inst)
-
-// bool __comp_list_node(ListNode* __lhs, ListNode* __rhs)
-// {
-//     return __lhs != nullptr && 
-//             __rhs != nullptr && 
-//             __lhs->val > __rhs->val;
-// }
-
-// ListNode* __make_list_node_(ListNode * __cur_, int __val_)
-// {
-//     auto __next_ = new ListNode(__val_);
-//     if(__cur_ != nullptr)
-//     {
-//         __cur_->next = __next_;
-//     }
-//     return __next_;
-// }
-
-void __append_list_node_(ListNode * &__cur_, ListNode * &__next_)
-{
-    if(__cur_ != nullptr)
-    {
-        __cur_->next = __next_;
-    }
-    __cur_ = __next_;
-    __next_ = nullptr;
-}
-
-void __log_list_node_(const ListNode * __head_)
-{
-    while(__head_ != nullptr)
-    {
-        PRINT(__head_->val), PRINT("->");
-        __head_ = __head_->next;
-    }
-    PRINTLN("nullptr");
-}
 
 ListNode* mergeKLists(std::vector<ListNode*>& lists)
 {
@@ -87,18 +39,192 @@ ListNode* mergeKLists(std::vector<ListNode*>& lists)
 
 }
 
-void TestLC23()
-{
-    auto lists = std::vector<ListNode *>();
-    for(int i = 6; i < 17; i++){
-        auto l2 = new ListNode(i);
-        auto l1 = new ListNode(i >> 1, l2);
-        lists.push_back(l1);
-    }
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    int _remain = 0, _cal = 0;
+    int _l1val = 0, _l2val = 0;
+    ListNode * __head_ = nullptr, * __cur_ = nullptr;
+    while(l1 != nullptr || l2 != nullptr || _remain > 0)
+    {   
+        _l1val = (l1 != nullptr) ? l1->val : 0;
+        _l2val = (l2 != nullptr) ? l2->val : 0;
+        _cal = _remain + _l1val + _l2val;
+        __append_list_node_(__cur_, _cal%10);
+        _remain = _cal/10;
 
-    __log_list_node_(mergeKLists(lists));
-    lists.clear();
-    __log_list_node_(mergeKLists(lists));
+        l1 = (l1 != nullptr) ? l1->next : l1;
+        l2 = (l2 != nullptr) ? l2->next : l2;
+
+        __head_ = (__head_ == nullptr) ? __cur_ : __head_;
+    }
+    return __head_;
+}   
+
+// -1 1 2 3 4 5
+//      |     |
+//        |    
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+    auto __dummy_ = new ListNode(-1, head);
+    auto __puppet_ = __dummy_, __stand_ = __dummy_;
+    while(n--)
+    {
+        __puppet_ = __puppet_ -> next;
+    }
+    while(__puppet_ != nullptr &&
+        __puppet_->next != nullptr)
+    {
+        __puppet_ = __puppet_ -> next;
+        __stand_ = __stand_ -> next;
+    }
+    if (__stand_ != nullptr &&
+        __stand_->next != nullptr)
+        __stand_->next = __stand_->next->next;
+    return __dummy_->next;
+}
+
+// -1 1 2 3 4 5
+// -1->1->2->3->4->5->6->7->8
+//     |     |end_next
+ListNode* swapPairs(ListNode* head) {
+    auto __dummy_ = new ListNode(-1, head);
+    auto __prev_ = __dummy_;
+    int cnt = 2;
+    do{
+        // seg [start, end]
+        auto __start_ = __prev_->next;
+        auto __end_ = __prev_;
+        while(cnt && __end_ != nullptr)
+        {
+            __end_ = __end_->next;
+            --cnt;
+        }
+        if(cnt > 0)
+        {
+            break;
+        }
+
+        auto segrv_end = __prev_->next; __prev_->next = nullptr;
+        auto end_next = __end_->next; __end_->next = nullptr;
+        __reverse_list_node_(__start_);
+        __prev_->next = __start_;
+        segrv_end->next = end_next;
+        __prev_ = segrv_end;
+        cnt = 2;
+    }while(__prev_ != nullptr);
+
+    return __dummy_->next;
+}
+
+ListNode* reverseList(ListNode* head) {
+    __reverse_list_node_(head);
+    return head;
+}
+
+__END_NS__
+
+__USE_NS__(Alan::SelfList::Inst);
+__DEF_NS__(Alan::SelfList::Inst::Test)
+
+void TestSwapLN()
+{
+    // {
+    //     auto ln = __make_list_node_(std::vector<int>{1, 2, 3, 4});
+    //     __swap_list_node_(ln, ln->next);
+    //     __log_list_node_(ln);
+    // }
+    {
+        auto ln = __make_list_node_(std::vector<int>{1, 2, 3, 4});
+        __swap_list_node_(ln, ln->next->next);
+        __log_list_node_(ln);
+    }
+}
+
+void TestLC206()
+{
+    // 1 2 3 4 -> 4 3 2 1
+    __log_list_node_(
+        reverseList(__make_list_node_(std::vector<int>{1, 2, 3, 4}))
+    );
+
+    // nullptr -> nullptr
+    __log_list_node_(
+        reverseList(nullptr)
+    );
+
+    // 1 -> 1
+    __log_list_node_(
+        reverseList(__make_list_node_(std::vector<int>{1}))
+    );
+
+    // 1 2 3 -> 3 2 1
+    __log_list_node_(
+        reverseList(__make_list_node_(std::vector<int>{1, 2, 3}))
+    );
+}
+
+void TestLC24()
+{
+    // 1 2 3 4 -> 2 1 4 3
+    __log_list_node_(
+        swapPairs(__make_list_node_(std::vector<int>{1, 2, 3, 4}))
+    );
+
+    // nullptr -> nullptr
+    __log_list_node_(
+        swapPairs(nullptr)
+    );
+
+    // 1 2 3 -> 2 1 3
+    __log_list_node_(
+        swapPairs(__make_list_node_(std::vector<int>{1, 2, 3}))
+    );
+
+    // 1 -> 1
+    __log_list_node_(
+        swapPairs(__make_list_node_(std::vector<int>{1}))
+    );
+
+    
+}
+
+void TestLC19()
+{
+    __log_list_node_(
+        removeNthFromEnd(nullptr, 0)
+    );
+
+    __log_list_node_(
+        removeNthFromEnd(__make_list_node_(
+            std::vector<int>{1}), 
+            1)
+    );
+
+    __log_list_node_(
+        removeNthFromEnd(__make_list_node_(
+            std::vector<int>{1,2,3,4,5}), 
+            2)
+    );
+}
+
+void TestLC2()
+{
+    // 1 2 3
+    // 9 7 5
+    __log_list_node_(addTwoNumbers(
+        __make_list_node_(std::vector<int>{1, 2, 3}),
+        __make_list_node_(std::vector<int>{9, 7, 5})
+    ));
+
+    // 9 9 9 9 9 9 9
+    // 9 9 9 
+    __log_list_node_(addTwoNumbers(
+        __make_list_node_(std::vector<int>{9,9,9,9,9,9,9}),
+        __make_list_node_(std::vector<int>{9,9,9})
+    ));
+
+    __log_list_node_(addTwoNumbers(
+        __make_list_node_(std::vector<int>{0}),
+        __make_list_node_(std::vector<int>{0})
+    ));
 }
 
 __END_NS__
@@ -106,6 +232,7 @@ __END_NS__
 #include <string>
 #include <algorithm>
 
+__USE_NS__(Alan::SelfList::Inst);
 __DEF_NS__(Alan::SelfList::Inst::Test)
 
 int lcsdfs(const std::string & s, const std::string & t)
@@ -232,6 +359,20 @@ void TestLC1143()
         longestCommonSubsequence, 
         _s1,
         _s2));
+}
+
+void TestLC23()
+{
+    auto lists = std::vector<ListNode *>();
+    for(int i = 6; i < 17; i++){
+        auto l2 = new ListNode(i);
+        auto l1 = new ListNode(i >> 1, l2);
+        lists.push_back(l1);
+    }
+
+    __log_list_node_(mergeKLists(lists));
+    lists.clear();
+    __log_list_node_(mergeKLists(lists));
 }
 
 __END_NS__

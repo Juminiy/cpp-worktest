@@ -11,31 +11,31 @@ debug_mode = -g -DDEBUG_MODE=1
 # debug_lldb = echo "lldb main" && echo "gui"
 cxx_args += $(debug_mode)
 
-# target command
+# directories
+include_dir = include
+src_dir 	= src
 build_dir 	= build
 install_dir = bin
-src_dir 	= src
-include_dir = include
+
+# dirs shell command
+_mk_build_dir	= rm -rf $(build_dir) && mkdir -p $(build_dir)
+_mk_install_dir = rm -rf $(install_dir) && mkdir -p $(install_dir)
+_cp_build_dir 	= cp $(_obj_list) $(build_dir)
+_mv_build_dir 	= mv $(_obj_list) $(build_dir)
 
 _exe = $(install_dir)/main
 
-# conflict
-# all: build main install
-
-build_only: _ass _oop _stl _tes _sim _sel
-	rm -rf $(build_dir) && mkdir -p $(build_dir)
-	cp $(_obj_list) $(build_dir)
-
-build: $(build_only)
-	rm -rf $(build_dir) && mkdir -p $(build_dir)
-	mv $(_obj_list) $(build_dir)
+# target make command
+build: _ass _oop _stl _tes _sim _sel
+	$(_mk_build_dir)
+	$(_cp_build_dir)
 
 install: main
-	rm -rf $(install_dir) && mkdir -p $(install_dir)
+	$(_mk_install_dir)
 	mv -f $< $(_exe)
 
 uninstall: $(_exe)
-	mv $< main
+	rm -rf $(install_dir)
 
 # 1. link all object files to generate exe file
 main: $(src_dir)/main.o $(build_dir)/*.o
@@ -56,18 +56,24 @@ main-dynamic: main.o libdynamic.so
 libdynamic.so: $(objects)
 	$(cxxc) $(cxx_args) -shared -fPIC -o $@ $^
 
-clean:
+rmv:
+	# $(_mk_build_dir) 
+	$(_mv_build_dir)
+
+clean: $(rmv)
 	rm -rf $(install_dir)
 	rm -rf $(build_dir)
 	rm -f main $(src_dir)/*.o
 	rm -f main-dynamic libdynamic.so
 	rm -f main-static libstatic.a
 	rm -rf *.dSYM/
-
+	
 clear: clean
 	clear
 
-.PHONY: build_only build install uninstall clean clear #all
+all: build main install
+
+.PHONY: build install uninstall clean clear rmv all
 
 # arch, os, cc
 _ARCH = $(shell uname -m)
@@ -192,6 +198,11 @@ $(info leveldb was not installed)
 cxx_args += -D_LDB_=0
 endif
 
-# heat fast build & run
-heat: 
+_cp_heat_build_dir: 
+	cp $(_tes_dir)/*.o $(build_dir)
+
+# can not be used
+heat: _mk_build_dir _tes _cp_heat_build_dir main
+
+_main0:
 	cd src/tests/heat_module && MAKE && ./main

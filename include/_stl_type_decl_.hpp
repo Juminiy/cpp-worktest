@@ -7,6 +7,7 @@
 #include <string>
 #include <iterator>
 #include <map>
+#include <utility>
 
 __DEF_NS__(Alan::TypeDecl)
 

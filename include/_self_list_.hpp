@@ -42,8 +42,8 @@ void __bfs_traverse
 
 __END_NS__
 
-__DEF_NS__(Alan::SelfList::Inst)
 
+__DEF_NS__(Alan::SelfList::Inst)
 struct ListNode {
     int val;
     ListNode *next;
@@ -55,15 +55,32 @@ struct ListNode {
         operator < (const ListNode & __rhs)
         const noexcept;
 };
+bool __comp_list_node(ListNode * , ListNode * );
+void __log_list_node_(const ListNode * );
+ListNode* __make_list_node_(ListNode * , int );
+ListNode* __make_list_node_(const std::vector<int> & );
+void __append_list_node_(ListNode * & , ListNode * & );
+void __append_list_node_(ListNode * & , int );
+void __fpush_list_node_(ListNode * & , ListNode * & );
+void __fpush_list_node_(ListNode * & , int );
+void __swap_list_node_(ListNode * & , ListNode * & );
+void __reverse_list_node_(ListNode * & );
+ListNode* __bocchi_list_node_(ListNode * & );
 
-ListNode* mergeKLists(std::vector<ListNode*>& lists);
-
-void TestLC23();
-
+// lc functions
+ListNode* mergeKLists(std::vector<ListNode*>& );
+ListNode* addTwoNumbers(ListNode* , ListNode* );
+ListNode* removeNthFromEnd(ListNode* , int );
+ListNode* swapPairs(ListNode* );
 __END_NS__
 
+
 __DEF_NS__(Alan::SelfList::Inst::Test)
-
+void TestSwapLN();
+void TestLC206();
+void TestLC23();
 void TestLC1143();
-
+void TestLC2();
+void TestLC19();
+void TestLC24();
 __END_NS__

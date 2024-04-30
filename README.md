@@ -1,6 +1,13 @@
 # Basic C/C++
-1. GNU C99.
-2. Modern CXX11~CXX20.
+1. How to run
+   ```bash
+   make all -j10
+   ./main -v
+   ```
+2. Content 
+   1. GNU C99.
+   2. Modern CXX11~CXX20.
+   3. Trails.
 3. Makefile.
    1. M1 (Darwin Chisato-MacBook-Pro.local 23.4.0 Darwin Kernel Version 23.4.0: Fri Mar 15 00:10:42 PDT 2024; root:xnu-10063.101.17~1/RELEASE_ARM64_T6000 arm64, Apple clang version 15.0.0 (clang-1500.3.9.4))
       ```bash

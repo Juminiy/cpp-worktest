@@ -10,9 +10,15 @@ void TestNoArgs()
 {
     PUSH_TASK(__init_test_fn_);
     PUSH_TASK(TestPaSort);  POP_TASK();
-    PUSH_TASK(Alan::SysInfo::LOGSysInfo);
-    PUSH_TASK(Alan::SelfList::Inst::TestLC23); POP_TASK();
-    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC1143);
+    PUSH_TASK(Alan::SysInfo::LOGSysInfo); POP_TASK();
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC23); POP_TASK();
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC1143); POP_TASK();
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC2); POP_TASK();
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC19); POP_TASK();
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC206); POP_TASK();
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestSwapLN); POP_TASK();
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC24); 
+    
     RUN_TASKS();
 }
 

@@ -1,12 +1,14 @@
-/*
- * @lc app=leetcode.cn id=72 lang=cpp
- *
- * [72] 编辑距离
- */
+#include "../../include/_i_lib_.hpp"
+#include "../../include/_stl_lib_.hpp"
 
-// @lc code=start
-class Solution {
-public:
+#include "../../include/_self_algo_.hpp"
+
+#include <vector>
+#include <string>
+#include <algorithm>
+
+__DEF_NS__(Alan::SelfAlgo::Inst)
+
 size_t __edit_distance_
 (const std::string & __dest, const std::string & __src)
 {
@@ -38,9 +40,26 @@ size_t __edit_distance_
     }
     return __dis_[__dl][__sl];
 }
-    int minDistance(string word1, string word2) {
-        return static_cast<int>(__edit_distance_( word2, word1));
-    }
-};
-// @lc code=end
 
+// insert -> i
+// delete -> d
+// replace -> r
+std::vector<std::string> __get_edits_
+(std::string __dest, std::string __src)
+{
+    return {};
+}
+
+__END_NS__
+
+__USE_NS__(Alan::SelfAlgo::Inst);
+__DEF_NS__(Alan::SelfAlgo::Inst::Test)
+
+void TestLC72()
+{
+    PRINTLN(__edit_distance_("horse", "ros"));
+    PRINTLN(__edit_distance_("intention", "execution"));
+    PRINTLN(__edit_distance_("zoogeologist", "zoologicoarchaeologist"));
+}
+
+__END_NS__

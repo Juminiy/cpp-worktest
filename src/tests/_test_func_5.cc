@@ -4,6 +4,7 @@
 #include "../../include/_test_func_2.hpp"
 #include "../../include/_test_func_3.hpp"
 #include "../../include/_self_list_.hpp"
+#include "../../include/_self_algo_.hpp"
 
 __DEF_NS__(Alan::Demos::Test::Func)
 
@@ -29,7 +30,8 @@ void TestNoArgs()
     PUSH_TASK(Alan::SelfList::Inst::Test::TestLC92); POP_TASK();
     // PUSH_TASK(Alan::SelfList::Inst::Test::TestSwapLN); 
 
-    PUSH_TASK(Alan::Inst::LC::TestRunLC);
+    // PUSH_TASK(Alan::Inst::LC::TestRunLC);
+    PUSH_TASK(Alan::SelfAlgo::Inst::Test::TestLC72);
     RUN_TASKS();
 }
 

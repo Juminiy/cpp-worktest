@@ -7,6 +7,8 @@
 
 __DEF_NS__(Alan::Inst::LC)
 
+typedef void (*TestLCFn) ();
+
 void TestRunLC();
 
 __END_NS__

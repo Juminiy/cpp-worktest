@@ -24,7 +24,7 @@ void TestNoArgs()
     PUSH_TASK(Alan::SelfList::Test::TestPostOrderTrav); POP_TASK();
     
 
-    PUSH_TASK(Alan::Inst::LC::TestRunLC); 
+    PUSH_TASK(Alan::Inst::LC::TestRunLC);
     RUN_TASKS();
 }
 

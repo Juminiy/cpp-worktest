@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=24 lang=cpp
+ * @lc app=leetcode.cn id=25 lang=cpp
  *
- * [24] 两两交换链表中的节点
+ * [25] K 个一组翻转链表
  */
 
 // @lc code=start
@@ -40,10 +40,10 @@ void __reverse_list_node_(ListNode * & __head_)
 
     __head_ = __dummy_;
 }
-    ListNode* swapPairs(ListNode* head) {
+    ListNode* reverseKGroup(ListNode* head, int k) {
     auto __dummy_ = new ListNode(-1, head);
     auto __prev_ = __dummy_;
-    int cnt = 2;
+    int cnt = k;
     do{
         // seg [start, end]
         auto __start_ = __prev_->next;
@@ -68,7 +68,7 @@ void __reverse_list_node_(ListNode * & __head_)
         __prev_->next = __start_;
         segrv_end->next = end_next;
         __prev_ = segrv_end;
-        cnt = 2;
+        cnt = k;
     }while(__prev_ != nullptr);
 
     return __dummy_->next;

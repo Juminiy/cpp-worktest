@@ -17,12 +17,17 @@ void TestNoArgs()
     PUSH_TASK(Alan::SelfList::Inst::Test::TestLC2); POP_TASK();
     PUSH_TASK(Alan::SelfList::Inst::Test::TestLC19); POP_TASK();
     PUSH_TASK(Alan::SelfList::Inst::Test::TestLC206); POP_TASK();
-    PUSH_TASK(Alan::SelfList::Inst::Test::TestSwapLN); POP_TASK();
     PUSH_TASK(Alan::SelfList::Inst::Test::TestLC24); POP_TASK();
-    PUSH_TASK(Alan::SelfList::Test::TestPostOrderTravV3); POP_TASK();
-    PUSH_TASK(Alan::SelfList::Test::TestPostOrderTravV2); POP_TASK();
-    PUSH_TASK(Alan::SelfList::Test::TestPostOrderTrav); POP_TASK();
-    
+    PUSH_TASK(Alan::SelfList::Test::TestPostOrderTravV3); 
+    PUSH_TASK(Alan::SelfList::Test::TestPostOrderTravV2);
+    PUSH_TASK(Alan::SelfList::Test::TestPostOrderTrav); POP_TASKS(3);
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC25); POP_TASK(); 
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC61); POP_TASK();
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC83); POP_TASK();
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC82); POP_TASK();
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC86); POP_TASK();
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestLC92); POP_TASK();
+    // PUSH_TASK(Alan::SelfList::Inst::Test::TestSwapLN); 
 
     PUSH_TASK(Alan::Inst::LC::TestRunLC);
     RUN_TASKS();

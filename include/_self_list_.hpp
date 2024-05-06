@@ -85,16 +85,31 @@ void __fpush_list_node_(ListNode * & , int );
 void __swap_list_node_(ListNode * & , ListNode * & );
 void __reverse_list_node_(ListNode * & );
 ListNode* __bocchi_list_node_(ListNode * & );
+size_t __len_list_node_(ListNode * );
+ListNode* __get_nextn_list_node_(ListNode *, size_t );
+void __insert_list_node_(ListNode * & , ListNode * & );
 
 // lc functions
 ListNode* mergeKLists(std::vector<ListNode*>& );
 ListNode* addTwoNumbers(ListNode* , ListNode* );
 ListNode* removeNthFromEnd(ListNode* , int );
 ListNode* swapPairs(ListNode* );
+ListNode* reverseKGroup(ListNode* , int );
+ListNode* rotateRight(ListNode* , int );
+ListNode* deleteDuplicates(ListNode* );
+ListNode* deleteDuplicates_lc82(ListNode* );
+ListNode* partition(ListNode* , int );
+ListNode* reverseBetween(ListNode* , int , int );
 __END_NS__
 
 
 __DEF_NS__(Alan::SelfList::Inst::Test)
+void TestLC92();
+void TestLC86();
+void TestLC82();
+void TestLC83();
+void TestLC61();
+void TestLC25();
 void TestSwapLN();
 void TestLC206();
 void TestLC23();

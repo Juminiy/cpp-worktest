@@ -63,6 +63,9 @@ ListNode* __make_list_node_(ListNode * __cur_, int __val_)
     return __next_;
 }
 
+/// @brief push back, modify __cur_
+/// @param __cur_ 
+/// @param __next_ 
 void __append_list_node_(ListNode * &__cur_, ListNode * &__next_)
 {
     if(__cur_ != nullptr)
@@ -83,6 +86,9 @@ void __append_list_node_(ListNode * &__cur_, int __val_)
     __cur_ = __next_;
 }
 
+/// @brief push front, modify __cur_
+/// @param __cur_ 
+/// @param __prev_ 
 void __fpush_list_node_(ListNode * &__cur_, ListNode * &__prev_)
 {
     if(__prev_ != nullptr)
@@ -166,6 +172,47 @@ ListNode* __bocchi_list_node_(ListNode * & __node_)
         return __node_next_;
     }
     return nullptr;
+}
+
+size_t __len_list_node_(ListNode * __head_)
+{
+    auto __len_ = size_t(0);
+    while(__head_ != nullptr) 
+    {
+        ++ __len_;
+        __head_ = __head_->next;
+    }
+    return __len_;
+}
+
+ListNode* __get_nextn_list_node_(ListNode * __head_, size_t __sz_)
+{
+    // __sz_ must <= __head_
+    while(__head_ != nullptr && __sz_ > 0)
+    {
+        __head_ = __head_->next;
+        -- __sz_;
+    }
+    return __head_;
+}
+
+/// @brief only insert __next_ to __node_ back, do not guarantee __node_ is last
+/// @param __node_ 
+/// @param __next_ 
+void __insert_list_node_(ListNode * & __node_, ListNode * & __next_)
+{
+    if(__next_ != nullptr)
+    {
+        if(__node_ != nullptr)
+        {
+        __next_->next = __node_->next;
+        __node_->next = __next_;
+        } else 
+        {
+            __node_ = __next_;
+        }  
+    } 
+
 }
 
 __END_NS__

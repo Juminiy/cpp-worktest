@@ -97,13 +97,17 @@ ListNode* swapPairs(ListNode* head) {
             __end_ = __end_->next;
             --cnt;
         }
-        if(cnt > 0)
+        if(cnt > 0 || __end_ == nullptr)
         {
             break;
         }
 
-        auto segrv_end = __prev_->next; __prev_->next = nullptr;
-        auto end_next = __end_->next; __end_->next = nullptr;
+        auto segrv_end = __prev_->next; 
+        if(__prev_ != nullptr)
+            __prev_->next = nullptr;
+        auto end_next = __end_->next; 
+        if(__end_ != nullptr)
+            __end_->next = nullptr;
         __reverse_list_node_(__start_);
         __prev_->next = __start_;
         segrv_end->next = end_next;
@@ -119,18 +123,312 @@ ListNode* reverseList(ListNode* head) {
     return head;
 }
 
+ListNode* reverseKGroup(ListNode* head, int k) {
+    auto __dummy_ = new ListNode(-1, head);
+    auto __prev_ = __dummy_;
+    int cnt = k;
+    do{
+        // seg [start, end]
+        auto __start_ = __prev_->next;
+        auto __end_ = __prev_;
+        while(cnt && __end_ != nullptr)
+        {
+            __end_ = __end_->next;
+            --cnt;
+        }
+        if(cnt > 0 || __end_ == nullptr)
+        {
+            break;
+        }
+
+        auto segrv_end = __prev_->next; 
+        if(__prev_ != nullptr)
+            __prev_->next = nullptr;
+        auto end_next = __end_->next; 
+        if(__end_ != nullptr)
+            __end_->next = nullptr;
+        __reverse_list_node_(__start_);
+        __prev_->next = __start_;
+        segrv_end->next = end_next;
+        __prev_ = segrv_end;
+        cnt = k;
+    }while(__prev_ != nullptr);
+
+    return __dummy_->next;
+}
+
+ListNode* rotateRight(ListNode* head, int k) {
+    auto __len_ = __len_list_node_(head);
+    if(__len_ == 0 || k == 0 || k == __len_ )
+        return head;
+    k %= __len_;
+    auto __dummy_ = new ListNode(-1, head);
+
+    auto seg1_old_head = __dummy_->next; 
+    auto seg1_old_tail = __get_nextn_list_node_(__dummy_, __len_ - k);
+    auto seg1_new_tail = seg1_old_head;
+    auto seg2_old_head = seg1_old_tail->next;
+    seg1_old_tail->next = nullptr;
+    __reverse_list_node_(seg1_old_head); // seg1_new_head
+    __reverse_list_node_(seg2_old_head); // seg2_new_head
+    seg1_new_tail->next = seg2_old_head;
+    __reverse_list_node_(seg1_old_head); // new_head
+
+    return seg1_old_head;
+}
+
+ListNode* deleteDuplicates(ListNode* head) {
+    auto __dummy_ = new ListNode(0x8fff, head);
+    auto __turn_ = __dummy_;
+    
+    while(__turn_ != nullptr)
+    {
+        auto _prev = __turn_;
+        auto _pivot = _prev->val;
+        auto _iter = _prev->next;
+        while(_iter != nullptr && 
+                _pivot == _iter->val)
+        {
+            _prev = _iter;
+            _iter = _iter->next;
+        }
+        if(_prev->val == _pivot)
+        {
+        __turn_->next = _iter;
+        }
+        __turn_ = _iter;
+    }
+
+    return __dummy_->next;
+}
+
+ListNode* deleteDuplicates_lc82(ListNode* head) {
+    auto __dummy_ = new ListNode(0x8fff, head);
+    
+    auto __prev_ = __dummy_;
+    auto __turn_ = __prev_->next;
+    while(__turn_ != nullptr)
+    {
+        auto pivotVal = __turn_->val;
+        auto cnt = size_t(0);
+        do{
+        __turn_ = __turn_->next;
+        ++ cnt;
+        } while (__turn_ != nullptr && __turn_->val == pivotVal);
+        if(cnt > 1)
+        {
+            __prev_->next = __turn_;
+        } else 
+        {
+            __prev_ = __prev_->next;
+        }
+    }
+
+    return __dummy_->next;
+}
+
+ListNode* partition(ListNode* head, int x) {
+    ListNode * __lt_head_ = nullptr, * __lt_ = nullptr;
+    ListNode * __ge_head_ = nullptr, * __ge_ = nullptr;
+    auto __cur_ = head;
+
+    while(__cur_ != nullptr)
+    {
+        auto _next = __cur_->next;
+        __cur_->next = nullptr;
+        if(__cur_->val < x)
+        {
+        __append_list_node_(__lt_, __cur_);
+        if(__lt_head_ == nullptr)
+            __lt_head_ = __lt_;
+        } else 
+        {
+        __append_list_node_(__ge_, __cur_);
+        if(__ge_head_ == nullptr)
+            __ge_head_ = __ge_;
+        }
+        __cur_ = _next;
+    }
+    if(__lt_ != nullptr)
+        __lt_->next = __ge_head_;
+
+    return __lt_head_ != nullptr ? __lt_head_ : __ge_head_;
+}
+
+ListNode* reverseBetween(ListNode* head, int left, int right) {
+    auto cnt = size_t(0);
+    auto __dummy_ = new ListNode(0x7fffff, head);
+    auto __cur_ = __dummy_;
+    ListNode * _seg_prev = nullptr, *_seg_old_end = nullptr;
+    // find and cut 
+    while(__cur_ != nullptr && cnt < right)
+    {
+        if(cnt == left-1)
+            _seg_prev = __cur_;
+        __cur_ = __cur_->next;
+        ++ cnt;
+    }
+    auto _seg_old_begin = _seg_prev->next; _seg_old_end = __cur_;
+    auto _seg_new_end = _seg_old_begin;
+    auto _seg_next = _seg_old_end->next; _seg_old_end->next = nullptr;
+    __reverse_list_node_(_seg_old_begin); // _seg_new_begin
+    _seg_prev->next = _seg_old_begin;
+    _seg_new_end->next = _seg_next;
+
+    return __dummy_->next;
+}
+
 __END_NS__
 
 __USE_NS__(Alan::SelfList::Inst);
 __DEF_NS__(Alan::SelfList::Inst::Test)
 
+void TestLC92()
+{
+    __log_list_node_(
+        reverseBetween(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,8}), 3, 5)
+    );
+    // __log_list_node_(
+    //     reverseBetween(nullptr, 0, 0)
+    // );
+    __log_list_node_(
+        reverseBetween(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,8,8}), 5, 6)
+    );
+    __log_list_node_(
+        reverseBetween(__make_list_node_(std::vector<int>{1,4,3,2,5,2}), 1, 6)
+    );
+    __log_list_node_(
+        reverseBetween(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,8}), 7, 8)
+    );
+}
+
+void TestLC86()
+{
+    __log_list_node_(
+        partition(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,8}), 3)
+    );
+    __log_list_node_(
+        partition(nullptr, 0)
+    );
+    __log_list_node_(
+        partition(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,8,8}), 5)
+    );
+    __log_list_node_(
+        partition(__make_list_node_(std::vector<int>{1,4,3,2,5,2}), 3)
+    );
+    __log_list_node_(
+        partition(nullptr, 0)
+    );
+    __log_list_node_(
+        partition(__make_list_node_(std::vector<int>{7,6,4,2,7,8,1}), 5)
+    );
+}
+
+void TestLC82()
+{
+    __log_list_node_(
+        deleteDuplicates_lc82(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,8}))
+    );
+    __log_list_node_(
+        deleteDuplicates_lc82(nullptr)
+    );
+    __log_list_node_(
+        deleteDuplicates_lc82(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,8,8}))
+    );
+    __log_list_node_(
+        deleteDuplicates_lc82(__make_list_node_(std::vector<int>{1,1,2,2,3,3,7,8}))
+    );
+    __log_list_node_(
+        deleteDuplicates_lc82(__make_list_node_(std::vector<int>{1,1,1,1,1,1,1}))
+    );
+    __log_list_node_(
+        deleteDuplicates_lc82(__make_list_node_(std::vector<int>{1,2,2,2,2,2,3}))
+    );
+    __log_list_node_(
+        deleteDuplicates_lc82(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,7,7}))
+    );
+    __log_list_node_(
+        deleteDuplicates_lc82(__make_list_node_(std::vector<int>{1}))
+    );
+}
+
+void TestLC83()
+{
+    __log_list_node_(
+        deleteDuplicates(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,8}))
+    );
+    __log_list_node_(
+        deleteDuplicates(nullptr)
+    );
+    __log_list_node_(
+        deleteDuplicates(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,8,8}))
+    );
+    __log_list_node_(
+        deleteDuplicates(__make_list_node_(std::vector<int>{1,1,2,2,3,3,7,8}))
+    );
+    __log_list_node_(
+        deleteDuplicates(__make_list_node_(std::vector<int>{1,1,1,1,1,1,1}))
+    );
+    __log_list_node_(
+        deleteDuplicates(__make_list_node_(std::vector<int>{1,2,2,2,2,2,3}))
+    );
+    __log_list_node_(
+        deleteDuplicates(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,7,7}))
+    );
+    __log_list_node_(
+        deleteDuplicates(__make_list_node_(std::vector<int>{1}))
+    );
+}
+
+// void runFnsCases(auto && _fn, auto &&... _args)
+// {
+//     std::forward<decltype(_fn)>(_fn)
+//         (std::forward<decltype(_args)>(_args)...);
+// }
+
+void TestLC61()
+{
+    __log_list_node_(
+        rotateRight(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,8}), 3)
+    );
+    __log_list_node_(
+        rotateRight(nullptr, 0)
+    );
+    __log_list_node_(
+        rotateRight(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,8}), 1<<10)
+    );
+}
+
+void TestLC25()
+{
+    // 1 2 3 4 5 6 7 8 -> 3 2 1 6 5 4 7 8
+    __log_list_node_(
+        reverseKGroup(__make_list_node_(std::vector<int>{1,2,3,4,5,6,7,8}), 3)
+    );
+
+    // nullptr -> nullptr
+    // __log_list_node_(
+    //     reverseKGroup(nullptr, 0)
+    // );
+
+    // 1 2 3 -> 2 1 3
+    __log_list_node_(
+        reverseKGroup(__make_list_node_(std::vector<int>{1, 2, 3}), 2)
+    );
+
+    // 1 -> 1
+    __log_list_node_(
+        reverseKGroup(__make_list_node_(std::vector<int>{1}), 2)
+    );
+}
+
 void TestSwapLN()
 {
-    // {
-    //     auto ln = __make_list_node_(std::vector<int>{1, 2, 3, 4});
-    //     __swap_list_node_(ln, ln->next);
-    //     __log_list_node_(ln);
-    // }
+    {
+        auto ln = __make_list_node_(std::vector<int>{1, 2, 3, 4});
+        __swap_list_node_(ln, ln->next->next->next);
+        __log_list_node_(ln);
+    }
     {
         auto ln = __make_list_node_(std::vector<int>{1, 2, 3, 4});
         __swap_list_node_(ln, ln->next->next);
@@ -181,9 +479,7 @@ void TestLC24()
     // 1 -> 1
     __log_list_node_(
         swapPairs(__make_list_node_(std::vector<int>{1}))
-    );
-
-    
+    );    
 }
 
 void TestLC19()

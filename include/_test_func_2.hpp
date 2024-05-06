@@ -26,10 +26,11 @@ void TestVaArgs();
 
 #define PUSH_TASK(__fn_) __test_fn_queue_.push_back(__fn_)
 #define POP_TASK() __test_fn_queue_.pop_back()
-#define POP_TASKN(__n_) \
-        while(__n_ -- && !__test_fn_queue_.empty()) { \
-            POP_TASK() \
-        }
+#define POP_TASKS(__n_) \
+        do { int __cnt_ = __n_; \
+            while(__cnt_ -- && !__test_fn_queue_.empty()) { \
+            POP_TASK(); } \
+        } while(0)
 #define RUN_TASKS() \
         while(!__test_fn_queue_.empty()) \
         { \

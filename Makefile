@@ -202,7 +202,9 @@ _cp_heat_build_dir:
 	cp $(_tes_dir)/*.o $(build_dir)
 
 # can not be used
-heat: _mk_build_dir _tes _cp_heat_build_dir main
+# heat: _mk_build_dir _tes _cp_heat_build_dir main
 
-_main0:
+heat:
 	cd src/tests/heat_module && MAKE && ./main
+luogu:
+	cd src/tests/luogu && MAKE && ./main

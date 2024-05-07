@@ -28,11 +28,17 @@ void TestNoArgs()
     PUSH_TASK(Alan::SelfList::Inst::Test::TestLC82); POP_TASK();
     PUSH_TASK(Alan::SelfList::Inst::Test::TestLC86); POP_TASK();
     PUSH_TASK(Alan::SelfList::Inst::Test::TestLC92); POP_TASK();
-    // PUSH_TASK(Alan::SelfList::Inst::Test::TestSwapLN); 
+    PUSH_TASK(Alan::SelfList::Inst::Test::TestSwapLN); POP_TASK();
+    PUSH_TASK(Alan::Inst::LC::TestRunLC); POP_TASK();
 
-    // PUSH_TASK(Alan::Inst::LC::TestRunLC);
-    PUSH_TASK(Alan::SelfAlgo::Inst::Test::TestLC72);
+    PUSH_TASK(Alan::SelfAlgo::Inst::Test::TestLC72); POP_TASK();
+    PUSH_TASK(Alan::SelfAlgo::Inst::p1257); POP_TASK();
+
     RUN_TASKS();
+
+    PUT_TASK("lc72", Alan::SelfAlgo::Inst::Test::TestLC72);
+    
+    CAL_TASK("lc72");
 }
 
 void TestVaArgs()

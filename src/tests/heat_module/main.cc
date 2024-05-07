@@ -1,79 +1,107 @@
-#include<iostream>
-#include<vector>
-#include<algorithm>
-#include<stack>
-#include<cstdlib>
-#include<omp.h>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <iostream>
+#include <cmath>
+#include <cstdio>
+#include <iomanip>
 
-int find_median(std::vector<int>& arr, int left, int right) {
-    if (left == right) {
-        return arr[left];
+typedef struct _point2d 
+{
+    typedef unsigned long long _ull;
+    _ull x, y;
+
+    _point2d(_ull _x = 0, _ull _y = 0)
+        : x(_x), y(_y) { }
+
+    double _dis(const _point2d & _pd) 
+        const noexcept{
+        return sqrt((x-_pd.x)*(x-_pd.x) + (y-_pd.y)*(y-_pd.y));
     }
 
-    if (left + 1 == right) {
-        return std::max(arr[left], arr[right]);
+    bool operator < (const _point2d & _pd)
+        const noexcept{
+        return x < _pd.x || (x == _pd.x && y < _pd.y);
     }
+}_point2d;
 
-    int mid = left + (right - left) / 3;
-    int a = find_median(arr, left, mid);
-    int b = find_median(arr, mid + 1, right);
-    int c = find_median(arr, left + (right - left) / 3, right - (right - left) / 3);
 
-    return std::max({a, b, c});
+bool _p2dcmpy(const _point2d & _ps, const _point2d & _pd)
+{
+    return _ps.y < _pd.y;
 }
 
-int quickselect(std::vector<int>& arr, int left, int right, int k) {
-    std::stack<std::pair<int, int>> stk;
-    stk.push({left, right});
 
-    while (!stk.empty()) {
-        std::pair<int, int> range = stk.top();
-        stk.pop();
+typedef struct _p2d_ans 
+{
+    _point2d _ps, _pd;
+    _point2d::_ull _d2;
+    double _d;
+    _p2d_ans() : _d(1e20+1) { }
 
-        if (range.first == range.second) {
-            return arr[range.first];
-        }
-
-        int pivot_index = range.first + rand() % (range.second - range.first + 1);
-        std::swap(arr[pivot_index], arr[range.second]);
-        int pivot = arr[range.second];
-
-        int i = range.first;
-        for (int j = range.first; j< range.second; j++) {
-            if (arr[j] >= pivot) {
-                std::swap(arr[i], arr[j]);
-                i++;
-            }
-        }
-        std::swap(arr[i], arr[range.second]);
-
-        if (k == i) {
-            return arr[k];
-        } else if (k< i) {
-            stk.push({range.first, i - 1});
-        } else {
-            stk.push({i + 1, range.second});
-        }
+    void _upd(const _point2d & p1, const _point2d & p2)
+        noexcept{
+        _d = std::min(p1._dis(p2), _d);
     }
 
-    return -1;
-}
+}_p2d_and;
 
-int main() {
-    std::vector<int> arr = {3, 2, 1, 5, 6, 4};
-    int k = 2;
+void p1257();
 
-    #pragma omp parallel
+void _rec(int l, int r, _point2d *pp, _p2d_ans &ans)
+{
+    if(r-l <= 3)
     {
-        #pragma omp single
-        {
-            int result = quickselect(arr, 0, arr.size() - 1, k - 1);
-            #pragma omp critical
-            {
-                std::cout << "The " << k << "th largest element is: "<< result<< std::endl;
-            }
-        }
+    for(int i=l;i<=r;++i)
+        for(int j=i+1;j<=r;++j)
+            ans._upd(pp[i], pp[j]);
+    std::sort(pp+l, pp+r+1, _p2dcmpy);
+    return;
     }
 
+    int m = (l+r)>>1;
+    _rec(l, m, pp, ans), _rec(m+1, r, pp, ans);
+    std::inplace_merge(pp+l, pp+m+1, pp+r+1, _p2dcmpy);
+    int mx = pp[m].x;
+
+    // merge A1 | A2 -> B -> C
+    _point2d pt[r-l+1]; int ptsz = 0;
+    for(int i=l; i <= r; ++i)
+        if(abs(mx-pp[i].x) < ans._d)
+        {
+            for(int j=ptsz-1; j >= 0 && pp[i].y - pt[j].y < ans._d; --j)
+                ans._upd(pp[i], pt[j]);
+            pt[ptsz++] = pp[i];
+        }
+    
+}
+
+void p1257()
+{
+    int n;
+    std::cin>>n;
+    _point2d pp[n];
+    _p2d_ans _ans;
+    for(int i=0;i<n;i++)
+        std::cin>>pp[i].x>>pp[i].y;
+    std::sort(pp, pp+n);
+    // for(int i=0;i<n;++i)
+    // {
+    //     for(int j=i+1;j<n;++j)
+    //     {
+    //     _ans = std::min(pp[i]._dis(pp[j]), _ans);
+    //     }
+    // }
+    _rec(0, n-1, pp, _ans);
+
+    std::cout 
+        << std::fixed 
+        << std::setprecision(4)
+        << _ans._d << '\n';
+}
+
+int main()
+{
+    p1257();
     return 0;
 }

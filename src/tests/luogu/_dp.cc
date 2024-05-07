@@ -1,18 +1,5 @@
 #include <cstdio>
-
-#define __TYPE_OF__(__x__) __typeof__(__x__)
-
-#define MAX_Tt(_x, _y) ({ \
-    __TYPE_OF__(_x) __x = (_x);  \
-    __TYPE_OF__(_y) __y = (_y);  \
-    __x > __y ? __x : __y;  \
-})
-
-#define MIN_Tt(_x, _y) ({ \
-    __TYPE_OF__(_x) __x = (_x);  \
-    __TYPE_OF__(_y) __y = (_y);  \
-    __x < __y ? __x : __y;  \
-})
+#include <algorithm>
 
 typedef struct vt
     {
@@ -42,7 +29,7 @@ int p1048()
     {
     for(int t = T; t >= vti[m].t; t--) 
         {
-        val[t] = MAX_Tt(val[t-vti[m].t] + vti[m].v, val[t]);
+        val[t] = std::max(val[t-vti[m].t] + vti[m].v, val[t]);
         }
     }
     printf("%d\n", val[T]);

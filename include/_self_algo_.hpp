@@ -51,4 +51,10 @@ void TestLC72();
 
 __END_NS__
 
+__DEF_NS__(Alan::LC)
+
+void TestLC150();
+
+__END_NS__
+
 #endif

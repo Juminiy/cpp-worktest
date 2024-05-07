@@ -3,7 +3,10 @@
 #include<algorithm>
 #include<stack>
 #include<cstdlib>
-#include<omp.h>
+
+#if _OSVER == WinNT
+// #include<omp.h>
+#endif
 
 int find_median(std::vector<int>& arr, int left, int right) {
     if (left == right) {

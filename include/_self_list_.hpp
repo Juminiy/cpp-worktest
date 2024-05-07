@@ -118,3 +118,27 @@ void TestLC2();
 void TestLC19();
 void TestLC24();
 __END_NS__
+
+__DEF_NS__(Alan::SelfList::Inst)
+
+class __rb_tree_node_
+{
+
+};
+
+class __avl_tree_node_
+{
+
+};
+
+class __skip_list_node_
+{
+
+};
+
+class __trie_node_
+{
+
+};
+
+__END_NS__

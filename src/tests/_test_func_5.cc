@@ -37,8 +37,8 @@ void TestNoArgs()
     RUN_TASKS();
 
     PUT_TASK("lc72", Alan::SelfAlgo::Inst::Test::TestLC72);
-    
-    CAL_TASK("lc72");
+    PUT_TASK("lc150", Alan::LC::TestLC150);
+    CAL_TASK("lc150");
 }
 
 void TestVaArgs()

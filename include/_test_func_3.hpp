@@ -7,9 +7,33 @@
 
 __DEF_NS__(Alan::Inst::LC)
 
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+
+Node* copyRandomList(Node* );
+
+void TestLC234();
+
 typedef void (*TestLCFn) ();
 
 void TestRunLC();
+
+__END_NS__
+
+
+__DEF_NS__(Alan::Demos::Test::Func)
+
+void TestConsoleIOStackQueue();
 
 __END_NS__
 

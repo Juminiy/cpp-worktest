@@ -53,7 +53,20 @@ __END_NS__
 
 __DEF_NS__(Alan::LC)
 
+int evalRPN(std::vector<std::string>& );
 void TestLC150();
+
+__END_NS__
+
+__DEF_NS__(Alan::SelfAlgo::Inst::Test)
+
+void TestCOptLess();
+
+void TestIntToken();
+
+void TestMidExpr2RPN();
+
+void TestRPN2MidExpr();
 
 __END_NS__
 

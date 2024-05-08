@@ -26,6 +26,10 @@
 #include <map>
 #include <unordered_map>
 
+#include <deque>
+#include <vector>
+#include <stack>
+#include <queue>
 
 // how to define a pair name 
 // for example: 
@@ -353,6 +357,38 @@ void ConsoleBeautyOutput(const _Container &__container,
     }
 
     PRINTLN("]");
+}
+
+template < typename _Stack >
+void ConsoleOutputStack(_Stack __stack)
+{
+    using __value_type = typename _Stack::value_type;
+    using __deque_type = std::deque<typename _Stack::value_type>;
+
+    auto __bottom_2_top = __deque_type();
+    while(!__stack.empty())
+    {
+        __bottom_2_top.push_front(__stack.top());
+        __stack.pop();
+    }
+
+    ConsoleBeautyOutput<__value_type, __deque_type>(__bottom_2_top);
+}
+
+template < typename _Queue >
+void ConsoleOutputQueue(_Queue __queue)
+{
+    using __value_type = typename _Queue::value_type;
+    using __deque_type = std::deque<typename _Queue::value_type>;
+
+    auto __bottom_2_top = __deque_type();
+    while(!__queue.empty())
+    {
+        __bottom_2_top.push_back(__queue.front());
+        __queue.pop();
+    }
+
+    ConsoleBeautyOutput<__value_type, __deque_type>(__bottom_2_top);
 }
 
 /// @test fully passed

@@ -10,6 +10,24 @@ __DEF_NS__(Alan::Demos::Test::Func)
 
 void TestNoArgs()
 {
+    PUT_TASK("lc72", Alan::SelfAlgo::Inst::Test::TestLC72);
+    PUT_TASK("lc150", Alan::LC::TestLC150);
+    PUT_TASK("rpn_opt_less", Alan::SelfAlgo::Inst::Test::TestCOptLess);
+    PUT_TASK("rpn_int_token", Alan::SelfAlgo::Inst::Test::TestIntToken);
+    PUT_TASK("rpn", Alan::SelfAlgo::Inst::Test::TestMidExpr2RPN);
+    PUT_TASK("stkio", Alan::Demos::Test::Func::TestConsoleIOStackQueue);
+    PUT_TASK("lc234", Alan::Inst::LC::TestLC234);
+    
+    CAL_TASK("lc234");
+}
+
+void TestVaArgs()
+{
+    
+}
+
+void TestNoArgsV0()
+{
     PUSH_TASK(__init_test_fn_);
     PUSH_TASK(TestPaSort);  POP_TASK();
     PUSH_TASK(Alan::SysInfo::LOGSysInfo); POP_TASK();
@@ -30,20 +48,9 @@ void TestNoArgs()
     PUSH_TASK(Alan::SelfList::Inst::Test::TestLC92); POP_TASK();
     PUSH_TASK(Alan::SelfList::Inst::Test::TestSwapLN); POP_TASK();
     PUSH_TASK(Alan::Inst::LC::TestRunLC); POP_TASK();
-
     PUSH_TASK(Alan::SelfAlgo::Inst::Test::TestLC72); POP_TASK();
     PUSH_TASK(Alan::SelfAlgo::Inst::p1257); POP_TASK();
-
     RUN_TASKS();
-
-    PUT_TASK("lc72", Alan::SelfAlgo::Inst::Test::TestLC72);
-    PUT_TASK("lc150", Alan::LC::TestLC150);
-    CAL_TASK("lc150");
-}
-
-void TestVaArgs()
-{
-    
 }
 
 __END_NS__

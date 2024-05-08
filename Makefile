@@ -2,7 +2,7 @@ export
 
 # compile options
 cxxc 	 = g++
-cxx_args = -Wall -pedantic -O0 -std=c++20
+cxx_args = -Wall -pedantic -O2 -std=c++20
 c_args 	 = -Wall -pedantic -O0 -std=gnu99
 
 # compie options - args

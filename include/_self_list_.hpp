@@ -102,6 +102,9 @@ ListNode* partition(ListNode* , int );
 ListNode* reverseBetween(ListNode* , int , int );
 __END_NS__
 
+__DEF_NS__(Alan::Demos::Test::Func)
+void TestRunCPU();
+__END_NS__
 
 __DEF_NS__(Alan::SelfList::Inst::Test)
 void TestLC92();

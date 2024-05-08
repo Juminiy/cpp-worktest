@@ -18,8 +18,11 @@ void TestNoArgs()
     PUT_TASK("stkio", Alan::Demos::Test::Func::TestConsoleIOStackQueue);
     PUT_TASK("lc234", Alan::Inst::LC::TestLC234);
     PUT_TASK("lc328", Alan::Inst::LC::TestLC328);
+    PUT_TASK("lc142", Alan::Inst::LC::TestLC142);
+    PUT_TASK("lc143", Alan::Inst::LC::TestLC143);
+    PUT_TASK("runcpu", Alan::Demos::Test::Func::TestRunCPU);
     
-    CAL_TASK("lc328");
+    CAL_TASK("runcpu");
 }
 
 void TestVaArgs()

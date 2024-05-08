@@ -16,6 +16,105 @@
 __USE_NS__(Alan::SelfList::Inst);
 __DEF_NS__(Alan::Inst::LC)
 
+ListNode* insertionSortList(ListNode* head) {
+    std::vector<int> vi;
+    vi.reserve(5000);
+    auto cur = head;
+    while(cur != nullptr)
+    {
+    vi.push_back(cur->val);
+    cur = cur->next;
+    }
+
+    std::sort(vi.begin(), vi.end());
+
+    cur = head;
+    size_t i = 0;
+    while(cur != nullptr)
+    {
+        cur->val = vi[i++];
+        cur = cur->next;
+    }
+
+    return head;
+        
+}
+
+// 1 2 3 4   slow = 
+// 1 2 3 4 5
+void reorderList(ListNode* head) {
+    if (head == nullptr || head->next == nullptr)
+        return;
+    ListNode * __dummy_ = new ListNode(-1, head);
+    auto fast = __dummy_, slow = __dummy_, prev = __dummy_;
+
+    #define __toend(__node_) \
+            if(__node_ == nullptr) break
+    int n = 0;
+    while(fast != nullptr)
+    {
+        prev = slow;
+        slow = slow->next; __toend(slow);
+        fast = fast->next; __toend(fast); ++n;
+        fast = fast->next; __toend(fast); ++n;
+    }
+    auto seg1 = head, seg2 = head;
+    if(n%2 == 0)
+    {
+        prev->next = nullptr;
+        seg2 = slow;
+    } else 
+    {
+        seg2 = slow->next;
+        slow->next = nullptr;
+    }
+
+    // rev seg2
+    __reverse_list_node_(seg2);
+
+    auto seg2Tail = seg2, seg1Tail = seg1;
+    // merge seg1 seg2
+
+    while(seg2Tail != nullptr)
+    {
+        auto elem2 = seg2Tail; 
+        seg2Tail = seg2Tail->next; 
+        elem2->next = nullptr;
+
+        if(seg1Tail != nullptr)
+        {
+            elem2->next = seg1Tail->next;
+            seg1Tail->next = elem2;
+            seg1Tail = seg1Tail->next->next;
+        }
+    }
+}
+
+void TestLC143()
+{   
+{
+    auto l1 = __make_list_node_({1, 2, 3, 4, 5});
+    reorderList(l1);
+    __log_list_node_(l1);
+}
+{
+    auto l1 = __make_list_node_({1, 2, 3, 4});
+    reorderList(l1);
+    __log_list_node_(l1);
+}
+{
+    auto l1 = __make_list_node_({1});
+    reorderList(l1);
+    __log_list_node_(l1);
+}
+{
+    auto l1 = __make_list_node_({});
+    reorderList(l1);
+    __log_list_node_(l1);
+}
+}
+
+
 // 1->2->3->4->5
 ListNode* oddEvenList(ListNode* head) {
     // ListNode * __dummy_ = new ListNode(-1, head);
@@ -133,13 +232,19 @@ ListNode *detectCycle(ListNode *head) {
         fast = fast->next; __toend(fast); fast = fast->next; __toend(fast);
     } while (fast != slow);
 
-    auto meet = slow;
-    do {
-        ++c;
+    fast = __dummy_;
+    while(fast != slow)
+    {
+        fast = fast->next;
         slow = slow->next;
-    } while(slow != meet);
+    }
     
-    return nullptr;
+    return fast;
+}
+
+void TestLC142()
+{
+    
 }
 
 bool hasCycle(ListNode *head) {

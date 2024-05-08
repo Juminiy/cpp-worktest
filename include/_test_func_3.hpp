@@ -24,6 +24,8 @@ Node* copyRandomList(Node* );
 
 void TestLC234();
 void TestLC328();
+void TestLC142();
+void TestLC143();
 
 typedef void (*TestLCFn) ();
 

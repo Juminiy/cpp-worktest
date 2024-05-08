@@ -16,8 +16,26 @@
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
-        
+    auto __dummy_ = new ListNode(-1, head);
+    ListNode *slow = __dummy_, *fast = __dummy_;
+
+    #define __toend(__node_) \
+            if(__node_ == nullptr) return nullptr
+
+    do {
+        slow = slow->next; __toend(slow);
+        fast = fast->next; __toend(fast); fast = fast->next; __toend(fast);
+    } while (fast != slow);
+
+    fast = __dummy_;
+    while(fast != slow)
+    {
+        fast = fast->next;
+        slow = slow->next;
     }
+    
+    return fast;
+}
 };
 // @lc code=end
 

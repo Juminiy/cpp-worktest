@@ -18,12 +18,17 @@
       # make main  0.63s user 0.10s system 91% cpu 0.795 total
       ```
       ```bash
-      # CPU loops per second
+      # CPU loops per second 
+      # clang -O0
       Alan::__loops_per_sec_(1) = 24434032
       Alan::__loops_per_sec_(2) = 49660779
       Alan::__loops_per_sec_(3) = 74456481
+      # clang -O3
+      Alan::__loops_per_sec_(1) = 60274124
+      Alan::__loops_per_sec_(2) = 122208869
+      Alan::__loops_per_sec_(3) = 183411630
       ```
-   2. Win64 (MINGW64_NT-10.0-19045 DESKTOP-QRS5IC2 3.4.10.x86_64 2024-03-24 15:09 UTC x86_64 Msys, clang version 11.0.0)
+   1. Win64 (MINGW64_NT-10.0-19045 DESKTOP-QRS5IC2 3.4.10.x86_64 2024-03-24 15:09 UTC x86_64 Msys, clang version 11.0.0)
       ```bash
       time make -j8
       # real    0m8.094s
@@ -36,7 +41,7 @@
       Alan::__loops_per_sec_(2) = 28735669
       Alan::__loops_per_sec_(3) = 44418881
       ```
-   3. Server (Linux VM-0-16-ubuntu 5.15.0-72-generic #79-Ubuntu SMP Wed Apr 19 08:22:18 UTC 2023     x86_64 x86_64 x86_64 GNU/Linux, Ubuntu clang version 14.0.0-1ubuntu1.1)
+   2. Server (Linux VM-0-16-ubuntu 5.15.0-72-generic #79-Ubuntu SMP Wed Apr 19 08:22:18 UTC 2023     x86_64 x86_64 x86_64 GNU/Linux, Ubuntu clang version 14.0.0-1ubuntu1.1)
       ```bash
       time make -j8
       # real    0m9.438s

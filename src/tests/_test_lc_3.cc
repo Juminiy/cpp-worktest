@@ -12,18 +12,98 @@
 #include <deque>
 #include <vector>
 
-// 1 2 3 2 1
+
 __USE_NS__(Alan::SelfList::Inst);
 __DEF_NS__(Alan::Inst::LC)
 
+// 1->2->3->4->5
+ListNode* oddEvenList(ListNode* head) {
+    // ListNode * __dummy_ = new ListNode(-1, head);
+    ListNode * cur = head, * prev = nullptr;
+    // int n = 0;
+    ListNode * seg2Head = nullptr, *seg2Cur = nullptr;
+    while(cur != nullptr)
+    {
+        auto odd = cur->next;
+        if(odd != nullptr)
+        {   
+            cur->next = odd->next;
+            odd->next = nullptr;
+            
+            if(seg2Cur != nullptr)
+                seg2Cur->next = odd;
+            seg2Cur = odd;
+            if(seg2Head == nullptr)
+                seg2Head = seg2Cur;
+        }
+        prev = cur;
+        cur = cur->next;
+    }
+    if(prev != nullptr)
+        prev->next = seg2Head;
+
+    return head;
+}
+
+void TestLC328()
+{
+    __log_list_node_(oddEvenList(__make_list_node_({})));
+    __log_list_node_(oddEvenList(__make_list_node_({1})));
+    __log_list_node_(oddEvenList(__make_list_node_({1,2})));
+    __log_list_node_(oddEvenList(__make_list_node_({1,2,3})));
+    __log_list_node_(oddEvenList(__make_list_node_({1,2,3,4})));
+    __log_list_node_(oddEvenList(__make_list_node_({1,2,3,4,5})));
+}
+
+// null
+// 1
+// 1 2 3 4 slow = 3
+// 1 2 3 4 5 slow = 3 
 bool isPalindrome(ListNode* head) {
-    
-    return false;
+    if(head == nullptr || head->next == nullptr)
+        return true;
+    auto __dummy_ = new ListNode(-1, head);
+    auto slow = __dummy_, fast = __dummy_;
+    ListNode *prev = nullptr;
+    int n = 0;
+    do {
+        prev = slow;
+        slow = slow->next; 
+        fast = fast->next; if(fast == nullptr) break; ++ n;
+        fast = fast->next; if(fast == nullptr) break; ++ n;
+    }while(fast != nullptr);
+
+    ListNode * seg1 = __dummy_->next, *seg2 = nullptr;
+    if(n%2 == 0)
+    {
+        seg2 = slow;
+        prev->next = nullptr;
+    } else 
+    {
+        seg2 = slow->next;
+        slow->next = nullptr;
+    }
+    __reverse_list_node_(seg2);
+
+    while(seg1 != nullptr && seg2 != nullptr)
+    {
+        if(seg1->val != seg2->val)
+            return false;
+        seg1 = seg1->next;
+        seg2 = seg2->next;
+    }
+
+    return true;
 }
 
 void TestLC234()
 {
-    isPalindrome(__make_list_node_({1,1,2,1}));
+    PRINTLN(isPalindrome(__make_list_node_({})));
+    PRINTLN(isPalindrome(__make_list_node_({1})));
+    PRINTLN(isPalindrome(__make_list_node_({1,1,2,1})));
+    PRINTLN(isPalindrome(__make_list_node_({1,2,3,4,5})));
+    PRINTLN(isPalindrome(__make_list_node_({1,2,2,1})));
+    PRINTLN(isPalindrome(__make_list_node_({1,2,3,2,1})));
 }
 
 // eg.

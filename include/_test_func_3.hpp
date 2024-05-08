@@ -23,6 +23,7 @@ public:
 Node* copyRandomList(Node* );
 
 void TestLC234();
+void TestLC328();
 
 typedef void (*TestLCFn) ();
 

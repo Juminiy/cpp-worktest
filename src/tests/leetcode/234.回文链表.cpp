@@ -43,17 +43,42 @@ void __reverse_list_node_(ListNode * & __head_)
 }
 
 bool isPalindrome(ListNode* head) {
-    auto ori = head;
-    __reverse_list_node_(head);
-    while(ori != nullptr)
+    if(head == nullptr || head->next == nullptr)
+        return true;
+    auto __dummy_ = new ListNode(-1, head);
+    auto slow = __dummy_, fast = __dummy_;
+    ListNode *prev = nullptr;
+    int n = 0;
+    do {
+        prev = slow;
+        slow = slow->next; 
+        fast = fast->next; if(fast == nullptr) break; ++ n;
+        fast = fast->next; if(fast == nullptr) break; ++ n;
+    }while(fast != nullptr);
+
+    ListNode * seg1 = __dummy_->next, *seg2 = nullptr;
+    if(n%2 == 0)
     {
-        if(ori->val != head->val) 
-            return false;
-        ori = ori->next;
-        head = head->next;
+        seg2 = slow;
+        prev->next = nullptr;
+    } else 
+    {
+        seg2 = slow->next;
+        slow->next = nullptr;
     }
+    __reverse_list_node_(seg2);
+
+    while(seg1 != nullptr && seg2 != nullptr)
+    {
+        if(seg1->val != seg2->val)
+            return false;
+        seg1 = seg1->next;
+        seg2 = seg2->next;
+    }
+
     return true;
 }
+
 };
 // @lc code=end
 

@@ -37,9 +37,14 @@
       ```
       ```bash
       # CPU loops per second
+      # gcc -O0
       Alan::__loops_per_sec_(1) = 14481591
       Alan::__loops_per_sec_(2) = 28735669
       Alan::__loops_per_sec_(3) = 44418881
+      # gcc -O2
+      Alan::__loops_per_sec_(1) = 17001525
+      Alan::__loops_per_sec_(2) = 39107601
+      Alan::__loops_per_sec_(3) = 58595730
       ```
    2. Server (Linux VM-0-16-ubuntu 5.15.0-72-generic #79-Ubuntu SMP Wed Apr 19 08:22:18 UTC 2023     x86_64 x86_64 x86_64 GNU/Linux, Ubuntu clang version 14.0.0-1ubuntu1.1)
       ```bash
@@ -50,7 +55,12 @@
       ```
       ```bash
       # CPU loops per second
+      # gcc -O0
       Alan::__loops_per_sec_(1) = 18292420
       Alan::__loops_per_sec_(2) = 36579376
       Alan::__loops_per_sec_(3) = 52902849
+      # gcc -O2
+      Alan::__loops_per_sec_(1) = 35623114
+      Alan::__loops_per_sec_(2) = 70066823
+      Alan::__loops_per_sec_(3) = 10802244
       ```

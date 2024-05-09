@@ -145,3 +145,36 @@ class __trie_node_
 };
 
 __END_NS__
+
+
+__DEF_NS__(Alan::SelfList::Inst)
+
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+
+// not a value
+#define _nav 0x7fffffff
+#define _ssz 0xff
+
+TreeNode* __make_tree_node_(int );
+TreeNode* __make_tree_node_bfs_(const std::vector<int> &, size_t __msz = 7);
+TreeNode* __make_tree_node_bfss_(const std::vector<std::vector<int>> &);
+void __trav_tree_node_postorder_(TreeNode *, std::vector<int> &);
+void __trav_tree_node_midorder_(TreeNode *, std::vector<int> &);
+void __trav_tree_node_preorder_(TreeNode *, std::vector<int> &);
+void __trav_tree_node_bfs_(TreeNode *, std::vector<int> &);
+
+// lc function
+std::vector<int> inorderTraversal(TreeNode* );
+
+// local test
+void TestTreeNodeBase();
+
+__END_NS__
+

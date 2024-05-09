@@ -5,6 +5,8 @@
 #include <vector>
 #include <stack>
 #include <queue>
+#include <string>
+#include <deque>
 
 __DEF_NS__(Alan::SelfList)
 
@@ -225,6 +227,202 @@ void TestPostOrderTrav()
     // __midorder_traverse(_t, _vi);
     // __bfs_traverse<int >(_t, _vi);
     Alan::ConsoleBeautyOutput(_vi);
+}
+
+__END_NS__
+
+
+__DEF_NS__(Alan::SelfList::Inst)
+
+std::vector<int> 
+inorderTraversal(TreeNode* root) 
+{
+    auto vi = std::vector<int>();
+    vi.reserve(101);
+    __trav_tree_node_midorder_(root, vi);
+    return vi;
+}
+
+/* 
+        1                     1
+       / \                   / \
+     2    3                 2   _
+    / \  / \               / \ 
+   4  5 6   7             4   5
+*/ 
+// bfs: 1 2 3 4 5 6 7    bfs: 1 2 4 5
+// post: 4 5 2 6 7 3 1   post: 4 5 2 1
+// mid: 4 2 5 1 6 3 7    mid: 4 2 5 1
+// pre: 1 2 4 5 3 6 7    pre: 1 2 4 5
+void TestTreeNodeBase()
+{   
+    auto t1 = __make_tree_node_bfs_({1,2,3,4,5,6,7});
+    auto t2 = __make_tree_node_bfs_({1,2,_nav,4,5});
+    auto t3 = __make_tree_node_bfs_({}, 8);
+
+    #define __logvi Alan::ConsoleBeautyOutput(vi);
+    auto vi = std::vector<int>(); 
+
+    vi.clear(); __trav_tree_node_bfs_(t1,vi);__logvi
+    vi.clear(); __trav_tree_node_bfs_(t2,vi);__logvi
+    vi.clear(); __trav_tree_node_bfs_(t3,vi);__logvi
+
+    vi.clear(); __trav_tree_node_postorder_(t1,vi);__logvi
+    vi.clear(); __trav_tree_node_postorder_(t2,vi);__logvi
+    vi.clear(); __trav_tree_node_postorder_(t3,vi);__logvi
+
+    vi.clear(); __trav_tree_node_midorder_(t1,vi);__logvi
+    vi.clear(); __trav_tree_node_midorder_(t2,vi);__logvi
+    vi.clear(); __trav_tree_node_midorder_(t3,vi);__logvi
+
+    vi.clear(); __trav_tree_node_preorder_(t1,vi);__logvi
+    vi.clear(); __trav_tree_node_preorder_(t2,vi);__logvi
+    vi.clear(); __trav_tree_node_preorder_(t3,vi);__logvi
+}
+
+TreeNode* __make_tree_node_(int val)
+{
+    if(val != _nav)
+        return new TreeNode(val);
+    else 
+        return nullptr;
+}
+
+/* 
+        1
+       / \
+     2    3
+    / \  / \
+   4  5 6   7
+*/ 
+// bfs: 1 2 3 4 5 6 7
+TreeNode* __make_tree_node_bfs_(const std::vector<int> & __seq, size_t __msz)
+{
+    TreeNode * root = nullptr;
+    auto tq = std::queue<TreeNode*>();
+
+    #define __toend(__curi, __sz) \
+            if(__curi == __sz) break
+
+    #define __mktree(__expr, __sz) \
+            do { \
+                size_t curi = 0, sz = __sz; \
+                TreeNode * curm =__make_tree_node_(__expr); __toend(curi, sz); \
+                TreeNode *curl =nullptr, *curr =nullptr; \
+                tq.push(curm);  root = curm; \
+                do { \
+                curm = tq.front(); \
+                curl = __make_tree_node_(__expr); __toend(curi, sz); \
+                curr = __make_tree_node_(__expr); __toend(curi, sz); \
+                curm->left = curl, curm->right = curr, tq.pop(); \
+                if(curl != nullptr) \
+                    tq.push(curl); \
+                if(curr != nullptr) \
+                    tq.push(curr); \
+                curl = nullptr, curr = nullptr; \
+                }while(curi < sz); \
+                if(curm != nullptr) \
+                    curm->left = curl, curm->right = curr; \
+            }while(0)
+
+    if(__seq.size() > 0)
+    {
+        __mktree(__seq[curi++], __seq.size());
+    } else if(__msz > 0) 
+    {
+        __mktree(curi++, __msz);
+    }
+
+    return root;
+}
+
+TreeNode* __make_tree_node_bfss_(const std::vector<std::vector<int>> & __sseq)
+{
+    return nullptr;
+}
+
+void __trav_tree_node_postorder_(TreeNode * __root, std::vector<int> & _vi)
+{
+    auto tstk = std::stack<TreeNode*>();
+    auto fstk = std::stack<TreeNode*>();
+
+    if(__root != nullptr)
+        tstk.push(__root);
+    
+    while(!tstk.empty())
+    {
+        __root = tstk.top(); tstk.pop();
+        fstk.push(__root);
+        if(__root->left)
+            tstk.push(__root->left);
+        if(__root->right)
+            tstk.push(__root->right);
+    }
+
+    while(!fstk.empty())
+    {
+        _vi.push_back(fstk.top()->val);
+        fstk.pop();
+    }
+}
+
+void __trav_tree_node_midorder_(TreeNode * __root, std::vector<int> & _vi)
+{
+    auto tstk = std::stack<TreeNode*>();
+
+    while(__root !=nullptr || !tstk.empty())
+    {
+        while(__root != nullptr)
+        {
+            tstk.push(__root);
+            __root = __root->left;
+        }
+        if(!tstk.empty())
+        {
+            __root = tstk.top(); tstk.pop();
+            _vi.push_back(__root->val);
+            __root = __root->right;
+        }
+    }
+
+}
+
+void __trav_tree_node_preorder_(TreeNode * __root, std::vector<int> & _vi)
+{
+    auto tstk = std::stack<TreeNode*>();
+
+    while(__root !=nullptr || !tstk.empty())
+    {
+        while(__root != nullptr)
+        {
+            tstk.push(__root);
+            _vi.push_back(__root->val);
+            __root = __root->left;
+        }
+        if(!tstk.empty())
+        {
+            __root = tstk.top(); tstk.pop();
+            __root = __root->right;
+        }
+    }
+}
+
+void __trav_tree_node_bfs_(TreeNode * __root, std::vector<int> & _vi)
+{
+    auto tq = std::queue<TreeNode*>();
+    if(__root != nullptr)
+        tq.push(__root);
+
+    // _vi.reserve(_ssz);
+    while(!tq.empty())
+    {
+        __root = tq.front(); tq.pop();
+        _vi.push_back(__root->val);
+        if(__root->left)
+            tq.push(__root->left);
+        if(__root->right)
+            tq.push(__root->right);
+    }
 }
 
 __END_NS__

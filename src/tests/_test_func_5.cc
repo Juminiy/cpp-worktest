@@ -22,7 +22,8 @@ void TestNoArgs()
     PUT_TASK("lc143", Alan::Inst::LC::TestLC143);
     PUT_TASK("runcpu", Alan::Demos::Test::Func::TestRunCPU);
     
-    CAL_TASK("runcpu");
+    PUT_TASK("treebase", Alan::SelfList::Inst::TestTreeNodeBase);
+    CAL_TASK("treebase");
 }
 
 void TestVaArgs()

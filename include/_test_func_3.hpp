@@ -26,6 +26,8 @@ void TestLC234();
 void TestLC328();
 void TestLC142();
 void TestLC143();
+void TestLC96();
+void TestLC95();
 
 typedef void (*TestLCFn) ();
 

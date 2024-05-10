@@ -16,6 +16,102 @@
 __USE_NS__(Alan::SelfList::Inst);
 __DEF_NS__(Alan::Inst::LC)
 
+/*
+    2       3
+   / \     / \ 
+  1   _   
+*/
+
+// 1(_ _)
+// 2(1 _)
+// 3(2, )
+
+// [n n+1 n+2 n+count)
+// 1 2 3 4
+// 
+TreeNode* genTreeHelper
+(int n, int count, int maxn, std::unordered_multimap<int, TreeNode*> & htree)
+{
+    if(n<=0 || count <=0)
+        return nullptr;
+    else if(count == 1)
+        return new TreeNode(n);
+
+    for(int rootI = n; rootI < n+count; ++rootI)
+    {
+        genTreeHelper(1, rootI-1, maxn, htree);
+        genTreeHelper(rootI+1, maxn-rootI, maxn, htree);
+    }
+
+    
+}
+
+std::vector<TreeNode*> generateTrees(int n) {
+    auto tvec = std::vector<TreeNode*>();
+
+    auto tmap = std::unordered_multimap<int, TreeNode*>();
+    // tmap.insert(std::make_pair(1, new TreeNode(1)));
+    tmap.insert(std::make_pair(0, nullptr));
+    // for(int rootI = 1; rootI <=n; ++rootI)
+    // {
+    //     for(int leftI = 1; leftI <= rootI-1; ++leftI)
+    //     {
+    //         auto [left,lend] = tmap.equal_range(leftI); //1
+    //         auto [right, rend] = tmap.equal_range(rootI+n-leftI); //0
+    //         for(;left != lend;++left)
+    //         {
+    //             for(;right !=rend;++right)
+    //             {
+    //                 auto root = new TreeNode(rootI);
+    //                 root->left = left->second;
+    //                 root->right = right->second;
+    //                 tmap.insert(std::make_pair(rootI, root)); //2(1,_)
+    //             }
+    //         }
+    //     }
+    // }
+    genTreeHelper(1, n, tmap);
+
+    auto [start,end] = tmap.equal_range(n);
+    for(;start != end; ++ start)
+    {
+        tvec.push_back(start->second);
+    }
+
+    return tvec;
+}
+
+void TestLC95()
+{
+    auto genTVec = generateTrees(4);
+    for(auto tn : genTVec)
+    {
+        auto vi = std::vector<int>();
+        __trav_tree_node_midorder_(tn, vi);
+        Alan::ConsoleBeautyOutput(vi);
+    }
+}
+
+int numTrees(int n) {
+    int f[n+1] = {1,1};
+    for(int i=2;i<=n;++i)
+    {
+        f[i] = 0;
+        for(int j=0;j<=i-1;++j)
+        {
+        //  f[3] left = root(0) * right = root()
+            f[i] += f[j] * f[i-j-1];
+        }
+    }
+    return f[n];
+}
+
+void TestLC96()
+{
+    for(int i =1;i<=19;i++)
+        PRINTLN_DETAIL(numTrees(i));
+}
+
 ListNode* insertionSortList(ListNode* head) {
     std::vector<int> vi;
     vi.reserve(5000);

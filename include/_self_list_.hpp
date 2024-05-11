@@ -169,6 +169,7 @@ void __trav_tree_node_postorder_(TreeNode *, std::vector<int> &);
 void __trav_tree_node_midorder_(TreeNode *, std::vector<int> &);
 void __trav_tree_node_preorder_(TreeNode *, std::vector<int> &);
 void __trav_tree_node_bfs_(TreeNode *, std::vector<int> &);
+void __trav_tree_node_bfss_(TreeNode * , std::vector<std::vector<int>> & );
 
 #define SHOW_TREE_NODE_PRE 0
 #define SHOW_TREE_NODE_MID 1

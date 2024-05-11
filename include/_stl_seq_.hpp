@@ -355,6 +355,20 @@ FindUnOrdered( const _Container & __container )
     return __index;
 }
 
+template < typename _Container >
+size_t 
+UniqueVector2(_Container & __container)
+{
+    auto vset = std::set<typename _Container::value_type>();
+
+    for(auto vi : __container)
+    {
+        if(vset.find(vi) == vset.end())
+            vset.insert(vi);
+    }
+    
+    return vset.size();
+}
 
 __END_NS__
 

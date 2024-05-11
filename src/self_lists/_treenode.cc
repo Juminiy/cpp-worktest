@@ -436,6 +436,32 @@ void __trav_tree_node_bfs_(TreeNode * __root, std::vector<int> & _vi)
     }
 }
 
+void __trav_tree_node_bfss_(TreeNode * __root, std::vector<std::vector<int>> & _vi)
+{
+    auto tq1 = std::queue<TreeNode*>();
+
+    if(__root != nullptr)
+        tq1.push(__root);
+    
+    while(!tq1.empty())
+    {
+        auto tq2 = std::queue<TreeNode*>();
+        auto tvi = std::vector<int>();
+        while(!tq1.empty())
+        {
+            __root = tq1.front(); tq1.pop();
+            tvi.push_back(__root->val);
+            if(__root->left)
+                tq2.push(__root->left);
+            if(__root->right)
+                tq2.push(__root->right);
+        }
+        tq1 = std::move(tq2);
+        _vi.push_back(std::move(tvi));
+    }
+}
+
+
 void __log_tree_node_(TreeNode * tn, int smod)
 {   
     auto vi = std::vector<int>();

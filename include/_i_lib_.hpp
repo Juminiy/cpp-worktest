@@ -147,6 +147,34 @@ extern "C" {
 #define CONSTRUCT __attribute__((constructor))
 #define DESTRUCT __attribute__((destructor))
 
+#ifdef __cplusplus
+
+	#if __cplusplus >= 201103L
+		// #define NORETURN [[noreturn]]
+		#define CARRIES_DEP [[carries_dependency]]
+	#endif
+
+	#if __cplusplus >= 201402L
+		#define DEPRECATED [[deprecated]]
+		#define DEPRECATED_OF(__reason_of_) [[deprecated(__reason_of_)]]
+	#endif
+
+	#if __cplusplus >= 201703L
+		#define FALLTHROUGH [[fallthrough]]
+		#define CATCH_RETURN [[nodiscard]]
+		#define CATCH_RETURN_OF(__reason_of_) [[nodiscard(__reason_of_)]]
+		// #define UNUSED [[maybe_unused]]
+
+	#endif 
+
+	#if __cplusplus >= 202002L
+		#define LIKELY [[likely]]
+		#define UNLIKELY [[unlikely]]
+		#define NO_UNIQUE_ADDRESS [[no_unique_address]]
+		
+	#endif 
+#endif
+
 
 
 // COLOR decleration

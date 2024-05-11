@@ -170,11 +170,49 @@ void __trav_tree_node_midorder_(TreeNode *, std::vector<int> &);
 void __trav_tree_node_preorder_(TreeNode *, std::vector<int> &);
 void __trav_tree_node_bfs_(TreeNode *, std::vector<int> &);
 
+#define SHOW_TREE_NODE_PRE 0
+#define SHOW_TREE_NODE_MID 1
+#define SHOW_TREE_NODE_POST 2
+#define SHOW_TREE_NODE_BFS 3
+#define SHOW_TREE_NODE_BFSS 4
+void __log_tree_node_(TreeNode *, int = SHOW_TREE_NODE_PRE);
+
+TreeNode* __build_tree_node_of_pre_mid_(const std::vector<int> &, const std::vector<int> &);
+TreeNode* __build_tree_node_of_mid_post_(const std::vector<int> &, const std::vector<int> &);
+
 // lc function
 std::vector<int> inorderTraversal(TreeNode* );
 
 // local test
 void TestTreeNodeBase();
+void TestTreeNodeBuild();
 
 __END_NS__
 
+__DEF_NS__(Alan::SelfList::Inst::LikeOf)
+
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right)
+        : val(_val), left(_left), right(_right), next(nullptr) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+
+
+Node* connect(Node* root);
+
+// lc of
+void TestLC116();
+
+__END_NS__

@@ -81,13 +81,13 @@ public:
         ring.front() = _val;
     }
 
-    [[__nodiscard__]] RingBuffer* operator++ ()
+    CATCH_RETURN RingBuffer* operator++ ()
     {
         clockwise();
         return this;
     }
 
-    [[__nodiscard__]] RingBuffer* operator-- ()
+    CATCH_RETURN RingBuffer* operator-- ()
     {
         counterclockwise();
         return this;

@@ -16,6 +16,37 @@
 __USE_NS__(Alan::SelfList::Inst);
 __DEF_NS__(Alan::Inst::LC)
 
+
+bool is_valid_bst(TreeNode * cur, TreeNode * fa)
+{
+    return false;
+}
+
+bool isValidBST(TreeNode* root) {
+    
+    auto tstk = std::stack<TreeNode*>();
+    long long prevVal = -2147483649;
+    while(root !=nullptr || !tstk.empty())
+    {
+        while(root != nullptr)
+        {
+            tstk.push(root);
+            root = root->left;
+        }
+        if(!tstk.empty())
+        {
+            root = tstk.top(); tstk.pop();
+            if(root->val < prevVal)
+                return false;
+            else 
+                prevVal = root->val;
+            root = root->right;
+        }
+    }
+    
+    return true;
+}
+
 /*
     2       3
    / \     / \ 
@@ -29,56 +60,52 @@ __DEF_NS__(Alan::Inst::LC)
 // [n n+1 n+2 n+count)
 // 1 2 3 4
 // 
-TreeNode* genTreeHelper
-(int n, int count, int maxn, std::unordered_multimap<int, TreeNode*> & htree)
-{
-    if(n<=0 || count <=0)
-        return nullptr;
-    else if(count == 1)
-        return new TreeNode(n);
+// TreeNode* genTreeHelper
+// (int n, int count, int maxn, std::unordered_multimap<int, TreeNode*> & htree)
+// {
+//     if(n<=0 || count <=0)
+//         return nullptr;
+//     else if(count == 1)
+//         return new TreeNode(n);
 
-    for(int rootI = n; rootI < n+count; ++rootI)
-    {
-        genTreeHelper(1, rootI-1, maxn, htree);
-        genTreeHelper(rootI+1, maxn-rootI, maxn, htree);
-    }
+//     for(int rootI = n; rootI < n+count; ++rootI)
+//     {
+//         genTreeHelper(1, rootI-1, maxn, htree);
+//         genTreeHelper(rootI+1, maxn-rootI, maxn, htree);
+//     }
 
+
+// }
+
+std::vector<TreeNode*> genTHelper(int start, int end){
+    if(start > end)
+        return { nullptr };
     
+    auto tVec = std::vector<TreeNode*>();
+    for(int i = start; i <= end; ++i)
+    {
+        auto lVec = genTHelper(start, i-1);
+        auto rVec = genTHelper(i+1, end);
+
+        tVec.reserve(lVec.size() * rVec.size());
+        for(auto & lElem : lVec)
+        {
+            for(auto & rElem : rVec)
+            {
+                auto tElem = new TreeNode(i);
+                tElem->left = lElem;
+                tElem->right = rElem;
+                tVec.emplace_back(tElem);
+            }
+        }
+
+    }   
+
+    return tVec;
 }
 
 std::vector<TreeNode*> generateTrees(int n) {
-    auto tvec = std::vector<TreeNode*>();
-
-    auto tmap = std::unordered_multimap<int, TreeNode*>();
-    // tmap.insert(std::make_pair(1, new TreeNode(1)));
-    tmap.insert(std::make_pair(0, nullptr));
-    // for(int rootI = 1; rootI <=n; ++rootI)
-    // {
-    //     for(int leftI = 1; leftI <= rootI-1; ++leftI)
-    //     {
-    //         auto [left,lend] = tmap.equal_range(leftI); //1
-    //         auto [right, rend] = tmap.equal_range(rootI+n-leftI); //0
-    //         for(;left != lend;++left)
-    //         {
-    //             for(;right !=rend;++right)
-    //             {
-    //                 auto root = new TreeNode(rootI);
-    //                 root->left = left->second;
-    //                 root->right = right->second;
-    //                 tmap.insert(std::make_pair(rootI, root)); //2(1,_)
-    //             }
-    //         }
-    //     }
-    // }
-    genTreeHelper(1, n, tmap);
-
-    auto [start,end] = tmap.equal_range(n);
-    for(;start != end; ++ start)
-    {
-        tvec.push_back(start->second);
-    }
-
-    return tvec;
+    return genTHelper(1, n);
 }
 
 void TestLC95()

@@ -243,6 +243,17 @@ inorderTraversal(TreeNode* root)
     return vi;
 }
 
+void TestTreeNodeBuild()
+{
+    __log_tree_node_(__build_tree_node_of_pre_mid_(
+        {3,9,20,15,7},
+        {9,3,15,20,7}), SHOW_TREE_NODE_POST);
+    
+    __log_tree_node_(__build_tree_node_of_mid_post_(
+        {9,3,15,20,7},
+        {9,15,7,20,3}), SHOW_TREE_NODE_POST);
+}
+
 /* 
         1                     1
        / \                   / \
@@ -423,6 +434,172 @@ void __trav_tree_node_bfs_(TreeNode * __root, std::vector<int> & _vi)
         if(__root->right)
             tq.push(__root->right);
     }
+}
+
+void __log_tree_node_(TreeNode * tn, int smod)
+{   
+    auto vi = std::vector<int>();
+    auto vvi UNUSED = std::vector<std::vector<int>>();
+    switch (smod)
+    {
+    case SHOW_TREE_NODE_PRE:
+        __trav_tree_node_preorder_(tn, vi);
+        break;
+    case SHOW_TREE_NODE_MID:
+        __trav_tree_node_midorder_(tn, vi);
+        break;
+    case SHOW_TREE_NODE_POST:
+        __trav_tree_node_postorder_(tn, vi);
+        break;
+    case SHOW_TREE_NODE_BFS:
+        __trav_tree_node_bfs_(tn, vi);
+        break;
+    case SHOW_TREE_NODE_BFSS:
+
+        break;
+    }
+    if(smod == SHOW_TREE_NODE_BFSS) {
+        Alan::ConsoleBeautyOutputEmbedded2(vvi);
+    } else if(I32_IN_RANGE(smod, SHOW_TREE_NODE_PRE, SHOW_TREE_NODE_BFS)) {
+        Alan::ConsoleBeautyOutput(vi);
+    }
+}
+
+/*  
+        3
+       / \ 
+      9   20 
+     / \ /  \ 
+    _  _ 15  7
+*/      
+
+// 3,9,20,15,7
+//   |
+// 9,3,15,20,7
+
+TreeNode* __pre_mid_seq_build_helper
+(const std::vector<int> & pre_vec, size_t preL, size_t preR,
+const std::vector<int> & mid_vec, size_t midL, size_t midR)
+{
+    if(preL > preR || preL == pre_vec.size() || midL == mid_vec.size())
+        return nullptr;
+    
+    auto __root_ = new TreeNode(pre_vec[preL]);
+    size_t __mdis_ = 
+        std::find(mid_vec.begin()+midL, mid_vec.begin()+midR+1, pre_vec[preL]) 
+            - mid_vec.begin();       // 1
+    size_t __llen_ = __mdis_ - midL; // 1 - 0 = 1
+    // size_t __rlen_ = midR - __mdis_; // 4 - 1 = 3
+
+    __root_->left = __pre_mid_seq_build_helper
+                    (pre_vec, preL+1, preL+1+__llen_-1, // _, 1, 1 
+                    mid_vec, midL, midL+__llen_-1);     // _, 0, 0
+    
+    __root_->right = __pre_mid_seq_build_helper
+                    (pre_vec, preL+1+__llen_, preR,     // _, 2, 4
+                    mid_vec, __mdis_+1, midR);          // _, 2, 4
+    
+    return __root_;
+}
+
+TreeNode* __build_tree_node_of_pre_mid_
+(const std::vector<int> & pre_vec, const std::vector<int> & mid_vec)
+{
+    return __pre_mid_seq_build_helper
+            (pre_vec, 0, pre_vec.size()-1,
+            mid_vec, 0, mid_vec.size()-1);
+
+}
+
+//   |
+// 9,3,15,20,7
+
+//           |
+// 9,15,7,20,3
+TreeNode* __mid_post_seq_build_helper
+(const std::vector<int> & mid_vec, size_t midL, size_t midR,
+const std::vector<int> & post_vec, size_t posL, size_t posR)
+{
+    // PRINT_DETAIL(midL),PRINT(", "),PRINT_DETAIL(midR),PRINT(", "),
+    // PRINT_DETAIL(posL),PRINT(", "),PRINT_DETAIL(posR),PRINTLN("");
+    size_t maxsz = mid_vec.size();
+    if(posL > posR || 
+        midL < 0 || posL == maxsz || 
+        posL < 0 || posR == maxsz)
+        return nullptr;
+
+    auto __root_ = new TreeNode(post_vec[posR]);
+
+    size_t __mdis_ = 
+        std::find(mid_vec.begin()+midL, mid_vec.begin()+midR+1, post_vec[posR]) 
+            - mid_vec.begin();       // 1
+    size_t __llen_ = __mdis_ - midL; // 1 - 0 = 1
+    // size_t __rlen_ = midR - __mdis_; 
+
+    if(I32_IN_RANGE(midL+__llen_-1, midL, midR)&&
+        I32_IN_RANGE(posL+__llen_-1, posL, posR))
+    __root_->left = __mid_post_seq_build_helper
+                    (mid_vec, midL, midL+__llen_-1,     // _, 0, 0 
+                    post_vec, posL, posL+__llen_-1);    // _, 0, 0
+    
+    if(I32_IN_RANGE(__mdis_+1, midL, midR)&&
+        I32_IN_RANGE(posL+__llen_, posL, posR))
+    __root_->right = __mid_post_seq_build_helper
+                    (mid_vec, __mdis_+1, midR,           // _, 2, 4
+                    post_vec, posL+__llen_, posR-1);     // _, 1, 3
+    
+    return __root_;
+}
+
+TreeNode* __build_tree_node_of_mid_post_
+(const std::vector<int> & mid_vec, const std::vector<int> & post_vec)
+{
+    return __mid_post_seq_build_helper
+            (mid_vec, 0, mid_vec.size()-1,
+            post_vec, 0, post_vec.size()-1);
+}
+
+__END_NS__
+
+__DEF_NS__(Alan::SelfList::Inst::LikeOf)
+
+Node* connect(Node* root)
+{
+    auto nq = std::queue<Node*>();
+    #define __pushq_(__q_, __node_) \
+            if(__node_ != nullptr) __q_.push(__node_)
+    
+    __pushq_(nq, root);
+    while(!nq.empty())
+    {
+        auto tq = decltype(nq)();
+        auto prev = decltype(root)(nullptr);
+        while(!nq.empty())
+        {
+            auto tt = nq.front(); nq.pop();
+            if(prev != nullptr)
+                prev->next = tt;
+            
+            prev = tt;
+            __pushq_(tq, tt->left);
+            __pushq_(tq, tt->right);
+        }
+        nq = std::move(tq);
+    }
+
+    return root;
+}
+
+void TestLC116()
+{
+    auto tNode7 = new Node(7);
+    auto tNode6 = new Node(6);
+    auto tNode5 = new Node(5);
+    auto tNode4 = new Node(4);
+    auto tNode3 = new Node(3, tNode6, tNode7);
+    auto tNode2 = new Node(2, tNode4, tNode5);
+    auto tNode = new Node(1, tNode2, tNode3);
+    connect(tNode);
 }
 
 __END_NS__

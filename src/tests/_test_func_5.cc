@@ -3,6 +3,7 @@
 
 #include "../../include/_test_func_2.hpp"
 #include "../../include/_test_func_3.hpp"
+#include "../../include/_test_func_4.hpp"
 #include "../../include/_self_list_.hpp"
 #include "../../include/_self_algo_.hpp"
 
@@ -22,10 +23,13 @@ void TestNoArgs()
     PUT_TASK("lc143", Alan::Inst::LC::TestLC143);
     PUT_TASK("runcpu", Alan::Demos::Test::Func::TestRunCPU);
     PUT_TASK("treebase", Alan::SelfList::Inst::TestTreeNodeBase);
+    PUT_TASK("treebuild", Alan::SelfList::Inst::TestTreeNodeBuild);
     PUT_TASK("lc96", Alan::Inst::LC::TestLC96);
     PUT_TASK("lc95", Alan::Inst::LC::TestLC95);
+    PUT_TASK("bitset", Alan::Demos::Test::Func::TestBitMani);
+    PUT_TASK("lc116", Alan::SelfList::Inst::LikeOf::TestLC116);
 
-    CAL_TASK("lc95");
+    CAL_TASK("lc116");
 }
 
 void TestVaArgs()

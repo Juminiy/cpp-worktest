@@ -11,11 +11,63 @@
 #include <unordered_set>
 #include <deque>
 #include <vector>
+#include <bitset>
 
 
 __USE_NS__(Alan::SelfList::Inst);
 __DEF_NS__(Alan::Inst::LC)
 
+
+int countNodes(TreeNode* root) {
+    if(!root) return 0;
+    int levelK = 0;
+    auto lNode = root;
+    while(lNode && lNode->left){
+        lNode = lNode->left;
+        levelK++;
+    }
+    int lBound = 1<<levelK, rBound = (1<<(levelK+1)) -1;
+    
+    auto nodeOf = [levelK](TreeNode *rt, int nodeK) -> bool {
+        auto bitCnt = levelK;
+        while(bitCnt && rt)
+        {
+            auto bitLR = nodeK & (1<<(bitCnt-1));
+            if(!bitLR){
+                rt = rt->left;
+            } else {
+                rt = rt->right;
+            }
+            bitCnt--;
+        }
+        return rt != nullptr;
+    };
+
+    while(lBound < rBound)
+    {
+        if(rBound-lBound == 1){
+            if(nodeOf(root, rBound)) return rBound;
+            if(nodeOf(root, lBound)) return lBound;
+        }
+        int midOf = ((rBound - lBound) >> 1) + lBound;
+        if(nodeOf(root, midOf))
+        {
+            lBound = midOf;
+        } else {
+            rBound = midOf-1;
+        }
+    }
+    return lBound;
+}
+
+void TestLC222()
+{
+    for(int i = 0;i < (1<=100);++i)
+    {
+        if(countNodes(__make_tree_node_bfs_({}, i)) != i)
+            PRINTLN_DETAIL(i);
+    }
+}
 
 bool is_valid_bst(TreeNode * cur, TreeNode * fa)
 {
@@ -443,9 +495,9 @@ ListNode *detectCycle(ListNode *head) {
     #define __toend(__node_) \
             if(__node_ == nullptr) return nullptr
 
-    int a = 0, c = 0;
+    // int a = 0, c = 0;
     do {
-        ++a;
+        // ++a;
         slow = slow->next; __toend(slow);
         fast = fast->next; __toend(fast); fast = fast->next; __toend(fast);
     } while (fast != slow);

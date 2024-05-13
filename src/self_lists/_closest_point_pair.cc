@@ -26,9 +26,9 @@ __DEF_NS__(Alan::SelfAlgo::Inst)
 
 void p1257()
 {
-    int n;
+    int n = 0;
     std::cin>>n;
-    _point2d pp[n+1];
+    _point2d pp[10005];
     double _ans = 1e10+1;
     for(int i=0;i<n;i++)
         std::cin>>pp[i].x>>pp[i].y;

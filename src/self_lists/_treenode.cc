@@ -587,6 +587,7 @@ TreeNode* __build_tree_node_of_mid_post_
 
 __END_NS__
 
+
 __DEF_NS__(Alan::SelfList::Inst::LikeOf)
 
 Node* connect(Node* root)

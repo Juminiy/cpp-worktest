@@ -29,6 +29,7 @@ void TestLC143();
 void TestLC96();
 void TestLC95();
 int numTrees(int );
+void TestLC222();
 
 typedef void (*TestLCFn) ();
 

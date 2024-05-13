@@ -11,6 +11,29 @@ __DEF_NS__(Alan::Demos::Test::Func)
 
 void TestNoArgs()
 {
+    PUT_TASK("kOfN", Alan::SelfAlgo::Inst::TestKOfN); 
+
+    CAL_TASK("kOfN");
+}
+
+void TestVaArgs()
+{
+    
+}
+
+void TestLCRace357()
+{
+    PUT_TASK("p1", Alan::Inst::LC::Race::TestProblem1);
+    PUT_TASK("p2", Alan::Inst::LC::Race::TestProblem2);
+    PUT_TASK("p3", Alan::Inst::LC::Race::TestProblem3);
+    PUT_TASK("p4", Alan::Inst::LC::Race::TestProblem4);
+    PUT_TASK("p5", Alan::Inst::LC::Race::TestProblem5);
+
+    CAL_TASK("p2");
+}
+
+void TestNoArgsV1()
+{
     PUT_TASK("lc72", Alan::SelfAlgo::Inst::Test::TestLC72);
     PUT_TASK("lc150", Alan::LC::TestLC150);
     PUT_TASK("rpn_opt_less", Alan::SelfAlgo::Inst::Test::TestCOptLess);
@@ -26,15 +49,9 @@ void TestNoArgs()
     PUT_TASK("treebuild", Alan::SelfList::Inst::TestTreeNodeBuild);
     PUT_TASK("lc96", Alan::Inst::LC::TestLC96);
     PUT_TASK("lc95", Alan::Inst::LC::TestLC95);
+    PUT_TASK("lc222", Alan::Inst::LC::TestLC222);
     PUT_TASK("bitset", Alan::Demos::Test::Func::TestBitMani);
-    PUT_TASK("lc116", Alan::SelfList::Inst::LikeOf::TestLC116);
-
-    CAL_TASK("lc116");
-}
-
-void TestVaArgs()
-{
-    
+    PUT_TASK("lc116", Alan::SelfList::Inst::LikeOf::TestLC116); 
 }
 
 void TestNoArgsV0()

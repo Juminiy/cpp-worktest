@@ -18,36 +18,49 @@
  */
 class Solution {
 public:
-// binOf, mathCal
-/*  
-        1
-       / \ 
-      2   3 
-     / \ / \ 
-    4  5 6  _
 
-*/
-    int countNodes(TreeNode* root) {
-        int kOf = 0;
-        if (root)
-            ++kOf;
-        while(root)
+int countNodes(TreeNode* root) {
+    if(!root) return 0;
+    int levelK = 0;
+    auto lNode = root;
+    while(lNode && lNode->left){
+        lNode = lNode->left;
+        levelK++;
+    }
+    int lBound = 1<<levelK, rBound = (1<<(levelK+1)) -1;
+    
+    auto nodeOf = [levelK](TreeNode *rt, int nodeK) -> bool {
+        auto bitCnt = levelK;
+        while(bitCnt && rt)
         {
-            if(root->left == nullptr)
-            {
-                ++kOf;
-                break;
-            } else if(root->right == nullptr)
-            {   
-                ++kOf;
-                break;
-            } else 
-            {
-                ++kOf;
-                root = root->right;
+            auto bitLR = nodeK & (1<<(bitCnt-1));
+            if(!bitLR){
+                rt = rt->left;
+            } else {
+                rt = rt->right;
             }
+            bitCnt--;
+        }
+        return rt != nullptr;
+    };
+
+    while(lBound < rBound)
+    {
+        if(rBound-lBound == 1){
+            if(nodeOf(root, rBound)) return rBound;
+            if(nodeOf(root, lBound)) return lBound;
+        }
+        int midOf = ((rBound - lBound) >> 1) + lBound;
+        if(nodeOf(root, midOf))
+        {
+            lBound = midOf;
+        } else {
+            rBound = midOf-1;
         }
     }
+    return lBound;
+}
+
 };
 // @lc code=end
 

@@ -70,4 +70,36 @@ void TestRPN2MidExpr();
 
 __END_NS__
 
+__DEF_NS__(Alan::SelfAlgo::Inst)
+
+// https://loj.ac/p/2153
+class KOfN {
+public:
+    int n, k;
+    int lineOfCnt; // n element, placeholder of 1,2,3,...n
+
+    void CalLineOfCnt();
+
+    friend std::istream&
+        operator>> (std::istream& _is, KOfN & kOfN)
+        {
+            PRINT("Input N and K: ");
+            _is >> kOfN.n >> kOfN.k;
+            return _is;
+        }
+
+    friend std::ostream& 
+        operator<< (std::ostream& _os, const KOfN & kOfN)
+        {
+            _os << "{ ";
+            OUTPUT_DETAIL(_os, kOfN.lineOfCnt);
+            _os << " }" << __LN__;
+            return _os;
+        }
+};
+
+void TestKOfN();
+
+__END_NS__
+
 #endif

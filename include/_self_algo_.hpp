@@ -70,6 +70,7 @@ void TestRPN2MidExpr();
 
 __END_NS__
 
+
 __DEF_NS__(Alan::SelfAlgo::Inst)
 
 // https://loj.ac/p/2153
@@ -77,8 +78,15 @@ class KOfN {
 public:
     int n, k;
     int lineOfCnt; // n element, placeholder of 1,2,3,...n
+    int lineLoc[2048]; // a line/row of placeholder
+    int lineCnt[2048];
+    int dp[11][2048][121]; // countOf
+    unsigned long long tot;
 
     void CalLineOfCnt();
+    void CountOf();
+    bool canNotPlace(int, int);
+    void Run();
 
     friend std::istream&
         operator>> (std::istream& _is, KOfN & kOfN)
@@ -93,6 +101,11 @@ public:
         {
             _os << "{ ";
             OUTPUT_DETAIL(_os, kOfN.lineOfCnt);
+            OUTPUT(_os, ", Loc = [ ");
+            for(int i = 0; i < kOfN.lineOfCnt; ++i)
+                OUTPUT(_os, kOfN.lineLoc[i]), 
+                OUTPUT(_os, ", "[i == kOfN.lineOfCnt-1]);
+            OUTPUT(_os, "]");
             _os << " }" << __LN__;
             return _os;
         }

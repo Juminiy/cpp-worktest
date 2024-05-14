@@ -4,6 +4,7 @@
 
 #include <bitset>
 #include <algorithm>
+#include <limits.h>
 
 __DEF_NS__(Alan::Demos::Test::Func)
 

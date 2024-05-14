@@ -80,4 +80,105 @@ void TestKOfN()
     std::cout << kOfN.tot;
 }
 
+void TestXXX()
+{
+    auto kOfN = KOfN();
+    std::cout << kOfN;
+}
+
+bool conflict(int i, int in, int j, int jn, int n){
+    if(i == j || in & jn)
+        return true;
+    int x = 0, y = 0;
+    while(x< n) {
+        if(in & (1<<x)) break;
+        ++x;
+    }
+    while(y< n) {
+        if(jn & (1<<y)) break;
+        ++y;
+    }
+    x = n-x-1;
+    y = n-y-1;
+
+    return i-x == j-y || i+x == j+y;
+
+}
+
+void dfsEQ(int i, int &cnt, int vi[20], int n)
+{
+    if(i == n)
+    {
+        ++cnt;
+        return;
+    }
+
+    for(int j = 0; j < n; ++j){
+        bool ok = true;
+        for(int x = 0; x < i; ++x){
+            if(conflict(i, 1<<j, x, vi[x], n))
+            {
+                ok = false;
+                break;
+            }
+        }
+        if(ok)
+        {
+            vi[i] = 1<<j;
+            dfsEQ(i+1, cnt, vi, n);
+        }       
+    }
+}
+
+// void dfsEQv2(int i, int &cnt, int col, int n)
+// {
+//     if(i == n)
+//     {
+//         ++cnt;
+//         return;
+//     }
+
+//     for(int j = 0; j < n; ++j){
+//         bool ok = true;
+//         for(int x = 0; x < i; ++x){
+//             if(conflict(i, 1<<j, x, vi[x], n))
+//             {
+//                 ok = false;
+//                 break;
+//             }
+//         }
+//         if(ok)
+//         {
+//             vi[i] = 1<<j;
+//             dfsEQ(i+1, cnt, vi, n);
+//         }       
+//     }
+// }
+
+int solve(int n, int row, int columns, int diagonals1, int diagonals2) {
+        if (row == n) {
+            return 1;
+        } else {
+            int count = 0;
+            int availablePositions = ((1 << n) - 1) & (~(columns | diagonals1 | diagonals2));
+            while (availablePositions != 0) {
+                int position = availablePositions & (-availablePositions);
+                availablePositions = availablePositions & (availablePositions - 1);
+                count += solve(n, row + 1, columns | position, (diagonals1 | position) << 1, (diagonals2 | position) >> 1);
+            }
+            return count;
+        }
+    }
+
+
+void TestEightQueens()
+{
+    int n = 0, tot = 0;
+    // int vi[20] = {0};
+    std::cin >> n;
+    auto tm = Alan::__time_count_(solve, n, 0, 0, 0, 0);
+    PRINTLN("ans: " << tot);
+    PRINTLN("time: " << tm << " ms");
+}
+
 __END_NS__

@@ -9,11 +9,16 @@
 
 __DEF_NS__(Alan::Demos::Test::Func)
 
+
+
 void TestNoArgs()
 {
-    PUT_TASK("kOfN", Alan::SelfAlgo::Inst::TestKOfN); 
+    // PUT_TASK("kOfN", Alan::SelfAlgo::Inst::TestKOfN); 
+    // PUT_TASK("xxx", Alan::SelfAlgo::Inst::TestXXX); 
+    // PUT_TASK("eq", Alan::SelfAlgo::Inst::TestEightQueens); 
+    PUT_TASK("dl", Alan::SelfAlgo::Copy::TestDL);
 
-    CAL_TASK("kOfN");
+    CAL_TASK("dl");
 }
 
 void TestVaArgs()

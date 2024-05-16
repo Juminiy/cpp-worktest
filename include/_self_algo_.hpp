@@ -126,6 +126,7 @@ public:
 void TestKOfN();
 void TestXXX();
 void TestEightQueens();
+void TestExpr();
 
 __END_NS__
 

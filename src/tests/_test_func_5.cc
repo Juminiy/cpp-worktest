@@ -17,8 +17,9 @@ void TestNoArgs()
     // PUT_TASK("dl", Alan::SelfAlgo::Copy::TestDL);
     PUT_TASK("lc5", Alan::Inst::LC::TestLC5);
     PUT_TASK("lc264", Alan::Inst::LC::TestLC264);
+    PUT_TASK("expr", Alan::SelfAlgo::Inst::TestExpr);
 
-    CAL_TASK("lc264");
+    CAL_TASK("expr");
 }
 
 void TestVaArgs()

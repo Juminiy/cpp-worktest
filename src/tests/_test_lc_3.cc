@@ -17,6 +17,62 @@
 __USE_NS__(Alan::SelfList::Inst);
 __DEF_NS__(Alan::Inst::LC)
 
+ int nthUglyNumber(int n) {
+        // auto vi = std::vector<int>(n+1, 1);
+        auto q = std::priority_queue<int, std::vector<int>, std::greater<int> >();
+        auto s = std::set<int>();
+        // 1 2 3 5 
+        // 1 2 3 4 5 6 8 9 10 12 15 20
+        q.push(1);
+        s.insert(1);
+        while(!q.empty()){
+            int e = q.top(); q.pop(); n--;
+            if(!n) return e;
+            if(s.find(e*2)==s.end()) q.push(e*2),s.insert(e*2); 
+            if(s.find(e*3)==s.end()) q.push(e*3),s.insert(e*3); 
+            if(s.find(e*5)==s.end()) q.push(e*5),s.insert(e*5); 
+        }
+        return q.top();
+    }
+
+void TestLC264()
+{
+    PRINTLN(nthUglyNumber(10));
+    PRINTLN(nthUglyNumber(20));
+}
+
+std::string longestPalindrome(std::string s) {
+    int n = s.size();
+    int ansL = 0, ansR = 0;
+    for(int i = 1; i < n; ++i)
+    {
+        // midOf
+        int l = i, r = i;
+        while(l >= 0 && r < n && s[l] == s[r]){
+            if(r-l > ansR-ansL){
+                ansL = l, ansR = r;
+            }
+            l--,r++;
+        }
+        // sameOf
+        l = i-1, r = i;
+        while(l >= 0 && r < n && s[l] == s[r]){
+            if(r-l > ansR-ansL){
+                ansL = l, ansR = r;
+            }
+            l--,r++;
+        }
+    }
+    return s.substr(ansL, ansR-ansL+1);
+}
+
+void TestLC5()
+{
+    PRINTLN(longestPalindrome("babad"));
+    PRINTLN(longestPalindrome("cbbd"));
+    PRINTLN(longestPalindrome("bb"));
+}
+
 
 int countNodes(TreeNode* root) {
     if(!root) return 0;

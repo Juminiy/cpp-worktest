@@ -9,16 +9,16 @@
 
 __DEF_NS__(Alan::Demos::Test::Func)
 
-
-
 void TestNoArgs()
 {
     // PUT_TASK("kOfN", Alan::SelfAlgo::Inst::TestKOfN); 
     // PUT_TASK("xxx", Alan::SelfAlgo::Inst::TestXXX); 
     // PUT_TASK("eq", Alan::SelfAlgo::Inst::TestEightQueens); 
-    PUT_TASK("dl", Alan::SelfAlgo::Copy::TestDL);
+    // PUT_TASK("dl", Alan::SelfAlgo::Copy::TestDL);
+    PUT_TASK("lc5", Alan::Inst::LC::TestLC5);
+    PUT_TASK("lc264", Alan::Inst::LC::TestLC264);
 
-    CAL_TASK("dl");
+    CAL_TASK("lc264");
 }
 
 void TestVaArgs()

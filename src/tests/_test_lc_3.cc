@@ -75,7 +75,80 @@ void TestLC39()
     Alan::ConsoleBeautyOutputEmbedded2(sol39_3.combinationSum(vi3, 1));
 }
 
-int nthUglyNumber(int n) {
+// int nthUglyNumber(int n) {}
+int atMostNGivenDigitSet
+        (std::vector<std::string>& digits, int n) {
+        
+        int tot = 0;
+        auto dp = std::vector<int>(10, 1);
+        auto lf = std::vector<int>(10, 0);
+        auto ef = std::vector<int>(10, 0);
+        int ds = digits.size();
+        
+        for(int i=1;i<10;++i)
+        {   
+            for(auto &sl : digits)
+            {   
+                int diOf = sl[0]-'0';
+                if(diOf == i)
+                    ef[i] = 1;
+                else if (diOf < i)
+                    lf[i] += 1;
+                else 
+                    break;
+            }
+        }
+
+        // auto dn = std::vector<int>(10, 0);
+        std::string strn = std::to_string(n);
+        // 1000000000 
+
+        int nszOf = strn.size();
+        for(int i =1; i < nszOf; ++i)
+        {
+            dp[i] = dp[i-1] * ds;
+            tot += dp[i];
+        }
+
+        for (int di = 0; di < nszOf; ++di)
+        {   
+            int diOf = strn[di] - '0';
+            tot += lf[diOf] * dp[nszOf-di-1];
+            if(ef[diOf] == 0)
+            {
+                break;
+            } 
+        }
+
+
+        return tot;
+
+    }
+
+void TestLC902()
+{
+    {
+    auto vs = std::vector<std::string>{"1", "3", "6", "8"};
+    PRINTLN( atMostNGivenDigitSet(vs, 678145330) );
+    }
+
+    {
+    auto vs = std::vector<std::string>{"1", "3", "5", "7"};
+    PRINTLN( atMostNGivenDigitSet(vs, 100) );
+    }
+
+    {
+    auto vs = std::vector<std::string>{"1", "4", "9"};
+    PRINTLN( atMostNGivenDigitSet(vs, 1000000000) );
+    }
+
+    {
+    auto vs = std::vector<std::string>{"7"};
+    PRINTLN( atMostNGivenDigitSet(vs, 8) );
+    }
+}
+
+ int nthUglyNumber(int n) {
         // auto vi = std::vector<int>(n+1, 1);
         auto q = std::priority_queue<int, std::vector<int>, std::greater<int> >();
         auto s = std::set<int>();

@@ -173,6 +173,7 @@ avx_args = # -mavx
 $(info cpu_arch $(_ARCH) donot support avx)
 endif
 
+# install Leveldb
 # compile when global lib: leveldb snappy are installed
 leveldb_prefix		= /usr/local
 leveldb_include_dir = $(leveldb_prefix)/include/leveldb
@@ -200,14 +201,21 @@ endif
 
 thr_dir = third_party
 
+# install RapidJSON
+rapidjson_include = /usr/include/rapidjson
+ifeq ($(_OS), WinNT)
+rapidjson_include = /usr/include/rapidjson
+else
+rapidjson_include = /usr/local/include/rapidjson
+endif
+
 install_rapidjson:
 	rm -rf $(thr_dir) && mkdir -p $(thr_dir)
 	cd $(thr_dir) && git clone https://github.com/Tencent/rapidjson.git
-	cp -r $(thr_dir)/rapidjson/include/rapidjson /usr/include/rapidjson
+	sudo cp -R $(thr_dir)/rapidjson/include/rapidjson $(rapidjson_include)
 	rm -rf $(thr_dir)
 
-rapidjson_include = /usr/include/rapidjson
-ifneq ($(rapidjson_include),)
+ifneq ($(wildcard $(rapidjson_include)),)
 cxx_args += -D_RAPIDJSON=1
 else
 $(info rapidjson was not installed)

@@ -33,6 +33,7 @@ void TestLC222();
 void TestLC5();
 void TestLC264();
 void TestLC39();
+void TestLC902();
 
 typedef void (*TestLCFn) ();
 

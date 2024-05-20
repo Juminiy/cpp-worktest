@@ -14,7 +14,7 @@ void TestNoArgs()
 {
     PUT_TASK("dom", Alan::Tool::JSON::RapidJSON::TestRapidJSON);
 
-    CAL_TASK("dom");
+    CAL_TASK("dom");    
 }
 
 void TestVaArgs()
@@ -22,7 +22,17 @@ void TestVaArgs()
     
 }
 
-void TestLCRace357()
+void TestLCRace398()
+{
+    PUT_TASK("p1", Alan::Inst::LC::Race::LC358::TestProblem1);
+    PUT_TASK("p2", Alan::Inst::LC::Race::LC358::TestProblem2);
+    PUT_TASK("p3", Alan::Inst::LC::Race::LC358::TestProblem3);
+    PUT_TASK("p4", Alan::Inst::LC::Race::LC358::TestProblem4);
+
+    CAL_TASK("p3");
+}
+
+void TestLCRace397()
 {
     PUT_TASK("p1", Alan::Inst::LC::Race::TestProblem1);
     PUT_TASK("p2", Alan::Inst::LC::Race::TestProblem2);
@@ -33,7 +43,7 @@ void TestLCRace357()
     CAL_TASK("p2");
 }
 
-void TestCommentV0()
+void TestNoArgsV2()
 {
     // PUT_TASK("kOfN", Alan::SelfAlgo::Inst::TestKOfN); 
     // PUT_TASK("xxx", Alan::SelfAlgo::Inst::TestXXX); 
@@ -45,6 +55,8 @@ void TestCommentV0()
     // PUT_TASK("lc39", Alan::Inst::LC::TestLC39);
 
     // CAL_TASK("lc39");
+    // PUT_TASK("lc902", Alan::Inst::LC::TestLC902);
+
 }
 
 void TestNoArgsV1()

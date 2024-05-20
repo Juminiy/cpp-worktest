@@ -5,6 +5,7 @@
 #include <bitset>
 #include <algorithm>
 #include <limits.h>
+#include <string>
 
 __DEF_NS__(Alan::Demos::Test::Func)
 
@@ -13,6 +14,169 @@ void TestBitMani()
     [[maybe_unused]] std::bitset<32> _bs;
     PRINTLN_DETAIL(_bs);
     PRINTLN_DETAIL(sizeof(_bs));
+}
+
+__END_NS__
+
+__DEF_NS__(Alan::Inst::LC::Race::LC358)
+
+// p1
+
+void TestProblem1()
+{
+    PRINTLN("LC358 P1:");
+}
+
+// p2
+
+std::vector<bool> isArraySpecial
+(std::vector<int>& nums, std::vector<std::vector<int>>& queries) 
+{
+    int n = nums.size();
+    auto bi = std::vector<int>(n, 0);
+    for(int i=1;i<n;++i)
+    {
+        if(nums[i-1]%2 != nums[i]%2)
+        {
+            bi[i] = bi[i-1] + 1;
+        }
+    }        
+
+    // Alan::ConsoleBeautyOutput(bi);
+
+    auto resB = std::vector<bool>(queries.size(), false);
+
+    for(int i=0;i<queries.size();++i)
+    {
+        int zeroOf = queries[i][1] - queries[i][0];
+        resB[i] = (zeroOf == 0) ? 1 :
+            (bi[queries[i][1]] - bi[queries[i][0]] == 
+                zeroOf);
+        
+    }
+
+    return resB;
+}
+
+void TestProblem2()
+{
+    PRINTLN("LC358 P2:");
+    {
+        auto nums = std::vector<int>{3,4,1,2,6};
+        auto queries = std::vector<std::vector<int>>{{0,4}};
+        Alan::ConsoleBeautyOutput(isArraySpecial(nums,queries));
+    }
+
+    {
+        auto nums = std::vector<int>{4,3,1,6};
+        auto queries = std::vector<std::vector<int>>{{0,2},{2,3}};
+        Alan::ConsoleBeautyOutput(isArraySpecial(nums,queries));
+    }
+
+    {
+        auto nums = std::vector<int>{2,7,2};
+        auto queries = std::vector<std::vector<int>>{{0,0},{1,2}};
+        Alan::ConsoleBeautyOutput(isArraySpecial(nums,queries));
+    }
+}
+
+// p3
+
+long long sumDigitDifferences(std::vector<int>& nums) {
+    long long res = 0;
+    int n = nums.size();
+    
+    auto fnC = [](long long x) -> long long {
+        return (x%2) ? (((x-1)>>1)*(x)) : ((x>>1)*(x-1));
+    };
+    
+    long long nOf = fnC(n);
+
+    int disz = 0;
+    {
+        auto strnums = std::to_string(nums[0]);
+        disz = strnums.size();
+    }
+
+    // auto di = std::vector<std::vector<int>>(disz, std::vector<int>(10, 0));
+
+    while(disz)
+    {
+        auto di = std::map<int, long long>();
+        for(int i=0;i<n;++i)
+        {
+            di[nums[i]%10]++;
+            nums[i] /= 10;
+        }   
+        res += nOf;
+        for(auto pr : di)
+        {
+            res -= (fnC(pr.second));
+        }
+        disz --;
+    }
+    
+    return res;        
+}
+
+void TestProblem3()
+{
+    PRINTLN("LC358 P3:");
+    {
+        auto vi = std::vector<int>{13,23,12};
+        PRINTLN(sumDigitDifferences(vi));
+    }
+    {
+        auto vi = std::vector<int>{10,10,10,10};
+        PRINTLN(sumDigitDifferences(vi));
+    }
+}
+
+// p4
+
+class Solution {
+public:
+    int tot;
+    int k;
+
+    void dfsv1(int jump, int used, int i)
+    {
+        if (i > k-1)
+            return;
+        else if(i < 0)
+            return;
+        else if(i == k-1)
+        {
+            tot++;
+            
+        }
+
+        dfsv1(jump+1, false, i+(1<<jump));
+        if(!used)
+        {
+            dfsv1(jump, true, i-1);
+        }
+    }
+
+    int waysToReachStair(int k) {
+        tot = 0;
+        dfsv1(0, 0, 0);
+        return tot;
+    }
+};
+
+void TestProblem4()
+{
+    PRINTLN("LC358 P4:");
+    {
+        Solution sOl1;
+        PRINTLN(sOl1.waysToReachStair(0));
+    }
+    {
+        
+        Solution sOl1;
+        PRINTLN(sOl1.waysToReachStair(1));
+    }
 }
 
 __END_NS__

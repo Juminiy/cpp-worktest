@@ -22,4 +22,14 @@ void TestProblem5();
 
 __END_NS__
 
+
+__DEF_NS__(Alan::Inst::LC::Race::LC358)
+
+void TestProblem1();
+void TestProblem2();
+void TestProblem3();
+void TestProblem4();
+
+__END_NS__
+
 #endif

@@ -198,13 +198,30 @@ $(info leveldb was not installed)
 cxx_args += -D_LDB_=0
 endif
 
-_cp_heat_build_dir: 
-	cp $(_tes_dir)/*.o $(build_dir)
+thr_dir = third_party
+
+install_rapidjson:
+	rm -rf $(thr_dir) && mkdir -p $(thr_dir)
+	cd $(thr_dir) && git clone https://github.com/Tencent/rapidjson.git
+	cp -r $(thr_dir)/rapidjson/include/rapidjson /usr/include/rapidjson
+	rm -rf $(thr_dir)
+
+rapidjson_include = /usr/include/rapidjson
+ifneq ($(rapidjson_include),)
+cxx_args += -D_RAPIDJSON=1
+else
+$(info rapidjson was not installed)
+cxx_args += -D_RAPIDJSON=0
+endif
+
+
+# _cp_heat_build_dir: 
+# 	cp $(_tes_dir)/*.o $(build_dir)
 
 # can not be used
 # heat: _mk_build_dir _tes _cp_heat_build_dir main
 
-heat:
-	cd src/tests/heat_module && MAKE && ./main
-luogu:
-	cd src/tests/luogu && MAKE && ./main
+# heat:
+# 	cd src/tests/heat_module && MAKE && ./main
+# luogu:
+# 	cd src/tests/luogu && MAKE && ./main

@@ -6,20 +6,15 @@
 #include "../../include/_test_func_4.hpp"
 #include "../../include/_self_list_.hpp"
 #include "../../include/_self_algo_.hpp"
+#include "../../include/_json_tool.hpp"
 
 __DEF_NS__(Alan::Demos::Test::Func)
 
 void TestNoArgs()
 {
-    // PUT_TASK("kOfN", Alan::SelfAlgo::Inst::TestKOfN); 
-    // PUT_TASK("xxx", Alan::SelfAlgo::Inst::TestXXX); 
-    // PUT_TASK("eq", Alan::SelfAlgo::Inst::TestEightQueens); 
-    // PUT_TASK("dl", Alan::SelfAlgo::Copy::TestDL);
-    PUT_TASK("lc5", Alan::Inst::LC::TestLC5);
-    PUT_TASK("lc264", Alan::Inst::LC::TestLC264);
-    PUT_TASK("expr", Alan::SelfAlgo::Inst::TestExpr);
+    PUT_TASK("dom", Alan::Tool::JSON::RapidJSON::TestRapidJSON);
 
-    CAL_TASK("expr");
+    CAL_TASK("dom");
 }
 
 void TestVaArgs()
@@ -36,6 +31,20 @@ void TestLCRace357()
     PUT_TASK("p5", Alan::Inst::LC::Race::TestProblem5);
 
     CAL_TASK("p2");
+}
+
+void TestCommentV0()
+{
+    // PUT_TASK("kOfN", Alan::SelfAlgo::Inst::TestKOfN); 
+    // PUT_TASK("xxx", Alan::SelfAlgo::Inst::TestXXX); 
+    // PUT_TASK("eq", Alan::SelfAlgo::Inst::TestEightQueens); 
+    // PUT_TASK("dl", Alan::SelfAlgo::Copy::TestDL);
+    // PUT_TASK("lc5", Alan::Inst::LC::TestLC5);
+    // PUT_TASK("lc264", Alan::Inst::LC::TestLC264);
+    // PUT_TASK("expr", Alan::SelfAlgo::Inst::TestExpr);
+    // PUT_TASK("lc39", Alan::Inst::LC::TestLC39);
+
+    // CAL_TASK("lc39");
 }
 
 void TestNoArgsV1()

@@ -17,7 +17,65 @@
 __USE_NS__(Alan::SelfList::Inst);
 __DEF_NS__(Alan::Inst::LC)
 
- int nthUglyNumber(int n) {
+class solution39 {
+public:
+    std::vector<std::vector<int>> vvi;
+    std::vector<int> vi;
+    std::vector<int> candi;
+    std::set<std::vector<int>> sOf;
+    int n ;
+    void dfs(int tOf, int iOf){
+        if(tOf == 0)
+        {
+            std::sort(vi.begin(), vi.end());
+            if(sOf.find(vi) == sOf.end())
+            {    
+                sOf.insert(vi);}
+            return ;
+        }
+        for(int i =iOf;i<n;++i){
+            if(tOf >= candi[i] ){
+                vi.push_back(candi[i]);
+                dfs(tOf-candi[i], iOf);
+                vi.pop_back();
+            } else {
+                return;
+            }
+        }
+    }
+
+    std::vector<std::vector<int>> 
+    combinationSum(std::vector<int>& candidates, int target) {
+        this->n = candidates.size();
+        this->candi = candidates;
+        std::sort(candi.begin(), candi.end());
+        dfs(target, 0);
+        for(auto it = sOf.begin();
+            it != sOf.end(); ++it)
+        {
+            vvi.push_back(std::move(*it));
+        }
+
+        return vvi;
+    }
+};
+
+void TestLC39()
+{
+    auto sol39_1 = solution39();
+    auto vi1 = std::vector<int>{2,3,6,7};
+    Alan::ConsoleBeautyOutputEmbedded2(sol39_1.combinationSum(vi1, 7));
+
+    auto sol39_2 = solution39();
+    auto vi2 = std::vector<int>{2,3,5};
+    Alan::ConsoleBeautyOutputEmbedded2(sol39_2.combinationSum(vi2, 8));
+
+    auto sol39_3 = solution39();
+    auto vi3 = std::vector<int>{2};
+    Alan::ConsoleBeautyOutputEmbedded2(sol39_3.combinationSum(vi3, 1));
+}
+
+int nthUglyNumber(int n) {
         // auto vi = std::vector<int>(n+1, 1);
         auto q = std::priority_queue<int, std::vector<int>, std::greater<int> >();
         auto s = std::set<int>();

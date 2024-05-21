@@ -203,7 +203,7 @@ thr_dir = third_party
 
 # install RapidJSON
 rapidjson_include = /usr/include/rapidjson
-ifeq ($(_OS), WinNT)
+ifeq ($(_OSVER), WinNT)
 rapidjson_include = /usr/include/rapidjson
 else
 rapidjson_include = /usr/local/include/rapidjson

@@ -858,11 +858,11 @@ unsigned int opt_uint(char *val)
 #define I32_CHARIN(_i32_, _ch_) \
         (_i32_ = (I32_MUL10(_i32_) + (_ch_ - '0')))
 
-// non tested
+// tested
 #define U32 (unsigned int)
 #define I32_IN_RANGE(_x, _min, _max) \
         (U32(_x)-U32(_min) <= U32(_max)-U32(_min))
-// non tested
+// tested
 #define U8 (unsigned char)
 #define I8_IN_RANGE(_x, _min, _max) \
         (U8(_x)-U8(_min) <= U8(_max)-U8(_min))

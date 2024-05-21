@@ -19,24 +19,9 @@ __DEF_NS__(Alan::Tool::JSON::RapidJSON)
 void TestRapidJSON()
 {   
     // #define _RAPIDJSON 1
-    // #if (_RAPIDJSON == 1)
-    __USE_NS__(rapidjson);
+    #if (_RAPIDJSON == 1)
     
-    const char * domCC = "{\"key\":1}";
-    Document dom = Document();
-    dom.Parse(domCC);
-
-    // modify different type of value
-    dom["key"] = "vvi";
-
-    StringBuffer sb;
-    Writer<StringBuffer> wr(sb);
-    dom.Accept(wr);
-
-    PRINTLN(sb.GetString());
-    
-
-    // #endif
+    #endif
 }
 
 __END_NS__ // Alan::Tool::JSON::RapidJSON

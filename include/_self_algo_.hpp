@@ -309,4 +309,17 @@ void TestDL();
 
 __END_NS__
 
+
+__DEF_NS__(Alan::SelfAlgo::Inst::DP::Digit)
+
+void TestLC2719();
+
+__END_NS__
+
+__DEF_NS__(Alan::SelfAlgo::Inst::PBFS)
+
+void TestPBFS();
+
+__END_NS__
+
 #endif

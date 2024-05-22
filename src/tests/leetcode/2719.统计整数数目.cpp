@@ -1,22 +1,10 @@
-#include "../../include/_i_lib_.hpp"
-#include "../../include/_stl_lib_.hpp"
+/*
+ * @lc app=leetcode.cn id=2719 lang=cpp
+ *
+ * [2719] 统计整数数目
+ */
 
-#include "../../include/_self_algo_.hpp"
-
-#include <functional>
-
-__DEF_NS__(Alan::SelfAlgo::Inst::DP::Digit)
-
-using ll = long long;
-using ull = unsigned long long;
-
-int count_if(ll L, ll R, 
-std::function<bool(int)> f1, 
-std::function<bool(std::string)> f2,
-int fn_index = 0)
-{
-    return 0;
-}
+// @lc code=start
 
 class Solution {
 public:
@@ -47,15 +35,15 @@ public:
         if(!b)
         {
             for(int di=0; di <= 9; ++di)
-                tot = (tot + dfs(N, k+1, sum+di, 0) % _mod);
+                tot = (tot + dfs(N, k+1, sum+di, 0)) % _mod;
         } else 
         {
             int bound = (!N) ? (n1[k]-'0') : (n2[k]-'0');
             for(int di=0; di <= bound; ++di)
-               tot = (tot + dfs(N, k+1, sum+di, di == bound) % _mod);
+               tot = (tot + dfs(N, k+1, sum+di, di == bound)) % _mod;
         }
 
-        return dp[N][k][sum][b] = (tot % _mod);
+        return dp[N][k][sum][b] = tot;
     }
 
     int count(std::string num1, std::string num2, int min_sum, int max_sum) 
@@ -71,31 +59,10 @@ public:
             sumn1 += n1[i]-'0';
 
         return I32_IN_RANGE(sumn1, minS, maxS) + 
-                dfs(1, 0, 0, 1) - dfs(0, 0, 0, 1);
+                (dfs(1, 0, 0, 1) - dfs(0, 0, 0, 1) + _mod)%_mod;
 
     }
 };
 
-void TestLC2719()
-{
-    {
-    Solution so;
-    PRINTLN(so.count("4179205230", "7748704426", 8, 46));
-    }
+// @lc code=end
 
-    {
-    Solution so;
-    PRINTLN(so.count("1", "12", 1, 8));
-    }
-
-    {
-    Solution so;
-    PRINTLN(so.count("1", "5", 1, 5));
-    }
-
-    // for(int i =-1; i <= 11;++i)
-    //     PRINTLN( i<< ", "<< I32_IN_RANGE(i, 0, 10));
-
-}
-
-__END_NS__

@@ -44,7 +44,7 @@ public:
     {
         int dx = (this->x - _rhs.x);
         int dy = (this->y - _rhs.y);
-        return dx*dx + dy*dy;
+        return static_cast<int>(::sqrt(dx*dx + dy*dy));
     }
 
 };
@@ -63,11 +63,12 @@ int olaF(const Node & _lhs, const Node & _rhs)
 
     struct CompFnH {
         Node ed;
-        explicit CompFnH(const Node & _ed) : ed(_ed) { }
+        fnH h;
+        explicit CompFnH(const Node & _ed, fnH _h) : ed(_ed), h(_h) { }
         bool operator () (const Node &_lhs, const Node &_rhs)
         {
-            int res1 = manF(_lhs, ed);
-            int res2 = manF(_rhs, ed);
+            int res1 = h(_lhs, ed);
+            int res2 = h(_rhs, ed);
             if (res1 == res2)
                 return _lhs < _rhs;
             else 
@@ -88,7 +89,7 @@ public:
     {
         return I32_IN_RANGE(x, 0, n-1) && 
                 I32_IN_RANGE(y, 0, m-1) && 
-                gra[x][y] != "B";
+                gra[x][y] != "B" && gra[x][y] != "S";
     }
 
     inline bool valid2(int x, int y)
@@ -96,14 +97,16 @@ public:
         return !vis[x][y];
     }
 
+    using fhPQ = std::priority_queue<Node, std::vector<Node>, CompFnH>;
+
     void bfs()
     {
-        auto comp = CompFnH(ed);
-        auto q = std::priority_queue<Node, std::vector<Node>, CompFnH>(comp);
-        q.push(st);
+        auto comp = CompFnH(ed, olaF);
+        auto fhpq = fhPQ(comp);
+        fhpq.push(st);
 
-        while(!q.empty()){
-            auto ele = q.top(); q.pop();
+        while(!fhpq.empty()){
+            auto ele = fhpq.top(); fhpq.pop();
             vis[ele.x][ele.y] = 1;
             for(int pro=0;pro<4;++pro)
             {
@@ -117,7 +120,7 @@ public:
                         ppt.val += std::strtol(gra[ppt.x][ppt.y].data(), nullptr, 10);
                     if(valid2(ppt.x, ppt.y))
                     {
-                        q.push(ppt);
+                        fhpq.push(ppt);
                     }
                 }
             }

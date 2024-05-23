@@ -15,7 +15,7 @@ int _min(int a, int b){ return std::min(a, b); }
 using bfn = std::function<int(int, int)>;
 
 std::vector<int> lexicalOrder(int n) {
-    
+    return nullptr;
 }
 
 std::vector<int> lp(int n)

@@ -1,2 +1,2 @@
-main: _submit.cc
-	g++ -std=c++11 $< -o $@ -g
+main: 1440.cc
+	g++ -std=c++17 $< -o $@ -g

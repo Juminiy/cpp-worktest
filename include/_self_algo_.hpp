@@ -309,4 +309,11 @@ void TestDL();
 
 __END_NS__
 
+
+__DEF_NS__(Alan::SelfAlgo::Inst::DP::Digit)
+
+void TestLC233();
+
+__END_NS__
+
 #endif

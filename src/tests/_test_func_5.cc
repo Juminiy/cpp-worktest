@@ -12,9 +12,10 @@ __DEF_NS__(Alan::Demos::Test::Func)
 
 void TestNoArgs()
 {
-    PUT_TASK("dom", Alan::Tool::JSON::RapidJSON::TestRapidJSON);
+    // PUT_TASK("dom", Alan::Tool::JSON::RapidJSON::TestRapidJSON);
 
-    CAL_TASK("dom");    
+    PUT_TASK("lc233", Alan::SelfAlgo::Inst::DP::Digit::TestLC233);
+    CAL_TASK("lc233");    
 }
 
 void TestVaArgs()

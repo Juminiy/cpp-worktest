@@ -150,7 +150,8 @@ public:
 void TestPBFS()
 {
     Sol sol;
-    std::cin >> sol;
+    auto ifs = std::ifstream("test/probls/pbfs_input.txt");
+    ifs >> sol;
     sol.bfs();
     std::cout << sol;
 }

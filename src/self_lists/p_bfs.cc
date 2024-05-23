@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <queue>
+#include <fstream>
 
 __DEF_NS__(Alan::SelfAlgo::Inst::PBFS)
 
@@ -13,7 +14,17 @@ public:
     int x,y,pass,val;
     explicit Node(int _x = 0, int _y = 0, int _v = 0) 
         : x(_x), y(_y), pass(0), val(_v) { }
-    
+
+    friend std::ostream& operator << (std::ostream& _os, const Node & _n){
+        _os << "[" 
+            << _n.x << "," 
+            << _n.y << ","
+            << _n.pass << ","
+            << _n.val
+            << "]";
+        return _os;
+    }
+
     bool operator < (const Node & _rhs) 
         const noexcept {
             if(this->pass == _rhs.pass)
@@ -70,20 +81,26 @@ int olaF(const Node & _lhs, const Node & _rhs)
             int res1 = h(_lhs, ed);
             int res2 = h(_rhs, ed);
             if (res1 == res2)
-                return _lhs < _rhs;
+                return _rhs < _lhs;
             else 
-                return res1 < res2;
+                return res1 > res2;
         }
     };
 
 class Sol {
 public:
+    explicit Sol(int pMode = 4) : mode(pMode) {
+        
+    }
     int n,m;
     std::string gra[250][250] = {};
     bool vis[250][250] = {};
     Node st, ed;
     std::priority_queue<int, std::vector<int>, std::greater<int> > anss;
-    int pxy[4][2] = {{-1,0},{0,-1},{1,0},{0,1}};
+
+    int mode;
+    int pxy4[4][2] = {{-1,0},{0,-1},{1,0},{0,1}};
+    int pxy8[8][2] = {{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};
 
     inline bool valid1(int x, int y)
     {
@@ -99,6 +116,15 @@ public:
 
     using fhPQ = std::priority_queue<Node, std::vector<Node>, CompFnH>;
 
+    void debugfhPQ(fhPQ q){
+        while(!q.empty())
+        {
+            PRINT(q.top()), PRINT(",");
+            q.pop();
+        }
+        PRINTLN("");
+    }
+
     void bfs()
     {
         auto comp = CompFnH(ed, olaF);
@@ -108,12 +134,14 @@ public:
         while(!fhpq.empty()){
             auto ele = fhpq.top(); fhpq.pop();
             vis[ele.x][ele.y] = 1;
-            for(int pro=0;pro<4;++pro)
+            for(int pro=0;pro<mode;++pro)
             {
-                auto ppt = ele+pxy[pro];
+                auto ppt = ele+ ((mode == 8) ? pxy8[pro] : pxy4[pro]);
                 if(valid1(ppt.x, ppt.y)){
                     if(gra[ppt.x][ppt.y] == "E" && ppt.pass)
-                        anss.push(ppt.val);
+                        {
+                            anss.push(ppt.val); return;
+                        }
                     else if(gra[ppt.x][ppt.y] == "C") 
                         ppt.pass = 1;
                     else 
@@ -124,6 +152,7 @@ public:
                     }
                 }
             }
+            // debugfhPQ(fhpq);
         }
     }
 
@@ -152,9 +181,10 @@ public:
 
 void TestPBFS()
 {
-    Sol sol;
-    auto ifs = std::ifstream("test/probls/pbfs_input.txt");
-    ifs >> sol;
+    Sol sol(8);
+    // auto ifs = std::ifstream("test/probls/pbfs_input.txt");
+    // ifs >> sol;
+    std::cin >> sol;
     sol.bfs();
     std::cout << sol;
 }

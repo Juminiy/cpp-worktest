@@ -16,6 +16,7 @@ void TestNoArgs()
     // PUT_TASK("lc233", Alan::SelfAlgo::Inst::DP::Digit::TestLC233);
     // PUT_TASK("lc2719", Alan::SelfAlgo::Inst::DP::Digit::TestLC2719);
     PUT_TASK("pbfs", Alan::SelfAlgo::Inst::PBFS::TestPBFS);
+    // PUT_TASK("dfsv", Alan::SelfAlgo::Inst::DFSV::TestDFSV);
 
     CAL_TASK("pbfs");    
 }

@@ -324,4 +324,11 @@ void TestPBFS();
 
 __END_NS__
 
+
+__DEF_NS__(Alan::SelfAlgo::Inst::DFSV)
+
+void TestDFSV();
+
+__END_NS__
+
 #endif

@@ -76,12 +76,14 @@ int olaF(const Node & _lhs, const Node & _rhs)
         explicit CompFnH(const Node & _ed, fnH _h) : ed(_ed), h(_h) { }
         bool operator () (const Node &_lhs, const Node &_rhs)
         {
-            int res1 = h(_lhs, ed);
-            int res2 = h(_rhs, ed);
-            if (res1 == res2)
-                return _rhs < _lhs;
-            else 
-                return res1 > res2;
+            // int res1 = h(_lhs, ed);
+            // int res2 = h(_rhs, ed);
+            // if (res1 == res2)
+            //     return _rhs < _lhs;
+            // else 
+            //     return res1 > res2;
+
+            return _lhs.olaH(ed) + _lhs.val  > _rhs.olaH(ed) + _rhs.val;
         }
     };
 

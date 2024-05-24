@@ -1,19 +1,25 @@
+// https://www.luogu.com.cn/problem/P1379
 #include <iostream>
 #include <cstdio>
 #include <queue>
 #include <set>
+#include <string>
+#include <cstring>
 
 class Node {
 public:
-    int sta;
+    std::string sta; 
     int v;
     int zerox, zeroy;
-    explicit Node(int _sta = 0, int _v = 0)
+    explicit Node(std::string _sta = "", int _v = 0)
         : sta(_sta), v(_v) { zerox = 0, zeroy = 0; }
-    
+    // 0,0 0,1 0,2
+    // 1,0 1,1 1,2
+    // 2,0 2,1 2,2
     Node makeExte(int ax, int ay){
-        Node newNode = this;
-        
+        Node newNode = *this;
+        newNode.sta[zerox*3+zeroy] = newNode.sta[ax*3+ay];
+        newNode.sta[ax*3+ay] = '0';
         newNode.zerox = ax; newNode.zeroy = ay;
         newNode.v = this->v + 1;
         return newNode;
@@ -21,12 +27,10 @@ public:
 
     int diff(const Node & _n)
         const noexcept {
-            int c1 = this->sta;
-            int c2 = _n.sta;
             int dF = 0;
-            while(c1 && c2){
-                
-            }
+            for(int i=0;i<9;i++)
+                dF += (this->sta[i] != _n.sta[i]);
+            
             return dF;
         }
 
@@ -36,9 +40,13 @@ public:
     }
 
     friend std::istream& operator >> (std::istream& _is, Node & _n){
-        _is >> _n.sta;
-
-           
+        std::string ssta;
+        _is >> ssta;
+        for(int i=0;i<9;++i)
+            if(ssta[i]=='0')
+                _n.zerox = i/3, _n.zeroy = i%3;
+        _n.v = 0;
+        _n.sta = std::move(ssta);
         return _is;
     }
 };
@@ -50,9 +58,12 @@ public:
         : ed(_n) { }
     bool operator() (const Node & _n1, const Node & _n2) 
         const noexcept {
-        if(cost1 == cost2)
-            return _n1.v > _n2.v;
-        return cost1 > cost2;
+        int cost1 = _n1.diff(ed);
+        int cost2 = _n2.diff(ed);
+        // if(cost1 == cost2)
+        //     return _n1.v > _n2.v;
+        // return cost1 > cost2;
+        return _n1.v + cost1 > _n2.v + cost2;
     }
 };
 
@@ -68,8 +79,7 @@ public:
         1 0 4 -> 8 0 4    
         7 6 5    7 6 5
     */
-    std::set<int> vis;
-    int ans;
+    std::set<std::string> vis;
     int pxy[4][2] = {{-1,0},{1,0},{0,-1},{0,1}};
 
     bool valid1(int x, int y){
@@ -77,7 +87,8 @@ public:
     }
 
     void bfs(){
-        auto q = pq();
+        ans = -1;
+        auto q = pq(NCmp(ed));
         q.push(st);
 
         while(!q.empty()){
@@ -86,19 +97,16 @@ public:
                 ans = ele.v;
                 return;
             }
-            vis.insert(ele.compress());
+            vis.insert(ele.sta);
             int xof = ele.zerox, yof = ele.zeroy;
             for(int i=0;i<4;++i){
                 int newX = xof+pxy[i][0];
                 int newY = yof+pxy[i][1];
                 if(valid1(newX, newY)){
                     auto nt = ele.makeExte(newX, newY);
-                    if(nt == ed){
-                        ans = nt.v;
-                        return;
-                    }
-                    if(vis.find(nt.compress()) == vis.end()){
+                    if(vis.find(nt.sta) == vis.end()){
                         q.push(nt);
+                        vis.insert(nt.sta);
                     }
                 }
             }
@@ -112,7 +120,7 @@ int main()
 {
     eNum eN;
     std::cin >> eN.st;
-    eN.ed.sta = {{'1','2','3'},{'8','0','4'},{'7','6','5'}};
+    eN.ed.sta = "123804765";
     eN.bfs();
     std::cout << eN.ans << '\n';
     return 0;

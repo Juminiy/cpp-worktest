@@ -45,6 +45,7 @@ __END_NS__
 __DEF_NS__(Alan::Demos::Test::Func)
 
 void TestConsoleIOStackQueue();
+void TestBuiltinFns();
 
 __END_NS__
 

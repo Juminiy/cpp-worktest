@@ -18,5 +18,6 @@
 #include "_i_time_.hpp"
 #include "_stl_type_decl_.hpp"
 #include "_sys_info_.hpp"
+#include "_stl_bit_.hpp"
 
 #endif

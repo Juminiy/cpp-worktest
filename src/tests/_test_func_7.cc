@@ -18,7 +18,86 @@ void TestBitMani()
 
 __END_NS__
 
-__DEF_NS__(Alan::Inst::LC::Race::LC358)
+// week3
+__DEF_NS__(Alan::Inst::LC::Race::LC399)
+
+void TestP1(){
+    PRINTLN("Finish 3");
+}
+
+void TestP2(){
+
+}
+
+
+class Solution {
+public:
+    std::map<int, int, std::greater<int > > ms;
+
+    long long numberOfPairs(std::vector<int>& nums1, std::vector<int>& nums2, int k) {
+    long long tot = 0;
+    std::sort(nums1.begin(), nums1.end());
+    auto lfn = std::greater<int>();
+    std::sort(nums2.begin(), nums2.end(), lfn);
+    for(int i=0;i<nums2.size();++i){
+        nums2[i] *= k;
+    }
+
+    int extras = nums2[nums2.size()-1] == k;
+
+    for(int i=0;i<nums2.size();++i){
+        bool ok=false;
+        for(auto pr : ms){
+            if(pr.first % nums2[i] == 0)
+                pr.second++, ok = true;
+        }
+        if(!ok){
+            ms.insert(std::make_pair(nums2[i], 1+extras));
+        }
+
+    }
+    
+
+
+
+    auto it1 = std::lower_bound(nums1.begin(), nums1.end(), k);
+    for(auto it = it1; it != nums1.end(); ++it){
+        if(*it % k) continue;
+        for(auto pr : ms){
+            if(*it % pr.first == 0){
+                tot += pr.second;
+                break;
+            }
+        }
+    }
+
+    return tot;        
+}
+};
+void TestP3(){
+    {
+        Solution so;
+    auto v1 = std::vector<int>{1,3,4};
+    auto v2 = std::vector<int>{1,3,4};
+    PRINTLN(so.numberOfPairs(v1, v2, 1));
+    }
+
+    {
+        Solution so;
+    auto v1 = std::vector<int>{1,2,4,12};
+    auto v2 = std::vector<int>{2,4};
+    PRINTLN(so.numberOfPairs(v1, v2, 3));
+    }
+}
+
+void TestP4(){
+
+}
+
+__END_NS__
+
+// week2
+__DEF_NS__(Alan::Inst::LC::Race::LC398)
 
 // p1
 
@@ -181,8 +260,8 @@ void TestProblem4()
 
 __END_NS__
 
-
-__DEF_NS__(Alan::Inst::LC::Race)
+// week1
+__DEF_NS__(Alan::Inst::LC::Race::LC397)
 
 int findPermutationDifference(std::string s, std::string t) {
     auto m1 = std::map<char, int>();

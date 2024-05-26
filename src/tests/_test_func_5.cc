@@ -12,13 +12,7 @@ __DEF_NS__(Alan::Demos::Test::Func)
 
 void TestNoArgs()
 {
-    // PUT_TASK("dom", Alan::Tool::JSON::RapidJSON::TestRapidJSON);
-    // PUT_TASK("lc233", Alan::SelfAlgo::Inst::DP::Digit::TestLC233);
-    // PUT_TASK("lc2719", Alan::SelfAlgo::Inst::DP::Digit::TestLC2719);
-    PUT_TASK("pbfs", Alan::SelfAlgo::Inst::PBFS::TestPBFS);
-    // PUT_TASK("dfsv", Alan::SelfAlgo::Inst::DFSV::TestDFSV);
-
-    CAL_TASK("pbfs");    
+    TestLCRace399();
 }
 
 void TestVaArgs()
@@ -26,23 +20,33 @@ void TestVaArgs()
     
 }
 
+void TestLCRace399()
+{
+    PUT_TASK("p1", Alan::Inst::LC::Race::LC399::TestP1);
+    PUT_TASK("p2", Alan::Inst::LC::Race::LC399::TestP2);
+    PUT_TASK("p3", Alan::Inst::LC::Race::LC399::TestP3);
+    PUT_TASK("p4", Alan::Inst::LC::Race::LC399::TestP4);
+
+    CAL_TASK("p3");
+}
+
 void TestLCRace398()
 {
-    PUT_TASK("p1", Alan::Inst::LC::Race::LC358::TestProblem1);
-    PUT_TASK("p2", Alan::Inst::LC::Race::LC358::TestProblem2);
-    PUT_TASK("p3", Alan::Inst::LC::Race::LC358::TestProblem3);
-    PUT_TASK("p4", Alan::Inst::LC::Race::LC358::TestProblem4);
+    PUT_TASK("p1", Alan::Inst::LC::Race::LC398::TestProblem1);
+    PUT_TASK("p2", Alan::Inst::LC::Race::LC398::TestProblem2);
+    PUT_TASK("p3", Alan::Inst::LC::Race::LC398::TestProblem3);
+    PUT_TASK("p4", Alan::Inst::LC::Race::LC398::TestProblem4);
 
     CAL_TASK("p3");
 }
 
 void TestLCRace397()
 {
-    PUT_TASK("p1", Alan::Inst::LC::Race::TestProblem1);
-    PUT_TASK("p2", Alan::Inst::LC::Race::TestProblem2);
-    PUT_TASK("p3", Alan::Inst::LC::Race::TestProblem3);
-    PUT_TASK("p4", Alan::Inst::LC::Race::TestProblem4);
-    PUT_TASK("p5", Alan::Inst::LC::Race::TestProblem5);
+    PUT_TASK("p1", Alan::Inst::LC::Race::LC397::TestProblem1);
+    PUT_TASK("p2", Alan::Inst::LC::Race::LC397::TestProblem2);
+    PUT_TASK("p3", Alan::Inst::LC::Race::LC397::TestProblem3);
+    PUT_TASK("p4", Alan::Inst::LC::Race::LC397::TestProblem4);
+    PUT_TASK("p5", Alan::Inst::LC::Race::LC397::TestProblem5);
 
     CAL_TASK("p2");
 }

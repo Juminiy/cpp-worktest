@@ -1,0 +1,8 @@
+Undefined symbols for architecture arm64:
+  "Alan::SelfList::Inst::operator<<(std::__1::basic_ostream<char, std::__1::char_traits<char>>&, Alan::SelfList::Inst::__seg_tree<long long> const&)", referenced from:
+      Alan::SelfList::Inst::TestSegTree() in _seg_tree.o
+  "Alan::SelfList::Inst::operator>>(std::__1::basic_istream<char, std::__1::char_traits<char>>&, Alan::SelfList::Inst::__seg_tree<long long>&)", referenced from:
+      Alan::SelfList::Inst::TestSegTree() in _seg_tree.o
+ld: symbol(s) not found for architecture arm64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make: *** [main] Error 1

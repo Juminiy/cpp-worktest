@@ -565,11 +565,11 @@ int __i32_read()
 {
     int x = 0, s = 0;
     char ch = getchar();
-    while(!I8_IN_RANGE(ch, 48, 57)) {
+    while(!::isdigit(ch)) {
         if(ch == '-') s = -1;
         ch = getchar();
     }
-    while(I8_IN_RANGE(ch, 48, 57)){
+    while(::isdigit(ch)){
         x = (x << 1) + (x << 3) + (ch - 48);
         ch = getchar();
     }
@@ -583,11 +583,11 @@ long long __i64_read()
     using ll = long long;
     ll x = 0ll, s = 0ll;
     char ch = getchar();
-    while(!I8_IN_RANGE(ch, 48, 57)) {
+    while(!::isdigit(ch)) {
         if(ch == '-') s = -1;
         ch = getchar();
     }
-    while(I8_IN_RANGE(ch, 48, 57)){
+    while(::isdigit(ch)){
         x = (x << 1) + (x << 3) + (ch - 48);
         ch = getchar();
     }

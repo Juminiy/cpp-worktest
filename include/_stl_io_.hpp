@@ -5,6 +5,9 @@
 #include "_i_lib_.hpp"
 #include "_stl_lib_.hpp"
 
+#include <cstdio>
+#include <cstdlib>
+
 #include <iostream>
 #include <ostream>
 #include <istream>
@@ -38,6 +41,8 @@
 // 3. _i32_ptr_wch_pair -> std::pair<int*, wchar_t > 
 #define __DEF_PAIR__(__Tp1__, __Tp2__) \
         typedef std::pair<__Tp1__, __Tp2__> __Tp1__ ##_ ##__Tp2__ ##_ ##pair
+
+#define __CLOSE_CXX_C_IO_SYNC 
 
 typedef std::pair<std::string, std::string > ss_pair;
 typedef std::pair<std::string, int> si_pair;
@@ -291,6 +296,16 @@ void IterOutput(const _Container &__container,
                 );
 }
 
+template < typename _Tp, 
+            typename _Ostream >
+void IterOutput(_Tp * __base, _Ostream & __os, size_t __sz, const char * __delimiter = ",")
+{
+    std::copy(__base, __base + __sz, 
+                std::ostream_iterator< _Tp >
+                    (__os, __delimiter)
+                );
+}
+
 /// @test fully passed
 /// @brief 
 // _Container must have const_iterator cbegin() and cend()
@@ -532,6 +547,40 @@ void ConsoleBeautyOutputEmbedded2(const _Container_Con &__container_con,
     }
 
     PRINTLN("]");
+}
+
+GEN_FUNC_COPY
+int __i32_read()
+{
+    int x = 0, s = 0;
+    char ch = getchar();
+    while(!I8_IN_RANGE(ch, 48, 57)) {
+        if(ch == '-') s = -1;
+        ch = getchar();
+    }
+    while(I8_IN_RANGE(ch, 48, 57)){
+        x = (x << 1) + (x << 3) + (ch - 48);
+        ch = getchar();
+    }
+    return s ? ~x+1 : x;
+}
+
+
+GEN_FUNC_COPY
+long long __i64_read()
+{   
+    using ll = long long;
+    ll x = 0ll, s = 0ll;
+    while(!I8_IN_RANGE(ch, 48, 57)) {
+        if(ch == '-') s = -1;
+        ch = getchar();
+    }
+    while(I8_IN_RANGE(ch, 48, 57)){
+        x = (x << 1) + (x << 3) + (ch - 48);
+        ch = getchar();
+    }
+
+    return s ? ~x+1 : x;
 }
 
 __END_NS__

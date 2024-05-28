@@ -331,4 +331,48 @@ void TestDFSV();
 
 __END_NS__
 
+
+__DEF_NS__(Alan::SelfAlgo::Inst)
+
+class __seg_tree {
+public:
+#define MAXSZ_OF 100005
+    int ar[MAXSZ_OF] = {};
+    int rg[(MAXSZ_OF<<1)+1] = {};
+    int tg[(MAXSZ_OF<<1)+1] = {};
+    //  >=0   1   szn   1
+    int szn, sof, eof, rid;
+
+    using __bfn_t = std::function<int(int,int)>;
+
+    __bfn_t fn;
+
+    explicit __seg_tree(__bfn_t _fn)
+        : fn(_fn) { }
+
+    // rid, [l, r]
+    int build(int, int, int);
+    
+    // [l, r] from rid, [s, t]
+    int query(int, int, int, int, int);
+
+    // [l, r]
+    int Query(int, int);
+    
+    // [l, r] from rid, [s, t]
+    int update(int, int, int, int, int);
+
+    friend std::ostream& 
+        operator << (std::ostream &, const __seg_tree &);
+    
+    friend std::istream& 
+        operator >> (std::istream &, __seg_tree &);
+    
+
+};
+
+void TestSegTree();
+
+__END_NS__
+
 #endif

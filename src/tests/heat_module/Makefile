@@ -5,5 +5,9 @@
 test: main
 	python3 gen_map.py
 	./main
+
 main: p_dfs.cc
+	g++ -std=c++20 -O0 -o $@ $< -g
+
+seg: seg_tree.cc
 	g++ -std=c++20 -O0 -o $@ $< -g

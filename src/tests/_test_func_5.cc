@@ -12,9 +12,8 @@ __DEF_NS__(Alan::Demos::Test::Func)
 
 void TestNoArgs()
 {
-    // TestLCRace399();
-    PUT_TASK("st", Alan::SelfAlgo::Inst::TestSegTree);
-
+    PUT_TASK("st", Alan::SelfList::Inst::TestSegTree);  
+    
     CAL_TASK("st");
 }
 

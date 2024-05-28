@@ -6,6 +6,9 @@
 #include "_stl_lib_.hpp"
 
 #include <cstdlib>
+#include <iostream>
+#include <functional>
+
 __DEF_NS__(Alan::SelfAlgo::Inst)
 
 size_t __edit_distance_(const std::string &, const std::string &);
@@ -332,42 +335,60 @@ void TestDFSV();
 __END_NS__
 
 
-__DEF_NS__(Alan::SelfAlgo::Inst)
+__DEF_NS__(Alan::SelfList::Inst)
+
+typedef int (*__bin_fn) (int, int);
+
+#define __imid(l, r) (((r-l)>>1) + l)
+#define __pow2(x) (x << 1)
+
+#define __is_arr(is, arr, a, b) \
+        do { \
+            for(int i=a;i<=b;++i) \
+                is >> arr[i]; \
+        } while(0)
+
+#define __os_arr(os, arr, a, b) \
+        do { \
+            for(int i = a; i <= b; ++i) \
+                os << arr[i] << ",\n"[i == b]; \
+        } while(0)
 
 class __seg_tree {
 public:
-#define MAXSZ_OF 100005
-    int ar[MAXSZ_OF] = {};
-    int rg[(MAXSZ_OF<<1)+1] = {};
-    int tg[(MAXSZ_OF<<1)+1] = {};
-    //  >=0   1   szn   1
-    int szn, sof, eof, rid;
+#define MAXN_OF 100005
+    int rg[(MAXN_OF<<1)+1] = {};
+    int tg[(MAXN_OF<<1)+1] = {};
+    int a[MAXN_OF] = {};
+    int szn, start, end, rid;    
 
-    using __bfn_t = std::function<int(int,int)>;
+    using __bin_fn_t = std::function<int(int,int)>;
+    __bin_fn_t bfn;
 
-    __bfn_t fn;
+    // int sum_fn(int a, int b) { return a + b; }
+    // int min_fn(int a, int b) { return std::min(a, b); }
+    // int max_fn(int a, int b) { return std::max(a, b); }
 
-    explicit __seg_tree(__bfn_t _fn)
-        : fn(_fn) { }
+    explicit __seg_tree(__bin_fn_t _fn)
+        : bfn(_fn) { }
 
-    // rid, [l, r]
-    int build(int, int, int);
-    
-    // [l, r] from rid, [s, t]
-    int query(int, int, int, int, int);
+    int Query(int, int);
 
     // [l, r]
-    int Query(int, int);
+    int build(int, int, int);
+
+    // [l, r] range add val
+    void update(int, int, int, int, int);
     
-    // [l, r] from rid, [s, t]
-    int update(int, int, int, int, int);
+    // [l, r] query in [s, t] 
+    // confirm l<=r && s<=t
+    int query(int, int, int, int, int);
+
+    friend std::istream& 
+        operator >> (std::istream& __is, __seg_tree & _s);
 
     friend std::ostream& 
-        operator << (std::ostream &, const __seg_tree &);
-    
-    friend std::istream& 
-        operator >> (std::istream &, __seg_tree &);
-    
+        operator << (std::ostream& __os, const __seg_tree & _s);
 
 };
 

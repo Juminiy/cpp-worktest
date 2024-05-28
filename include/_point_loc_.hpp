@@ -30,8 +30,8 @@ __DEF_NS__(Alan)
 // 3. member function constraint
 // 4. ...
 
-#ifdef DEBUG_MODE
-#undef DEBUG_MODE
+// #ifdef DEBUG_MODE
+// #undef DEBUG_MODE
 #endif
 template <typename _Tp >
 class _Point_Loc
@@ -542,5 +542,5 @@ operator *
 
 __END_NS__
 
-#endif
+// #endif // DEBUG_MODE
 

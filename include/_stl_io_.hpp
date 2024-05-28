@@ -182,6 +182,17 @@ void SeqIterInput(_Seq_Container &__container,
                 std::back_inserter(__container));
 }
 
+template <typename _Tp, 
+            typename _Istream >
+void SeqIterInput(_Tp * __container,
+                    size_t n,
+                    _Istream &__istream)
+{
+    std::copy(std::istream_iterator<_Tp>(__istream),
+                std::istream_iterator<_Tp>(),
+                __container);
+}
+
 // has not been tested
 // _Tp must oveload:                            operator >> 
 // _Seq_Container must have member function:    insert()
@@ -571,6 +582,7 @@ long long __i64_read()
 {   
     using ll = long long;
     ll x = 0ll, s = 0ll;
+    char ch = getchar();
     while(!I8_IN_RANGE(ch, 48, 57)) {
         if(ch == '-') s = -1;
         ch = getchar();

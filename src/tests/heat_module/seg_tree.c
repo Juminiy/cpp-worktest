@@ -6,6 +6,7 @@
 
 #define __midof(l, r) (((r - l) >> 1) + l)
 #define __pow2(x) (x << 1)
+#define __pow4(x) (x << 2)
 #define __lid(x) (__pow2(x))
 #define __rid(x) (__pow2(x) + 1)
 #define __eq(x, y) (!(x ^ y))
@@ -62,26 +63,26 @@ ll readll()
     return s ? ~x + 1 : x;
 }
 
-#define MAXSZ 10005
-typedef struct segtree
+#define MAXSZ 100005
+typedef struct
 {
     size_t nof, qof, sof, eof;
     size_t rtid, etid;
 
-    ll arr[MAXSZ] = {0};
-    ll rang[__pow2(MAXSZ)] = {0};
-    ll tag[__pow2(MAXSZ)] = {0};
+    ll arr[MAXSZ] ; //= {0};
+    ll rang[__pow4(MAXSZ)] ; //= {0};
+    ll tag[__pow4(MAXSZ)] ; //= {0};
 
     bin_fn_t optfn, efffn;
 
-    // typedef segtree* _st;
+    // typedef struct segtree* _st;
 
-    void (*Build)(segtree*);
-    ll (*build)(segtree*, size_t, size_t, size_t);
-    ll (*Query)(segtree*, size_t, size_t);
-    ll (*query)(segtree*, size_t, size_t, size_t, size_t, size_t);
-    void (*Update)(segtree*, size_t, size_t, ll);
-    void (*update)(segtree*, size_t, size_t, ll, size_t, size_t, size_t);
+    // void (*Build)(_st);
+    // ll (*build)(_st, size_t, size_t, size_t);
+    // ll (*Query)(_st, size_t, size_t);
+    // ll (*query)(_st, size_t, size_t, size_t, size_t, size_t);
+    // void (*Update)(_st, size_t, size_t, ll);
+    // void (*update)(_st, size_t, size_t, ll, size_t, size_t, size_t);
 
     // Build_t Bfn; build_t bfn;
     // Query_t Qfn; query_t qfn;
@@ -184,7 +185,7 @@ ll query(_st st, size_t l, size_t r, size_t id, size_t s, size_t t)
 
 int main()
 {
-    segtree st = segtree();
+    segtree st ;//= segtree();
     st.nof = readszt();
     st.qof = readszt();
     st.sof = 1;
@@ -192,11 +193,13 @@ int main()
     st.rtid = 1;
     st.etid = __pow2(st.nof)-1;
     __scan_arr(readll, st.arr, st.sof, st.eof);
-    st.Build = Build;
-    st.Query = Query;
-    st.Update = Update;
+    // st.Build = Build;
+    // st.Query = Query;
+    // st.Update = Update;
 
-    st.Build(&st);
+    // st.Build(&st);
+
+    Build(&st);
 
     while(st.qof --)
     {
@@ -212,11 +215,11 @@ int main()
             break;
 
         case 1:
-            st.Update(&st, rangeL, rangeR, readll());
+            Update(&st, rangeL, rangeR, readll());
             break; 
 
         case 2:
-            printf("%lld\n", st.Query(&st, rangeL, rangeR));
+            printf("%lld\n", Query(&st, rangeL, rangeR));
             break;
 
         default:

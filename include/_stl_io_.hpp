@@ -42,7 +42,10 @@
 #define __DEF_PAIR__(__Tp1__, __Tp2__) \
         typedef std::pair<__Tp1__, __Tp2__> __Tp1__ ##_ ##__Tp2__ ##_ ##pair
 
-#define __CLOSE_CXX_C_IO_SYNC 
+#define __CLOSE_CXX_C_IO_SYNC \
+        std::ios_base::sync_with_stdio(false)
+#define __UNBIND_CXX_IO \
+        std::cin.tie(nullptr)
 
 typedef std::pair<std::string, std::string > ss_pair;
 typedef std::pair<std::string, int> si_pair;

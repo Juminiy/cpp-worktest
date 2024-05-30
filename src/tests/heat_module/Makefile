@@ -3,6 +3,10 @@
 # omp_lib 	= -L/opt/homebrew/opt/libomp/lib
 # comp_args = -std=c++17 -O3 $(omp_args) -static 
 
+fake_man: fake_man.c
+	gcc -std=gnu99 -pedantic -o $@ $<
+	# ./$@
+
 seg_tree_c: seg_tree.c
 	gcc -std=gnu99 -O0 -o $@ $< -g
 

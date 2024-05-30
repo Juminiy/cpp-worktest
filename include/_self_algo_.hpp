@@ -361,8 +361,8 @@ template < typename _Tp >
 class __seg_tree {
 private:
 #define MAXN_OF 100005
-    _Tp rg[(MAXN_OF<<1)+1] = {};
-    _Tp tg[(MAXN_OF<<1)+1] = {};
+    _Tp rg[(MAXN_OF<<2)+1] = {};
+    _Tp tg[(MAXN_OF<<2)+1] = {};
     _Tp a[MAXN_OF] = {};
     //  >=0    1    szn   1
     int szn, start, end, rid;    

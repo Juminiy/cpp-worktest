@@ -4,6 +4,9 @@
 /.vscode
 /.idea
 /*.dSYM
+/*.vs
+
+*.json
 
 main
 *.stackdump

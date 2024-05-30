@@ -6,7 +6,7 @@ cxx_args = -Wall -pedantic -O0 -std=c++20
 c_args 	 = -Wall -pedantic -O0 -std=gnu99
 
 # compie options - args
-debug_mode = -g -DDEBUG_MODE=1
+debug_mode = -g -DDEBUG_MODE=1 -Wl,--stack=536870912
 # debug_gdb = echo "gdb -q -tui main"
 # debug_lldb = echo "lldb main" && echo "gui"
 cxx_args += $(debug_mode)
